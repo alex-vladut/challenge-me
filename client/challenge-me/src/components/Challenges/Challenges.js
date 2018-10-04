@@ -65,17 +65,28 @@ class Challenges extends Component {
                 {challengesDisplayed.map(challenge => (
                     <Link to={'/challenges/' + challenge.id} key={challenge.id}>
                         <div className="ChallengeItem">
-                            <div className="ChallengeTitle">
-                                {challenge.title}
+                            <div>
+                                <div className="ChallengeTitle">
+                                    {challenge.title}
+                                </div>
+                                <div className="ChallengeDeadline">
+                                    {
+                                        challenge.seconds >= 0
+                                            ? <CountDown seconds={challenge.seconds} />
+                                            : "Challenge expired"
+                                    }
+                                </div>
                             </div>
-                            <div className="ChallengeDeadline">
-                                {
-                                    challenge.seconds >= 0
-                                        ? <CountDown seconds={challenge.seconds} />
-                                        : "Challenge expired"
-                                }
+                            <div>
+                                <div className="ChallengeItemLabel">
+                                    Title
+                            </div>
+                                <div className="ChallengeItemLabel">
+                                    Deadline
+                            </div>
                             </div>
                         </div>
+
                     </Link>
                 ))}
             </div>
