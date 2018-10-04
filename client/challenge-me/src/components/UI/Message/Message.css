@@ -1,0 +1,11 @@
+.InfoMessage {
+    color: blue;
+}
+
+.SuccessfulMessage {
+    color: green;
+}
+
+.ErrorMessage {
+    color: red;
+}

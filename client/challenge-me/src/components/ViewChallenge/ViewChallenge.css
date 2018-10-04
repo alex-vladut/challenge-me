@@ -1,0 +1,34 @@
+.ViewChallenge {
+    background-color: lightgray;
+    width: 50%;
+    margin: auto;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 5px 5px 10px darkgray;
+}
+
+.ViewChallenge p {
+    font-style: italic;
+    margin-left: 10px;
+}
+
+.ViewChallenge .Label {
+    margin-left: 10px;
+}
+
+.ChallengeElements {
+    padding: 20px;
+}
+
+.ChallengeElement {
+    border-left: 1px solid #363636;
+    border-bottom: 1px solid #363636;
+    box-shadow: 2px 2px 2px darkgray;
+    margin-bottom: 10px;
+}
+
+.Controls {
+    padding: 10px;
+    margin: auto;
+    box-sizing: border-box;
+}

@@ -1,0 +1,19 @@
+{
+    "id": "2",
+    "title": "something else",
+    "owner": {
+        "id": "vasile",
+        "firstName": "Vasile",
+        "lastName": "Vasilescu"
+    },
+    "opponent": {
+        "id": "alex",
+        "firstName": "Alex"
+    },
+    "referee": {
+        "id": "ion",
+        "firstName": "Ion",
+        "lastName": "Ionescu"
+    },
+    "deadline": "2018-10-03T20:27:51+01:00"
+}

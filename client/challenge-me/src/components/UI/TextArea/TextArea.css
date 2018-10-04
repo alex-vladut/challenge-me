@@ -1,0 +1,11 @@
+.TextArea {
+    width: 100%;
+}
+
+.TextArea textarea {
+    width: 100%;
+}
+
+.TextAreaInvalid textarea {
+    border: 1px solid red;
+}
