@@ -10,4 +10,4 @@ And for starting the application:
 
 Currently the application is backed by a mock server. In order to start it run:
 
-"node /mock-server/data"
+"node mock-server/data"
