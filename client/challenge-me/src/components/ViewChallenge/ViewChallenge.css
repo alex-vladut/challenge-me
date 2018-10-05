@@ -1,5 +1,4 @@
 .ViewChallenge {
-    background-color: lightgray;
     width: 50%;
     margin: auto;
     box-sizing: border-box;
@@ -31,4 +30,19 @@
     padding: 10px;
     margin: auto;
     box-sizing: border-box;
+}
+
+.BottomRight {
+    color: #777;
+    font: 30px/100% arial, sans-serif;
+    position: absolute;
+    right: 25px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #fff;
+    bottom: 25px;
+    width: 50px;
+    height: 50px;
+    background: burlywood;
+    border-radius: 50%;
+    text-align: center;
 }
