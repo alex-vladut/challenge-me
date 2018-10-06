@@ -107,8 +107,6 @@ class ViewChallenge extends Component {
                             </div>
                         </div>)
                 }
-
-                <Link to="/challenges/new-challenge" className="BottomRight">+</Link>
             </div>
         );
     }
