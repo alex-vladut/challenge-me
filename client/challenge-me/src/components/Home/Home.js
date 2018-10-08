@@ -2,7 +2,7 @@ import React from 'react';
 
 import './Home.css';
 
-const home = (props) => (
+const home = () => (
     <div>
         <div className="HomeBackground"></div>
         <h1>Nothing interesting here...</h1>

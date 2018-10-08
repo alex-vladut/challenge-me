@@ -9,9 +9,8 @@ import './Toolbar.css'
 const toolbar = (props) => (
     <header className="Toolbar">
         <DrawerToggle onOpenMenu={props.onOpenMenu} />
-        <div style={{ height: '80%' }}>
-            <Logo />
-        </div>
+
+        <Logo />
         <nav className="DesktopOnly">
             <NavigationItems />
         </nav>
