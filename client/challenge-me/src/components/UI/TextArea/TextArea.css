@@ -1,11 +1,23 @@
 .TextArea {
-    width: 100%;
+    margin: 10px;
 }
 
-.TextArea textarea {
+.TextAreaElement {
+    outline: none;
+    border: 1px solid #ccc;
+    background-color: white;
+    font: inherit;
     width: 100%;
+    padding: 5px;
+    display: block;
+    box-sizing: border-box;
 }
 
-.TextAreaInvalid textarea {
+.TextAreaElement:focus {
+    outline: none;
+    background-color: lightgray;
+}
+
+.TextAreaElementInvalid {
     border: 1px solid red;
 }

@@ -5,14 +5,16 @@ import withLabelAndErrorMessage from '../HigherOrderComponents/withLabelAndError
 import './TextArea.css';
 
 const textArea = (props) => {
-    const classes = ["TextArea"]
+    const classes = ["TextAreaElement"]
     if (props.errorMessage) {
-        classes.push("TextAreaInvalid");
+        classes.push("TextAreaElementInvalid");
     }
     return (
-        <textarea
-            className={classes.join(' ')}
-            onChange={props.onChange} />
+        <div className="TextArea">
+            <textarea
+                className={classes.join(' ')}
+                onChange={props.onChange} />
+        </div>
     );
 }
 

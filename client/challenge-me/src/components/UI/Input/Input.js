@@ -10,7 +10,9 @@ const input = (props) => {
         classes.push('Invalid');
     }
     return (
-        <input className={classes.join(' ')} onChange={props.onChange} placeholder={props.placeholder} />
+        <div className="Input">
+            <input className={classes.join(' ')} onChange={props.onChange} placeholder={props.placeholder} />
+        </div>
     );
 };
 

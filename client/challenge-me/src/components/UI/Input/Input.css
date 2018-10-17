@@ -1,7 +1,5 @@
 .Input {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
+    margin: 10px;
 }
 
 .InputElement {
@@ -9,15 +7,15 @@
     border: 1px solid #ccc;
     background-color: white;
     font: inherit;
-    padding: 6px 10px;
     display: block;
     width: 100%;
     box-sizing: border-box;
+    padding: 5px;
 }
 
 .InputElement:focus {
     outline: none;
-    background-color: #ccc;
+    background-color: lightgray;
 }
 
 .Invalid {
