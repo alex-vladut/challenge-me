@@ -11,6 +11,7 @@
     width: 100%;
     box-sizing: border-box;
     padding: 5px;
+    border-radius: 5px;
 }
 
 .InputElement:focus {

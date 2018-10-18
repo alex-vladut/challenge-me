@@ -1,7 +1,8 @@
 import React from 'react';
 
-import Logo from '../../Logo/Logo'
-import NavigationItems from '../NavigationItems/NavigationItems'
+import Logo from '../../Logo/Logo';
+import NavigationItems from '../NavigationItems/NavigationItems';
+import Close from '../../Close/Close';
 
 import './SideDrawer.css'
 
@@ -12,7 +13,7 @@ const sideDrawer = (props) => {
             <div style={{ height: '11%' }}>
                 <Logo />
             </div>
-            <button onClick={props.closed}>X</button>
+            <Close onClick={props.closed} />
             <nav>
                 <NavigationItems />
             </nav>

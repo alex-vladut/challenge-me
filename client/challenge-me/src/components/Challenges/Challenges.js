@@ -54,7 +54,7 @@ class Challenges extends Component {
         const challengesDisplayed = this.state.challenges.filter(this.getFilter(this.state.type))
             .map(challenge => ({ ...challenge, seconds: this.getSecondsUntilDeadline(challenge) }));
         return (
-            <div>
+            <div className="Challenges">
                 <p>Filter which challenges you are interested in:</p>
                 <select value={this.state.type} onChange={this.updateChallengesFilter}>
                     <option value="owner">My Challenges</option>

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Close from '../Close/Close';
+
 import './Modal.css';
 
 const modal = (props) => (
@@ -9,8 +11,8 @@ const modal = (props) => (
             transform: props.show ? 'translateY(0)' : 'translateY(-100vh)',
             opacity: props.show ? '1' : '0'
         }}>
-        <div onClick={props.onCancel} className="Close">✖</div>
-
+        <Close onClick={props.onCancel} />
+        
         {props.children}
     </div>
 );
