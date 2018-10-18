@@ -15,7 +15,7 @@ const sideDrawer = (props) => {
             </div>
             <Close onClick={props.closed} />
             <nav>
-                <NavigationItems />
+                <NavigationItems onClick={props.closed} />
             </nav>
         </div>
     )
