@@ -1,5 +1,5 @@
 .ViewChallenge {
-    width: 50%;
+    width: 95%;
     margin: auto;
     box-sizing: border-box;
     border-radius: 8px;
@@ -45,4 +45,10 @@
     background: burlywood;
     border-radius: 50%;
     text-align: center;
+}
+
+@media(min-width: 40rem) {
+    .ViewChallenge {
+        width: 65%;
+    }
 }

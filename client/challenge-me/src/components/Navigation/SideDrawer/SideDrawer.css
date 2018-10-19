@@ -11,7 +11,7 @@
     transition: transform 0.3s ease-out;
 }
 
-@media(min-width: 500px){
+@media(min-width: 40rem){
     .SideDrawer{
         display: none;
     }
