@@ -1,12 +1,16 @@
 .Challenge {
     text-align: center;
-    width: 95%;
+    width: 100%;
     margin: auto;
     box-sizing: border-box;
 }
 
+.Challenge>* {
+    margin: 0.5rem auto;
+}
+
 @media(min-width: 40rem) {
     .Challenge {
-        width: 65%;
+        max-width: 40rem;
     }
 }

@@ -6,7 +6,6 @@
 }
 
 .ChallengeItem {
-    margin: 10px;
     border: 1px solid #eee;
     box-shadow: 0 2px 3px #ccc;
     padding: 20px;
@@ -47,6 +46,6 @@
 
 @media (min-width: 40rem) {
     .Challenges {
-        width: 80%;
+        max-width: 60rem;
     }
 }

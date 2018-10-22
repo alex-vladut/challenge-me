@@ -32,7 +32,7 @@ class DateTimePicker extends Component {
             <div
                 className={cssClasses.join(' ')}
                 onClick={this.toggleCalendar}>
-                <p>{this.props.dateTime.format("DD-MM-YYYY HH:mm")}</p>
+                {this.props.dateTime.format("DD-MM-YYYY HH:mm")}
 
                 {this.state.isCalendarOpen &&
                     <DatePicker

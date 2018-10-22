@@ -1,29 +1,27 @@
 .ViewChallenge {
-    width: 95%;
+    width: 100%;
     margin: auto;
     box-sizing: border-box;
-    border-radius: 8px;
-    box-shadow: 5px 5px 10px darkgray;
 }
 
 .ViewChallenge p {
     font-style: italic;
-    margin-left: 10px;
+    margin-left: 0.5rem;
 }
 
 .ViewChallenge .Label {
-    margin-left: 10px;
+    margin-left: 0.5rem;
 }
 
 .ChallengeElements {
-    padding: 20px;
+    padding: 0.5rem;
 }
 
 .ChallengeElement {
     border-left: 1px solid #363636;
     border-bottom: 1px solid #363636;
     box-shadow: 2px 2px 2px darkgray;
-    margin-bottom: 10px;
+    margin-bottom: 0.5rem;
 }
 
 .Controls {
@@ -32,7 +30,7 @@
     box-sizing: border-box;
 }
 
-.BottomRight {
+/* .BottomRight {
     color: #777;
     font: 30px/100% arial, sans-serif;
     position: absolute;
@@ -45,10 +43,12 @@
     background: burlywood;
     border-radius: 50%;
     text-align: center;
-}
+} */
 
 @media(min-width: 40rem) {
     .ViewChallenge {
-        width: 65%;
+        max-width: 50rem;
+        border-radius: 8px;
+        box-shadow: 5px 5px 10px darkgray;
     }
 }
