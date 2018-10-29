@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
+import * as actions from '../../store/actions/actions';
 import CountDown from '../CountDown/CountDown';
+import Spinner from '../UI/Spinner/Spinner';
 
-import axios from '../../axios';
 import moment from 'moment';
 
 import './Challenges.css';
@@ -14,17 +16,12 @@ class Challenges extends Component {
     principal = 'alex';
 
     state = {
-        challenges: [],
         type: 'owner'
     }
 
     componentDidMount = async () => {
-        try {
-            const response = await axios.get('/challenges');
-            const challenges = response.data.challenges;
-            this.setState({ challenges });
-        } catch (e) {
-            console.error(e);
+        if (this.props.challenges.length === 0) {
+            this.props.fetchChallenges();
         }
     }
 
@@ -51,8 +48,16 @@ class Challenges extends Component {
     }
 
     render() {
-        const challengesDisplayed = this.state.challenges.filter(this.getFilter(this.state.type))
-            .map(challenge => ({ ...challenge, seconds: this.getSecondsUntilDeadline(challenge) }));
+        let spinner = null;
+        if (this.props.loading) {
+            spinner = <Spinner />
+        }
+        let challengesDisplayed = [];
+        if (!this.props.loading && !this.props.error) {
+            challengesDisplayed = this.props.challenges.filter(this.getFilter(this.state.type))
+                .map(challenge => ({ ...challenge, seconds: this.getSecondsUntilDeadline(challenge) }));
+        }
+
         return (
             <div className="Challenges">
                 <p>Filter which challenges you are interested in:</p>
@@ -61,7 +66,7 @@ class Challenges extends Component {
                     <option value="opponent">I'm opponent</option>
                     <option value="referee">I'm referee</option>
                 </select>
-
+                {spinner}
                 {challengesDisplayed.map(challenge => (
                     <Link to={'/challenges/' + challenge.id} key={challenge.id}>
                         <div className="ChallengeItem">
@@ -94,4 +99,14 @@ class Challenges extends Component {
     }
 }
 
-export default Challenges;
+const mapStateToProps = state => ({
+    challenges: state.challenges,
+    loading: state.loading,
+    error: state.error
+})
+
+const mapDispatchToProps = dispatch => ({
+    fetchChallenges: () => dispatch(actions.fetchChallenges())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Challenges);

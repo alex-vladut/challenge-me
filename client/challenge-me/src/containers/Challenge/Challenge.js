@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import moment from 'moment';
 
@@ -130,4 +131,9 @@ class Challenge extends Component {
     }
 }
 
-export default Challenge;
+const mapStateToProps = state => ({ ...state });
+const mapDispatchToProps = dispatch => ({
+    onCreateChallenge: challenge => dispatch({ type: 'CREATE_CHALLENGE', challenge })
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Challenge);;
