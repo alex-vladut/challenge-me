@@ -1,47 +1,24 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import * as actions from '../../store/actions/actions';
+
 import User from '../User/User';
 import Spinner from '../UI/Spinner/Spinner';
 
-import axios from '../../axios'
-
 class UserChooser extends Component {
 
-    state = {
-        users: [],
-        loading: false,
-        error: false
-    }
-
     componentDidMount = () => {
-        this.loadUsers();
-    }
-
-    loadUsers = async () => {
-        try {
-            this.setState({
-                loading: true,
-                error: false
-            });
-
-            const response = await axios.get('/users');
-            const users = response.data.users;
-
-            this.setState({ users });
-        } catch (e) {
-            console.error('There was an error when retrieving the list of users:', e);
-            this.setState({ error: true });
-        } finally {
-            this.setState({ loading: false });
-        }
+        this.props.fetchUsers();
     }
 
     render() {
-        if (this.state.loading) {
+        if (this.props.loading) {
             return <Spinner />
-        } else if (this.state.error) {
-            return (<div>Something went wrong. Please try again tomorrow :)</div>)
+        } else if (this.props.error) {
+            return (<div>{this.props.error}</div>)
         } else {
-            return this.state.users.map(user =>
+            return this.props.users.map(user =>
                 (<User
                     onClick={this.props.onSelect}
                     user={user}
@@ -50,4 +27,14 @@ class UserChooser extends Component {
     }
 }
 
-export default UserChooser;
+const mapStateToProps = state => ({
+    users: state.users,
+    loading: state.loading,
+    error: state.error
+});
+
+const mapDispatchToProps = dispatch => ({
+    fetchUsers: () => dispatch(actions.fetchUsers())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserChooser);

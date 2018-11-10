@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+
 import { connect } from 'react-redux';
+
+import * as actions from '../../store/actions/actions';
 
 import moment from 'moment';
 
@@ -8,8 +12,6 @@ import Input from '../../components/UI/Input/Input';
 import TextArea from '../../components/UI/TextArea/TextArea';
 import Button from '../../components/UI/Button/Button';
 import DateTimePicker from '../../components/UI/DateTimePicker/DateTimePicker';
-
-import axios from '../../axios';
 
 import './Challenge.css';
 
@@ -28,6 +30,10 @@ class Challenge extends Component {
             refereeError: null,
             deadlineError: null
         }
+    }
+
+    componentDidMount() {
+        this.props.onInitCreateChallenge();
     }
 
     selectOpponent = (opponent) => {
@@ -69,19 +75,13 @@ class Challenge extends Component {
 
     createChallenge = async () => {
         if (this.validate()) {
-            try {
-                const response = await axios.post('/challenges', {
-                    title: this.state.title,
-                    rules: this.state.rules,
-                    opponentId: this.state.opponent.id,
-                    refereeId: this.state.referee.id,
-                    deadline: this.state.deadline.toISOString()
-                });
-                const newChallengeId = response.data.id;
-                this.props.history.replace('/challenges/' + newChallengeId);
-            } catch (e) {
-                console.error(e);
-            }
+            this.props.onCreateChallenge({
+                title: this.state.title,
+                rules: this.state.rules,
+                opponentId: this.state.opponent.id,
+                refereeId: this.state.referee.id,
+                deadline: this.state.deadline.toISOString()
+            });
         }
     }
 
@@ -98,42 +98,50 @@ class Challenge extends Component {
     }
 
     render() {
-        return (
-            <div className="Challenge">
-                <Input
-                    label="Title:"
-                    placeholder="Type a short title for your challenge"
-                    errorMessage={this.state.errors.titleError}
-                    onChange={this.updateTitle} />
-                <TextArea
-                    label="Rules:"
-                    onChange={this.updateRules}
-                    errorMessage={this.state.errors.rulesError} />
-                <UserInput
-                    label="Opponent:"
-                    user={this.state.opponent}
-                    onSelect={this.selectOpponent}
-                    errorMessage={this.state.errors.opponentError} />
-                <UserInput
-                    label="Referee:"
-                    user={this.state.referee}
-                    onSelect={this.selectReferee}
-                    errorMessage={this.state.errors.refereeError} />
-                <DateTimePicker
-                    label="Deadline:"
-                    dateTime={this.state.deadline}
-                    onChange={this.updateDeadline}
-                    errorMessage={this.state.errors.deadlineError} />
+        let challenge = (<Redirect to="/challenges" />);
+        if (!this.props.challengeCreated) {
+            challenge = (
+                <div className="Challenge">
+                    <Input
+                        label="Title:"
+                        placeholder="Type a short title for your challenge"
+                        errorMessage={this.state.errors.titleError}
+                        onChange={this.updateTitle} />
+                    <TextArea
+                        label="Rules:"
+                        onChange={this.updateRules}
+                        errorMessage={this.state.errors.rulesError} />
+                    <UserInput
+                        label="Opponent:"
+                        user={this.state.opponent}
+                        onSelect={this.selectOpponent}
+                        errorMessage={this.state.errors.opponentError} />
+                    <UserInput
+                        label="Referee:"
+                        user={this.state.referee}
+                        onSelect={this.selectReferee}
+                        errorMessage={this.state.errors.refereeError} />
+                    <DateTimePicker
+                        label="Deadline:"
+                        dateTime={this.state.deadline}
+                        onChange={this.updateDeadline}
+                        errorMessage={this.state.errors.deadlineError} />
 
-                <Button onClick={this.createChallenge}>Create challenge</Button>
-            </div>
-        )
+                    <Button onClick={this.createChallenge}>Create challenge</Button>
+                </div>
+            )
+        }
+        return challenge;
     }
 }
 
-const mapStateToProps = state => ({ ...state });
+const mapStateToProps = state => ({
+    challengeCreated: state.challengeCreated
+});
+
 const mapDispatchToProps = dispatch => ({
-    onCreateChallenge: challenge => dispatch({ type: 'CREATE_CHALLENGE', challenge })
+    onInitCreateChallenge: () => dispatch(actions.createChallengeInit()),
+    onCreateChallenge: challenge => dispatch(actions.createChallenge(challenge))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Challenge);;

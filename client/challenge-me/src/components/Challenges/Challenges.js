@@ -20,9 +20,7 @@ class Challenges extends Component {
     }
 
     componentDidMount = async () => {
-        if (this.props.challenges.length === 0) {
-            this.props.fetchChallenges();
-        }
+        this.props.fetchChallenges();
     }
 
     updateChallengesFilter = (event) => {
@@ -103,10 +101,10 @@ const mapStateToProps = state => ({
     challenges: state.challenges,
     loading: state.loading,
     error: state.error
-})
+});
 
 const mapDispatchToProps = dispatch => ({
     fetchChallenges: () => dispatch(actions.fetchChallenges())
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Challenges);
