@@ -12,6 +12,9 @@ import reducer from './store/reducer'
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
+const federated = {
+    google_client_id: '348450922576-ndqrghsmiguadj32uehn4f9f5kjkoja1.apps.googleusercontent.com'
+}
 
-ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
+ReactDOM.render(<Provider store={store}><App federated={federated} /></Provider>, document.getElementById('root'));
 registerServiceWorker();
