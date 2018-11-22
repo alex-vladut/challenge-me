@@ -1,8 +1,7 @@
 const config = {
     Auth: {
         region: 'eu-central-1',
-        userPoolId: 'eu-central-1_zuhkxtVil',
-        userPoolWebClientId: '4u89jaf4ck9jbe72hmjvrl7mu5'
+        identityPoolId: 'eu-central-1:5851bc3d-fe84-4ee6-bd83-9b1d41f0fe47'
     }
 };
 

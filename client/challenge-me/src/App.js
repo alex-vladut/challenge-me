@@ -17,18 +17,18 @@ import awsExports from './aws-exports';
 Amplify.configure(awsExports);
 
 const app = () => (
-    <HashRouter>
-      <Layout>
-        <Switch>
-          <Route path="/" component={Home} exact />
-          <Route path="/challenges/new-challenge" exact component={Challenge} />
-          <Route path="/challenges" exact component={Challenges} />
-          <Route path="/challenges/:challengeId" exact component={ViewChallenge} />
-          <Route render={() => <h1>Page Not Found!</h1>} />
-          {/*<Redirect from="/" to="/posts" />*/}
-        </Switch>
-      </Layout>
-    </HashRouter>
+  <HashRouter>
+    <Layout>
+      <Switch>
+        <Route path="/" component={Home} exact />
+        <Route path="/challenges/new-challenge" exact component={Challenge} />
+        <Route path="/challenges" exact component={Challenges} />
+        <Route path="/challenges/:challengeId" exact component={ViewChallenge} />
+        <Route render={() => <h1>Page Not Found!</h1>} />
+        {/*<Redirect from="/" to="/posts" />*/}
+      </Switch>
+    </Layout>
+  </HashRouter>
 )
 
 export default withAuthenticator(app);
