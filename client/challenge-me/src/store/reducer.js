@@ -5,7 +5,9 @@ const initialState = {
     users: [],
     loading: false,
     error: null,
-    challengeCreated: false
+    challengeCreated: false,
+    profile: null,
+    authenticated: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -13,6 +15,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.FETCH_CHALLENGES_START:
         case actionTypes.FETCH_USERS_START:
         case actionTypes.CREATE_CHALLENGE_START:
+        case actionTypes.FETCH_PROFILE_START:
             return {
                 ...state,
                 loading: true

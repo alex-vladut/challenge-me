@@ -26,7 +26,6 @@ export const fetchChallenges = () => (
             //TODO Have proper error handling
             dispatch(fetchChallengesFail('Sorry, something went wrong while loading your challenges.'));
         }
-
     }
 );
 
@@ -63,7 +62,6 @@ export const createChallenge = challenge => (
             //TODO Have proper error handling
             dispatch(createChallengeFail('Sorry, something went wrong while loading your challenges.'));
         }
-
     }
 );
 
@@ -94,3 +92,14 @@ export const fetchUsers = () => (
         }
     }
 );
+
+export const fetchProfileStart = () => ({
+    type: actionTypes.FETCH_PROFILE_START
+})
+
+export const fetchProfile = () => (
+    async dispatch => {
+        dispatch(fetchProfileStart());
+        //TODO..
+    }
+)

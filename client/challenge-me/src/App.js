@@ -1,8 +1,6 @@
 import React from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 
-import { withAuthenticator } from 'aws-amplify-react';
-
 import Layout from './components/Layout/Layout';
 import Challenge from './containers/Challenge/Challenge';
 import Challenges from './components/Challenges/Challenges';
@@ -31,4 +29,4 @@ const app = () => (
   </HashRouter>
 )
 
-export default withAuthenticator(app);
+export default app;
