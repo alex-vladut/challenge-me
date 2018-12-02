@@ -16,6 +16,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.FETCH_USERS_START:
         case actionTypes.CREATE_CHALLENGE_START:
         case actionTypes.FETCH_PROFILE_START:
+        case actionTypes.SIGN_OUT_START:
             return {
                 ...state,
                 loading: true
@@ -42,9 +43,25 @@ const reducer = (state = initialState, action) => {
                 error: null,
                 challengeCreated: true
             };
+        case actionTypes.FETCH_PROFILE_SUCCESS:
+            return {
+                ...state,
+                profile: action.profile,
+                authenticated: true,
+                loading: false
+            };
+        case actionTypes.SIGN_OUT_SUCCESS:
+            return {
+                ...state,
+                profile: null,
+                authenticated: false,
+                loading: false
+            };
         case actionTypes.FETCH_CHALLENGES_FAIL:
         case actionTypes.FETCH_USERS_FAIL:
         case actionTypes.CREATE_CHALLENGE_FAIL:
+        case actionTypes.FETCH_PROFILE_FAIL:
+        case actionTypes.SIGN_OUT_FAIL:
             return {
                 ...state,
                 challenges: [],

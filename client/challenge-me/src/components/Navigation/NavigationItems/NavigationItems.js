@@ -1,18 +1,41 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import * as actions from '../../../store/actions/actions';
 
 import NavigationItem from './NavigationItem/NavigationItem';
 
 import './NavigationItems.css';
 
-import { Auth } from 'aws-amplify';
+class NavigationItems extends Component {
 
-const navigationItems = (props) => (
-    <ul className="NavigationItems">
-        <NavigationItem link="/" onClick={props.onClick} >Home</NavigationItem>
-        <NavigationItem link="/challenges/new-challenge" onClick={props.onClick} >New Challenge</NavigationItem>
-        <NavigationItem link="/challenges" onClick={props.onClick} >Challenges</NavigationItem>
-        <NavigationItem link="/" onClick={async () => await Auth.signOut()} >Sign Out</NavigationItem>
-    </ul>
-)
+    render() {
+        let navItems = (
+            <ul className="NavigationItems">
+                <NavigationItem link="/" onClick={this.props.onClick} >Home</NavigationItem>
+            </ul>
+        )
+        if (this.props.authenticated) {
+            navItems = (
+                <ul className="NavigationItems">
+                    <NavigationItem link="/" onClick={this.props.onClick} >Home</NavigationItem>
+                    <NavigationItem link="/challenges/new-challenge" onClick={this.props.onClick} >New Challenge</NavigationItem>
+                    <NavigationItem link="/challenges" onClick={this.props.onClick} >Challenges</NavigationItem>
+                    <NavigationItem link="/" onClick={this.props.signOut} >Sign Out</NavigationItem>
+                </ul>
+            )
+        }
 
-export default navigationItems;
+        return navItems;
+    }
+}
+
+const mapStateToProps = state => ({
+    authenticated: state.authenticated,
+});
+
+const mapDispatchToProps = dispatch => ({
+    signOut: () => dispatch(actions.signOut())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationItems);

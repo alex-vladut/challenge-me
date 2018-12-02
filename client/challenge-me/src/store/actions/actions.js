@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios';
+import { Auth, API } from 'aws-amplify';
 
 export const fetchChallengesStart = () => ({
     type: actionTypes.FETCH_CHALLENGES_START
@@ -95,11 +96,63 @@ export const fetchUsers = () => (
 
 export const fetchProfileStart = () => ({
     type: actionTypes.FETCH_PROFILE_START
-})
+});
+
+export const fetchProfileFail = error => ({
+    type: actionTypes.FETCH_PROFILE_FAIL,
+    error
+});
+
+export const fetchProfileSuccess = profile => ({
+    type: actionTypes.FETCH_PROFILE_SUCCESS,
+    profile
+});
 
 export const fetchProfile = () => (
     async dispatch => {
         dispatch(fetchProfileStart());
-        //TODO..
+        try {
+            const profile = await API.get('ChallengeMeAPI', '/profile');
+            dispatch(fetchProfileSuccess(profile));
+        } catch (error) {
+            if (error.response.status === 404) {
+                const authenticatedUser = await Auth.currentAuthenticatedUser();
+                const profile = await API.post('ChallengeMeAPI', '/profile', {
+                    body: {
+                        name: authenticatedUser.name
+                    }
+                });
+                dispatch(fetchProfileSuccess(profile));
+            } else {
+                console.log(error.response);
+                dispatch(fetchProfileFail('Sorry, something went wrong while loading your challenges.'));
+            }
+        }
+    }
+)
+
+export const signOutStart = () => ({
+    type: actionTypes.SIGN_OUT_START,
+});
+
+export const signOutFail = error => ({
+    type: actionTypes.SIGN_OUT_FAIL,
+    error
+});
+
+export const signOutSuccess = () => ({
+    type: actionTypes.SIGN_OUT_SUCCESS
+});
+
+export const signOut = () => (
+    async dispatch => {
+        dispatch(signOutStart());
+        try {
+            await Auth.signOut();
+            dispatch(signOutSuccess());
+        } catch(error) {
+            console.log(error.response);
+            dispatch(signOutFail());
+        }
     }
 )
