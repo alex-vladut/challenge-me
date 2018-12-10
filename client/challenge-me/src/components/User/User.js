@@ -10,7 +10,7 @@ const user = ({
     (<div className="User"
         onClick={() => onClick(user)}>
         <img src={userIcon} alt="logo" height="60" width="60" />
-        <p>{user.firstName} {user.lastName}</p>
+        <p>{user.name}</p>
     </div>);
 
 export default user;

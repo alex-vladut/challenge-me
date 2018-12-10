@@ -12,13 +12,13 @@ class NavigationItems extends Component {
     render() {
         let navItems = (
             <ul className="NavigationItems">
-                <NavigationItem link="/" onClick={this.props.onClick} >Home</NavigationItem>
+                <NavigationItem link="/" onClick={this.props.onClick} exact >Home</NavigationItem>
             </ul>
         )
         if (this.props.authenticated) {
             navItems = (
                 <ul className="NavigationItems">
-                    <NavigationItem link="/" onClick={this.props.onClick} >Home</NavigationItem>
+                    <NavigationItem link="/" onClick={this.props.onClick} exact >Home</NavigationItem>
                     <NavigationItem link="/challenges/new-challenge" onClick={this.props.onClick} >New Challenge</NavigationItem>
                     <NavigationItem link="/challenges" onClick={this.props.onClick} >Challenges</NavigationItem>
                     <NavigationItem link="/" onClick={this.props.signOut} >Sign Out</NavigationItem>

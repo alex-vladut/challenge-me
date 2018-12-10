@@ -12,9 +12,6 @@ import './Challenges.css';
 
 class Challenges extends Component {
 
-    //TODO check if user is authorised - move it to localStorage
-    principal = 'alex';
-
     state = {
         type: 'owner'
     }
@@ -30,12 +27,12 @@ class Challenges extends Component {
     getFilter = (type) => {
         switch (type) {
             case 'opponent':
-                return (challenge) => challenge.opponent === this.principal;
+                return (challenge) => challenge.opponentId === this.props.profile.id;
             case 'referee':
-                return (challenge) => challenge.referee === this.principal;
+                return (challenge) => challenge.refereeId === this.props.profile.id;
             case 'owner':
             default:
-                return (challenge) => challenge.owner === this.principal;
+                return (challenge) => challenge.ownerId === this.props.profile.id;
         }
     }
 
@@ -100,7 +97,8 @@ class Challenges extends Component {
 const mapStateToProps = state => ({
     challenges: state.challenges,
     loading: state.loading,
-    error: state.error
+    error: state.error,
+    profile: state.profile
 });
 
 const mapDispatchToProps = dispatch => ({

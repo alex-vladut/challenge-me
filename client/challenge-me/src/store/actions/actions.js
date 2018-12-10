@@ -1,5 +1,4 @@
 import * as actionTypes from './actionTypes';
-import axios from '../../axios';
 import { Auth, API } from 'aws-amplify';
 
 export const fetchChallengesStart = () => ({
@@ -20,8 +19,7 @@ export const fetchChallenges = () => (
     async dispatch => {
         dispatch(fetchChallengesStart());
         try {
-            const response = await axios.get('/challenges');
-            const challenges = response.data.challenges;
+            const challenges = await API.get('ChallengeMeAPI', '/challenges');
             dispatch(fetchChallengesSuccess(challenges));
         } catch (error) {
             //TODO Have proper error handling
@@ -52,11 +50,11 @@ export const createChallenge = challenge => (
     async dispatch => {
         dispatch(createChallengeStart());
         try {
-            const response = await axios.post('/challenges', challenge);
-            const challengeId = response.data.id;
+            const savedChallenge = await API.post('ChallengeMeAPI', '/challenges', {
+                body: challenge
+            });
             dispatch(createChallengeSuccess({
-                ...challenge,
-                id: challengeId
+                challenge: savedChallenge
             }));
         } catch (error) {
             console.error(error);
@@ -84,12 +82,12 @@ export const fetchUsers = () => (
     async dispatch => {
         dispatch(fetchUsersStart());
         try {
-            const response = await axios.get('/users');
-            const users = response.data.users;
+            const users = await API.get('ChallengeMeAPI', '/users');
             dispatch(fetchUsersSuccess(users));
         } catch (error) {
+            console.log(error);
             //TODO Have proper error handling
-            return dispatch(fetchUsersFail('Sorry, something went wrong while loading your challenges.'));
+            return dispatch(fetchUsersFail('Sorry, something went wrong while loading your the users.'));
         }
     }
 );
@@ -150,7 +148,7 @@ export const signOut = () => (
         try {
             await Auth.signOut();
             dispatch(signOutSuccess());
-        } catch(error) {
+        } catch (error) {
             console.log(error.response);
             dispatch(signOutFail());
         }

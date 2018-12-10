@@ -34,7 +34,7 @@ class UserInput extends Component {
                 onClick={this.toggleUserChooser}>
                 {
                     this.props.user ?
-                        (this.props.user.firstName + " " + this.props.user.lastName)
+                        (this.props.user.name)
                         : "Please select a user"
                 }
 

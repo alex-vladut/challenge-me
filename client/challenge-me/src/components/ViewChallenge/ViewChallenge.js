@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Label from '../../components/UI/Label/Label';
 import Button from '../../components/UI/Button/Button';
@@ -6,13 +7,11 @@ import Message from '../../components/UI/Message/Message';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
 import axios from '../../axios';
+import { API } from 'aws-amplify';
 
 import './ViewChallenge.css';
 
 class ViewChallenge extends Component {
-
-    //TODO principal
-    principal = 'alex';
 
     state = {
         challenge: null,
@@ -22,8 +21,7 @@ class ViewChallenge extends Component {
 
     componentDidMount = async () => {
         try {
-            const response = await axios.get('/challenges/' + this.props.match.params.challengeId);
-            const challenge = response.data;
+            const challenge = await API.get('ChallengeMeAPI', '/challenges/' + this.props.match.params.challengeId);
             this.setState({ challenge });
         } catch (e) {
             console.error(e);
@@ -48,15 +46,15 @@ class ViewChallenge extends Component {
         }
     }
 
-    isOpponent = (challenge, principal) => challenge.opponent.id === principal;
+    isOpponent = (challenge, profile) => challenge.opponentId === profile.id;
 
-    isReferee = (challenge, principal) => challenge.referee.id === principal;
+    isReferee = (challenge, profile) => challenge.refereeId === profile.id;
 
     render() {
         const submitted = this.state.accepted || this.state.rejected;
         let controls = undefined;
         if (this.state.challenge &&
-            (this.isOpponent(this.state.challenge, this.principal) || this.isReferee(this.state.challenge, this.principal))) {
+            (this.isOpponent(this.state.challenge, this.props.profile) || this.isReferee(this.state.challenge, this.props.profile))) {
             controls = (
                 <div className="Controls">
                     <Button type="confirm" onClick={this.acceptChallenge} disabled={submitted} >Accept</Button>
@@ -98,11 +96,11 @@ class ViewChallenge extends Component {
                             </div>
                             <div className="ChallengeElement">
                                 <Label>Opponent:</Label>
-                                <p>{this.state.challenge.opponent.firstName} {this.state.challenge.opponent.lastName}</p>
+                                <p>{this.state.challenge.opponentId}</p>
                             </div>
                             <div className="ChallengeElement">
                                 <Label>Referee:</Label>
-                                <p>{this.state.challenge.referee.firstName} {this.state.challenge.referee.lastName}</p>
+                                <p>{this.state.challenge.refereeId}</p>
                             </div>
                         </div>)
                 }
@@ -111,5 +109,8 @@ class ViewChallenge extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    profile: state.profile
+});
 
-export default ViewChallenge;
+export default connect(mapStateToProps)(ViewChallenge);
