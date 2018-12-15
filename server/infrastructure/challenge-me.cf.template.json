@@ -45,7 +45,9 @@
                     ]
                 },
                 "Path": "/",
-                "Policies": []
+                "ManagedPolicyArns": [
+                    "arn:aws:iam::aws:policy/AmazonAPIGatewayInvokeFullAccess"
+                ]
             }
         },
         "UnauthenticatedCognitoRole": {
@@ -181,6 +183,9 @@
                             ]
                         }
                     }
+                ],
+                "ManagedPolicyArns": [
+                    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
                 ]
             }
         },
@@ -192,11 +197,39 @@
                 "FailOnWarnings": true
             }
         },
-        "ApiGatewayLambdaInvocationPermission": {
+        "ApiGatewayGetUserLambdaInvocationPermission": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
                 "Action": "lambda:invokeFunction",
                 "FunctionName": "GetUser",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            "arn:aws:execute-api:",
+                            {
+                                "Ref": "AWS::Region"
+                            },
+                            ":",
+                            {
+                                "Ref": "AWS::AccountId"
+                            },
+                            ":",
+                            {
+                                "Ref": "ChallengeMeApiGateway"
+                            },
+                            "/*"
+                        ]
+                    ]
+                }
+            }
+        },
+        "ApiGatewayCreateUserLambdaInvocationPermission": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+                "Action": "lambda:invokeFunction",
+                "FunctionName": "CreateUser",
                 "Principal": "apigateway.amazonaws.com",
                 "SourceArn": {
                     "Fn::Join": [
@@ -240,7 +273,7 @@
                 "RestApiId": {
                     "Ref": "ChallengeMeApiGateway"
                 },
-                "StageName": "LATEST"
+                "StageName": "production"
             }
         },
         "ApiGatewayCloudWatchLogsRole": {
@@ -306,8 +339,7 @@
             "Properties": {
                 "RestApiId": {
                     "Ref": "ChallengeMeApiGateway"
-                },
-                "StageName": "production"
+                }
             }
         },
         "ProfileResource": {
@@ -343,6 +375,45 @@
                 },
                 "MethodResponses": [
                     {
+                        "ResponseModels": {
+                            "application/json": "Empty"
+                        },
+                        "ResponseParameters": {
+                            "method.response.header.Access-Control-Allow-Headers": true,
+                            "method.response.header.Access-Control-Allow-Methods": true,
+                            "method.response.header.Access-Control-Allow-Origin": true
+                        },
+                        "StatusCode": 200
+                    }
+                ]
+            }
+        },
+        "PostProfileRequest": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+                "AuthorizationType": "AWS_IAM",
+                "HttpMethod": "POST",
+                "Integration": {
+                    "Type": "AWS_PROXY",
+                    "IntegrationHttpMethod": "POST",
+                    "Uri": "arn:aws:apigateway:eu-central-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-central-1:648877925551:function:CreateUser/invocations"
+                },
+                "ResourceId": {
+                    "Ref": "ProfileResource"
+                },
+                "RestApiId": {
+                    "Ref": "ChallengeMeApiGateway"
+                },
+                "MethodResponses": [
+                    {
+                        "ResponseModels": {
+                            "application/json": "Empty"
+                        },
+                        "ResponseParameters": {
+                            "method.response.header.Access-Control-Allow-Headers": true,
+                            "method.response.header.Access-Control-Allow-Methods": true,
+                            "method.response.header.Access-Control-Allow-Origin": true
+                        },
                         "StatusCode": 200
                     }
                 ]
@@ -393,6 +464,32 @@
                     }
                 ]
             }
+        },
+        "ApplicationAPI4XXGatewayResponses": {
+            "Type": "AWS::ApiGateway::GatewayResponse",
+            "Properties": {
+                "ResponseParameters": {
+                    "gatewayresponse.header.Access-Control-Allow-Origin": "'*'",
+                    "gatewayresponse.header.Access-Control-Allow-Headers": "'*'"
+                },
+                "ResponseType": "DEFAULT_4XX",
+                "RestApiId": {
+                    "Ref": "ChallengeMeApiGateway"
+                }
+            }
+        },
+        "ApplicationAPI5XXGatewayResponses": {
+            "Type": "AWS::ApiGateway::GatewayResponse",
+            "Properties": {
+                "ResponseParameters": {
+                    "gatewayresponse.header.Access-Control-Allow-Origin": "'*'",
+                    "gatewayresponse.header.Access-Control-Allow-Headers": "'*'"
+                },
+                "ResponseType": "DEFAULT_5XX",
+                "RestApiId": {
+                    "Ref": "ChallengeMeApiGateway"
+                }
+            }
         }
     },
     "Outputs": {
@@ -400,6 +497,12 @@
             "Description": "The ARN of the newly created Cognito Identity Pool.",
             "Value": {
                 "Ref": "FederatedIdentityPool"
+            }
+        },
+        "ApiGatewayUrl": {
+            "Description": "The URL of the newly created API-Gateway API.",
+            "Value": {
+                "Ref": "ChallengeMeApiGateway"
             }
         }
     }
