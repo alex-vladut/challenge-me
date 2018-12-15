@@ -5,6 +5,10 @@
         "GoogleClientIdParam": {
             "Type": "String",
             "Description": "Enter the Google signin client ID"
+        },
+        "LambdaPackageS3BucketParam": {
+            "Type": "String",
+            "Description": "Enter the S3 bucket name when Lambda deployment packages will be stored"
         }
     },
     "Resources": {
@@ -357,7 +361,7 @@
                 "PathPart": "profile"
             }
         },
-        "ProfileRequest": {
+        "GetProfileRequest": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
                 "AuthorizationType": "AWS_IAM",
@@ -488,6 +492,14 @@
                 "ResponseType": "DEFAULT_5XX",
                 "RestApiId": {
                     "Ref": "ChallengeMeApiGateway"
+                }
+            }
+        },
+        "S3Bucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "BucketName": {
+                    "Ref": "S3BucketParam"
                 }
             }
         }
