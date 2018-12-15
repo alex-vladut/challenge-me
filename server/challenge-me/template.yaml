@@ -4,8 +4,6 @@ Description: >
     challenge-me
 
     Sample SAM Template for challenge-me
-    
-# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
     Function:
         Timeout: 3
