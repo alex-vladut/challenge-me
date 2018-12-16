@@ -193,6 +193,72 @@
                 ]
             }
         },
+        "GetUser": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+                "FunctionName": "GetUser",
+                "Code": {
+                    "S3Bucket": {
+                        "Ref": "LambdaPackageS3Bucket"
+                    },
+                    "S3Key": "challenge-me.zip"
+                },
+                "Handler": "src/handler/users_handler.getUser",
+                "MemorySize": "128",
+                "Role": {
+                    "Fn::GetAtt": [
+                        "LambdaFunctionRole",
+                        "Arn"
+                    ]
+                },
+                "Runtime": "nodejs8.10",
+                "Timeout": "5"
+            }
+        },
+        "CreateUserLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+                "FunctionName": "CreateUser",
+                "Code": {
+                    "S3Bucket": {
+                        "Ref": "LambdaPackageS3Bucket"
+                    },
+                    "S3Key": "challenge-me.zip"
+                },
+                "Handler": "src/handler/users_handler.createUser",
+                "MemorySize": "128",
+                "Role": {
+                    "Fn::GetAtt": [
+                        "LambdaFunctionRole",
+                        "Arn"
+                    ]
+                },
+                "Runtime": "nodejs8.10",
+                "Timeout": "5"
+            }
+        },
+        "GetUsersLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+                "FunctionName": "GetUsers",
+                "Code": {
+                    "S3Bucket": {
+                        "Ref": "LambdaPackageS3Bucket"
+                    },
+                    "S3Key": "challenge-me.zip"
+                },
+                "Handler": "src/handler/users_handler.getUsers",
+                "MemorySize": "128",
+                "Role": {
+                    "Fn::GetAtt": [
+                        "LambdaFunctionRole",
+                        "Arn"
+                    ]
+                },
+                "Runtime": "nodejs8.10",
+                "Timeout": "5"
+            }
+        },
         "ChallengeMeApiGateway": {
             "Type": "AWS::ApiGateway::RestApi",
             "Properties": {
@@ -234,6 +300,35 @@
             "Properties": {
                 "Action": "lambda:invokeFunction",
                 "FunctionName": "CreateUser",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            "arn:aws:execute-api:",
+                            {
+                                "Ref": "AWS::Region"
+                            },
+                            ":",
+                            {
+                                "Ref": "AWS::AccountId"
+                            },
+                            ":",
+                            {
+                                "Ref": "ChallengeMeApiGateway"
+                            },
+                            "/*"
+                        ]
+                    ]
+                }
+            }
+        },
+        "ApiGatewayGetUsersLambdaInvocationPermission": {
+            "Type": "AWS::Lambda::Permission",
+            "DependsOn": "GetUsersLambdaFunction",
+            "Properties": {
+                "Action": "lambda:invokeFunction",
+                "FunctionName": "GetUsers",
                 "Principal": "apigateway.amazonaws.com",
                 "SourceArn": {
                     "Fn::Join": [
@@ -337,9 +432,6 @@
         },
         "ApiDeployment": {
             "Type": "AWS::ApiGateway::Deployment",
-            "DependsOn": [
-                "ProfileRequest"
-            ],
             "Properties": {
                 "RestApiId": {
                     "Ref": "ChallengeMeApiGateway"
@@ -359,6 +451,21 @@
                     ]
                 },
                 "PathPart": "profile"
+            }
+        },
+        "UsersResource": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+                "RestApiId": {
+                    "Ref": "ChallengeMeApiGateway"
+                },
+                "ParentId": {
+                    "Fn::GetAtt": [
+                        "ChallengeMeApiGateway",
+                        "RootResourceId"
+                    ]
+                },
+                "PathPart": "users"
             }
         },
         "GetProfileRequest": {
@@ -469,6 +576,37 @@
                 ]
             }
         },
+        "GetUsersRequest": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+                "AuthorizationType": "AWS_IAM",
+                "HttpMethod": "GET",
+                "Integration": {
+                    "Type": "AWS_PROXY",
+                    "IntegrationHttpMethod": "POST",
+                    "Uri": "arn:aws:apigateway:eu-central-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-central-1:648877925551:function:GetUsers/invocations"
+                },
+                "ResourceId": {
+                    "Ref": "UsersResource"
+                },
+                "RestApiId": {
+                    "Ref": "ChallengeMeApiGateway"
+                },
+                "MethodResponses": [
+                    {
+                        "ResponseModels": {
+                            "application/json": "Empty"
+                        },
+                        "ResponseParameters": {
+                            "method.response.header.Access-Control-Allow-Headers": true,
+                            "method.response.header.Access-Control-Allow-Methods": true,
+                            "method.response.header.Access-Control-Allow-Origin": true
+                        },
+                        "StatusCode": 200
+                    }
+                ]
+            }
+        },
         "ApplicationAPI4XXGatewayResponses": {
             "Type": "AWS::ApiGateway::GatewayResponse",
             "Properties": {
@@ -495,11 +633,11 @@
                 }
             }
         },
-        "S3Bucket": {
+        "LambdaPackageS3Bucket": {
             "Type": "AWS::S3::Bucket",
             "Properties": {
                 "BucketName": {
-                    "Ref": "S3BucketParam"
+                    "Ref": "LambdaPackageS3BucketParam"
                 }
             }
         }
