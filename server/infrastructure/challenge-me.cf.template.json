@@ -8,7 +8,11 @@
         },
         "LambdaPackageS3BucketParam": {
             "Type": "String",
-            "Description": "Enter the S3 bucket name when Lambda deployment packages will be stored"
+            "Description": "Enter the S3 bucket name where Lambda deployment packages will be stored"
+        },
+        "ClientS3BucketParam": {
+            "Type": "String",
+            "Description": "Enter the S3 bucket name where client app will be stored"
         }
     },
     "Resources": {
@@ -297,6 +301,7 @@
         },
         "ApiGatewayCreateUserLambdaInvocationPermission": {
             "Type": "AWS::Lambda::Permission",
+            "DependsOn": "CreateUserLambdaFunction",
             "Properties": {
                 "Action": "lambda:invokeFunction",
                 "FunctionName": "CreateUser",
@@ -607,6 +612,52 @@
                 ]
             }
         },
+        "UsersRequestCORS": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "OPTIONS",
+                "Integration": {
+                    "Type": "MOCK",
+                    "IntegrationResponses": [
+                        {
+                            "ResponseParameters": {
+                                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                                "method.response.header.Access-Control-Allow-Methods": "'GET,POST,OPTIONS'",
+                                "method.response.header.Access-Control-Allow-Origin": "'*'"
+                            },
+                            "ResponseTemplates": {
+                                "application/json": ""
+                            },
+                            "StatusCode": "200"
+                        }
+                    ],
+                    "PassthroughBehavior": "NEVER",
+                    "RequestTemplates": {
+                        "application/json": "{\"statusCode\": 200}"
+                    }
+                },
+                "ResourceId": {
+                    "Ref": "UsersResource"
+                },
+                "RestApiId": {
+                    "Ref": "ChallengeMeApiGateway"
+                },
+                "MethodResponses": [
+                    {
+                        "ResponseModels": {
+                            "application/json": "Empty"
+                        },
+                        "ResponseParameters": {
+                            "method.response.header.Access-Control-Allow-Headers": true,
+                            "method.response.header.Access-Control-Allow-Methods": true,
+                            "method.response.header.Access-Control-Allow-Origin": true
+                        },
+                        "StatusCode": 200
+                    }
+                ]
+            }
+        },
         "ApplicationAPI4XXGatewayResponses": {
             "Type": "AWS::ApiGateway::GatewayResponse",
             "Properties": {
@@ -640,6 +691,51 @@
                     "Ref": "LambdaPackageS3BucketParam"
                 }
             }
+        },
+        "ClientAppS3Bucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "BucketName": {
+                    "Ref": "ClientS3BucketParam"
+                },
+                "AccessControl": "PublicRead",
+                "WebsiteConfiguration": {
+                    "IndexDocument": "index.html",
+                    "ErrorDocument": "error.html"
+                }
+            }
+        },
+        "BucketPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+                "PolicyDocument": {
+                    "Id": "MyPolicy",
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "PublicReadForGetBucketObjects",
+                            "Effect": "Allow",
+                            "Principal": "*",
+                            "Action": "s3:GetObject",
+                            "Resource": {
+                                "Fn::Join": [
+                                    "",
+                                    [
+                                        "arn:aws:s3:::",
+                                        {
+                                            "Ref": "ClientAppS3Bucket"
+                                        },
+                                        "/*"
+                                    ]
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "Bucket": {
+                    "Ref": "ClientAppS3Bucket"
+                }
+            }
         }
     },
     "Outputs": {
@@ -654,6 +750,32 @@
             "Value": {
                 "Ref": "ChallengeMeApiGateway"
             }
+        },
+        "WebsiteURL": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "ClientAppS3Bucket",
+                    "WebsiteURL"
+                ]
+            },
+            "Description": "URL for website hosted on S3"
+        },
+        "ClientAppS3BucketSecureURL": {
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "https://",
+                        {
+                            "Fn::GetAtt": [
+                                "ClientAppS3Bucket",
+                                "DomainName"
+                            ]
+                        }
+                    ]
+                ]
+            },
+            "Description": "Name of S3 bucket to hold website content"
         }
     }
 }

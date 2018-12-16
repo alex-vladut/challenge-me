@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import * as actions from '../../store/actions/actions';
-import CountDown from '../CountDown/CountDown';
-import Spinner from '../UI/Spinner/Spinner';
+import CountDown from '../../components/CountDown/CountDown';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 import moment from 'moment';
 

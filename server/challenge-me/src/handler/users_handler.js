@@ -38,7 +38,7 @@ const createUser = async (event) => {
             'coins': 10000,
             'version': 0
         }
-        await dynamoDB.put({
+        await dynamoDb.put({
             TableName: 'user',
             Item: user,
             ConditionExpression: 'attribute_not_exists(id)'
@@ -63,7 +63,7 @@ const createUser = async (event) => {
 };
 
 const getUsers = async (event) => {
-    const response = await dynamoDB.scan({
+    const response = await dynamoDb.scan({
         TableName: 'user'
     }).promise();
     return {

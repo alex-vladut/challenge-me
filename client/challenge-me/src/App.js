@@ -3,8 +3,8 @@ import { HashRouter, Route, Switch } from 'react-router-dom';
 
 import Layout from './components/Layout/Layout';
 import Challenge from './containers/Challenge/Challenge';
-import Challenges from './components/Challenges/Challenges';
-import ViewChallenge from './components/ViewChallenge/ViewChallenge';
+import Challenges from './containers/Challenges/Challenges';
+import ViewChallenge from './containers/ViewChallenge/ViewChallenge';
 import Home from './components/Home/Home';
 
 import './App.css';
