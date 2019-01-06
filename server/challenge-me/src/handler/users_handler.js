@@ -62,7 +62,7 @@ const createUser = async (event) => {
     }
 };
 
-const getUsers = async (event) => {
+const getUsers = async () => {
     const response = await dynamoDb.scan({
         TableName: 'user'
     }).promise();

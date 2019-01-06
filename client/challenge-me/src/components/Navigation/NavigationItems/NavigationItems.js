@@ -10,11 +10,7 @@ import './NavigationItems.css';
 class NavigationItems extends Component {
 
     render() {
-        let navItems = (
-            <ul className="NavigationItems">
-                <NavigationItem link="/" onClick={this.props.onClick} exact >Home</NavigationItem>
-            </ul>
-        )
+        let navItems = null;
         if (this.props.authenticated) {
             navItems = (
                 <ul className="NavigationItems">

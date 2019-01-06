@@ -20,12 +20,14 @@ class Challenge extends Component {
     state = {
         title: null,
         rules: null,
+        betAmount: 0,
         opponent: null,
         referee: null,
         deadline: moment(),
         errors: {
             titleError: null,
             rulesError: null,
+            betAmountError: null,
             opponentError: null,
             refereeError: null,
             deadlineError: null
@@ -53,6 +55,10 @@ class Challenge extends Component {
         }
         if (!this.state.rules) {
             errors.rulesError = 'Please provide some rules for your challenge.';
+            isValid = false;
+        }
+        if(!this.state.betAmount || this.state.betAmount <= 0){
+            errors.betAmountError = 'Please bet an amount greater than zero.';
             isValid = false;
         }
         if (!this.state.opponent) {
@@ -93,6 +99,10 @@ class Challenge extends Component {
         this.setState({ rules: event.target.value });
     }
 
+    updateBetAmount = (event) => {
+        this.setState({ betAmount: event.target.value });
+    }
+
     updateDeadline = (dateTime) => {
         this.setState({ deadline: dateTime });
     }
@@ -111,6 +121,12 @@ class Challenge extends Component {
                         label="Rules:"
                         onChange={this.updateRules}
                         errorMessage={this.state.errors.rulesError} />
+                    <Input
+                        label="Bet amount:"
+                        placeholder="The amount you  want to bet"
+                        errorMessage={this.state.errors.betAmountError}
+                        onChange={this.updateBetAmount}
+                        type="number" />
                     <UserInput
                         label="Opponent:"
                         user={this.state.opponent}
