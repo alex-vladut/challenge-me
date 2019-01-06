@@ -1,5 +1,6 @@
 const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const uuidv4 = require('uuid/v4');
 
 const getChallenge = async (event) => {
     const challengeId = event.pathParameters.challengeId;
@@ -28,12 +29,11 @@ const getChallenge = async (event) => {
 };
 
 const createChallenge = async (event) => {
-    console.log(JSON.stringify(event));
     const challenge = JSON.parse(event.body);
     const newChallenge = {
         ...challenge,
         ownerId: event.requestContext.identity.cognitoIdentityId,
-        id: "id" + Math.floor(Math.random() * Math.floor(10000)),
+        id: uuidv4(),
         version: 0
     }
     await dynamoDb.put({
