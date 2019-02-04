@@ -1,8 +1,6 @@
-const AWS = require('aws-sdk');
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
-const uuidv4 = require('uuid/v4');
-
 const challengeQueryService = require('../application/query/challenge_query_service');
+const challengeCommandService = require('../application/command/challenge_command_service');
+
 const apiGateway = require('./utils/api_gateway');
 
 const getChallenge = async (event) => {
@@ -14,40 +12,21 @@ const getChallenge = async (event) => {
 };
 
 const createChallenge = async (event) => {
-    const challenge = JSON.parse(event.body);
-    const newChallenge = {
-        ...challenge,
-        ownerId: event.requestContext.identity.cognitoIdentityId,
-        id: uuidv4(),
-        version: 0
-    }
-    await dynamoDb.put({
-        TableName: 'challenge',
-        Item: newChallenge,
-        ConditionExpression: 'attribute_not_exists(id)'
-    }).promise();
-
-    return {
-        statusCode: 200,
-        body: JSON.stringify(newChallenge),
+    const challengeId = await challengeCommandService.createChallenge({
+        command: JSON.parse(event.body),
+        principal: event.requestContext.identity.cognitoIdentityId
+    });
+    return apiGateway.translate({
         headers: {
-            'Access-Control-Allow-Origin': '*'
+            'Location': `/challenges/${challengeId}`
         }
-    };
+    });
 };
 
 //TODO Sort it out in order to get the Challenges of a given User
 const getChallenges = async () => {
-    const response = await dynamoDb.scan({
-        TableName: 'challenge'
-    }).promise();
-    return {
-        statusCode: 200,
-        body: JSON.stringify(response.Items, true, 2),
-        headers: {
-            'Access-Control-Allow-Origin': '*'
-        }
-    };
+    const challenges = await challengeQueryService.getChallenges();
+    return apiGateway.translate({body:challenges});
 };
 
 module.exports = {

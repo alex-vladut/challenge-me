@@ -4,6 +4,9 @@ const getChallengeById = ({
     challengeId
 }) => challengeRepository.findById({ challengeId });
 
+const getChallenges = () => challengeRepository.getAllChallenges();
+
 module.exports = {
-    getChallengeById
+    getChallengeById,
+    getChallenges
 }
