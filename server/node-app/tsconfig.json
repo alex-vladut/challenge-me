@@ -2,6 +2,8 @@
   "compilerOptions": {
     "target": "es2017",
     "module": "commonjs",
+    "allowJs": true,
+    "sourceMap": true,
     "outDir": "./build",
     "strict": true,
     "baseUrl": "./",
@@ -11,7 +13,6 @@
     "types": [
       "node"
     ],
-    "esModuleInterop": true,
-    "inlineSourceMap": true
+    "esModuleInterop": true
   }
 }
