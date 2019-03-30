@@ -1,0 +1,14 @@
+{
+    "production": {
+        "awscloudformation": {
+            "AuthRoleName": "challenge-me-react-20190330153341-authRole",
+            "UnauthRoleArn": "arn:aws:iam::648877925551:role/challenge-me-react-20190330153341-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::648877925551:role/challenge-me-react-20190330153341-authRole",
+            "Region": "eu-central-1",
+            "DeploymentBucketName": "challenge-me-react-20190330153341-deployment",
+            "UnauthRoleName": "challenge-me-react-20190330153341-unauthRole",
+            "StackName": "challenge-me-react-20190330153341",
+            "StackId": "arn:aws:cloudformation:eu-central-1:648877925551:stack/challenge-me-react-20190330153341/6ec7fe60-52f0-11e9-99ae-0ac03387fd40"
+        }
+    }
+}

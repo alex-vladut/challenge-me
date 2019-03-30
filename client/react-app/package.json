@@ -4,8 +4,8 @@
   "private": true,
   "dependencies": {
     "ajv": "^6.5.3",
-    "aws-amplify": "^1.1.10",
-    "aws-amplify-react": "^2.1.4",
+    "aws-amplify": "^1.1.23",
+    "aws-amplify-react": "^2.3.3",
     "axios": "^0.18.0",
     "moment": "^2.22.2",
     "react": "^16.4.2",
