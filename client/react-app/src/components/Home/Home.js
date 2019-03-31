@@ -20,7 +20,7 @@ class Home extends Component {
 
     render() {
         const federated = {
-            google_client_id: '348450922576-ndqrghsmiguadj32uehn4f9f5kjkoja1.apps.googleusercontent.com'
+            google_client_id: '348450922576-hvs2fv955qfv4rjci73b7c3r944mkkdq.apps.googleusercontent.com'
         }
         let authenticate = null;
         if (!this.props.authenticated) {
