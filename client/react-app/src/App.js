@@ -12,7 +12,27 @@ import './App.css';
 import Amplify from 'aws-amplify';
 import awsExports from './aws-exports';
 
-Amplify.configure(awsExports);
+Amplify.configure({
+  API: {
+    endpoints: [
+      {
+        name: "ChallengeMeAPI",
+        endpoint: 'https://pmx92v7jw6.execute-api.eu-central-1.amazonaws.com/production',
+        region: 'eu-central-1'
+      }
+    ]
+  },
+  ...awsExports,
+  aws_appsync_authenticationType: "AWS_IAM"
+});
+// Amplify.configure({
+  // Added User and Identity Pools to Amplify directly
+  // Auth: {
+  //   region: 'eu-central-1',
+  //   identityPoolId: 'eu-central-1:9417e06d-8f42-413c-9f9c-55b0f495039e'
+  // },
+
+// })
 
 const app = () => (
   <HashRouter>

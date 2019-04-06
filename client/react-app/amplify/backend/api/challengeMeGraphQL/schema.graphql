@@ -1,0 +1,15 @@
+type Challenge @model @versioned {
+  id: ID!
+  title: String!
+  rules: String
+  betAmount: Int!
+  owner: String!
+  opponent: String!
+  referee: String!
+  deadline: String!
+}
+
+type User @model @versioned {
+  id: ID!
+  name: String!
+}

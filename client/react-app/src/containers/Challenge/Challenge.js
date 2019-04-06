@@ -84,6 +84,7 @@ class Challenge extends Component {
             this.props.onCreateChallenge({
                 title: this.state.title,
                 rules: this.state.rules,
+                betAmount: parseInt(this.state.betAmount),
                 opponentId: this.state.opponent.id,
                 refereeId: this.state.referee.id,
                 deadline: this.state.deadline.toISOString()
