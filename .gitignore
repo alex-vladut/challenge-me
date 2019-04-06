@@ -1,2 +1,4 @@
 server/.idea/*
 .DS_Store
+
+client/react-app/src/aws-exports\.js
