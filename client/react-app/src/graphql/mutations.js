@@ -8,8 +8,8 @@ export const createChallenge = `mutation CreateChallenge($input: CreateChallenge
     rules
     betAmount
     owner
-    opponentId
-    refereeId
+    opponent
+    referee
     deadline
     version
   }
@@ -22,8 +22,8 @@ export const updateChallenge = `mutation UpdateChallenge($input: UpdateChallenge
     rules
     betAmount
     owner
-    opponentId
-    refereeId
+    opponent
+    referee
     deadline
     version
   }
@@ -36,9 +36,33 @@ export const deleteChallenge = `mutation DeleteChallenge($input: DeleteChallenge
     rules
     betAmount
     owner
-    opponentId
-    refereeId
+    opponent
+    referee
     deadline
+    version
+  }
+}
+`;
+export const createUser = `mutation CreateUser($input: CreateUserInput!) {
+  createUser(input: $input) {
+    id
+    name
+    version
+  }
+}
+`;
+export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
+  updateUser(input: $input) {
+    id
+    name
+    version
+  }
+}
+`;
+export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
+  deleteUser(input: $input) {
+    id
+    name
     version
   }
 }

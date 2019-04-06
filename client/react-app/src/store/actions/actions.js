@@ -21,13 +21,38 @@ export const fetchChallenges = () => (
   async dispatch => {
     dispatch(fetchChallengesStart());
     try {
-      // const challenges = await API.get('ChallengeMeAPI', '/challenges');
       const response = await API.graphql(graphqlOperation(queries.listChallenges, { limit: 10 }));
-      console.log(response);
       dispatch(fetchChallengesSuccess(response.data.listChallenges.items));
     } catch (error) {
       //TODO Have proper error handling
       dispatch(fetchChallengesFail('Sorry, something went wrong while loading your challenges.'));
+    }
+  }
+);
+
+export const fetchChallengeStart = () => ({
+  type: actionTypes.FETCH_CHALLENGE_START
+});
+
+export const fetchChallengeSuccess = challenge => ({
+  type: actionTypes.FETCH_CHALLENGE_SUCCESS,
+  challenge
+});
+
+export const fetchChallengeFail = error => ({
+  type: actionTypes.FETCH_CHALLENGE_FAIL,
+  error
+});
+
+export const fetchChallenge = challengeId => (
+  async dispatch => {
+    dispatch(fetchChallengeStart());
+    try {
+      const response = await API.graphql(graphqlOperation(queries.getChallenge, { id: challengeId }));
+      dispatch(fetchChallengeSuccess(response.data.getChallenge));
+    } catch (error) {
+      //TODO Have proper error handling
+      dispatch(fetchChallengeFail('Sorry, something went wrong while loading your challenges.'));
     }
   }
 );
@@ -84,8 +109,9 @@ export const fetchUsers = () => (
   async dispatch => {
     dispatch(fetchUsersStart());
     try {
-      const users = await API.get('ChallengeMeAPI', '/users');
-      dispatch(fetchUsersSuccess(users));
+      // const users = await API.get('ChallengeMeAPI', '/users');
+      const response = await API.graphql(graphqlOperation(queries.listUsers, {}));
+      dispatch(fetchUsersSuccess(response.data.listUsers.items));
     } catch (error) {
       console.log(error);
       //TODO Have proper error handling
@@ -111,22 +137,18 @@ export const fetchProfileSuccess = profile => ({
 export const fetchProfile = () => (
   async dispatch => {
     dispatch(fetchProfileStart());
+    const authenticatedUser = await Auth.currentAuthenticatedUser();
     try {
-      const profile = await API.get('ChallengeMeAPI', '/profile');
-      dispatch(fetchProfileSuccess(profile));
-    } catch (error) {
-      if (error.response.status === 404) {
-        const authenticatedUser = await Auth.currentAuthenticatedUser();
-        const profile = await API.post('ChallengeMeAPI', '/profile', {
-          body: {
-            name: authenticatedUser.name
-          }
-        });
-        dispatch(fetchProfileSuccess(profile));
+      const response = await API.graphql(graphqlOperation(queries.getUser, { id: authenticatedUser.id }));
+      if (!response.data.getUser) {
+        const profile = await API.graphql(graphqlOperation(mutations.createUser, { input: { id: authenticatedUser.id, name: authenticatedUser.name } }));
+        dispatch(fetchProfileSuccess(profile.data.createUser));
       } else {
-        console.log(error.response);
-        dispatch(fetchProfileFail('Sorry, something went wrong while loading your challenges.'));
+        dispatch(fetchProfileSuccess(response.data.getUser));
       }
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchProfileFail('Sorry, something went wrong while loading your challenges.'));
     }
   }
 )

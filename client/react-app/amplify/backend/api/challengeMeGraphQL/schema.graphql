@@ -9,7 +9,7 @@ type Challenge @model @versioned {
   deadline: String!
 }
 
-type User @model @versioned {
+type User @model @versioned @searchable {
   id: ID!
   name: String!
 }

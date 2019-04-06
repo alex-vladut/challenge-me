@@ -16,7 +16,7 @@ class Challenges extends Component {
         type: 'owner'
     }
 
-    componentDidMount = async () => {
+    componentDidMount() {
         this.props.fetchChallenges();
     }
 
@@ -27,12 +27,12 @@ class Challenges extends Component {
     getFilter = (type) => {
         switch (type) {
             case 'opponent':
-                return (challenge) => challenge.opponentId === this.props.profile.id;
+                return (challenge) => challenge.opponent === this.props.profile.id;
             case 'referee':
-                return (challenge) => challenge.refereeId === this.props.profile.id;
+                return (challenge) => challenge.referee === this.props.profile.id;
             case 'owner':
             default:
-                return (challenge) => challenge.ownerId === this.props.profile.id;
+                return (challenge) => challenge.owner === this.props.profile.id;
         }
     }
 

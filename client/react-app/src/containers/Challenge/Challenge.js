@@ -85,8 +85,8 @@ class Challenge extends Component {
                 title: this.state.title,
                 rules: this.state.rules,
                 betAmount: parseInt(this.state.betAmount),
-                opponentId: this.state.opponent.id,
-                refereeId: this.state.referee.id,
+                opponent: this.state.opponent.id,
+                referee: this.state.referee.id,
                 deadline: this.state.deadline.toISOString()
             });
         }
