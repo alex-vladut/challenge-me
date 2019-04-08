@@ -7,7 +7,6 @@ import Message from '../../components/UI/Message/Message';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
 import axios from '../../axios';
-import { API } from 'aws-amplify';
 import * as actions from '../../store/actions/actions';
 
 import './ViewChallenge.css';
@@ -24,30 +23,19 @@ class ViewChallenge extends Component {
     this.props.fetchChallenge(this.props.match.params.challengeId);
   }
 
-  acceptChallenge = async () => {
-    try {
-      await axios.post('/challenges/' + this.props.match.params.challengeId + "/accept");
-      this.setState({ accepted: true });
-    } catch (e) {
-      console.error(e);
-    }
+  acceptChallenge() {
+    console.log('TODO: accept challenge');
   }
 
   rejectChallenge = async () => {
-    try {
-      await axios.post('/challenges/' + this.props.match.params.challengeId + "/reject");
-      this.setState({ rejected: true });
-    } catch (e) {
-      console.error(e);
-    }
+    console.log('TODO: reject challenge');
   }
 
-  isOpponent = (challenge, profile) => challenge.opponentId === profile.id;
+  isOpponent = (challenge, profile) => challenge.opponent.id === profile.id;
 
-  isReferee = (challenge, profile) => challenge.refereeId === profile.id;
+  isReferee = (challenge, profile) => challenge.referee.id === profile.id;
 
   render() {
-    console.log(this.props.challenge);
     const submitted = this.state.accepted || this.state.rejected;
     let controls = undefined;
     if (this.props.challenge &&
@@ -93,11 +81,11 @@ class ViewChallenge extends Component {
               </div>
               <div className="ChallengeElement">
                 <Label>Opponent:</Label>
-                <p>{this.props.challenge.opponent}</p>
+                <p>{this.props.challenge.opponent.name}</p>
               </div>
               <div className="ChallengeElement">
                 <Label>Referee:</Label>
-                <p>{this.props.challenge.referee}</p>
+                <p>{this.props.challenge.referee.name}</p>
               </div>
             </div>)
         }

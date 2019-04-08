@@ -7,9 +7,21 @@ export const getChallenge = `query GetChallenge($id: ID!) {
     title
     rules
     betAmount
-    owner
-    opponent
-    referee
+    owner {
+      id
+      name
+      version
+    }
+    opponent {
+      id
+      name
+      version
+    }
+    referee {
+      id
+      name
+      version
+    }
     deadline
     version
   }
@@ -26,9 +38,21 @@ export const listChallenges = `query ListChallenges(
       title
       rules
       betAmount
-      owner
-      opponent
-      referee
+      owner {
+        id
+        name
+        version
+      }
+      opponent {
+        id
+        name
+        version
+      }
+      referee {
+        id
+        name
+        version
+      }
       deadline
       version
     }

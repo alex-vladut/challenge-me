@@ -7,9 +7,21 @@ export const createChallenge = `mutation CreateChallenge($input: CreateChallenge
     title
     rules
     betAmount
-    owner
-    opponent
-    referee
+    owner {
+      id
+      name
+      version
+    }
+    opponent {
+      id
+      name
+      version
+    }
+    referee {
+      id
+      name
+      version
+    }
     deadline
     version
   }
@@ -21,9 +33,21 @@ export const updateChallenge = `mutation UpdateChallenge($input: UpdateChallenge
     title
     rules
     betAmount
-    owner
-    opponent
-    referee
+    owner {
+      id
+      name
+      version
+    }
+    opponent {
+      id
+      name
+      version
+    }
+    referee {
+      id
+      name
+      version
+    }
     deadline
     version
   }
@@ -35,9 +59,21 @@ export const deleteChallenge = `mutation DeleteChallenge($input: DeleteChallenge
     title
     rules
     betAmount
-    owner
-    opponent
-    referee
+    owner {
+      id
+      name
+      version
+    }
+    opponent {
+      id
+      name
+      version
+    }
+    referee {
+      id
+      name
+      version
+    }
     deadline
     version
   }

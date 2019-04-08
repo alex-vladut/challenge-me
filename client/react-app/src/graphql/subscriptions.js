@@ -7,9 +7,21 @@ export const onCreateChallenge = `subscription OnCreateChallenge {
     title
     rules
     betAmount
-    owner
-    opponent
-    referee
+    owner {
+      id
+      name
+      version
+    }
+    opponent {
+      id
+      name
+      version
+    }
+    referee {
+      id
+      name
+      version
+    }
     deadline
     version
   }
@@ -21,9 +33,21 @@ export const onUpdateChallenge = `subscription OnUpdateChallenge {
     title
     rules
     betAmount
-    owner
-    opponent
-    referee
+    owner {
+      id
+      name
+      version
+    }
+    opponent {
+      id
+      name
+      version
+    }
+    referee {
+      id
+      name
+      version
+    }
     deadline
     version
   }
@@ -35,9 +59,21 @@ export const onDeleteChallenge = `subscription OnDeleteChallenge {
     title
     rules
     betAmount
-    owner
-    opponent
-    referee
+    owner {
+      id
+      name
+      version
+    }
+    opponent {
+      id
+      name
+      version
+    }
+    referee {
+      id
+      name
+      version
+    }
     deadline
     version
   }

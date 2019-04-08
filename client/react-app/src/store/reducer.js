@@ -47,7 +47,6 @@ const reducer = (state = initialState, action) => {
     case actionTypes.CREATE_CHALLENGE_SUCCESS:
       return {
         ...state,
-        challenges: state.challenges.concat(action.challenge),
         loading: false,
         error: null,
         challengeCreated: true

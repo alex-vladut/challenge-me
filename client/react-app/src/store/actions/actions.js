@@ -81,8 +81,17 @@ export const createChallenge = challenge => (
     try {
       // const savedChallenge = await API.post('ChallengeMeAPI', '/challenges', { body: challenge });
       const authenticatedUser = await Auth.currentAuthenticatedUser();
-      const savedChallenge = await API.graphql(graphqlOperation(mutations.createChallenge, { input: { ...challenge, owner: authenticatedUser.id } }));
-      dispatch(createChallengeSuccess({ challenge: savedChallenge }));
+      const challengeToSave = {
+        title: challenge.title,
+        rules: challenge.rules,
+        betAmount: challenge.betAmount,
+        deadline: challenge.deadline,
+        challengeOwnerId: authenticatedUser.id,
+        challengeOpponentId: challenge.opponent,
+        challengeRefereeId: challenge.referee,
+      }
+      const savedChallenge = await API.graphql(graphqlOperation(mutations.createChallenge, { input: challengeToSave }));
+      dispatch(createChallengeSuccess({ challenge: savedChallenge.data.createChallenge }));
     } catch (error) {
       console.error(error);
       //TODO Have proper error handling
