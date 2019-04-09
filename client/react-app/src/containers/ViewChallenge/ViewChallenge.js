@@ -6,7 +6,6 @@ import Button from '../../components/UI/Button/Button';
 import Message from '../../components/UI/Message/Message';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
-import axios from '../../axios';
 import * as actions from '../../store/actions/actions';
 
 import './ViewChallenge.css';

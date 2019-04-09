@@ -1,9 +1,7 @@
 type Challenge @model @versioned {
   id: ID!
   title: String!
-  rules: String
-  betAmount: Int!
-  owner: User! @connection
+  owner: User @connection
   opponent: User! @connection
   referee: User! @connection
   deadline: String!

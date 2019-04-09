@@ -5,8 +5,6 @@ export const onCreateChallenge = `subscription OnCreateChallenge {
   onCreateChallenge {
     id
     title
-    rules
-    betAmount
     owner {
       id
       name
@@ -31,8 +29,6 @@ export const onUpdateChallenge = `subscription OnUpdateChallenge {
   onUpdateChallenge {
     id
     title
-    rules
-    betAmount
     owner {
       id
       name
@@ -57,8 +53,6 @@ export const onDeleteChallenge = `subscription OnDeleteChallenge {
   onDeleteChallenge {
     id
     title
-    rules
-    betAmount
     owner {
       id
       name

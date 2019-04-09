@@ -79,14 +79,9 @@ export const createChallenge = challenge => (
   async dispatch => {
     dispatch(createChallengeStart());
     try {
-      // const savedChallenge = await API.post('ChallengeMeAPI', '/challenges', { body: challenge });
-      const authenticatedUser = await Auth.currentAuthenticatedUser();
       const challengeToSave = {
         title: challenge.title,
-        rules: challenge.rules,
-        betAmount: challenge.betAmount,
         deadline: challenge.deadline,
-        challengeOwnerId: authenticatedUser.id,
         challengeOpponentId: challenge.opponent,
         challengeRefereeId: challenge.referee,
       }
@@ -150,7 +145,7 @@ export const fetchProfile = () => (
     try {
       const response = await API.graphql(graphqlOperation(queries.getUser, { id: authenticatedUser.id }));
       if (!response.data.getUser) {
-        const profile = await API.graphql(graphqlOperation(mutations.createUser, { input: { id: authenticatedUser.id, name: authenticatedUser.name } }));
+        const profile = await API.graphql(graphqlOperation(mutations.createUser, { input: { name: authenticatedUser.name } }));
         dispatch(fetchProfileSuccess(profile.data.createUser));
       } else {
         dispatch(fetchProfileSuccess(response.data.getUser));

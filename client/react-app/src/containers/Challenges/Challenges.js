@@ -49,7 +49,6 @@ class Challenges extends Component {
     }
     let challengesDisplayed = [];
     if (!this.props.loading && !this.props.error) {
-      console.log(this.props.challenges);
       challengesDisplayed = this.props.challenges.filter(this.getFilter(this.state.type))
         .map(challenge => ({ ...challenge, seconds: this.getSecondsUntilDeadline(challenge) }));
     }

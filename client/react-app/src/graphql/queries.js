@@ -5,8 +5,6 @@ export const getChallenge = `query GetChallenge($id: ID!) {
   getChallenge(id: $id) {
     id
     title
-    rules
-    betAmount
     owner {
       id
       name
@@ -36,8 +34,6 @@ export const listChallenges = `query ListChallenges(
     items {
       id
       title
-      rules
-      betAmount
       owner {
         id
         name

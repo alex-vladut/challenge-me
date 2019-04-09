@@ -5,8 +5,6 @@ export const createChallenge = `mutation CreateChallenge($input: CreateChallenge
   createChallenge(input: $input) {
     id
     title
-    rules
-    betAmount
     owner {
       id
       name
@@ -31,8 +29,6 @@ export const updateChallenge = `mutation UpdateChallenge($input: UpdateChallenge
   updateChallenge(input: $input) {
     id
     title
-    rules
-    betAmount
     owner {
       id
       name
@@ -57,8 +53,6 @@ export const deleteChallenge = `mutation DeleteChallenge($input: DeleteChallenge
   deleteChallenge(input: $input) {
     id
     title
-    rules
-    betAmount
     owner {
       id
       name
