@@ -15,11 +15,13 @@ export const getChallenge = `query GetChallenge($id: ID!) {
       name
       version
     }
+    opponentStatus
     referee {
       id
       name
       version
     }
+    refereeStatus
     deadline
     version
   }
@@ -44,11 +46,13 @@ export const listChallenges = `query ListChallenges(
         name
         version
       }
+      opponentStatus
       referee {
         id
         name
         version
       }
+      refereeStatus
       deadline
       version
     }

@@ -3,8 +3,16 @@ type Challenge @model @versioned {
   title: String!
   owner: User @connection
   opponent: User! @connection
+  opponentStatus: ParticipantApprovalStatus
   referee: User! @connection
+  refereeStatus: ParticipantApprovalStatus
   deadline: String!
+}
+
+enum ParticipantApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 type User @model @versioned @searchable {

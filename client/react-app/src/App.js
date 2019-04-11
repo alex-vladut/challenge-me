@@ -1,7 +1,7 @@
 import './App.css';
 
 import Amplify from 'aws-amplify';
-import { Authenticator, SignIn } from 'aws-amplify-react';
+import { Authenticator, FederatedSignIn } from 'aws-amplify-react';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { HashRouter, Route, Switch } from 'react-router-dom';
@@ -19,9 +19,11 @@ Amplify.configure({
   aws_appsync_authenticationType: "AWS_IAM",
 });
 
+
+
 class App extends Component {
 
-  authStateChanged = async (authState) => {
+  authStateChanged = async authState => {
     if (authState === 'signedIn') {
       this.props.fetchProfile();
     } else if (authState === 'signedOut') {
@@ -36,7 +38,8 @@ class App extends Component {
       <Authenticator
         onStateChange={this.authStateChanged}
         hideDefault={true} >
-        <SignIn federated={federated} />
+        <FederatedSignIn federated={federated} />
+
         <HashRouter>
           <Layout>
             <Switch>
@@ -55,7 +58,6 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  profile: state.profile,
   loading: state.loading,
   error: state.error
 });

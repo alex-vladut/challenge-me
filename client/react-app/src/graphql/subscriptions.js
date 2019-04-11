@@ -15,11 +15,13 @@ export const onCreateChallenge = `subscription OnCreateChallenge {
       name
       version
     }
+    opponentStatus
     referee {
       id
       name
       version
     }
+    refereeStatus
     deadline
     version
   }
@@ -39,11 +41,13 @@ export const onUpdateChallenge = `subscription OnUpdateChallenge {
       name
       version
     }
+    opponentStatus
     referee {
       id
       name
       version
     }
+    refereeStatus
     deadline
     version
   }
@@ -63,11 +67,13 @@ export const onDeleteChallenge = `subscription OnDeleteChallenge {
       name
       version
     }
+    opponentStatus
     referee {
       id
       name
       version
     }
+    refereeStatus
     deadline
     version
   }

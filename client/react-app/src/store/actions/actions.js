@@ -1,7 +1,8 @@
-import * as actionTypes from './actionTypes';
-import { Auth, API, graphqlOperation } from 'aws-amplify';
+import { API, Auth, graphqlOperation } from 'aws-amplify';
+
 import * as mutations from '../../graphql/mutations';
 import * as queries from '../../graphql/queries';
+import * as actionTypes from './actionTypes';
 
 export const fetchChallengesStart = () => ({
   type: actionTypes.FETCH_CHALLENGES_START
@@ -150,6 +151,11 @@ export const fetchProfile = () => (
       } else {
         dispatch(fetchProfileSuccess(response.data.getUser));
       }
+
+      // find a better way to implement it (ideally should be a side effect of ProfileSuccess)
+      // API.graphql(graphqlOperation(subscriptions.onCreateChallenge)).subscribe({
+      //   next: challenge => console.log(`Nice, a new challenge was received: ${JSON.stringify(challenge)}`)
+      // });
     } catch (error) {
       console.log(error);
       dispatch(fetchProfileFail('Sorry, something went wrong while loading your challenges.'));
