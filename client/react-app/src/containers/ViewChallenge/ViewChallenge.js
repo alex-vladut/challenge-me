@@ -1,22 +1,14 @@
+import './ViewChallenge.css';
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Label from '../../components/UI/Label/Label';
 import Button from '../../components/UI/Button/Button';
-import Message from '../../components/UI/Message/Message';
+import Label from '../../components/UI/Label/Label';
 import Spinner from '../../components/UI/Spinner/Spinner';
-
 import * as actions from '../../store/actions/actions';
 
-import './ViewChallenge.css';
-
 class ViewChallenge extends Component {
-
-  state = {
-    challenge: null,
-    accepted: false,
-    rejected: false
-  }
 
   componentDidMount() {
     this.props.fetchChallenge(this.props.match.params.challengeId);
@@ -35,31 +27,18 @@ class ViewChallenge extends Component {
   isReferee = (challenge, profile) => challenge.referee.id === profile.id;
 
   render() {
-    const submitted = this.state.accepted || this.state.rejected;
     let controls = undefined;
     if (this.props.challenge &&
       (this.isOpponent(this.props.challenge, this.props.profile) || this.isReferee(this.props.challenge, this.props.profile))) {
       controls = (
         <div className="Controls">
-          <Button type="confirm" onClick={this.acceptChallenge} disabled={submitted} >Accept</Button>
-          <Button type="danger" onClick={this.rejectChallenge} disabled={submitted} >Reject</Button>
+          <Button type="confirm" onClick={this.acceptChallenge} >Accept</Button>
+          <Button type="danger" onClick={this.rejectChallenge} >Reject</Button>
         </div>
       )
     }
-    let successfulMessage = null;
-    if (this.state.accepted) {
-      successfulMessage = <Message type="successful">You have accepted the challenge!</Message>
-    }
-    let rejectedMessage = null;
-    if (this.state.rejected) {
-      rejectedMessage = <Message type="successful">You have rejected the challenge!</Message>
-    }
     return (
       <div className="ViewChallenge">
-        <div>
-          {successfulMessage}
-          {rejectedMessage}
-        </div>
         {controls}
 
         {
