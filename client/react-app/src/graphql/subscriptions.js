@@ -23,6 +23,11 @@ export const onCreateChallenge = `subscription OnCreateChallenge {
     }
     refereeStatus
     deadline
+    winner {
+      id
+      name
+      version
+    }
     version
   }
 }
@@ -49,6 +54,11 @@ export const onUpdateChallenge = `subscription OnUpdateChallenge {
     }
     refereeStatus
     deadline
+    winner {
+      id
+      name
+      version
+    }
     version
   }
 }
@@ -75,6 +85,11 @@ export const onDeleteChallenge = `subscription OnDeleteChallenge {
     }
     refereeStatus
     deadline
+    winner {
+      id
+      name
+      version
+    }
     version
   }
 }

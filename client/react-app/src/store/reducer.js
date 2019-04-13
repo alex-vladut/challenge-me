@@ -19,6 +19,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_CHALLENGE_START:
     case actionTypes.FETCH_USERS_START:
     case actionTypes.CREATE_CHALLENGE_START:
+    case actionTypes.SET_CHALLENGE_WINNER_START:
     case actionTypes.FETCH_PROFILE_START:
     case actionTypes.SIGN_OUT_START:
       return {
@@ -45,6 +46,7 @@ const reducer = (state = initialState, action) => {
         error: null
       };
     case actionTypes.FETCH_CHALLENGE_SUCCESS:
+    case actionTypes.SET_CHALLENGE_WINNER_SUCCESS:
       return {
         ...state,
         challenge: action.challenge,

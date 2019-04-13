@@ -23,6 +23,11 @@ export const createChallenge = `mutation CreateChallenge($input: CreateChallenge
     }
     refereeStatus
     deadline
+    winner {
+      id
+      name
+      version
+    }
     version
   }
 }
@@ -49,6 +54,11 @@ export const updateChallenge = `mutation UpdateChallenge($input: UpdateChallenge
     }
     refereeStatus
     deadline
+    winner {
+      id
+      name
+      version
+    }
     version
   }
 }
@@ -75,6 +85,11 @@ export const deleteChallenge = `mutation DeleteChallenge($input: DeleteChallenge
     }
     refereeStatus
     deadline
+    winner {
+      id
+      name
+      version
+    }
     version
   }
 }

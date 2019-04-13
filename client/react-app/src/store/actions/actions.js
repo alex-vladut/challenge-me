@@ -138,6 +138,32 @@ export const rejectChallenge = (challenge, profile) => (
   }
 );
 
+export const setChallengeWinnerStart = () => ({
+  type: actionTypes.SET_CHALLENGE_WINNER_START,
+});
+
+export const setChallengeWinnerSuccess = challenge => ({
+  type: actionTypes.SET_CHALLENGE_WINNER_SUCCESS,
+  challenge
+});
+
+export const setChallengeWinnerFail = () => ({
+  type: actionTypes.SET_CHALLENGE_WINNER_FAIL,
+});
+
+export const setChallengeWinner = (challenge, winner) => (
+  async dispatch => {
+    dispatch(setChallengeWinnerStart());
+    try {
+      let challengeToSave = { ...translateChallenge(challenge), challengeWinnerId: winner.id };
+      const response = await API.graphql(graphqlOperation(mutations.updateChallenge, { input: challengeToSave }));
+      dispatch(setChallengeWinnerSuccess(response.data.updateChallenge));
+    } catch (error) {
+      dispatch(setChallengeWinnerFail(error));
+    }
+  }
+);
+
 export const createChallengeInit = () => ({
   type: actionTypes.CREATE_CHALLENGE_INIT
 })

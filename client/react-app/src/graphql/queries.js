@@ -23,6 +23,11 @@ export const getChallenge = `query GetChallenge($id: ID!) {
     }
     refereeStatus
     deadline
+    winner {
+      id
+      name
+      version
+    }
     version
   }
 }
@@ -54,6 +59,11 @@ export const listChallenges = `query ListChallenges(
       }
       refereeStatus
       deadline
+      winner {
+        id
+        name
+        version
+      }
       version
     }
     nextToken
