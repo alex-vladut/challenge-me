@@ -58,6 +58,86 @@ export const fetchChallenge = challengeId => (
   }
 );
 
+const translateChallenge = challenge => ({
+  id: challenge.id,
+  challengeOwnerId: challenge.owner.id,
+  title: challenge.title,
+  deadline: challenge.deadline,
+  challengeOpponentId: challenge.opponent.id,
+  opponentStatus: challenge.opponentStatus,
+  challengeRefereeId: challenge.referee.id,
+  refereeStatus: challenge.refereeStatus,
+  expectedVersion: challenge.version
+})
+
+export const acceptChallengeStart = () => ({
+  type: actionTypes.ACCEPT_CHALLENGE_START,
+});
+
+export const acceptChallengeSuccess = challenge => ({
+  type: actionTypes.ACCEPT_CHALLENGE_SUCCESS,
+  challenge
+});
+
+export const acceptChallengeFail = () => ({
+  type: actionTypes.ACCEPT_CHALLENGE_FAIL,
+});
+
+export const acceptChallenge = (challenge, profile) => (
+  async dispatch => {
+    dispatch(acceptChallengeStart());
+    try {
+      let challengeToSave = translateChallenge(challenge);
+      if (challenge.opponent.id === profile.id) {
+        challengeToSave = { ...challengeToSave, opponentStatus: 'ACCEPTED' };
+      } else if (challenge.referee.id === profile.id) {
+        challengeToSave = { ...challengeToSave, refereeStatus: 'ACCEPTED' };
+      } else {
+        throw new Error('You cannot accept or reject this challenge!');
+      }
+      const response = await API.graphql(graphqlOperation(mutations.updateChallenge, { input: challengeToSave }));
+      dispatch(acceptChallengeSuccess(response.data.updateChallenge));
+    } catch (error) {
+      console.error(error);
+      dispatch(acceptChallengeFail(error));
+    }
+  }
+);
+
+export const rejectChallengeStart = () => ({
+  type: actionTypes.REJECT_CHALLENGE_START,
+});
+
+export const rejectChallengeSuccess = challenge => ({
+  type: actionTypes.REJECT_CHALLENGE_SUCCESS,
+  challenge
+});
+
+export const rejectChallengeFail = () => ({
+  type: actionTypes.REJECT_CHALLENGE_FAIL,
+});
+
+export const rejectChallenge = (challenge, profile) => (
+  async dispatch => {
+    dispatch(rejectChallengeStart());
+    try {
+      let challengeToSave = translateChallenge(challenge);
+      if (challenge.opponent.id === profile.id) {
+        challengeToSave = { ...challengeToSave, refereeStatus: 'ACCEPTED' };
+      } else if (challenge.referee.id === profile.id) {
+        challengeToSave = { ...challengeToSave, refereeStatus: 'REJECTED' };
+      } else {
+        throw new Error('You cannot accept or reject this challenge!');
+      }
+      const response = await API.graphql(graphqlOperation(mutations.updateChallenge, { input: challengeToSave }));
+      dispatch(rejectChallengeSuccess(response.data.updateChallenge));
+    } catch (error) {
+      console.error(error);
+      dispatch(rejectChallengeFail(error));
+    }
+  }
+);
+
 export const createChallengeInit = () => ({
   type: actionTypes.CREATE_CHALLENGE_INIT
 })

@@ -11,7 +11,7 @@ type Challenge @model @versioned {
 
 enum ParticipantApprovalStatus {
   PENDING
-  APPROVED
+  ACCEPTED
   REJECTED
 }
 

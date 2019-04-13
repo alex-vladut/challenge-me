@@ -5,6 +5,8 @@ const initialState = {
   challenge: null,
   users: [],
   loading: false,
+  accepting: false,
+  rejecting: false,
   error: null,
   challengeCreated: false,
   profile: null,
@@ -21,6 +23,18 @@ const reducer = (state = initialState, action) => {
     case actionTypes.SIGN_OUT_START:
       return {
         ...state,
+        loading: true
+      };
+    case actionTypes.ACCEPT_CHALLENGE_START:
+      return {
+        ...state,
+        accepting: true,
+        loading: true
+      };
+    case actionTypes.REJECT_CHALLENGE_START:
+      return {
+        ...state,
+        rejecting: true,
         loading: true
       };
     case actionTypes.FETCH_CHALLENGES_SUCCESS:
@@ -51,6 +65,22 @@ const reducer = (state = initialState, action) => {
         error: null,
         challengeCreated: true
       };
+    case actionTypes.ACCEPT_CHALLENGE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        accepting: false,
+        error: null,
+        challenge: action.challenge,
+      }
+    case actionTypes.REJECT_CHALLENGE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        rejecting: false,
+        error: null,
+        challenge: action.challenge,
+      }
     case actionTypes.FETCH_PROFILE_SUCCESS:
       return {
         ...state,
