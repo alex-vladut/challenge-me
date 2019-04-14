@@ -8,17 +8,20 @@ export const getChallenge = `query GetChallenge($id: ID!) {
     owner {
       id
       name
+      pictureUrl
       version
     }
     opponent {
       id
       name
+      pictureUrl
       version
     }
     opponentStatus
     referee {
       id
       name
+      pictureUrl
       version
     }
     refereeStatus
@@ -26,6 +29,7 @@ export const getChallenge = `query GetChallenge($id: ID!) {
     winner {
       id
       name
+      pictureUrl
       version
     }
     version
@@ -44,17 +48,20 @@ export const listChallenges = `query ListChallenges(
       owner {
         id
         name
+        pictureUrl
         version
       }
       opponent {
         id
         name
+        pictureUrl
         version
       }
       opponentStatus
       referee {
         id
         name
+        pictureUrl
         version
       }
       refereeStatus
@@ -62,6 +69,7 @@ export const listChallenges = `query ListChallenges(
       winner {
         id
         name
+        pictureUrl
         version
       }
       version
@@ -74,6 +82,7 @@ export const getUser = `query GetUser($id: ID!) {
   getUser(id: $id) {
     id
     name
+    pictureUrl
     version
   }
 }
@@ -87,6 +96,7 @@ export const listUsers = `query ListUsers(
     items {
       id
       name
+      pictureUrl
       version
     }
     nextToken
@@ -108,6 +118,7 @@ export const searchUsers = `query SearchUsers(
     items {
       id
       name
+      pictureUrl
       version
     }
     nextToken

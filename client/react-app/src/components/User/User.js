@@ -1,16 +1,21 @@
-import React from 'react';
-import userIcon from '../../assets/user.ico'
-
 import './User.css';
+import React from 'react';
+
+import Avatar from '@material-ui/core/Avatar';
+import Grid from '@material-ui/core/Grid';
+
+import userIcon from '../../assets/user.ico';
 
 const user = ({
-    user,
-    onClick
+  user,
+  onClick
 }) =>
-    (<div className="User"
-        onClick={() => onClick(user)}>
-        <img src={userIcon} alt="logo" height="60" width="60" />
-        <p>{user.name}</p>
-    </div>);
+  (<div className="User"
+    onClick={() => onClick(user)}>
+    <Grid container justify="center" alignItems="center">
+      <Avatar alt={user.name} src={user.pictureUrl || userIcon} style={{ margin: '0.25rem' }} />
+      <p>{user.name}</p>
+    </Grid>
+  </div>);
 
 export default user;

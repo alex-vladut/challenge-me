@@ -1,5 +1,6 @@
 import './Challenge.css';
 
+import TextField from '@material-ui/core/TextField';
 import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -7,7 +8,6 @@ import { Redirect } from 'react-router-dom';
 
 import Button from '../../components/UI/Button/Button';
 import DateTimePicker from '../../components/UI/DateTimePicker/DateTimePicker';
-import Input from '../../components/UI/Input/Input';
 import UserInput from '../../components/UserInput/UserInput';
 import * as actions from '../../store/actions/actions';
 
@@ -87,11 +87,16 @@ class Challenge extends Component {
     if (!this.props.challengeCreated) {
       challenge = (
         <div className="Challenge">
-          <Input
-            label="Title:"
-            placeholder="Type a short title for your challenge"
-            errorMessage={this.state.errors.titleError}
-            onChange={this.updateTitle} />
+          <TextField
+            required
+            id="outlined-required"
+            label="Title"
+            defaultValue={this.state.title}
+            onChange={this.updateTitle}
+            margin="normal"
+            fullWidth
+            variant="outlined"
+          />
           <UserInput
             label="Opponent:"
             user={this.state.opponent}

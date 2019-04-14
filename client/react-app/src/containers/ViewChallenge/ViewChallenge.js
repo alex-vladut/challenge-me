@@ -3,7 +3,7 @@ import './ViewChallenge.css';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Button from '../../components/UI/Button/Button';
+import Button from '@material-ui/core/Button';
 import Label from '../../components/UI/Label/Label';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import * as actions from '../../store/actions/actions';
@@ -28,8 +28,7 @@ class ViewChallenge extends Component {
 
   isReferee = (challenge, profile) => challenge.referee.id === profile.id;
 
-  isChallengeWaitingAccept = (challenge, profile) =>
-    (this.isOpponent(challenge, profile) && challenge.opponentStatus === 'PENDING') || (this.isReferee(challenge, profile) && challenge.refereeStatus === 'PENDING');
+  isChallengeWaitingAccept = (challenge, profile) => (this.isOpponent(challenge, profile) && challenge.opponentStatus === 'PENDING') || (this.isReferee(challenge, profile) && challenge.refereeStatus === 'PENDING');
 
   setOwnerAsWinner = () => this.props.setChallengeWinner(this.props.challenge, this.props.challenge.owner);
 
@@ -44,8 +43,8 @@ class ViewChallenge extends Component {
     } else if (this.isChallengeWaitingAccept(this.props.challenge, this.props.profile)) {
       controls = (
         <div className="Controls">
-          <Button type="confirm" onClick={this.acceptChallenge} >Accept</Button>
-          <Button type="danger" onClick={this.rejectChallenge} >Reject</Button>
+          <Button variant="contained" color="primary" onClick={this.acceptChallenge} >Accept</Button>
+          <Button variant="contained" color="secondary" onClick={this.rejectChallenge} >Reject</Button>
         </div>
       )
     } else if (this.isOpponent(this.props.challenge, this.props.profile)
@@ -61,7 +60,7 @@ class ViewChallenge extends Component {
       controls = <div>You accepted the challenge, now you can choose the winner!</div>
     } else if (this.isReferee(this.props.challenge, this.props.profile) && this.props.challenge.refereeStatus === 'REJECTED') {
       controls = <div>Looks like you rejected the challenge :(</div>
-    } else if(this.props.challenge.winner){
+    } else if (this.props.challenge.winner) {
       controls = <div>This challenge was completed!</div>;
     }
     let owner = null;

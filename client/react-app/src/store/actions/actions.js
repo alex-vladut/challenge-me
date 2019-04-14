@@ -252,7 +252,11 @@ export const fetchProfile = () => (
     try {
       const response = await API.graphql(graphqlOperation(queries.getUser, { id: authenticatedUser.id }));
       if (!response.data.getUser) {
-        const profile = await API.graphql(graphqlOperation(mutations.createUser, { input: { name: authenticatedUser.name } }));
+        const user = {
+          name: authenticatedUser.name,
+          pictureUrl: authenticatedUser.picture,
+        }
+        const profile = await API.graphql(graphqlOperation(mutations.createUser, { input: user }));
         dispatch(fetchProfileSuccess(profile.data.createUser));
       } else {
         dispatch(fetchProfileSuccess(response.data.getUser));

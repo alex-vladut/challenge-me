@@ -8,17 +8,20 @@ export const onCreateChallenge = `subscription OnCreateChallenge {
     owner {
       id
       name
+      pictureUrl
       version
     }
     opponent {
       id
       name
+      pictureUrl
       version
     }
     opponentStatus
     referee {
       id
       name
+      pictureUrl
       version
     }
     refereeStatus
@@ -26,6 +29,7 @@ export const onCreateChallenge = `subscription OnCreateChallenge {
     winner {
       id
       name
+      pictureUrl
       version
     }
     version
@@ -39,17 +43,20 @@ export const onUpdateChallenge = `subscription OnUpdateChallenge {
     owner {
       id
       name
+      pictureUrl
       version
     }
     opponent {
       id
       name
+      pictureUrl
       version
     }
     opponentStatus
     referee {
       id
       name
+      pictureUrl
       version
     }
     refereeStatus
@@ -57,6 +64,7 @@ export const onUpdateChallenge = `subscription OnUpdateChallenge {
     winner {
       id
       name
+      pictureUrl
       version
     }
     version
@@ -70,17 +78,20 @@ export const onDeleteChallenge = `subscription OnDeleteChallenge {
     owner {
       id
       name
+      pictureUrl
       version
     }
     opponent {
       id
       name
+      pictureUrl
       version
     }
     opponentStatus
     referee {
       id
       name
+      pictureUrl
       version
     }
     refereeStatus
@@ -88,6 +99,7 @@ export const onDeleteChallenge = `subscription OnDeleteChallenge {
     winner {
       id
       name
+      pictureUrl
       version
     }
     version
@@ -98,6 +110,7 @@ export const onCreateUser = `subscription OnCreateUser {
   onCreateUser {
     id
     name
+    pictureUrl
     version
   }
 }
@@ -106,6 +119,7 @@ export const onUpdateUser = `subscription OnUpdateUser {
   onUpdateUser {
     id
     name
+    pictureUrl
     version
   }
 }
@@ -114,6 +128,7 @@ export const onDeleteUser = `subscription OnDeleteUser {
   onDeleteUser {
     id
     name
+    pictureUrl
     version
   }
 }

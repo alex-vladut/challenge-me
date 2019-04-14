@@ -1,14 +1,18 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import './Challenges.css';
 
-import * as actions from '../../store/actions/actions';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import moment from 'moment';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import CountDown from '../../components/CountDown/CountDown';
 import Spinner from '../../components/UI/Spinner/Spinner';
-
-import moment from 'moment';
-
-import './Challenges.css';
+import * as actions from '../../store/actions/actions';
 
 class Challenges extends Component {
 
@@ -55,12 +59,28 @@ class Challenges extends Component {
 
     return (
       <div className="Challenges">
-        <p>Filter which challenges you are interested in:</p>
-        <select value={this.state.type} onChange={this.updateChallengesFilter}>
-          <option value="owner">My Challenges</option>
-          <option value="opponent">I'm opponent</option>
-          <option value="referee">I'm referee</option>
-        </select>
+
+        <FormControl component="fieldset">
+          <FormLabel component="legend">Filter challenges:</FormLabel>
+          <RadioGroup
+            aria-label="Challenges filter"
+            row
+            value={this.state.type}
+            onChange={this.updateChallengesFilter} >
+            <FormControlLabel
+              value="owner"
+              control={<Radio />}
+              label="My challenges" />
+            <FormControlLabel
+              value="opponent"
+              control={<Radio />}
+              label="I am opponent" />
+            <FormControlLabel
+              value="referee"
+              control={<Radio />}
+              label="I am referee" />
+          </RadioGroup>
+        </FormControl>
         {spinner}
         {challengesDisplayed.map(challenge => (
           <Link to={'/challenges/' + challenge.id} key={challenge.id}>

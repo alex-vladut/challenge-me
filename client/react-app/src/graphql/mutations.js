@@ -8,17 +8,20 @@ export const createChallenge = `mutation CreateChallenge($input: CreateChallenge
     owner {
       id
       name
+      pictureUrl
       version
     }
     opponent {
       id
       name
+      pictureUrl
       version
     }
     opponentStatus
     referee {
       id
       name
+      pictureUrl
       version
     }
     refereeStatus
@@ -26,6 +29,7 @@ export const createChallenge = `mutation CreateChallenge($input: CreateChallenge
     winner {
       id
       name
+      pictureUrl
       version
     }
     version
@@ -39,17 +43,20 @@ export const updateChallenge = `mutation UpdateChallenge($input: UpdateChallenge
     owner {
       id
       name
+      pictureUrl
       version
     }
     opponent {
       id
       name
+      pictureUrl
       version
     }
     opponentStatus
     referee {
       id
       name
+      pictureUrl
       version
     }
     refereeStatus
@@ -57,6 +64,7 @@ export const updateChallenge = `mutation UpdateChallenge($input: UpdateChallenge
     winner {
       id
       name
+      pictureUrl
       version
     }
     version
@@ -70,17 +78,20 @@ export const deleteChallenge = `mutation DeleteChallenge($input: DeleteChallenge
     owner {
       id
       name
+      pictureUrl
       version
     }
     opponent {
       id
       name
+      pictureUrl
       version
     }
     opponentStatus
     referee {
       id
       name
+      pictureUrl
       version
     }
     refereeStatus
@@ -88,6 +99,7 @@ export const deleteChallenge = `mutation DeleteChallenge($input: DeleteChallenge
     winner {
       id
       name
+      pictureUrl
       version
     }
     version
@@ -98,6 +110,7 @@ export const createUser = `mutation CreateUser($input: CreateUserInput!) {
   createUser(input: $input) {
     id
     name
+    pictureUrl
     version
   }
 }
@@ -106,6 +119,7 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
   updateUser(input: $input) {
     id
     name
+    pictureUrl
     version
   }
 }
@@ -114,6 +128,7 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
   deleteUser(input: $input) {
     id
     name
+    pictureUrl
     version
   }
 }
