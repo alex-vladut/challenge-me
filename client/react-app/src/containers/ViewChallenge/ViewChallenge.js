@@ -1,12 +1,16 @@
 import './ViewChallenge.css';
 
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Button from '@material-ui/core/Button';
+import userIcon from '../../assets/user.ico';
 import Label from '../../components/UI/Label/Label';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import * as actions from '../../store/actions/actions';
+import ChallengeOwnerView from './Owner/ChallengeOwnerView';
 
 class ViewChallenge extends Component {
 
@@ -89,11 +93,13 @@ class ViewChallenge extends Component {
       }
     }
 
-    return (
-      <div className="ViewChallenge">
-        {controls}
-
-        {this.props.challenge && (<div className="ChallengeElements">
+    let content = null;
+    if (this.props.challenge) {
+      if (this.isOwner(this.props.challenge, this.props.profile)) {
+        content = <ChallengeOwnerView challenge={this.props.challenge} />
+      } else {
+        content = (<div className="ChallengeElements">
+          {controls}
           <div className="ChallengeElement">
             <Label>Title:</Label>
             <p>{this.props.challenge.title}</p>
@@ -105,15 +111,26 @@ class ViewChallenge extends Component {
           </div>
           <div className="ChallengeElement">
             <Label>Opponent:</Label>
-            <p>{this.props.challenge.opponent.name}</p>
+            <Grid container >
+              <Avatar alt={this.props.challenge.opponent.name} src={this.props.challenge.opponent.pictureUrl || userIcon} style={{ margin: '0.25rem' }} />
+              <p>{this.props.challenge.opponent.name}</p>
+            </Grid>
             {selectOpponentAsWinnerAction}
           </div>
           <div className="ChallengeElement">
             <Label>Referee:</Label>
-            <p>{this.props.challenge.referee.name}</p>
+            <Grid container>
+              <Avatar alt={this.props.challenge.referee.name} src={this.props.challenge.referee.pictureUrl || userIcon} style={{ margin: '0.25rem' }} />
+              <p>{this.props.challenge.referee.name}</p>
+            </Grid>
           </div>
         </div>)
-        }
+      }
+    }
+
+    return (
+      <div className="ViewChallenge">
+        {content}
       </div>
     );
   }

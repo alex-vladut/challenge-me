@@ -7,7 +7,6 @@ class Home extends Component {
     return (
       <div>
         <div className="HomeBackground"></div>
-        <h1>Nothing interesting here...</h1>
       </div>
     );
   }

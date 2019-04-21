@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import Button from '../../components/UI/Button/Button';
+import Button from '@material-ui/core/Button';
 import DateTimePicker from '../../components/UI/DateTimePicker/DateTimePicker';
 import UserInput from '../../components/UserInput/UserInput';
 import * as actions from '../../store/actions/actions';
@@ -15,8 +15,8 @@ class Challenge extends Component {
 
   state = {
     title: null,
-    opponent: null,
-    referee: null,
+    opponent: {},
+    referee: {},
     deadline: moment(),
     errors: {
       titleError: null,
@@ -113,7 +113,7 @@ class Challenge extends Component {
             onChange={this.updateDeadline}
             errorMessage={this.state.errors.deadlineError} />
 
-          <Button onClick={this.createChallenge}>Create challenge</Button>
+          <Button variant="contained" color="primary" onClick={this.createChallenge}>Create challenge</Button>
         </div>
       )
     }

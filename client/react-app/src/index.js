@@ -6,12 +6,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from 'redux';
+import { createEpicMiddleware } from 'redux-observable';
 import thunk from 'redux-thunk';
 
 import App from './App';
 import awsExports from './aws-exports';
 import registerServiceWorker from './registerServiceWorker';
 import * as actions from './store/actions/actions';
+import { rootEpic } from './store/epics';
 import reducer from './store/reducer';
 
 Amplify.configure({
@@ -21,7 +23,9 @@ Amplify.configure({
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
+const epicMiddleware = createEpicMiddleware();
+const store = createStore(reducer, composeEnhancers(applyMiddleware(epicMiddleware, thunk)));
+epicMiddleware.run(rootEpic);
 
 const authStateChanged = async authState => {
   if (authState === 'signedIn') {

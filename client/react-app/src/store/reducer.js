@@ -15,7 +15,7 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.FETCH_CHALLENGES_START:
+    case actionTypes.FETCH_CHALLENGES:
     case actionTypes.FETCH_CHALLENGE_START:
     case actionTypes.FETCH_USERS_START:
     case actionTypes.CREATE_CHALLENGE_START:
