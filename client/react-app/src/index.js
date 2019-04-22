@@ -28,10 +28,15 @@ const store = createStore(reducer, composeEnhancers(applyMiddleware(epicMiddlewa
 epicMiddleware.run(rootEpic);
 
 const authStateChanged = async authState => {
-  if (authState === 'signedIn') {
-    store.dispatch(actions.fetchProfile());
-  } else if (authState === 'signedOut') {
-    store.dispatch(actions.signOut());
+  switch (authState) {
+    case 'signedIn':
+      store.dispatch(actions.fetchProfile());
+      return;
+    case 'signedOut':
+      store.dispatch(actions.signOut());
+      return;
+    default:
+      return;
   }
 }
 

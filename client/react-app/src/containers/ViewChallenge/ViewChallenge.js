@@ -19,7 +19,7 @@ class ViewChallenge extends Component {
   }
 
   acceptChallenge = () => {
-    this.props.acceptChallenge(this.props.challenge, this.props.profile);
+    this.props.acceptChallenge(this.props.challenge);
   }
 
   rejectChallenge = async () => {
@@ -145,7 +145,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchChallenge: challengeId => dispatch(actions.fetchChallenge(challengeId)),
-  acceptChallenge: (challenge, profile) => dispatch(actions.acceptChallenge(challenge, profile)),
+  acceptChallenge: challenge => dispatch(actions.acceptChallenge(challenge)),
   rejectChallenge: (challenge, profile) => dispatch(actions.rejectChallenge(challenge, profile)),
   setChallengeWinner: (challenge, winner) => dispatch(actions.setChallengeWinner(challenge, winner))
 });

@@ -1,4 +1,4 @@
 import { combineEpics } from 'redux-observable';
-import { fetchChallenges } from './challenges';
+import { createChallenge, fetchChallenges, fetchChallenge, acceptChallenge } from './challenges';
 
-export const rootEpic = combineEpics(fetchChallenges);
+export const rootEpic = combineEpics(createChallenge, fetchChallenges, fetchChallenge, acceptChallenge);

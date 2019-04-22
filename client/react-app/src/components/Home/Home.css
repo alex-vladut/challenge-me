@@ -1,6 +1,6 @@
 .HomeBackground {
-    background-image: url('../../assets/plans-background.jpg');
-    background-size: cover;
+    background-color: #34ADFF;
+    background-image: -webkit-linear-gradient(150deg, #4CBFFF 35%, white 35%);
     position: fixed;
     width: 100vw;
     height: 100vh;

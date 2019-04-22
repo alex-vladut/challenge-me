@@ -16,9 +16,9 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_CHALLENGES:
-    case actionTypes.FETCH_CHALLENGE_START:
+    case actionTypes.FETCH_CHALLENGE:
     case actionTypes.FETCH_USERS_START:
-    case actionTypes.CREATE_CHALLENGE_START:
+    case actionTypes.CREATE_CHALLENGE:
     case actionTypes.SET_CHALLENGE_WINNER_START:
     case actionTypes.FETCH_PROFILE_START:
     case actionTypes.SIGN_OUT_START:
@@ -26,7 +26,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         loading: true
       };
-    case actionTypes.ACCEPT_CHALLENGE_START:
+    case actionTypes.ACCEPT_CHALLENGE:
       return {
         ...state,
         accepting: true,
@@ -73,7 +73,7 @@ const reducer = (state = initialState, action) => {
         loading: false,
         accepting: false,
         error: null,
-        challenge: action.challenge,
+        challenge: action.payload,
       }
     case actionTypes.REJECT_CHALLENGE_SUCCESS:
       return {

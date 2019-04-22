@@ -11,8 +11,7 @@
     box-sizing: border-box;
     z-index: 90;
     background-color: lightblue;
-    background-image: linear-gradient(#4f646b, lightblue);
-    box-shadow: 0 4px 20px #ccc;
+    box-shadow: 0 5px 20px #989898;
     align-content: center;
 }
 

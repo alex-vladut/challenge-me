@@ -4,6 +4,10 @@ import * as mutations from '../../graphql/mutations';
 import * as queries from '../../graphql/queries';
 import * as actionTypes from './actionTypes';
 
+export const fetchChallenges = () => ({
+  type: actionTypes.FETCH_CHALLENGES
+});
+
 export const fetchChallengesSuccess = challenges => ({
   type: actionTypes.FETCH_CHALLENGES_SUCCESS,
   challenges
@@ -14,12 +18,9 @@ export const fetchChallengesFail = error => ({
   error
 });
 
-export const fetchChallenges = () => ({
-  type: actionTypes.FETCH_CHALLENGES
-});
-
-export const fetchChallengeStart = () => ({
-  type: actionTypes.FETCH_CHALLENGE_START
+export const fetchChallenge = challengeId => ({
+  type: actionTypes.FETCH_CHALLENGE,
+  payload: challengeId
 });
 
 export const fetchChallengeSuccess = challenge => ({
@@ -31,19 +32,6 @@ export const fetchChallengeFail = error => ({
   type: actionTypes.FETCH_CHALLENGE_FAIL,
   error
 });
-
-export const fetchChallenge = challengeId => (
-  async dispatch => {
-    dispatch(fetchChallengeStart());
-    try {
-      const response = await API.graphql(graphqlOperation(queries.getChallenge, { id: challengeId }));
-      dispatch(fetchChallengeSuccess(response.data.getChallenge));
-    } catch (error) {
-      //TODO Have proper error handling
-      dispatch(fetchChallengeFail('Sorry, something went wrong while loading your challenges.'));
-    }
-  }
-);
 
 const translateChallenge = challenge => ({
   id: challenge.id,
@@ -57,39 +45,19 @@ const translateChallenge = challenge => ({
   expectedVersion: challenge.version
 })
 
-export const acceptChallengeStart = () => ({
-  type: actionTypes.ACCEPT_CHALLENGE_START,
+export const acceptChallenge = challenge => ({
+  type: actionTypes.ACCEPT_CHALLENGE,
+  payload: challenge,
 });
 
 export const acceptChallengeSuccess = challenge => ({
   type: actionTypes.ACCEPT_CHALLENGE_SUCCESS,
-  challenge
+  payload: challenge
 });
 
 export const acceptChallengeFail = () => ({
   type: actionTypes.ACCEPT_CHALLENGE_FAIL,
 });
-
-export const acceptChallenge = (challenge, profile) => (
-  async dispatch => {
-    dispatch(acceptChallengeStart());
-    try {
-      let challengeToSave = translateChallenge(challenge);
-      if (challenge.opponent.id === profile.id) {
-        challengeToSave = { ...challengeToSave, opponentStatus: 'ACCEPTED' };
-      } else if (challenge.referee.id === profile.id) {
-        challengeToSave = { ...challengeToSave, refereeStatus: 'ACCEPTED' };
-      } else {
-        throw new Error('You cannot accept or reject this challenge!');
-      }
-      const response = await API.graphql(graphqlOperation(mutations.updateChallenge, { input: challengeToSave }));
-      dispatch(acceptChallengeSuccess(response.data.updateChallenge));
-    } catch (error) {
-      console.error(error);
-      dispatch(acceptChallengeFail(error));
-    }
-  }
-);
 
 export const rejectChallengeStart = () => ({
   type: actionTypes.REJECT_CHALLENGE_START,
@@ -153,41 +121,22 @@ export const setChallengeWinner = (challenge, winner) => (
 
 export const createChallengeInit = () => ({
   type: actionTypes.CREATE_CHALLENGE_INIT
-})
+});
 
-export const createChallengeStart = () => ({
-  type: actionTypes.CREATE_CHALLENGE_START
+export const createChallenge = challenge => ({
+  type: actionTypes.CREATE_CHALLENGE,
+  payload: challenge,
 });
 
 export const createChallengeSuccess = challenge => ({
   type: actionTypes.CREATE_CHALLENGE_SUCCESS,
-  challenge
+  payload: challenge,
 });
 
 export const createChallengeFail = error => ({
   type: actionTypes.CREATE_CHALLENGE_FAIL,
   error
 });
-
-export const createChallenge = challenge => (
-  async dispatch => {
-    dispatch(createChallengeStart());
-    try {
-      const challengeToSave = {
-        title: challenge.title,
-        deadline: challenge.deadline,
-        challengeOpponentId: challenge.opponent,
-        challengeRefereeId: challenge.referee,
-      }
-      const savedChallenge = await API.graphql(graphqlOperation(mutations.createChallenge, { input: challengeToSave }));
-      dispatch(createChallengeSuccess({ challenge: savedChallenge.data.createChallenge }));
-    } catch (error) {
-      console.error(error);
-      //TODO Have proper error handling
-      dispatch(createChallengeFail('Sorry, something went wrong while loading your challenges.'));
-    }
-  }
-);
 
 export const fetchUsersStart = () => ({
   type: actionTypes.FETCH_USERS_START
