@@ -1,16 +1,12 @@
 import './ViewChallenge.scss';
 
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import userIcon from '../../assets/user.ico';
-import Label from '../../components/UI/Label/Label';
-import Spinner from '../../components/UI/Spinner/Spinner';
 import * as actions from '../../store/actions/actions';
 import ChallengeOwnerView from './Owner/ChallengeOwnerView';
+import ChallengeOpponentView from './Opponent/ChallengeOpponentView';
+import ChallengeRefereeView from './Referee/ChallengeRefereeView';
 
 class ViewChallenge extends Component {
 
@@ -39,100 +35,32 @@ class ViewChallenge extends Component {
   setOpponentAsWinner = () => this.props.setChallengeWinner(this.props.challenge, this.props.challenge.opponent);
 
   render() {
-    let controls = undefined;
-    if (!this.props.challenge) {
-      controls = <Spinner />;
-    } else if (this.props.accepting || this.props.rejecting) {
-      controls = (<div>Your request is being processed</div>);
-    } else if (this.isChallengeWaitingAccept(this.props.challenge, this.props.profile)) {
-      controls = (
-        <div className="Controls">
-          <Button variant="contained" color="primary" onClick={this.acceptChallenge} >Accept</Button>
-          <Button variant="contained" color="secondary" onClick={this.rejectChallenge} >Reject</Button>
-        </div>
-      )
-    } else if (this.isOpponent(this.props.challenge, this.props.profile)
-      && this.props.challenge.opponentStatus === 'ACCEPTED'
-      && !this.props.challenge.winner) {
-      controls = <div>Nice, you accepted this challenge :)</div>
-    } else if (this.isOpponent(this.props.challenge, this.props.profile)
-      && this.props.challenge.opponentStatus === 'REJECTED') {
-      controls = <div>You rejected this challenge :(</div>
-    } else if (this.isReferee(this.props.challenge, this.props.profile)
-      && this.props.challenge.refereeStatus === 'ACCEPTED'
-      && !this.props.challenge.winner) {
-      controls = <div>You accepted the challenge, now you can choose the winner!</div>
-    } else if (this.isReferee(this.props.challenge, this.props.profile) && this.props.challenge.refereeStatus === 'REJECTED') {
-      controls = <div>Looks like you rejected the challenge :(</div>
-    } else if (this.props.challenge.winner) {
-      controls = <div>This challenge was completed!</div>;
-    }
-    let owner = null;
-    if (this.props.challenge) {
-      if (this.isOwner(this.props.challenge, this.props.profile)) {
-        owner = 'You created this challenge';
-      } else {
-        owner = this.props.challenge.owner.name;
-      }
-    }
-    let selectOwnerAsWinnerAction = null;
-    let selectOpponentAsWinnerAction = null;
-    if (this.props.challenge) {
-      if (this.isReferee(this.props.challenge, this.props.profile)
-        && this.props.challenge.refereeStatus === 'ACCEPTED'
-        && !this.props.challenge.winner) {
-        selectOwnerAsWinnerAction = (<Button type="confirm" onClick={this.setOwnerAsWinner} >Winner</Button>);
-        selectOpponentAsWinnerAction = (<Button type="confirm" onClick={this.setOpponentAsWinner} >Winner</Button>);
-      }
-      if (this.props.challenge.winner) {
-        if (this.props.challenge.winner.id === this.props.challenge.owner.id) {
-          selectOwnerAsWinnerAction = '(WINNER)';
-        } else {
-          selectOpponentAsWinnerAction = '(WINNER)';
-        }
-      }
-    }
 
     let content = null;
     if (this.props.challenge) {
       if (this.isOwner(this.props.challenge, this.props.profile)) {
         content = <ChallengeOwnerView challenge={this.props.challenge} />
+      } else if (this.isOpponent(this.props.challenge, this.props.profile)) {
+        content = <ChallengeOpponentView
+          challenge={this.props.challenge}
+          challengeAccepted={this.acceptChallenge}
+          challengeRejected={this.rejectChallenge} />
+      } else if (this.isReferee(this.props.challenge, this.props.profile)) {
+        content = <ChallengeRefereeView
+          challenge={this.props.challenge}
+          challengeAccepted={this.acceptChallenge}
+          challengeRejected={this.rejectChallenge}
+          ownerSelectedAsWinner={this.setOwnerAsWinner}
+          opponentSelectedAsWinner={this.setOpponentAsWinner} />
       } else {
-        content = (<div className="ChallengeElements">
-          {controls}
-          <div className="ChallengeElement">
-            <Label>Title:</Label>
-            <p>{this.props.challenge.title}</p>
-          </div>
-          <div className="ChallengeElement">
-            <Label>Owner:</Label>
-            <p>{owner}</p>
-            {selectOwnerAsWinnerAction}
-          </div>
-          <div className="ChallengeElement">
-            <Label>Opponent:</Label>
-            <Grid container >
-              <Avatar alt={this.props.challenge.opponent.name} src={this.props.challenge.opponent.pictureUrl || userIcon} style={{ margin: '0.25rem' }} />
-              <p>{this.props.challenge.opponent.name}</p>
-            </Grid>
-            {selectOpponentAsWinnerAction}
-          </div>
-          <div className="ChallengeElement">
-            <Label>Referee:</Label>
-            <Grid container>
-              <Avatar alt={this.props.challenge.referee.name} src={this.props.challenge.referee.pictureUrl || userIcon} style={{ margin: '0.25rem' }} />
-              <p>{this.props.challenge.referee.name}</p>
-            </Grid>
-          </div>
-        </div>)
+        content = <h2>Sorry, you don't have permissions to access this challenge!</h2>
       }
     }
 
     return (
       <div className="ViewChallenge">
         {content}
-      </div>
-    );
+      </div>);
   }
 }
 

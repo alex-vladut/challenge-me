@@ -79,7 +79,7 @@ class Challenge extends Component {
   }
 
   updateDeadline = (dateTime) => {
-    this.setState({ deadline: dateTime });
+    this.setState({ deadline: moment(dateTime) });
   }
 
   render() {
@@ -109,7 +109,7 @@ class Challenge extends Component {
             errorMessage={this.state.errors.refereeError} />
           <DateTimePicker
             label="Deadline:"
-            dateTime={this.state.deadline}
+            dateTime={this.state.deadline.toDate()}
             onChange={this.updateDeadline}
             errorMessage={this.state.errors.deadlineError} />
 

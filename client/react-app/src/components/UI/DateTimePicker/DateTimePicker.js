@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import withLabelAndErrorMessage from '../HigherOrderComponents/withLabelAndErrorMessage/withLabelAndErrorMessage';
 
@@ -32,7 +32,7 @@ class DateTimePicker extends Component {
             <div
                 className={cssClasses.join(' ')}
                 onClick={this.toggleCalendar}>
-                {this.props.dateTime.format("DD-MM-YYYY HH:mm")}
+                {moment(this.props.dateTime).format("DD-MM-YYYY HH:mm")}
 
                 {this.state.isCalendarOpen &&
                     <DatePicker
