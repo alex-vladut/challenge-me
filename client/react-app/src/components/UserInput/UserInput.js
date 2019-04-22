@@ -1,4 +1,4 @@
-import './UserInput.css';
+import './UserInput.scss';
 
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';

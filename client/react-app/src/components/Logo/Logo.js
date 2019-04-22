@@ -1,7 +1,8 @@
+import './Logo.scss';
+
 import React from 'react';
 
 import challengeMeLogo from '../../assets/challenge-me-logo.png';
-import './Logo.css'
 
 const logo = () => (
     <div className="Logo">

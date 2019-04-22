@@ -1,11 +1,10 @@
+import './NavigationItems.scss';
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../../../store/actions/actions';
-
 import NavigationItem from './NavigationItem/NavigationItem';
-
-import './NavigationItems.css';
 
 class NavigationItems extends Component {
 

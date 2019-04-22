@@ -1,8 +1,8 @@
-import './User.css';
-import React from 'react';
+import './User.scss';
 
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
+import React from 'react';
 
 import userIcon from '../../assets/user.ico';
 

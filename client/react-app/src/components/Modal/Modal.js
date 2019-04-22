@@ -1,8 +1,8 @@
+import './Modal.scss';
+
 import React from 'react';
 
 import Close from '../Close/Close';
-
-import './Modal.css';
 
 const modal = (props) => (
     <div

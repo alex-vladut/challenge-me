@@ -1,12 +1,12 @@
-import './Challenge.css';
+import './Challenge.scss';
 
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import Button from '@material-ui/core/Button';
 import DateTimePicker from '../../components/UI/DateTimePicker/DateTimePicker';
 import UserInput from '../../components/UserInput/UserInput';
 import * as actions from '../../store/actions/actions';

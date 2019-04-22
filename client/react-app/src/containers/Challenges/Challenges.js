@@ -1,4 +1,4 @@
-import './Challenges.css';
+import './Challenges.scss';
 
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';

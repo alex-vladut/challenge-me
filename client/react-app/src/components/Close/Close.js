@@ -1,6 +1,6 @@
-import React from 'react';
+import './Close.scss';
 
-import './Close.css';
+import React from 'react';
 
 const close = (props) => (
     <div onClick={props.onClick} className="Close">✖</div>
