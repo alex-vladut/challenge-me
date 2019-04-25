@@ -1,6 +1,7 @@
-import './index.css';
+import './index.scss';
 
 import Amplify from 'aws-amplify';
+// @ts-ignore
 import { Authenticator, FederatedSignIn } from 'aws-amplify-react';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -21,13 +22,18 @@ Amplify.configure({
   aws_appsync_authenticationType: "AWS_IAM",
 });
 
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const epicMiddleware = createEpicMiddleware();
 const store = createStore(reducer, composeEnhancers(applyMiddleware(epicMiddleware, thunk)));
 epicMiddleware.run(rootEpic);
 
-const authStateChanged = async authState => {
+const authStateChanged = async (authState: string) => {
   switch (authState) {
     case 'signedIn':
       store.dispatch(actions.fetchProfile());
