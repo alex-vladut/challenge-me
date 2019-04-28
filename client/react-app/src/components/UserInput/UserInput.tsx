@@ -4,25 +4,34 @@ import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import React, { Component } from 'react';
 
-import userIcon from '../../assets/user.ico';
+import userIcon from '../../assets/user.png';
 import Modal from '../Modal/Modal';
 import withLabelAndErrorMessage from '../UI/HigherOrderComponents/withLabelAndErrorMessage/withLabelAndErrorMessage';
 import UserChooser from '../UserChooser/UserChooser';
 
-class UserInput extends Component {
+interface UserInputProps {
+  user: any
+  errorMessage: string
+  onSelect(user: any): void
+}
 
-  state = {
+interface UserInputState {
+  isUserChooserOpen: boolean
+}
+
+class UserInput extends Component<UserInputProps, UserInputState> {
+
+  state: UserInputState = {
     isUserChooserOpen: false,
   }
 
-  selectUser = user => {
+  selectUser = (user: any) => {
     this.props.onSelect(user);
 
     this.toggleUserChooser();
   }
 
-  toggleUserChooser = (e) => {
-    e && e.preventDefault();
+  toggleUserChooser = () => {
     this.setState({ isUserChooserOpen: !this.state.isUserChooserOpen });
   }
 

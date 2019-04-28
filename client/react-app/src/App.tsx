@@ -22,7 +22,6 @@ interface AppState { }
 class App extends Component<AppProps, AppState> {
 
   authStateChanged = (authState: string) => {
-    console.log(authState);
     switch (authState) {
       case 'signedIn':
         this.props.fetchProfile();

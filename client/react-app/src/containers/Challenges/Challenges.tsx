@@ -13,10 +13,23 @@ import { Link } from 'react-router-dom';
 import CountDown from '../../components/CountDown/CountDown';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import * as actions from '../../store/actions/actions';
+import { State } from '../../store/reducer';
 
-class Challenges extends Component {
+interface ChallengesProps {
+  profile: any
+  challenges: any[]
+  loading: boolean
+  error: string
+  fetchChallenges(): void
+}
 
-  state = {
+interface ChallengesState {
+  type: string
+}
+
+class Challenges extends Component<ChallengesProps, ChallengesState> {
+
+  state: ChallengesState = {
     type: 'owner'
   }
 
@@ -24,23 +37,23 @@ class Challenges extends Component {
     this.props.fetchChallenges();
   }
 
-  updateChallengesFilter = (event) => {
+  updateChallengesFilter = (event: any) => {
     this.setState({ type: event.target.value });
   }
 
-  getFilter = (type) => {
+  getFilter = (type: string) => {
     switch (type) {
       case 'opponent':
-        return (challenge) => challenge.opponent.id === this.props.profile.id;
+        return (challenge: any) => challenge.opponent.id === this.props.profile.id;
       case 'referee':
-        return (challenge) => challenge.referee.id === this.props.profile.id;
+        return (challenge: any) => challenge.referee.id === this.props.profile.id;
       case 'owner':
       default:
-        return (challenge) => challenge.owner.id === this.props.profile.id;
+        return (challenge: any) => challenge.owner.id === this.props.profile.id;
     }
   }
 
-  getSecondsUntilDeadline = (challenge) => {
+  getSecondsUntilDeadline = (challenge: any) => {
     const deadline = moment(challenge.deadline);
     const durationUntilDeadline = moment.duration(deadline.diff(moment()));
     return durationUntilDeadline.asSeconds();
@@ -60,8 +73,8 @@ class Challenges extends Component {
     return (
       <div className="Challenges">
 
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Filter challenges:</FormLabel>
+        <FormControl>
+          <FormLabel>Filter challenges:</FormLabel>
           <RadioGroup
             aria-label="Challenges filter"
             row
@@ -98,12 +111,8 @@ class Challenges extends Component {
                 </div>
               </div>
               <div>
-                <div className="ChallengeItemLabel">
-                  Title
-                            </div>
-                <div className="ChallengeItemLabel">
-                  Deadline
-                            </div>
+                <div className="ChallengeItemLabel">Title </div>
+                <div className="ChallengeItemLabel">Deadline</div>
               </div>
             </div>
 
@@ -114,14 +123,14 @@ class Challenges extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: State) => ({
   challenges: state.challenges,
   loading: state.loading,
   error: state.error,
   profile: state.profile
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: any) => ({
   fetchChallenges: () => dispatch(actions.fetchChallenges())
 });
 

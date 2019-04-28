@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 
-import userIcon from '../../../assets/user.ico';
+import userIcon from '../../../assets/user.png';
 import Label from '../../../components/UI/Label/Label';
 
-const ChallengeOwnerView = props => {
+interface ChallengeOwnerViewProps {
+  challenge: any
+}
+
+const ChallengeOwnerView: FunctionComponent<ChallengeOwnerViewProps> = props => {
   return (<div>
     <p>You created this challenge.</p>
     <Label>Title:</Label>

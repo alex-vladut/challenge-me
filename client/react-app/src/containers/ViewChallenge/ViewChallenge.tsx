@@ -4,11 +4,22 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../../store/actions/actions';
-import ChallengeOwnerView from './Owner/ChallengeOwnerView';
+import { State } from '../../store/reducer';
 import ChallengeOpponentView from './Opponent/ChallengeOpponentView';
+import ChallengeOwnerView from './Owner/ChallengeOwnerView';
 import ChallengeRefereeView from './Referee/ChallengeRefereeView';
 
-class ViewChallenge extends Component {
+interface ViewChallengeProps {
+  challenge: any
+  profile: any
+  match: any
+  fetchChallenge(challengeId: string): void
+  acceptChallenge(challenge: any): void
+  rejectChallenge(challenge: any): void
+  setChallengeWinner(challenge: any, user: any): void
+}
+
+class ViewChallenge extends Component<ViewChallengeProps> {
 
   componentDidMount() {
     this.props.fetchChallenge(this.props.match.params.challengeId);
@@ -19,20 +30,18 @@ class ViewChallenge extends Component {
   }
 
   rejectChallenge = async () => {
-    this.props.rejectChallenge(this.props.challenge, this.props.profile);
+    this.props.rejectChallenge(this.props.challenge);
   }
 
-  isOwner = (challenge, profile) => challenge.owner.id === profile.id;
+  private isOwner = (challenge: any, profile: any) => challenge.owner.id === profile.id;
 
-  isOpponent = (challenge, profile) => challenge.opponent.id === profile.id;
+  private isOpponent = (challenge: any, profile: any) => challenge.opponent.id === profile.id;
 
-  isReferee = (challenge, profile) => challenge.referee.id === profile.id;
+  private isReferee = (challenge: any, profile: any) => challenge.referee.id === profile.id;
 
-  isChallengeWaitingAccept = (challenge, profile) => (this.isOpponent(challenge, profile) && challenge.opponentStatus === 'PENDING') || (this.isReferee(challenge, profile) && challenge.refereeStatus === 'PENDING');
+  private setOwnerAsWinner = () => this.props.setChallengeWinner(this.props.challenge, this.props.challenge.owner);
 
-  setOwnerAsWinner = () => this.props.setChallengeWinner(this.props.challenge, this.props.challenge.owner);
-
-  setOpponentAsWinner = () => this.props.setChallengeWinner(this.props.challenge, this.props.challenge.opponent);
+  private setOpponentAsWinner = () => this.props.setChallengeWinner(this.props.challenge, this.props.challenge.opponent);
 
   render() {
 
@@ -64,18 +73,16 @@ class ViewChallenge extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  accepting: state.accepting,
-  rejecting: state.rejecting,
+const mapStateToProps = (state: State) => ({
   profile: state.profile,
   challenge: state.challenge,
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchChallenge: challengeId => dispatch(actions.fetchChallenge(challengeId)),
-  acceptChallenge: challenge => dispatch(actions.acceptChallenge(challenge)),
-  rejectChallenge: (challenge, profile) => dispatch(actions.rejectChallenge(challenge, profile)),
-  setChallengeWinner: (challenge, winner) => dispatch(actions.setChallengeWinner(challenge, winner))
+const mapDispatchToProps = (dispatch: any) => ({
+  fetchChallenge: (challengeId: string) => dispatch(actions.fetchChallenge(challengeId)),
+  acceptChallenge: (challenge: any) => dispatch(actions.acceptChallenge(challenge)),
+  rejectChallenge: (challenge: any) => dispatch(actions.rejectChallenge(challenge)),
+  setChallengeWinner: (challenge: any, winner: any) => dispatch(actions.setChallengeWinner(challenge, winner))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewChallenge);

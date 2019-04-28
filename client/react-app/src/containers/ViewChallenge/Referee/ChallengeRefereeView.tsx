@@ -1,13 +1,12 @@
-import React from 'react';
-
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import React, { FunctionComponent } from 'react';
 
-import userIcon from '../../../assets/user.ico';
+import userIcon from '../../../assets/user.png';
 import Label from '../../../components/UI/Label/Label';
 
-const getMessage = status => {
+const getMessage = (status: string) => {
   let message = null;
   switch (status) {
     case 'PENDING':
@@ -25,7 +24,15 @@ const getMessage = status => {
   return message;
 }
 
-const ChallengeRefereeView = props => {
+interface ChallengeRefereeViewProps {
+  challenge: any
+  challengeAccepted(): void
+  challengeRejected(): void
+  ownerSelectedAsWinner(): void
+  opponentSelectedAsWinner(): void
+}
+
+const ChallengeRefereeView: FunctionComponent<ChallengeRefereeViewProps> = props => {
   let controls = props.challenge.refereeStatus === 'PENDING' ? (
     <div className="Controls">
       <Button variant="contained" color="primary" onClick={props.challengeAccepted} >Accept</Button>
@@ -36,8 +43,8 @@ const ChallengeRefereeView = props => {
   let selectOwnerAsWinnerAction = null;
   let selectOpponentAsWinnerAction = null;
   if (props.challenge.refereeStatus === 'ACCEPTED' && !props.challenge.winner) {
-    selectOwnerAsWinnerAction = (<Button type="confirm" onClick={props.ownerSelectedAsWinner}>Winner</Button>);
-    selectOpponentAsWinnerAction = (<Button type="confirm" onClick={props.opponentSelectedAsWinner}>Winner</Button>);
+    selectOwnerAsWinnerAction = (<Button type="button" onClick={props.ownerSelectedAsWinner}>Winner</Button>);
+    selectOpponentAsWinnerAction = (<Button type="button" onClick={props.opponentSelectedAsWinner}>Winner</Button>);
   }
   if (props.challenge.winner) {
     if (props.challenge.winner.id === props.challenge.owner.id) {

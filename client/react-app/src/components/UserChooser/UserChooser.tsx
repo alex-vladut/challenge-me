@@ -4,8 +4,17 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions/actions';
 import Spinner from '../UI/Spinner/Spinner';
 import User from '../User/User';
+import { State } from '../../store/reducer';
 
-class UserChooser extends Component {
+interface UserChooserProps {
+  loading: boolean
+  error: string
+  users: any[]
+  fetchUsers(): void
+  onSelect(user: any): void
+}
+
+class UserChooser extends Component<UserChooserProps> {
 
   componentDidMount = () => {
     this.props.fetchUsers();
@@ -26,14 +35,14 @@ class UserChooser extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: State) => ({
   users: state.users,
   loading: state.loading,
   error: state.error
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: any) => ({
   fetchUsers: () => dispatch(actions.fetchUsers())
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserChooser);

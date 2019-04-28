@@ -43,8 +43,9 @@ export const acceptChallengeFail = () => ({
   type: actionTypes.ACCEPT_CHALLENGE_FAIL,
 });
 
-export const rejectChallenge = () => ({
+export const rejectChallenge = (challenge) => ({
   type: actionTypes.REJECT_CHALLENGE,
+  payload: challenge
 });
 
 export const rejectChallengeSuccess = challenge => ({

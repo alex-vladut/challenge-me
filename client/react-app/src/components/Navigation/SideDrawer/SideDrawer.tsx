@@ -1,12 +1,17 @@
 import './SideDrawer.scss';
 
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 
 import Close from '../../Close/Close';
 import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
 
-const sideDrawer = (props) => {
+interface SideDrawerProps {
+  open: boolean
+  closed(): void
+}
+
+const SideDrawer: FunctionComponent<SideDrawerProps> = props => {
   const sideDrawerClasses = props.open ? ["SideDrawer", "Open"] : ["SideDrawer", "Close"]
   return (
     <div className={sideDrawerClasses.join(' ')}>
@@ -18,7 +23,7 @@ const sideDrawer = (props) => {
         <NavigationItems onClick={props.closed} />
       </nav>
     </div>
-  )
+  );
 }
 
-export default sideDrawer;
+export default SideDrawer;

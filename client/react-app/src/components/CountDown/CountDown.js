@@ -64,7 +64,7 @@ class CountDown extends Component {
     return (
       <Fragment>
         {this.state.time.h}h {this.state.time.m}m {this.state.time.s}s
-          </Fragment>
+      </Fragment>
     );
   }
 }

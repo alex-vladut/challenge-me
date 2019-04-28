@@ -2,15 +2,21 @@ import './User.scss';
 
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 
-import userIcon from '../../assets/user.ico';
+import userIcon from '../../assets/user.png';
 
-const user = ({
+interface UserProps {
+  user: any
+  onClick(user: any): void
+}
+
+const User: FunctionComponent<UserProps> = ({
   user,
   onClick
 }) =>
-  (<div className="User"
+  (<div
+    className="User"
     onClick={() => onClick(user)}>
     <Grid container justify="center" alignItems="center">
       <Avatar alt={user.name} src={user.pictureUrl || userIcon} style={{ margin: '0.25rem' }} />
@@ -18,4 +24,4 @@ const user = ({
     </Grid>
   </div>);
 
-export default user;
+export default User;

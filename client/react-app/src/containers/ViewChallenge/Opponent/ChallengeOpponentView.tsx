@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
-import userIcon from '../../../assets/user.ico';
+import userIcon from '../../../assets/user.png';
 import Label from '../../../components/UI/Label/Label';
 
-const getMessage = status => {
+const getMessage = (status: string) => {
   let message = null;
   switch (status) {
     case 'PENDING':
@@ -25,7 +25,13 @@ const getMessage = status => {
   return message;
 }
 
-const ChallengeOpponentView = props => {
+interface ChallengeOpponentViewProps {
+  challenge: any
+  challengeAccepted(): void
+  challengeRejected(): void
+}
+
+const ChallengeOpponentView: FunctionComponent<ChallengeOpponentViewProps> = props => {
   let controls = props.challenge.opponentStatus === 'PENDING' ? (
     <div className="Controls">
       <Button variant="contained" color="primary" onClick={props.challengeAccepted} >Accept</Button>
