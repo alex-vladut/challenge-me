@@ -1,4 +1,6 @@
 import { combineEpics } from 'redux-observable';
-import { createChallenge, fetchChallenges, fetchChallenge, acceptChallenge } from './challenges';
 
-export const rootEpic = combineEpics(createChallenge, fetchChallenges, fetchChallenge, acceptChallenge);
+import allChallengesEffects from './challenges.effects';
+import allUsersEffects from './users.effects';
+
+export const rootEpic = combineEpics(...allChallengesEffects, ...allUsersEffects);

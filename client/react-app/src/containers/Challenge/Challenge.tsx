@@ -10,11 +10,26 @@ import { Redirect } from 'react-router-dom';
 import DateTimePicker from '../../components/UI/DateTimePicker/DateTimePicker';
 import UserInput from '../../components/UserInput/UserInput';
 import * as actions from '../../store/actions/actions';
+import { State } from '../../store/reducer';
 
-class Challenge extends Component {
+interface ChallengeProps {
+  challengeCreated: boolean
+  onInitCreateChallenge(): void
+  onCreateChallenge(challenge: any):void
+}
 
-  state = {
-    title: null,
+interface ChallengeState {
+  title: string,
+  opponent: any,
+  referee: any,
+  deadline: moment.Moment,
+  errors: any
+}
+
+class Challenge extends Component<ChallengeProps, ChallengeState> {
+
+  state: ChallengeState = {
+    title: '',
     opponent: {},
     referee: {},
     deadline: moment(),
@@ -30,16 +45,16 @@ class Challenge extends Component {
     this.props.onInitCreateChallenge();
   }
 
-  selectOpponent = (opponent) => {
+  selectOpponent = (opponent: any) => {
     this.setState({ opponent });
   }
 
-  selectReferee = (referee) => {
+  selectReferee = (referee: any) => {
     this.setState({ referee });
   }
 
   validate = () => {
-    const errors = {};
+    const errors: any = {};
     let isValid = true;
     if (!this.state.title) {
       errors.titleError = 'Please provide a title.';
@@ -74,11 +89,11 @@ class Challenge extends Component {
     }
   }
 
-  updateTitle = (event) => {
+  updateTitle = (event: any) => {
     this.setState({ title: event.target.value });
   }
 
-  updateDeadline = (dateTime) => {
+  updateDeadline = (dateTime: string) => {
     this.setState({ deadline: moment(dateTime) });
   }
 
@@ -121,13 +136,13 @@ class Challenge extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: State) => ({
   challengeCreated: state.challengeCreated
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: any) => ({
   onInitCreateChallenge: () => dispatch(actions.createChallengeInit()),
-  onCreateChallenge: challenge => dispatch(actions.createChallenge(challenge))
+  onCreateChallenge: (challenge: any) => dispatch(actions.createChallenge(challenge))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Challenge);;

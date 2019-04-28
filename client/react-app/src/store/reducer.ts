@@ -1,6 +1,19 @@
 import * as actionTypes from './actions/actionTypes';
 
-const initialState = {
+export interface State {
+  challenges: any[]
+  challenge: any
+  users: any[]
+  profile: any
+  loading: boolean
+  accepting: boolean
+  rejecting: boolean
+  error: any
+  challengeCreated: boolean
+  authenticated: boolean
+}
+
+const initialState: State = {
   challenges: [],
   challenge: null,
   users: [],
@@ -13,15 +26,15 @@ const initialState = {
   authenticated: false
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = initialState, action: any) => {
   switch (action.type) {
     case actionTypes.FETCH_CHALLENGES:
     case actionTypes.FETCH_CHALLENGE:
-    case actionTypes.FETCH_USERS_START:
+    case actionTypes.FETCH_USERS:
     case actionTypes.CREATE_CHALLENGE:
-    case actionTypes.SET_CHALLENGE_WINNER_START:
-    case actionTypes.FETCH_PROFILE_START:
-    case actionTypes.SIGN_OUT_START:
+    case actionTypes.SET_CHALLENGE_WINNER:
+    case actionTypes.FETCH_PROFILE:
+    case actionTypes.SIGN_OUT:
       return {
         ...state,
         loading: true
@@ -32,7 +45,7 @@ const reducer = (state = initialState, action) => {
         accepting: true,
         loading: true
       };
-    case actionTypes.REJECT_CHALLENGE_START:
+    case actionTypes.REJECT_CHALLENGE:
       return {
         ...state,
         rejecting: true,
@@ -41,7 +54,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_CHALLENGES_SUCCESS:
       return {
         ...state,
-        challenges: action.challenges,
+        challenges: action.payload,
         loading: false,
         error: null
       };
@@ -49,14 +62,14 @@ const reducer = (state = initialState, action) => {
     case actionTypes.SET_CHALLENGE_WINNER_SUCCESS:
       return {
         ...state,
-        challenge: action.challenge,
+        challenge: action.payload,
         loading: false,
         error: null
       };
     case actionTypes.FETCH_USERS_SUCCESS:
       return {
         ...state,
-        users: action.users,
+        users: action.payload,
         loading: false,
         error: null
       };
@@ -81,12 +94,12 @@ const reducer = (state = initialState, action) => {
         loading: false,
         rejecting: false,
         error: null,
-        challenge: action.challenge,
+        challenge: action.payload,
       }
     case actionTypes.FETCH_PROFILE_SUCCESS:
       return {
         ...state,
-        profile: action.profile,
+        profile: action.payload,
         authenticated: true,
         loading: false
       };
