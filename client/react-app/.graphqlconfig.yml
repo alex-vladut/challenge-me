@@ -2,15 +2,13 @@ projects:
   challengeMeGraphQL:
     schemaPath: src/graphql/schema.json
     includes:
-      - src/graphql/**/*.js
+      - src/graphql/**/*.ts
     excludes:
       - ./amplify/**
     extensions:
       amplify:
-        codeGenTarget: javascript
-        generatedFileName: ''
+        codeGenTarget: typescript
+        generatedFileName: src/API.ts
         docsFilePath: src/graphql
         graphQLApiId: rjadncgkkbbqrox6ryn372pav4
-      endpoints:
-        prod: >-
-          https://kgxopwzhjjgcbpyfbsp6ctjfaa.appsync-api.eu-central-1.amazonaws.com/graphql
+        maxDepth: 2

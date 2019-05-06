@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 
 import CountDown from '../../components/CountDown/CountDown';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import * as actions from '../../store/actions/actions';
+import { FetchChallenges } from '../../store/actions/actions';
 import { State } from '../../store/reducer';
 
 interface ChallengesProps {
@@ -20,7 +20,7 @@ interface ChallengesProps {
   challenges: any[]
   loading: boolean
   error: string
-  fetchChallenges(): void
+  loadChallenges(): void
 }
 
 interface ChallengesState {
@@ -34,7 +34,7 @@ class Challenges extends Component<ChallengesProps, ChallengesState> {
   }
 
   componentDidMount() {
-    this.props.fetchChallenges();
+    this.props.loadChallenges();
   }
 
   updateChallengesFilter = (event: any) => {
@@ -131,7 +131,7 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  fetchChallenges: () => dispatch(actions.fetchChallenges())
+  loadChallenges: () => dispatch(FetchChallenges.create())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Challenges);

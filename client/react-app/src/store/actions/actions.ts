@@ -1,40 +1,48 @@
 import * as actionTypes from './actionTypes';
 
-export const fetchChallenges = () => ({
-  type: actionTypes.FETCH_CHALLENGES
+export interface Action<T> {
+  type: string;
+  payload?: T
+}
+
+export const action = (type: string) => ({
+  type,
+  create: (payload?: any): Action<any> => ({ type, payload }),
 });
 
-export const fetchChallengesSuccess = challenges => ({
+export const FetchChallenges = action('FETCH_CHALLENGES');
+
+export const fetchChallengesSuccess = (challenges: any[]) => ({
   type: actionTypes.FETCH_CHALLENGES_SUCCESS,
   payload: challenges
 });
 
-export const fetchChallengesFail = error => ({
+export const fetchChallengesFail = (error: any) => ({
   type: actionTypes.FETCH_CHALLENGES_FAIL,
-  error
+  payload: error,
 });
 
-export const fetchChallenge = challengeId => ({
+export const fetchChallenge = (challengeId: string) => ({
   type: actionTypes.FETCH_CHALLENGE,
-  payload: challengeId
+  payload: challengeId,
 });
 
-export const fetchChallengeSuccess = challenge => ({
+export const fetchChallengeSuccess = (challenge: any) => ({
   type: actionTypes.FETCH_CHALLENGE_SUCCESS,
-  payload: challenge
+  payload: challenge,
 });
 
-export const fetchChallengeFail = error => ({
+export const fetchChallengeFail = (error: any) => ({
   type: actionTypes.FETCH_CHALLENGE_FAIL,
-  error
+  payload: error,
 });
 
-export const acceptChallenge = challenge => ({
+export const acceptChallenge = (challenge: any) => ({
   type: actionTypes.ACCEPT_CHALLENGE,
   payload: challenge,
 });
 
-export const acceptChallengeSuccess = challenge => ({
+export const acceptChallengeSuccess = (challenge: any) => ({
   type: actionTypes.ACCEPT_CHALLENGE_SUCCESS,
   payload: challenge
 });
@@ -43,12 +51,12 @@ export const acceptChallengeFail = () => ({
   type: actionTypes.ACCEPT_CHALLENGE_FAIL,
 });
 
-export const rejectChallenge = (challenge) => ({
+export const rejectChallenge = (challenge: any) => ({
   type: actionTypes.REJECT_CHALLENGE,
   payload: challenge
 });
 
-export const rejectChallengeSuccess = challenge => ({
+export const rejectChallengeSuccess = (challenge: any) => ({
   type: actionTypes.REJECT_CHALLENGE_SUCCESS,
   payload: challenge
 });
@@ -57,12 +65,12 @@ export const rejectChallengeFail = () => ({
   type: actionTypes.REJECT_CHALLENGE_FAIL,
 });
 
-export const setChallengeWinner = (challenge, winner) => ({
+export const setChallengeWinner = (challenge: any, winner: any) => ({
   type: actionTypes.SET_CHALLENGE_WINNER,
   payload: { challenge, winner }
 });
 
-export const setChallengeWinnerSuccess = challenge => ({
+export const setChallengeWinnerSuccess = (challenge: any) => ({
   type: actionTypes.SET_CHALLENGE_WINNER_SUCCESS,
   payload: challenge
 });
@@ -75,17 +83,17 @@ export const createChallengeInit = () => ({
   type: actionTypes.CREATE_CHALLENGE_INIT
 });
 
-export const createChallenge = challenge => ({
+export const createChallenge = (challenge: any) => ({
   type: actionTypes.CREATE_CHALLENGE,
   payload: challenge,
 });
 
-export const createChallengeSuccess = challenge => ({
+export const createChallengeSuccess = (challenge: any) => ({
   type: actionTypes.CREATE_CHALLENGE_SUCCESS,
   payload: challenge,
 });
 
-export const createChallengeFail = error => ({
+export const createChallengeFail = (error: any) => ({
   type: actionTypes.CREATE_CHALLENGE_FAIL,
   error
 });
@@ -94,26 +102,26 @@ export const fetchUsers = () => ({
   type: actionTypes.FETCH_USERS
 });
 
-export const fetchUsersSuccess = users => ({
+export const fetchUsersSuccess = (users: any[]) => ({
   type: actionTypes.FETCH_USERS_SUCCESS,
   payload: users
 });
 
-export const fetchUsersFail = error => ({
+export const fetchUsersFail = (error: any) => ({
   type: actionTypes.FETCH_USERS_FAIL,
-  error
+  payload: error
 });
 
 export const fetchProfile = () => ({
   type: actionTypes.FETCH_PROFILE,
 });
 
-export const fetchProfileFail = error => ({
+export const fetchProfileFail = (error: any) => ({
   type: actionTypes.FETCH_PROFILE_FAIL,
   error
 });
 
-export const fetchProfileSuccess = profile => ({
+export const fetchProfileSuccess = (profile: any) => ({
   type: actionTypes.FETCH_PROFILE_SUCCESS,
   payload: profile,
 });
@@ -126,9 +134,9 @@ export const signOut = () => ({
   type: actionTypes.SIGN_OUT,
 });
 
-export const signOutFail = error => ({
+export const signOutFail = (error: any) => ({
   type: actionTypes.SIGN_OUT_FAIL,
-  error
+  payload: error
 });
 
 export const signOutSuccess = () => ({

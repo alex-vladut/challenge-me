@@ -1,8 +1,8 @@
-// eslint-disable
+// tslint:disable
 // this is an auto generated file. This will be overwritten
 
-export const onCreateChallenge = `subscription OnCreateChallenge {
-  onCreateChallenge {
+export const createChallenge = `mutation CreateChallenge($input: CreateChallengeInput!) {
+  createChallenge(input: $input) {
     id
     title
     owner {
@@ -36,8 +36,8 @@ export const onCreateChallenge = `subscription OnCreateChallenge {
   }
 }
 `;
-export const onUpdateChallenge = `subscription OnUpdateChallenge {
-  onUpdateChallenge {
+export const updateChallenge = `mutation UpdateChallenge($input: UpdateChallengeInput!) {
+  updateChallenge(input: $input) {
     id
     title
     owner {
@@ -71,8 +71,8 @@ export const onUpdateChallenge = `subscription OnUpdateChallenge {
   }
 }
 `;
-export const onDeleteChallenge = `subscription OnDeleteChallenge {
-  onDeleteChallenge {
+export const deleteChallenge = `mutation DeleteChallenge($input: DeleteChallengeInput!) {
+  deleteChallenge(input: $input) {
     id
     title
     owner {
@@ -106,8 +106,8 @@ export const onDeleteChallenge = `subscription OnDeleteChallenge {
   }
 }
 `;
-export const onCreateUser = `subscription OnCreateUser {
-  onCreateUser {
+export const createUser = `mutation CreateUser($input: CreateUserInput!) {
+  createUser(input: $input) {
     id
     name
     pictureUrl
@@ -115,8 +115,8 @@ export const onCreateUser = `subscription OnCreateUser {
   }
 }
 `;
-export const onUpdateUser = `subscription OnUpdateUser {
-  onUpdateUser {
+export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
+  updateUser(input: $input) {
     id
     name
     pictureUrl
@@ -124,8 +124,8 @@ export const onUpdateUser = `subscription OnUpdateUser {
   }
 }
 `;
-export const onDeleteUser = `subscription OnDeleteUser {
-  onDeleteUser {
+export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
+  deleteUser(input: $input) {
     id
     name
     pictureUrl

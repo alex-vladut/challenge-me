@@ -1,8 +1,8 @@
-// eslint-disable
+// tslint:disable
 // this is an auto generated file. This will be overwritten
 
-export const createChallenge = `mutation CreateChallenge($input: CreateChallengeInput!) {
-  createChallenge(input: $input) {
+export const onCreateChallenge = `subscription OnCreateChallenge {
+  onCreateChallenge {
     id
     title
     owner {
@@ -36,8 +36,8 @@ export const createChallenge = `mutation CreateChallenge($input: CreateChallenge
   }
 }
 `;
-export const updateChallenge = `mutation UpdateChallenge($input: UpdateChallengeInput!) {
-  updateChallenge(input: $input) {
+export const onUpdateChallenge = `subscription OnUpdateChallenge {
+  onUpdateChallenge {
     id
     title
     owner {
@@ -71,8 +71,8 @@ export const updateChallenge = `mutation UpdateChallenge($input: UpdateChallenge
   }
 }
 `;
-export const deleteChallenge = `mutation DeleteChallenge($input: DeleteChallengeInput!) {
-  deleteChallenge(input: $input) {
+export const onDeleteChallenge = `subscription OnDeleteChallenge {
+  onDeleteChallenge {
     id
     title
     owner {
@@ -106,8 +106,8 @@ export const deleteChallenge = `mutation DeleteChallenge($input: DeleteChallenge
   }
 }
 `;
-export const createUser = `mutation CreateUser($input: CreateUserInput!) {
-  createUser(input: $input) {
+export const onCreateUser = `subscription OnCreateUser {
+  onCreateUser {
     id
     name
     pictureUrl
@@ -115,8 +115,8 @@ export const createUser = `mutation CreateUser($input: CreateUserInput!) {
   }
 }
 `;
-export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
-  updateUser(input: $input) {
+export const onUpdateUser = `subscription OnUpdateUser {
+  onUpdateUser {
     id
     name
     pictureUrl
@@ -124,8 +124,8 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
   }
 }
 `;
-export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
-  deleteUser(input: $input) {
+export const onDeleteUser = `subscription OnDeleteUser {
+  onDeleteUser {
     id
     name
     pictureUrl

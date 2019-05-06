@@ -1,4 +1,4 @@
-// eslint-disable
+// tslint:disable
 // this is an auto generated file. This will be overwritten
 
 export const getChallenge = `query GetChallenge($id: ID!) {
@@ -45,33 +45,9 @@ export const listChallenges = `query ListChallenges(
     items {
       id
       title
-      owner {
-        id
-        name
-        pictureUrl
-        version
-      }
-      opponent {
-        id
-        name
-        pictureUrl
-        version
-      }
       opponentStatus
-      referee {
-        id
-        name
-        pictureUrl
-        version
-      }
       refereeStatus
       deadline
-      winner {
-        id
-        name
-        pictureUrl
-        version
-      }
       version
     }
     nextToken

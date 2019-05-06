@@ -5,6 +5,7 @@ import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import * as mutations from '../../graphql/mutations';
 import * as queries from '../../graphql/queries';
 import {
+  FetchChallenges,
   acceptChallengeFail,
   acceptChallengeSuccess,
   createChallengeSuccess,
@@ -21,7 +22,6 @@ import {
   ACCEPT_CHALLENGE,
   CREATE_CHALLENGE,
   FETCH_CHALLENGE,
-  FETCH_CHALLENGES,
   REJECT_CHALLENGE,
   SET_CHALLENGE_WINNER,
 } from '../actions/actionTypes';
@@ -47,7 +47,7 @@ function createChallenge(actions$) {
 function fetchChallenges(actions$) {
   return actions$
     .pipe(
-      ofType(FETCH_CHALLENGES),
+      ofType(FetchChallenges.type),
       switchMap(() => API.graphql(graphqlOperation(queries.listChallenges, { limit: 10 }))),
       map(response => fetchChallengesSuccess(response.data.listChallenges.items)),
       catchError(error => fetchChallengesFail(error))

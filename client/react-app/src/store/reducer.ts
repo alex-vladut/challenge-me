@@ -1,4 +1,5 @@
 import * as actionTypes from './actions/actionTypes';
+import { FetchChallenges } from './actions/actions';
 
 export interface State {
   challenges: any[]
@@ -29,7 +30,7 @@ const initialState: State = {
 const reducer = (state = initialState, action: any) => {
   switch (action.type) {
     case actionTypes.FETCH_CHALLENGES:
-    case actionTypes.FETCH_CHALLENGE:
+    case FetchChallenges.type:
     case actionTypes.FETCH_USERS:
     case actionTypes.CREATE_CHALLENGE:
     case actionTypes.SET_CHALLENGE_WINNER:
