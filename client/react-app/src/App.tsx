@@ -2,7 +2,7 @@ import './App.scss';
 
 import React, { Component } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
-import * as actions from './store/actions/actions';
+import * as actions from './store/actions/users.actions';
 import { connect } from 'react-redux';
 // @ts-ignore
 import { Authenticator, FederatedSignIn } from 'aws-amplify-react';

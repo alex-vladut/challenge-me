@@ -1,5 +1,21 @@
+import {
+  AcceptChallenge,
+  AcceptChallengeSuccess,
+  CreateChallenge,
+  CreateChallengeFail,
+  CreateChallengeInit,
+  CreateChallengeSuccess,
+  FetchChallengeFail,
+  FetchChallenges,
+  FetchChallengesFail,
+  FetchChallengesSuccess,
+  FetchChallengeSuccess,
+  RejectChallenge,
+  RejectChallengeSuccess,
+  SetChallengeWinner,
+  SetChallengeWinnerSuccess,
+} from './actions/challenges.actions';
 import * as actionTypes from './actions/actionTypes';
-import { FetchChallenges } from './actions/actions';
 
 export interface State {
   challenges: any[]
@@ -29,38 +45,37 @@ const initialState: State = {
 
 const reducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case actionTypes.FETCH_CHALLENGES:
     case FetchChallenges.type:
     case actionTypes.FETCH_USERS:
-    case actionTypes.CREATE_CHALLENGE:
-    case actionTypes.SET_CHALLENGE_WINNER:
+    case CreateChallenge.type:
+    case SetChallengeWinner.type:
     case actionTypes.FETCH_PROFILE:
     case actionTypes.SIGN_OUT:
       return {
         ...state,
         loading: true
       };
-    case actionTypes.ACCEPT_CHALLENGE:
+    case AcceptChallenge.type:
       return {
         ...state,
         accepting: true,
         loading: true
       };
-    case actionTypes.REJECT_CHALLENGE:
+    case RejectChallenge.type:
       return {
         ...state,
         rejecting: true,
         loading: true
       };
-    case actionTypes.FETCH_CHALLENGES_SUCCESS:
+    case FetchChallengesSuccess.type:
       return {
         ...state,
         challenges: action.payload,
         loading: false,
         error: null
       };
-    case actionTypes.FETCH_CHALLENGE_SUCCESS:
-    case actionTypes.SET_CHALLENGE_WINNER_SUCCESS:
+    case FetchChallengeSuccess.type:
+    case SetChallengeWinnerSuccess.type:
       return {
         ...state,
         challenge: action.payload,
@@ -74,14 +89,14 @@ const reducer = (state = initialState, action: any) => {
         loading: false,
         error: null
       };
-    case actionTypes.CREATE_CHALLENGE_SUCCESS:
+    case CreateChallengeSuccess.type:
       return {
         ...state,
         loading: false,
         error: null,
         challengeCreated: true
       };
-    case actionTypes.ACCEPT_CHALLENGE_SUCCESS:
+    case AcceptChallengeSuccess.type:
       return {
         ...state,
         loading: false,
@@ -89,7 +104,7 @@ const reducer = (state = initialState, action: any) => {
         error: null,
         challenge: action.payload,
       }
-    case actionTypes.REJECT_CHALLENGE_SUCCESS:
+    case RejectChallengeSuccess.type:
       return {
         ...state,
         loading: false,
@@ -111,10 +126,10 @@ const reducer = (state = initialState, action: any) => {
         authenticated: false,
         loading: false
       };
-    case actionTypes.FETCH_CHALLENGES_FAIL:
-    case actionTypes.FETCH_CHALLENGE_FAIL:
+    case FetchChallengesFail.type:
+    case FetchChallengeFail.type:
     case actionTypes.FETCH_USERS_FAIL:
-    case actionTypes.CREATE_CHALLENGE_FAIL:
+    case CreateChallengeFail.type:
     case actionTypes.FETCH_PROFILE_FAIL:
     case actionTypes.SIGN_OUT_FAIL:
       return {
@@ -123,7 +138,7 @@ const reducer = (state = initialState, action: any) => {
         loading: false,
         error: action.error
       };
-    case actionTypes.CREATE_CHALLENGE_INIT:
+    case CreateChallengeInit.type:
       return {
         ...state,
         challengeCreated: false

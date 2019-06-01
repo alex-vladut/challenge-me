@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 
 import CountDown from '../../components/CountDown/CountDown';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import { FetchChallenges } from '../../store/actions/actions';
+import { FetchChallenges } from '../../store/actions/challenges.actions';
 import { State } from '../../store/reducer';
 
 interface ChallengesProps {

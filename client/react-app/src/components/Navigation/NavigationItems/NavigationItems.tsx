@@ -3,7 +3,7 @@ import './NavigationItems.scss';
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 
-import * as actions from '../../../store/actions/actions';
+import * as actions from '../../../store/actions/users.actions';
 import { State } from '../../../store/reducer';
 import NavigationItem from './NavigationItem/NavigationItem';
 

@@ -6,30 +6,29 @@ import * as mutations from '../../graphql/mutations';
 import * as queries from '../../graphql/queries';
 import {
   FetchChallenges,
-  acceptChallengeFail,
-  acceptChallengeSuccess,
-  createChallengeSuccess,
-  fetchChallengeFail,
-  fetchChallengesFail,
-  fetchChallengesSuccess,
-  fetchChallengeSuccess,
-  rejectChallengeFail,
-  rejectChallengeSuccess,
-  setChallengeWinnerFail,
-  setChallengeWinnerSuccess,
-} from '../actions/actions';
-import {
-  ACCEPT_CHALLENGE,
-  CREATE_CHALLENGE,
-  FETCH_CHALLENGE,
-  REJECT_CHALLENGE,
-  SET_CHALLENGE_WINNER,
-} from '../actions/actionTypes';
+  FetchChallengesSuccess,
+  FetchChallengesFail,
+  FetchChallenge,
+  FetchChallengeFail,
+  FetchChallengeSuccess,
+  AcceptChallenge,
+  AcceptChallengeFail,
+  AcceptChallengeSuccess,
+  RejectChallenge,
+  RejectChallengeFail,
+  RejectChallengeSuccess,
+  SetChallengeWinner,
+  SetChallengeWinnerFail,
+  SetChallengeWinnerSuccess,
+  CreateChallenge,
+  CreateChallengeSuccess,
+  CreateChallengeFail,
+} from '../actions/challenges.actions';
 
 function createChallenge(actions$) {
   return actions$
     .pipe(
-      ofType(CREATE_CHALLENGE),
+      ofType(CreateChallenge.type),
       switchMap(({ payload: challenge }) => {
         const challengeToSave = {
           title: challenge.title,
@@ -39,8 +38,8 @@ function createChallenge(actions$) {
         }
         return API.graphql(graphqlOperation(mutations.createChallenge, { input: challengeToSave }))
       }),
-      map(response => createChallengeSuccess({ challenge: response.data.createChallenge })),
-      catchError(error => fetchChallengesFail(error)),
+      map(response => CreateChallengeSuccess.create({ challenge: response.data.createChallenge })),
+      catchError(error => CreateChallengeFail.create(error)),
     );
 }
 
@@ -49,18 +48,18 @@ function fetchChallenges(actions$) {
     .pipe(
       ofType(FetchChallenges.type),
       switchMap(() => API.graphql(graphqlOperation(queries.listChallenges, { limit: 10 }))),
-      map(response => fetchChallengesSuccess(response.data.listChallenges.items)),
-      catchError(error => fetchChallengesFail(error))
+      map(response => FetchChallengesSuccess.create(response.data.listChallenges.items)),
+      catchError(error => FetchChallengesFail.create(error))
     );
 }
 
 function fetchChallenge(actions$) {
   return actions$
     .pipe(
-      ofType(FETCH_CHALLENGE),
+      ofType(FetchChallenge.type),
       switchMap(({ payload }) => API.graphql(graphqlOperation(queries.getChallenge, { id: payload }))),
-      map(response => fetchChallengeSuccess(response.data.getChallenge)),
-      catchError(error => fetchChallengeFail(error)),
+      map(response => FetchChallengeSuccess.create(response.data.getChallenge)),
+      catchError(error => FetchChallengeFail.create(error)),
     );
 }
 
@@ -79,7 +78,7 @@ const translateChallenge = challenge => ({
 function acceptChallenge(actions$, state$) {
   return actions$
     .pipe(
-      ofType(ACCEPT_CHALLENGE),
+      ofType(AcceptChallenge.type),
       withLatestFrom(state$),
       switchMap(([{ payload: challenge }, { profile }]) => {
         let challengeToSave = translateChallenge(challenge);
@@ -92,15 +91,15 @@ function acceptChallenge(actions$, state$) {
         }
         return API.graphql(graphqlOperation(mutations.updateChallenge, { input: challengeToSave }));
       }),
-      map(response => acceptChallengeSuccess(response.data.getChallenge)),
-      catchError(error => acceptChallengeFail(error)),
+      map(response => AcceptChallengeSuccess.create(response.data.getChallenge)),
+      catchError(error => AcceptChallengeFail.create(error)),
     );
 }
 
 function rejectChallenge(actions$, state$) {
   return actions$
     .pipe(
-      ofType(REJECT_CHALLENGE),
+      ofType(RejectChallenge.type),
       withLatestFrom(state$),
       switchMap(([{ payload: challenge }, { profile }]) => {
         let challengeToSave = translateChallenge(challenge);
@@ -113,19 +112,19 @@ function rejectChallenge(actions$, state$) {
         }
         return API.graphql(graphqlOperation(mutations.updateChallenge, { input: challengeToSave }));
       }),
-      map(response => rejectChallengeSuccess(response.data.getChallenge)),
-      catchError(error => rejectChallengeFail(error))
+      map(response => RejectChallengeSuccess.create(response.data.getChallenge)),
+      catchError(error => RejectChallengeFail.create(error))
     );
 }
 
 function setChallengeWinner(actions$) {
   return actions$
     .pipe(
-      ofType(SET_CHALLENGE_WINNER),
+      ofType(SetChallengeWinner.type),
       switchMap(({ payload }) => API.graphql(graphqlOperation(mutations.updateChallenge,
         { input: { ...translateChallenge(payload.challenge), challengeWinnerId: payload.winner.id } }))),
-      map(response => setChallengeWinnerSuccess(response.data.getChallenge)),
-      catchError(error => setChallengeWinnerFail(error)),
+      map(response => SetChallengeWinnerSuccess.create(response.data.getChallenge)),
+      catchError(error => SetChallengeWinnerFail.create(error)),
     );
 }
 

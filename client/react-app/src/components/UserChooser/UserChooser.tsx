@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import * as actions from '../../store/actions/actions';
+import * as actions from '../../store/actions/users.actions';
 import Spinner from '../UI/Spinner/Spinner';
 import User from '../User/User';
 import { State } from '../../store/reducer';

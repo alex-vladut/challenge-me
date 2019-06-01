@@ -3,7 +3,7 @@ import './ViewChallenge.scss';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import * as actions from '../../store/actions/actions';
+import { AcceptChallenge, FetchChallenge, RejectChallenge, SetChallengeWinner } from '../../store/actions/challenges.actions';
 import { State } from '../../store/reducer';
 import ChallengeOpponentView from './Opponent/ChallengeOpponentView';
 import ChallengeOwnerView from './Owner/ChallengeOwnerView';
@@ -79,10 +79,10 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  fetchChallenge: (challengeId: string) => dispatch(actions.fetchChallenge(challengeId)),
-  acceptChallenge: (challenge: any) => dispatch(actions.acceptChallenge(challenge)),
-  rejectChallenge: (challenge: any) => dispatch(actions.rejectChallenge(challenge)),
-  setChallengeWinner: (challenge: any, winner: any) => dispatch(actions.setChallengeWinner(challenge, winner))
+  fetchChallenge: (challengeId: string) => dispatch(FetchChallenge.create(challengeId)),
+  acceptChallenge: (challenge: any) => dispatch(AcceptChallenge.create(challenge)),
+  rejectChallenge: (challenge: any) => dispatch(RejectChallenge.create(challenge)),
+  setChallengeWinner: (challenge: any, winner: any) => dispatch(SetChallengeWinner.create({ challenge, winner }))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewChallenge);

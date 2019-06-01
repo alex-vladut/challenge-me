@@ -13,7 +13,7 @@ import {
   fetchUsersSuccess,
   signOutFail,
   signOutSuccess,
-} from '../actions/actions';
+} from '../actions/users.actions';
 import { FETCH_PROFILE, FETCH_PROFILE_NOT_FOUND, FETCH_USERS, SIGN_OUT } from '../actions/actionTypes';
 
 function fetchUsers(actions$) {
