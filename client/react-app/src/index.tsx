@@ -4,9 +4,9 @@ import Amplify from 'aws-amplify';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { applyMiddleware, compose, createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import { createEpicMiddleware } from 'redux-observable';
-
+import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './App';
 import awsExports from './aws-exports';
 import registerServiceWorker from './registerServiceWorker';
@@ -18,15 +18,8 @@ Amplify.configure({
   aws_appsync_authenticationType: "AWS_IAM",
 });
 
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-  }
-}
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
 const epicMiddleware = createEpicMiddleware();
-const store = createStore(reducer, composeEnhancers(applyMiddleware(epicMiddleware)));
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(epicMiddleware)));
 epicMiddleware.run(rootEpic);
 
 ReactDOM.render((<Provider store={store}><App /></Provider>), document.getElementById('root'));

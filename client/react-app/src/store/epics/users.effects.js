@@ -20,7 +20,7 @@ function fetchUsers(actions$) {
   return actions$
     .pipe(
       ofType(FETCH_USERS),
-      switchMap(() => API.graphql(graphqlOperation(queries.listUsers, { limit: 10 }))),
+      switchMap(() => from(API.graphql(graphqlOperation(queries.listUsers, { limit: 10 })))),
       map(response => fetchUsersSuccess(response.data.listUsers.items)),
       catchError(error => fetchUsersFail(error)),
     );

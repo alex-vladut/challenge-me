@@ -47,6 +47,15 @@ export const listChallenges = `query ListChallenges(
       title
       opponentStatus
       refereeStatus
+      owner {
+        id
+      }
+      opponent {
+        id
+      }
+      referee {
+        id
+      }
       deadline
       version
     }
