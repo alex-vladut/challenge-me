@@ -78,7 +78,7 @@ class ViewChallenge extends Component<ViewChallengeProps> {
 }
 
 const mapStateToProps = (state: any) => ({
-  profile: state.challenges.profile,
+  profile: state.auth.profile,
   challenge: state.challenges.challenge,
 });
 

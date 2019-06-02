@@ -1,20 +1,11 @@
-import { API, Auth, graphqlOperation } from 'aws-amplify';
+import { API, graphqlOperation } from 'aws-amplify';
 import { ofType } from 'redux-observable';
 import { from } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import * as mutations from '../../graphql/mutations';
 import * as queries from '../../graphql/queries';
-import {
-  fetchProfileFail,
-  fetchProfileNotFound,
-  fetchProfileSuccess,
-  fetchUsersFail,
-  fetchUsersSuccess,
-  signOutFail,
-  signOutSuccess,
-} from '../actions/users.actions';
-import { FETCH_PROFILE, FETCH_PROFILE_NOT_FOUND, FETCH_USERS, SIGN_OUT } from '../actions/actionTypes';
+import { FETCH_USERS } from '../actions/actionTypes';
+import { fetchUsersFail, fetchUsersSuccess } from '../actions/users.actions';
 
 function fetchUsers(actions$) {
   return actions$
@@ -26,41 +17,4 @@ function fetchUsers(actions$) {
     );
 }
 
-function fetchProfile(actions$) {
-  return actions$
-    .pipe(
-      ofType(FETCH_PROFILE),
-      switchMap(() => from(Auth.currentAuthenticatedUser())),
-      switchMap(authenticatedUser => API.graphql(graphqlOperation(queries.getUser, { id: authenticatedUser.id }))),
-      map(response => response.data.getUser ? fetchProfileSuccess(response.data.getUser) : fetchProfileNotFound()),
-      catchError(error => fetchProfileFail(error)),
-    );
-}
-
-function createProfile(actions$) {
-  return actions$
-    .pipe(
-      ofType(FETCH_PROFILE_NOT_FOUND),
-      switchMap(() => from(Auth.currentAuthenticatedUser())),
-      switchMap(authenticatedUser => API.graphql(graphqlOperation(mutations.createUser, {
-        input: {
-          name: authenticatedUser.name,
-          pictureUrl: authenticatedUser.picture,
-        }
-      }))),
-      map(response => fetchProfileSuccess(response.data.createUser)),
-      catchError(error => fetchProfileFail(error)),
-    );
-}
-
-function signOut(actions$) {
-  return actions$
-    .pipe(
-      ofType(SIGN_OUT),
-      switchMap(() => from(Auth.signOut())),
-      map(() => signOutSuccess()),
-      catchError(error => signOutFail(error)),
-    );
-}
-
-export default [fetchUsers, fetchProfile, createProfile, signOut];
+export default [fetchUsers];

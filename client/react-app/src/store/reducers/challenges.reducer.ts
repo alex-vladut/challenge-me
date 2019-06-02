@@ -1,3 +1,4 @@
+import * as actionTypes from '../actions/actionTypes';
 import {
   AcceptChallenge,
   AcceptChallengeSuccess,
@@ -15,7 +16,6 @@ import {
   SetChallengeWinner,
   SetChallengeWinnerSuccess,
 } from '../actions/challenges.actions';
-import * as actionTypes from '../actions/actionTypes';
 
 export interface State {
   challenges: any[]
@@ -49,8 +49,6 @@ const reducer = (state = initialState, action: any) => {
     case actionTypes.FETCH_USERS:
     case CreateChallenge.type:
     case SetChallengeWinner.type:
-    case actionTypes.FETCH_PROFILE:
-    case actionTypes.SIGN_OUT:
       return {
         ...state,
         loading: true
@@ -111,27 +109,11 @@ const reducer = (state = initialState, action: any) => {
         rejecting: false,
         error: null,
         challenge: action.payload,
-      }
-    case actionTypes.FETCH_PROFILE_SUCCESS:
-      return {
-        ...state,
-        profile: action.payload,
-        authenticated: true,
-        loading: false
-      };
-    case actionTypes.SIGN_OUT_SUCCESS:
-      return {
-        ...state,
-        profile: null,
-        authenticated: false,
-        loading: false
       };
     case FetchChallengesFail.type:
     case FetchChallengeFail.type:
     case actionTypes.FETCH_USERS_FAIL:
     case CreateChallengeFail.type:
-    case actionTypes.FETCH_PROFILE_FAIL:
-    case actionTypes.SIGN_OUT_FAIL:
       return {
         ...state,
         challenges: [],

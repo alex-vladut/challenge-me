@@ -126,7 +126,7 @@ const mapStateToProps = (state: any) => ({
   challenges: state.challenges.challenges,
   loading: state.challenges.loading,
   error: state.challenges.error,
-  profile: state.challenges.profile
+  profile: state.auth.profile
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
