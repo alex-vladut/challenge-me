@@ -4,7 +4,6 @@ import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../../../store/actions/users.actions';
-import { State } from '../../../store/reducer';
 import NavigationItem from './NavigationItem/NavigationItem';
 
 interface NavigationItemsProps {
@@ -28,8 +27,8 @@ const NavigationItems: FunctionComponent<NavigationItemsProps> = props => {
   return navItems;
 }
 
-const mapStateToProps = (state: State) => ({
-  authenticated: state.authenticated,
+const mapStateToProps = (state: any) => ({
+  authenticated: state.challenges.authenticated,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

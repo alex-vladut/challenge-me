@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions/users.actions';
 import Spinner from '../UI/Spinner/Spinner';
 import User from '../User/User';
-import { State } from '../../store/reducer';
 
 interface UserChooserProps {
   loading: boolean
@@ -35,10 +34,10 @@ class UserChooser extends Component<UserChooserProps> {
   }
 }
 
-const mapStateToProps = (state: State) => ({
-  users: state.users,
-  loading: state.loading,
-  error: state.error
+const mapStateToProps = (state: any) => ({
+  users: state.challenges.users,
+  loading: state.challenges.loading,
+  error: state.challenges.error
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

@@ -10,7 +10,6 @@ import { Redirect } from 'react-router-dom';
 import DateTimePicker from '../../components/UI/DateTimePicker/DateTimePicker';
 import UserInput from '../../components/UserInput/UserInput';
 import { CreateChallenge, CreateChallengeInit } from '../../store/actions/challenges.actions';
-import { State } from '../../store/reducer';
 
 interface ChallengeProps {
   challengeCreated: boolean
@@ -136,8 +135,8 @@ class Challenge extends Component<ChallengeProps, ChallengeState> {
   }
 }
 
-const mapStateToProps = (state: State) => ({
-  challengeCreated: state.challengeCreated
+const mapStateToProps = (state: any) => ({
+  challengeCreated: state.challenges.challengeCreated
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

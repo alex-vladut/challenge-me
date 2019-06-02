@@ -13,7 +13,6 @@ import { Link } from 'react-router-dom';
 import CountDown from '../../components/CountDown/CountDown';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { FetchChallenges } from '../../store/actions/challenges.actions';
-import { State } from '../../store/reducer';
 
 interface ChallengesProps {
   profile: any
@@ -123,11 +122,11 @@ class Challenges extends Component<ChallengesProps, ChallengesState> {
   }
 }
 
-const mapStateToProps = (state: State) => ({
-  challenges: state.challenges,
-  loading: state.loading,
-  error: state.error,
-  profile: state.profile
+const mapStateToProps = (state: any) => ({
+  challenges: state.challenges.challenges,
+  loading: state.challenges.loading,
+  error: state.challenges.error,
+  profile: state.challenges.profile
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

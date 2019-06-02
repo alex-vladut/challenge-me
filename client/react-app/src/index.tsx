@@ -5,13 +5,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
-import { createEpicMiddleware } from 'redux-observable';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { createEpicMiddleware } from 'redux-observable';
+
 import App from './App';
 import awsExports from './aws-exports';
 import registerServiceWorker from './registerServiceWorker';
 import { rootEpic } from './store/epics';
-import reducer from './store/reducer';
+import reducer from './store/reducers';
 
 Amplify.configure({
   ...awsExports,

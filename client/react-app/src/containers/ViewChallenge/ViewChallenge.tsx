@@ -3,8 +3,12 @@ import './ViewChallenge.scss';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { AcceptChallenge, FetchChallenge, RejectChallenge, SetChallengeWinner } from '../../store/actions/challenges.actions';
-import { State } from '../../store/reducer';
+import {
+  AcceptChallenge,
+  FetchChallenge,
+  RejectChallenge,
+  SetChallengeWinner,
+} from '../../store/actions/challenges.actions';
 import ChallengeOpponentView from './Opponent/ChallengeOpponentView';
 import ChallengeOwnerView from './Owner/ChallengeOwnerView';
 import ChallengeRefereeView from './Referee/ChallengeRefereeView';
@@ -73,9 +77,9 @@ class ViewChallenge extends Component<ViewChallengeProps> {
   }
 }
 
-const mapStateToProps = (state: State) => ({
-  profile: state.profile,
-  challenge: state.challenge,
+const mapStateToProps = (state: any) => ({
+  profile: state.challenges.profile,
+  challenge: state.challenges.challenge,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

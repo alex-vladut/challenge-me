@@ -14,8 +14,8 @@ import {
   RejectChallengeSuccess,
   SetChallengeWinner,
   SetChallengeWinnerSuccess,
-} from './actions/challenges.actions';
-import * as actionTypes from './actions/actionTypes';
+} from '../actions/challenges.actions';
+import * as actionTypes from '../actions/actionTypes';
 
 export interface State {
   challenges: any[]
