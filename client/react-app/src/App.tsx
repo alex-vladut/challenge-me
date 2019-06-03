@@ -1,14 +1,15 @@
 import './App.scss';
 
 import React, { Component } from 'react';
-
-import { HashRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { HashRouter, Route, Switch } from 'react-router-dom';
+
 import Home from './components/Home/Home';
-import Layout from './components/Layout/Layout';
 import Auth from './containers/Auth/Auth';
+import LogOut from './containers/Auth/LogOut';
 import Challenge from './containers/Challenge/Challenge';
 import Challenges from './containers/Challenges/Challenges';
+import Layout from './containers/Layout/Layout';
 import ViewChallenge from './containers/ViewChallenge/ViewChallenge';
 import PrivateRoute from './hoc/PrivateRoute';
 
@@ -28,6 +29,7 @@ class App extends Component<AppProps> {
             <PrivateRoute path="/challenges/new" exact component={Challenge} isAuthenticated={this.props.isAuthenticated} />
             <PrivateRoute path="/challenges" exact component={Challenges} isAuthenticated={this.props.isAuthenticated} />
             <PrivateRoute path="/challenges/:challengeId" exact component={ViewChallenge} isAuthenticated={this.props.isAuthenticated} />
+            <PrivateRoute path="/logout" exact component={LogOut} isAuthenticated={this.props.isAuthenticated} />
             <Route render={() => <h1>Page Not Found!</h1>} />
           </Switch>
         </Layout>

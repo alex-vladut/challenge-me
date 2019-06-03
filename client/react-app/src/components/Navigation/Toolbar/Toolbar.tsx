@@ -7,7 +7,8 @@ import NavigationItems from '../NavigationItems/NavigationItems';
 import DrawerToggle from '../SideDrawer/DrawerToggle/DrawerToggle';
 
 interface ToolbarProps {
-  onOpenMenu(): void
+  isAuthenticated:boolean;
+  onOpenMenu(): void;
 }
 
 const Toolbar: FunctionComponent<ToolbarProps> = props =>
@@ -16,7 +17,7 @@ const Toolbar: FunctionComponent<ToolbarProps> = props =>
 
     <Logo />
     <nav className="DesktopOnly">
-      <NavigationItems />
+      <NavigationItems isAuthenticated={props.isAuthenticated} />
     </nav>
   </header>);
 

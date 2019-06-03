@@ -1,4 +1,4 @@
-import * as actionTypes from './actionTypes';
+import * as actionTypes from './users.types';
 
 export const fetchUsers = () => ({
   type: actionTypes.FETCH_USERS
