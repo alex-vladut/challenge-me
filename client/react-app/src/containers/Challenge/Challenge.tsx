@@ -1,28 +1,31 @@
 import './Challenge.scss';
-
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
+import moment from 'moment';
+import { Button, TextField, Modal } from '@material-ui/core';
+
 import DateTimePicker from '../../components/UI/DateTimePicker/DateTimePicker';
 import UserInput from '../../components/UserInput/UserInput';
 import { CreateChallenge, CreateChallengeInit } from '../../store/actions/challenges.actions';
+import UserChooser from '../UserChooser/UserChooser';
+import Close from '../../components/Close/Close';
 
 interface ChallengeProps {
   challengeCreated: boolean
   onInitCreateChallenge(): void
-  onCreateChallenge(challenge: any):void
+  onCreateChallenge(challenge: any): void
 }
 
 interface ChallengeState {
-  title: string,
-  opponent: any,
-  referee: any,
-  deadline: moment.Moment,
+  title: string
+  opponent: any
+  referee: any
+  deadline: moment.Moment
   errors: any
+  isOpponentChooserOpen: boolean
+  isRefereeChooserOpen: boolean
 }
 
 class Challenge extends Component<ChallengeProps, ChallengeState> {
@@ -36,8 +39,10 @@ class Challenge extends Component<ChallengeProps, ChallengeState> {
       titleError: null,
       opponentError: null,
       refereeError: null,
-      deadlineError: null
-    }
+      deadlineError: null,
+    },
+    isOpponentChooserOpen: false,
+    isRefereeChooserOpen: false,
   }
 
   componentDidMount() {
@@ -46,10 +51,22 @@ class Challenge extends Component<ChallengeProps, ChallengeState> {
 
   selectOpponent = (opponent: any) => {
     this.setState({ opponent });
+
+    this.toggleOpponentChooser();
   }
 
   selectReferee = (referee: any) => {
     this.setState({ referee });
+
+    this.toggleRefereeChooser();
+  }
+
+  toggleOpponentChooser = () => {
+    this.setState({ isOpponentChooserOpen: !this.state.isOpponentChooserOpen });
+  }
+
+  toggleRefereeChooser = () => {
+    this.setState({ isRefereeChooserOpen: !this.state.isRefereeChooserOpen });
   }
 
   validate = () => {
@@ -97,6 +114,29 @@ class Challenge extends Component<ChallengeProps, ChallengeState> {
   }
 
   render() {
+    if (this.state.isOpponentChooserOpen) {
+      return (<Modal
+        open={this.state.isOpponentChooserOpen}
+        onClose={this.toggleOpponentChooser}
+        hideBackdrop={true}>
+        <div>
+          <Close onClick={this.toggleOpponentChooser} />
+          <UserChooser onSelect={this.selectOpponent} />
+        </div>
+      </Modal>);
+    }
+    if (this.state.isRefereeChooserOpen) {
+      return (<Modal
+        open={this.state.isRefereeChooserOpen}
+        onClose={this.toggleRefereeChooser}
+        hideBackdrop={true}>
+        <div>
+          <Close onClick={this.toggleRefereeChooser} />
+          <UserChooser onSelect={this.selectReferee} />
+        </div>
+      </Modal>);
+    }
+
     let challenge = (<Redirect to="/challenges" />);
     if (!this.props.challengeCreated) {
       challenge = (
@@ -114,12 +154,12 @@ class Challenge extends Component<ChallengeProps, ChallengeState> {
           <UserInput
             label="Opponent:"
             user={this.state.opponent}
-            onSelect={this.selectOpponent}
+            onClick={this.toggleOpponentChooser}
             errorMessage={this.state.errors.opponentError} />
           <UserInput
             label="Referee:"
             user={this.state.referee}
-            onSelect={this.selectReferee}
+            onClick={this.toggleRefereeChooser}
             errorMessage={this.state.errors.refereeError} />
           <DateTimePicker
             label="Deadline:"

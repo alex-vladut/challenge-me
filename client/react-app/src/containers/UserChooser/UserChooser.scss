@@ -1,0 +1,8 @@
+.UserChooser {
+  background-color: white;
+}
+
+.UserChooserUsers {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}

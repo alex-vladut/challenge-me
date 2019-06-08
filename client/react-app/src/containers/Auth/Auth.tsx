@@ -1,8 +1,7 @@
-
 import React, { Component } from 'react';
 // @ts-ignore
 import { Authenticator, FederatedSignIn } from 'aws-amplify-react';
-import {Redirect} from 'react-router';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { FetchProfile, SignOut } from '../../store/actions/auth.actions';
@@ -30,7 +29,7 @@ class Auth extends Component<AuthProps> {
   }
 
   render() {
-    if(this.props.isAuthenticated){
+    if (this.props.isAuthenticated) {
       return <Redirect to="/challenges" />
     }
     return (

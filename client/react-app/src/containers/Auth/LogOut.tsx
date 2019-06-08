@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from "react-router";
+import { Redirect } from 'react-router-dom';
 
 import { SignOut } from '../../store/actions/auth.actions';
 
@@ -20,10 +20,8 @@ class LogOut extends Component<LogOutProps> {
 
 }
 
-const mapStateToProps = () => ({});
-
 const mapDispatchToProps = (dispatch: any) => ({
   signOut: () => dispatch(SignOut.create()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogOut);
+export default connect(null, mapDispatchToProps)(LogOut);
