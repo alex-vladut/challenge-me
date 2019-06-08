@@ -121,7 +121,8 @@ class Challenge extends Component<ChallengeProps, ChallengeState> {
         hideBackdrop={true}>
         <div>
           <Close onClick={this.toggleOpponentChooser} />
-          <UserChooser onSelect={this.selectOpponent} />
+          <UserChooser
+            onSelect={this.selectOpponent} />
         </div>
       </Modal>);
     }

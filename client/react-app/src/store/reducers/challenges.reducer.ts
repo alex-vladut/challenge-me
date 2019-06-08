@@ -1,4 +1,3 @@
-import * as actionTypes from '../actions/users.types';
 import {
   AcceptChallenge,
   AcceptChallengeSuccess,
@@ -20,7 +19,6 @@ import {
 export interface State {
   challenges: any[]
   challenge: any
-  users: any[]
   profile: any
   loading: boolean
   accepting: boolean
@@ -33,7 +31,6 @@ export interface State {
 const initialState: State = {
   challenges: [],
   challenge: null,
-  users: [],
   loading: false,
   accepting: false,
   rejecting: false,
@@ -46,19 +43,11 @@ const initialState: State = {
 const reducer = (state = initialState, action: any) => {
   switch (action.type) {
     case FetchChallenges.type:
-    case actionTypes.FETCH_USERS:
     case CreateChallenge.type:
     case SetChallengeWinner.type:
-      return {
-        ...state,
-        loading: true
-      };
+      return { ...state, loading: true };
     case AcceptChallenge.type:
-      return {
-        ...state,
-        accepting: true,
-        loading: true
-      };
+      return { ...state, accepting: true, loading: true };
     case RejectChallenge.type:
       return {
         ...state,
@@ -77,13 +66,6 @@ const reducer = (state = initialState, action: any) => {
       return {
         ...state,
         challenge: action.payload,
-        loading: false,
-        error: null
-      };
-    case actionTypes.FETCH_USERS_SUCCESS:
-      return {
-        ...state,
-        users: action.payload,
         loading: false,
         error: null
       };
@@ -112,7 +94,6 @@ const reducer = (state = initialState, action: any) => {
       };
     case FetchChallengesFail.type:
     case FetchChallengeFail.type:
-    case actionTypes.FETCH_USERS_FAIL:
     case CreateChallengeFail.type:
       return {
         ...state,

@@ -7,64 +7,78 @@ import { connect } from 'react-redux';
 
 import Spinner from '../../components/UI/Spinner/Spinner';
 import User from '../../components/User/User';
-import * as actions from '../../store/actions/users.actions';
+import { FetchUsers } from '../../store/actions/users.actions';
 
-interface UserChooserProps {
+interface Props {
   loading: boolean
-  error: string
   users: any[]
-  fetchUsers(): void
+  fetchUsers(filter: string): void
   onSelect(user: any): void
 }
 
-class UserChooser extends Component<UserChooserProps> {
+interface State {
+  filter: string
+}
+
+class UserChooser extends Component<Props, State> {
+
+  state: State = {
+    filter: '',
+  }
 
   componentDidMount = () => {
-    this.props.fetchUsers();
+    this.props.fetchUsers('');
+  }
+
+  setFilter = (event: any) => {
+    this.setState({ filter: event.target.value });
   }
 
   render() {
+    let content = null;
     if (this.props.loading) {
-      return <Spinner />
-    } else if (this.props.error) {
-      return (<div>{this.props.error}</div>)
+      content = <Spinner />;
+    } else if (this.props.users.length === 0) {
+      content = (<p>Sorry, no users found :(</p>);
     } else {
-      return (
-        <div className="UserChooser">
-          <Paper>
-            <Grid container justify="center" alignItems="center">
-              <Input
-                placeholder="Search"
-                inputProps={{ 'aria-label': 'Search users' }}
-              />
-              <IconButton aria-label="Search">
-                <SearchIcon />
-              </IconButton>
-            </Grid>
-            <Divider />
-          </Paper>
-
-          <div className="UserChooserUsers">
-            {this.props.users.map(user =>
-              (<User
-                onClick={this.props.onSelect}
-                user={user}
-                key={user.id} />))}
-          </div>
-        </div>
-      )
+      content = (<div className="UserChooserUsers">
+        {this.props.users.map(user =>
+          (<User
+            onClick={this.props.onSelect}
+            user={user}
+            key={user.id} />))}
+      </div>);
     }
+    return (
+      <div className="UserChooser">
+        <Paper>
+          <Grid container justify="center" alignItems="center">
+            <Input
+              placeholder="Search"
+              inputProps={{ 'aria-label': 'Search users' }}
+              value={this.state.filter}
+              onChange={this.setFilter}
+            />
+            <IconButton aria-label="Search" onClick={() => this.props.fetchUsers(this.state.filter)}>
+              <SearchIcon />
+            </IconButton>
+          </Grid>
+          <Divider />
+        </Paper>
+
+        {content}
+      </div>
+    )
   }
 }
 
 const mapStateToProps = (state: any) => ({
-  users: state.challenges.users,
-  loading: state.challenges.loading,
-  error: state.challenges.error
+  users: state.users.users,
+  loading: state.users.loading,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  fetchUsers: () => dispatch(actions.fetchUsers())
+  fetchUsers: (filter: string) => dispatch(FetchUsers.create(filter))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserChooser);

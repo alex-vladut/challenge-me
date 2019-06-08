@@ -4,16 +4,15 @@ import { from } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import * as queries from '../../graphql/queries';
-import { FETCH_USERS } from '../actions/users.types';
-import { fetchUsersFail, fetchUsersSuccess } from '../actions/users.actions';
+import { FetchUsers, FetchUsersSuccess, FetchUsersFail } from '../actions/users.actions';
 
 function fetchUsers(actions$) {
   return actions$
     .pipe(
-      ofType(FETCH_USERS),
-      switchMap(() => from(API.graphql(graphqlOperation(queries.listUsers, { limit: 10 })))),
-      map(response => fetchUsersSuccess(response.data.listUsers.items)),
-      catchError(error => fetchUsersFail(error)),
+      ofType(FetchUsers.type),
+      switchMap(({ payload }) => from(API.graphql(graphqlOperation(queries.listUsers, { limit: 100, filter: payload ? { name: { contains: payload } } : undefined })))),
+      map(response => FetchUsersSuccess.create(response.data.listUsers.items)),
+      catchError(error => FetchUsersFail.create(error)),
     );
 }
 
