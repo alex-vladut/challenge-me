@@ -30,7 +30,7 @@ class Auth extends Component<AuthProps> {
 
   render() {
     if (this.props.isAuthenticated) {
-      return <Redirect to="/challenges" />
+      return <Redirect to="/" />
     }
     return (
       <Authenticator

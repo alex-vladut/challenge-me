@@ -1,6 +1,28 @@
 /* tslint:disable */
 //  This file was automatically generated and should not be edited.
 
+export type CreateActivityInput = {
+  id?: string | null,
+  title: string,
+  dateTime: string,
+  numberOfAttendants: number,
+  activityOwnerId?: string | null,
+};
+
+export type UpdateActivityInput = {
+  id: string,
+  title?: string | null,
+  dateTime?: string | null,
+  numberOfAttendants?: number | null,
+  activityOwnerId?: string | null,
+  expectedVersion: number,
+};
+
+export type DeleteActivityInput = {
+  id?: string | null,
+  expectedVersion: number,
+};
+
 export type CreateChallengeInput = {
   id?: string | null,
   title: string,
@@ -42,12 +64,14 @@ export type CreateUserInput = {
   id?: string | null,
   name: string,
   pictureUrl?: string | null,
+  activityAttendantsId?: string | null,
 };
 
 export type UpdateUserInput = {
   id: string,
   name?: string | null,
   pictureUrl?: string | null,
+  activityAttendantsId?: string | null,
   expectedVersion: number,
 };
 
@@ -56,15 +80,14 @@ export type DeleteUserInput = {
   expectedVersion: number,
 };
 
-export type ModelChallengeFilterInput = {
+export type ModelActivityFilterInput = {
   id?: ModelIDFilterInput | null,
   title?: ModelStringFilterInput | null,
-  opponentStatus?: ModelParticipantApprovalStatusFilterInput | null,
-  refereeStatus?: ModelParticipantApprovalStatusFilterInput | null,
-  deadline?: ModelStringFilterInput | null,
-  and?: Array< ModelChallengeFilterInput | null > | null,
-  or?: Array< ModelChallengeFilterInput | null > | null,
-  not?: ModelChallengeFilterInput | null,
+  dateTime?: ModelStringFilterInput | null,
+  numberOfAttendants?: ModelIntFilterInput | null,
+  and?: Array< ModelActivityFilterInput | null > | null,
+  or?: Array< ModelActivityFilterInput | null > | null,
+  not?: ModelActivityFilterInput | null,
 };
 
 export type ModelIDFilterInput = {
@@ -91,6 +114,29 @@ export type ModelStringFilterInput = {
   notContains?: string | null,
   between?: Array< string | null > | null,
   beginsWith?: string | null,
+};
+
+export type ModelIntFilterInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  contains?: number | null,
+  notContains?: number | null,
+  between?: Array< number | null > | null,
+};
+
+export type ModelChallengeFilterInput = {
+  id?: ModelIDFilterInput | null,
+  title?: ModelStringFilterInput | null,
+  opponentStatus?: ModelParticipantApprovalStatusFilterInput | null,
+  refereeStatus?: ModelParticipantApprovalStatusFilterInput | null,
+  deadline?: ModelStringFilterInput | null,
+  and?: Array< ModelChallengeFilterInput | null > | null,
+  or?: Array< ModelChallengeFilterInput | null > | null,
+  not?: ModelChallengeFilterInput | null,
 };
 
 export type ModelParticipantApprovalStatusFilterInput = {
@@ -157,6 +203,84 @@ export enum SearchableSortDirection {
   desc = "desc",
 }
 
+
+export type CreateActivityMutationVariables = {
+  input: CreateActivityInput,
+};
+
+export type CreateActivityMutation = {
+  createActivity:  {
+    __typename: "Activity",
+    id: string,
+    title: string,
+    owner:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      pictureUrl: string | null,
+      version: number,
+    } | null,
+    dateTime: string,
+    numberOfAttendants: number,
+    attendants:  {
+      __typename: "ModelUserConnection",
+      nextToken: string | null,
+    } | null,
+    version: number,
+  } | null,
+};
+
+export type UpdateActivityMutationVariables = {
+  input: UpdateActivityInput,
+};
+
+export type UpdateActivityMutation = {
+  updateActivity:  {
+    __typename: "Activity",
+    id: string,
+    title: string,
+    owner:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      pictureUrl: string | null,
+      version: number,
+    } | null,
+    dateTime: string,
+    numberOfAttendants: number,
+    attendants:  {
+      __typename: "ModelUserConnection",
+      nextToken: string | null,
+    } | null,
+    version: number,
+  } | null,
+};
+
+export type DeleteActivityMutationVariables = {
+  input: DeleteActivityInput,
+};
+
+export type DeleteActivityMutation = {
+  deleteActivity:  {
+    __typename: "Activity",
+    id: string,
+    title: string,
+    owner:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      pictureUrl: string | null,
+      version: number,
+    } | null,
+    dateTime: string,
+    numberOfAttendants: number,
+    attendants:  {
+      __typename: "ModelUserConnection",
+      nextToken: string | null,
+    } | null,
+    version: number,
+  } | null,
+};
 
 export type CreateChallengeMutationVariables = {
   input: CreateChallengeInput,
@@ -332,6 +456,53 @@ export type DeleteUserMutation = {
   } | null,
 };
 
+export type GetActivityQueryVariables = {
+  id: string,
+};
+
+export type GetActivityQuery = {
+  getActivity:  {
+    __typename: "Activity",
+    id: string,
+    title: string,
+    owner:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      pictureUrl: string | null,
+      version: number,
+    } | null,
+    dateTime: string,
+    numberOfAttendants: number,
+    attendants:  {
+      __typename: "ModelUserConnection",
+      nextToken: string | null,
+    } | null,
+    version: number,
+  } | null,
+};
+
+export type ListActivitysQueryVariables = {
+  filter?: ModelActivityFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListActivitysQuery = {
+  listActivitys:  {
+    __typename: "ModelActivityConnection",
+    items:  Array< {
+      __typename: "Activity",
+      id: string,
+      title: string,
+      dateTime: string,
+      numberOfAttendants: number,
+      version: number,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
 export type GetChallengeQueryVariables = {
   id: string,
 };
@@ -450,6 +621,72 @@ export type SearchUsersQuery = {
       version: number,
     } | null > | null,
     nextToken: string | null,
+  } | null,
+};
+
+export type OnCreateActivitySubscription = {
+  onCreateActivity:  {
+    __typename: "Activity",
+    id: string,
+    title: string,
+    owner:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      pictureUrl: string | null,
+      version: number,
+    } | null,
+    dateTime: string,
+    numberOfAttendants: number,
+    attendants:  {
+      __typename: "ModelUserConnection",
+      nextToken: string | null,
+    } | null,
+    version: number,
+  } | null,
+};
+
+export type OnUpdateActivitySubscription = {
+  onUpdateActivity:  {
+    __typename: "Activity",
+    id: string,
+    title: string,
+    owner:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      pictureUrl: string | null,
+      version: number,
+    } | null,
+    dateTime: string,
+    numberOfAttendants: number,
+    attendants:  {
+      __typename: "ModelUserConnection",
+      nextToken: string | null,
+    } | null,
+    version: number,
+  } | null,
+};
+
+export type OnDeleteActivitySubscription = {
+  onDeleteActivity:  {
+    __typename: "Activity",
+    id: string,
+    title: string,
+    owner:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      pictureUrl: string | null,
+      version: number,
+    } | null,
+    dateTime: string,
+    numberOfAttendants: number,
+    attendants:  {
+      __typename: "ModelUserConnection",
+      nextToken: string | null,
+    } | null,
+    version: number,
   } | null,
 };
 

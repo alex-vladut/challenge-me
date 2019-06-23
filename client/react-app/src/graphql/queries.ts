@@ -1,6 +1,42 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
+export const getActivity = `query GetActivity($id: ID!) {
+  getActivity(id: $id) {
+    id
+    title
+    owner {
+      id
+      name
+      pictureUrl
+      version
+    }
+    dateTime
+    numberOfAttendants
+    attendants {
+      nextToken
+    }
+    version
+  }
+}
+`;
+export const listActivitys = `query ListActivitys(
+  $filter: ModelActivityFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listActivitys(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      title
+      dateTime
+      numberOfAttendants
+      version
+    }
+    nextToken
+  }
+}
+`;
 export const getChallenge = `query GetChallenge($id: ID!) {
   getChallenge(id: $id) {
     id
@@ -47,17 +83,20 @@ export const listChallenges = `query ListChallenges(
       title
       opponentStatus
       refereeStatus
+      deadline
+      version
       owner {
         id
+        name
       }
       opponent {
         id
+        name
       }
       referee {
         id
+        name
       }
-      deadline
-      version
     }
     nextToken
   }

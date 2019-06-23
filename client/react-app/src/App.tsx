@@ -12,6 +12,7 @@ import Challenges from './containers/Challenges/Challenges';
 import Layout from './containers/Layout/Layout';
 import ViewChallenge from './containers/ViewChallenge/ViewChallenge';
 import PrivateRoute from './hoc/PrivateRoute';
+import Activity from './containers/Activity/Activity';
 
 interface AppProps {
   isAuthenticated: boolean;
@@ -27,6 +28,7 @@ class App extends Component<AppProps> {
             <Route path="/" component={Home} exact />
             <Route path="/auth" component={Auth} />
             <PrivateRoute path="/challenges/new" exact component={Challenge} isAuthenticated={this.props.isAuthenticated} />
+            <PrivateRoute path="/activities/new" exact component={Activity} isAuthenticated={this.props.isAuthenticated} />
             <PrivateRoute path="/challenges" exact component={Challenges} isAuthenticated={this.props.isAuthenticated} />
             <PrivateRoute path="/challenges/:challengeId" exact component={ViewChallenge} isAuthenticated={this.props.isAuthenticated} />
             <PrivateRoute path="/logout" exact component={LogOut} isAuthenticated={this.props.isAuthenticated} />

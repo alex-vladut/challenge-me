@@ -1,6 +1,6 @@
 import { API, Auth, graphqlOperation } from 'aws-amplify';
 import { ofType } from 'redux-observable';
-import { from } from 'rxjs';
+import { from, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import * as mutations from '../../graphql/mutations';
@@ -22,7 +22,7 @@ function fetchProfile(actions$) {
       switchMap(() => from(Auth.currentAuthenticatedUser())),
       switchMap(authenticatedUser => API.graphql(graphqlOperation(queries.getUser, { id: authenticatedUser.id }))),
       map(response => response.data.getUser ? FetchProfileSuccess.create(response.data.getUser) : FetchProfileNotFound.create()),
-      catchError(error => FetchProfileFail.create(error)),
+      catchError(error => of(FetchProfileFail.create(error))),
     );
 }
 
@@ -38,7 +38,7 @@ function createProfile(actions$) {
         }
       }))),
       map(response => FetchProfileSuccess.create(response.data.createUser)),
-      catchError(error => FetchProfileFail.create(error)),
+      catchError(error => of(FetchProfileFail.create(error))),
     );
 }
 
@@ -48,7 +48,7 @@ function signOut(actions$) {
       ofType(SignOut.type),
       switchMap(() => from(Auth.signOut())),
       map(() => SignOutSuccess.create()),
-      catchError(error => SignOutFail.create(error)),
+      catchError(error => of(SignOutFail.create(error))),
     );
 }
 

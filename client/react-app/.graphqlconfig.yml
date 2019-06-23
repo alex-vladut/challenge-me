@@ -12,3 +12,6 @@ projects:
         docsFilePath: src/graphql
         graphQLApiId: rjadncgkkbbqrox6ryn372pav4
         maxDepth: 2
+      endpoints:
+        prod: >-
+          https://kgxopwzhjjgcbpyfbsp6ctjfaa.appsync-api.eu-central-1.amazonaws.com/graphql

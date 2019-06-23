@@ -1,6 +1,63 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
+export const onCreateActivity = `subscription OnCreateActivity {
+  onCreateActivity {
+    id
+    title
+    owner {
+      id
+      name
+      pictureUrl
+      version
+    }
+    dateTime
+    numberOfAttendants
+    attendants {
+      nextToken
+    }
+    version
+  }
+}
+`;
+export const onUpdateActivity = `subscription OnUpdateActivity {
+  onUpdateActivity {
+    id
+    title
+    owner {
+      id
+      name
+      pictureUrl
+      version
+    }
+    dateTime
+    numberOfAttendants
+    attendants {
+      nextToken
+    }
+    version
+  }
+}
+`;
+export const onDeleteActivity = `subscription OnDeleteActivity {
+  onDeleteActivity {
+    id
+    title
+    owner {
+      id
+      name
+      pictureUrl
+      version
+    }
+    dateTime
+    numberOfAttendants
+    attendants {
+      nextToken
+    }
+    version
+  }
+}
+`;
 export const onCreateChallenge = `subscription OnCreateChallenge {
   onCreateChallenge {
     id

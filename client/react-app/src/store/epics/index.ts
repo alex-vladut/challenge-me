@@ -1,7 +1,8 @@
 import { combineEpics } from 'redux-observable';
 
-import allAuthEpics from './auth.epics';
-import allChallengesEpics from './challenges.epics';
-import allUsersEpics from './users.epics';
+import activitiesEpics from './activities.epics';
+import authEpics from './auth.epics';
+import challengesEpics from './challenges.epics';
+import usersEpics from './users.epics';
 
-export const rootEpic = combineEpics(...allChallengesEpics, ...allUsersEpics, ...allAuthEpics);
+export const rootEpic = combineEpics(...activitiesEpics, ...challengesEpics, ...usersEpics, ...authEpics);
