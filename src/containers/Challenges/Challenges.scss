@@ -1,0 +1,52 @@
+.Challenges {
+  text-align: center;
+  width: 100%;
+  margin: auto;
+  box-sizing: border-box;
+
+  @media (min-width: 40rem) {
+    & {
+      max-width: 60rem;
+    }
+  }
+}
+
+.ChallengeItem {
+  border: 1px solid #eee;
+  box-shadow: 0 2px 3px #ccc;
+  padding: 20px;
+  margin: 1rem;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+
+  &:hover {
+    background-color: #f3f3f3a9;
+  }
+}
+
+.ChallengeTitle {
+  display: inline-block;
+  margin: 0;
+  width: 48%;
+  text-align: center;
+}
+
+.ChallengeDeadline {
+  display: inline-block;
+  margin: 0;
+  width: 48%;
+  text-align: center;
+  color: green;
+}
+
+.ChallengeItemLabel {
+  display: inline-block;
+  margin: 0;
+  padding-top: 10px;
+  width: 48%;
+  text-align: center;
+  font-style: italic;
+  color: darkgray;
+}

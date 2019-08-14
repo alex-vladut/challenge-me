@@ -25,3 +25,7 @@ Then Amplify seems to go in the same direction, as the signin/signup widget does
 It's strange how Amplify works in regard to authentication. If I only create a Federated Identity Pool, then I can't access GraphQL resources as I'm getting an error "No user pool".
 I could also create a User Pool as select authentication with user pools, but then again I can't use federated identity (the same error) as I now get an error "No current user".
 What seems to work is to create a User Pool as well as select federated identity e.g. with Google, and then you have to set AWS_IAM authenticateion method in AppSync API as well as to change to the same value in aws-exports.js file. But still you won't be able to use both options: users logged in using a username/password created through User Pools and federated identity at the same time. I also had to modify the Cognito auth role to allow invoking GraphQL endpoints (currently it allows all, but there is a way to make it more granular).
+
+I think I don't like that much the mutations and resolvers generated out of the box by Amplify. First, it's exposing way too much - you could basically updated any field (maybe not all of them are actually modifiable). Second, it's missing the business logic, you need to check certain things before allowing something to change. But as a first step I think it's good enough.
+
+I'm now sure how much business logic should be added into a VTL resolvers?

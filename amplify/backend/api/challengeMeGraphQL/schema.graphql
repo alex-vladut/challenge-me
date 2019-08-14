@@ -1,0 +1,35 @@
+# two types of activities: pick a number of attendants and don't allow any more submission
+# or allow any number of submissions and the user will decide who will be allowed
+
+type Activity @model @versioned {
+  id: ID!
+  title: String!
+  owner: User @connection
+  dateTime: String!
+  numberOfAttendants: Int!
+  attendants: [User!] @connection
+}
+
+type Challenge @model @versioned {
+  id: ID!
+  title: String!
+  owner: User @connection
+  opponent: User! @connection
+  opponentStatus: ParticipantApprovalStatus
+  referee: User! @connection
+  refereeStatus: ParticipantApprovalStatus
+  deadline: String!
+  winner: User @connection
+}
+
+enum ParticipantApprovalStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+type User @model @versioned @searchable {
+  id: ID!
+  name: String!
+  pictureUrl: String
+}
