@@ -1,0 +1,22 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.5
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-450202:
+    - '@date-io/date-fns > lerna > @lerna/version > @lerna/conventional-commits > conventional-changelog-core > lodash':
+        patched: '2019-08-14T17:20:13.392Z'
+    - '@date-io/date-fns > lerna > @lerna/version > @lerna/conventional-commits > conventional-changelog-core > conventional-changelog-writer > lodash':
+        patched: '2019-08-14T17:20:13.392Z'
+    - '@date-io/date-fns > lerna > @lerna/version > @lerna/conventional-commits > conventional-recommended-bump > conventional-commits-parser > lodash':
+        patched: '2019-08-14T17:20:13.392Z'
+    - '@date-io/date-fns > lerna > @lerna/publish > @lerna/version > @lerna/conventional-commits > conventional-changelog-core > lodash':
+        patched: '2019-08-14T17:20:13.392Z'
+    - '@date-io/date-fns > lerna > @lerna/version > @lerna/conventional-commits > conventional-changelog-core > conventional-commits-parser > lodash':
+        patched: '2019-08-14T17:20:13.392Z'
+    - '@date-io/date-fns > lerna > @lerna/publish > @lerna/version > @lerna/conventional-commits > conventional-changelog-core > conventional-commits-parser > lodash':
+        patched: '2019-08-14T17:20:13.392Z'
+    - '@date-io/date-fns > lerna > @lerna/changed > @lerna/version > @lerna/conventional-commits > conventional-recommended-bump > conventional-commits-parser > lodash':
+        patched: '2019-08-14T17:20:13.392Z'
+    - '@date-io/date-fns > lerna > @lerna/changed > @lerna/version > @lerna/conventional-commits > conventional-changelog-core > conventional-changelog-writer > lodash':
+        patched: '2019-08-14T17:20:13.392Z'
