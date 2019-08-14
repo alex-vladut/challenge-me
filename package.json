@@ -9,9 +9,9 @@
     "@material-ui/core": "^4.3.2",
     "@material-ui/icons": "^4.2.1",
     "@material-ui/pickers": "^3.2.2",
-    "ajv": "^6.10.2",
     "aws-amplify": "^1.1.36",
     "aws-amplify-react": "^2.3.12",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "node-sass": "^4.12.0",
     "react": "^16.9.0",
@@ -32,7 +32,6 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "node-mock-server": "^0.23.8",
     "redux-devtools-extension": "^2.13.8",
     "@types/jest": "^24.0.17",
     "@types/node": "^12.7.1",
