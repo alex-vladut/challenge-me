@@ -5,6 +5,7 @@ export const getActivity = `query GetActivity($id: ID!) {
   getActivity(id: $id) {
     id
     title
+    description
     owner {
       id
       name
@@ -29,6 +30,7 @@ export const listActivitys = `query ListActivitys(
     items {
       id
       title
+      description
       dateTime
       numberOfAttendants
       version
@@ -41,6 +43,7 @@ export const getChallenge = `query GetChallenge($id: ID!) {
   getChallenge(id: $id) {
     id
     title
+    description
     owner {
       id
       name
@@ -68,6 +71,8 @@ export const getChallenge = `query GetChallenge($id: ID!) {
       pictureUrl
       version
     }
+    createdAt
+    updatedAt
     version
   }
 }
@@ -81,22 +86,31 @@ export const listChallenges = `query ListChallenges(
     items {
       id
       title
-      opponentStatus
-      refereeStatus
-      deadline
-      version
+      description
       owner {
         id
         name
+        pictureUrl
+        version
       }
       opponent {
         id
         name
+        pictureUrl
+        version
       }
       referee {
         id
         name
+        pictureUrl
+        version
       }
+      opponentStatus
+      refereeStatus
+      deadline
+      createdAt
+      updatedAt
+      version
     }
     nextToken
   }

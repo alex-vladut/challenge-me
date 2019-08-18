@@ -83,7 +83,7 @@ const Activity = (props: ActivityProps) => {
         value={numberOfAttendants} onChange={handleNumberOfAttendantsChange} />
 
       <Grid container alignItems="flex-start" justify="flex-end">
-        <Button variant="contained" color="primary" className={classes.button} type="submit">Primary</Button>
+        <Button variant="contained" color="primary" className={classes.button} type="submit">Save</Button>
       </Grid>
     </form>
   );

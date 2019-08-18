@@ -32,6 +32,7 @@ function createChallenge(actions$) {
       switchMap(({ payload: challenge }) => {
         const challengeToSave = {
           title: challenge.title,
+          description: challenge.description,
           deadline: challenge.deadline,
           challengeOpponentId: challenge.opponent,
           challengeRefereeId: challenge.referee,
@@ -67,6 +68,7 @@ const translateChallenge = challenge => ({
   id: challenge.id,
   challengeOwnerId: challenge.owner.id,
   title: challenge.title,
+  description: challenge.description,
   deadline: challenge.deadline,
   challengeOpponentId: challenge.opponent.id,
   opponentStatus: challenge.opponentStatus,

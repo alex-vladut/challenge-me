@@ -5,6 +5,7 @@ export const createActivity = `mutation CreateActivity($input: CreateActivityInp
   createActivity(input: $input) {
     id
     title
+    description
     owner {
       id
       name
@@ -24,6 +25,7 @@ export const updateActivity = `mutation UpdateActivity($input: UpdateActivityInp
   updateActivity(input: $input) {
     id
     title
+    description
     owner {
       id
       name
@@ -43,6 +45,7 @@ export const deleteActivity = `mutation DeleteActivity($input: DeleteActivityInp
   deleteActivity(input: $input) {
     id
     title
+    description
     owner {
       id
       name
@@ -62,6 +65,7 @@ export const createChallenge = `mutation CreateChallenge($input: CreateChallenge
   createChallenge(input: $input) {
     id
     title
+    description
     owner {
       id
       name
@@ -89,6 +93,8 @@ export const createChallenge = `mutation CreateChallenge($input: CreateChallenge
       pictureUrl
       version
     }
+    createdAt
+    updatedAt
     version
   }
 }
@@ -97,6 +103,7 @@ export const updateChallenge = `mutation UpdateChallenge($input: UpdateChallenge
   updateChallenge(input: $input) {
     id
     title
+    description
     owner {
       id
       name
@@ -124,6 +131,8 @@ export const updateChallenge = `mutation UpdateChallenge($input: UpdateChallenge
       pictureUrl
       version
     }
+    createdAt
+    updatedAt
     version
   }
 }
@@ -132,6 +141,7 @@ export const deleteChallenge = `mutation DeleteChallenge($input: DeleteChallenge
   deleteChallenge(input: $input) {
     id
     title
+    description
     owner {
       id
       name
@@ -159,6 +169,8 @@ export const deleteChallenge = `mutation DeleteChallenge($input: DeleteChallenge
       pictureUrl
       version
     }
+    createdAt
+    updatedAt
     version
   }
 }

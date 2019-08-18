@@ -7,23 +7,11 @@ import Grid from '@material-ui/core/Grid';
 import userIcon from '../../../assets/user.png';
 import Label from '../../../components/UI/Label/Label';
 
-const getMessage = (status: string) => {
-  let message = null;
-  switch (status) {
-    case 'PENDING':
-      message = 'You were invited to this challenge. Accept or reject it!'
-      break;
-    case 'ACCEPTED':
-      message = 'Great news, you already accepted this challenge!'
-      break;
-    case 'REJECTED':
-      message = 'Looks like you rejected this challenge, sad :('
-      break;
-    default:
-      break;
-  }
-  return message;
-}
+const messages: any = {
+  'PENDING': 'You were invited to this challenge. Accept or reject it!',
+  'ACCEPTED': 'Great news, you already accepted this challenge!',
+  'REJECTED': 'Looks like you rejected this challenge, sad :(',
+};
 
 interface ChallengeOpponentViewProps {
   challenge: any
@@ -38,9 +26,8 @@ const ChallengeOpponentView: FunctionComponent<ChallengeOpponentViewProps> = pro
       <Button variant="contained" color="secondary" onClick={props.challengeRejected} >Reject</Button>
     </div>
   ) : null;
-  const message = getMessage(props.challenge.opponentStatus);
   return (<div>
-    <p>{message}</p>
+    <p>{messages[props.challenge.opponentStatus]}</p>
     {controls}
     <Label>Title:</Label>
     <p>{props.challenge.title}</p>

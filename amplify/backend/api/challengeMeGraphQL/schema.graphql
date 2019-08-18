@@ -4,6 +4,7 @@
 type Activity @model @versioned {
   id: ID!
   title: String!
+  description: String!
   owner: User @connection
   dateTime: String!
   numberOfAttendants: Int!
@@ -13,6 +14,7 @@ type Activity @model @versioned {
 type Challenge @model @versioned {
   id: ID!
   title: String!
+  description: String!
   owner: User @connection
   opponent: User! @connection
   opponentStatus: ParticipantApprovalStatus
@@ -20,6 +22,8 @@ type Challenge @model @versioned {
   refereeStatus: ParticipantApprovalStatus
   deadline: String!
   winner: User @connection
+  createdAt: String
+  updatedAt: String
 }
 
 enum ParticipantApprovalStatus {

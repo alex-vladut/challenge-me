@@ -1,16 +1,30 @@
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+
 import './Challenges.scss';
 
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
+import {
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+  Avatar,
+  IconButton,
+  Typography,
+} from '@material-ui/core';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { red, grey } from '@material-ui/core/colors';
+import { Favorite, Share } from '@material-ui/icons';
+
 import moment from 'moment';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import CountDown from '../../components/CountDown/CountDown';
+import userIcon from '../../assets/user.png';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { FetchChallenges } from '../../store/actions/challenges.actions';
 
@@ -22,104 +36,123 @@ interface ChallengesProps {
   loadChallenges(): void
 }
 
-interface ChallengesState {
-  type: string
+const createFilter = (props: ChallengesProps, type: string | undefined) => {
+  switch (type) {
+    case 'opponent':
+      return (challenge: any) => challenge.opponent && challenge.opponent.id === props.profile.id;
+    case 'referee':
+      return (challenge: any) => challenge.referee && challenge.referee.id === props.profile.id;
+    case 'owner':
+    default:
+      return (challenge: any) => challenge.owner.id === props.profile.id;
+  }
 }
 
-class Challenges extends Component<ChallengesProps, ChallengesState> {
+const getSecondsUntilDeadline = (challenge: any) => {
+  const deadline = moment(challenge.deadline);
+  const durationUntilDeadline = moment.duration(deadline.diff(moment()));
+  return durationUntilDeadline.asSeconds();
+}
 
-  state: ChallengesState = {
-    type: 'owner'
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    header: {
+      backgroundColor: grey[100],
+    },
+    media: {
+      height: 0,
+      paddingTop: '56.25%', // 16:9
+    },
+    expand: {
+      transform: 'rotate(0deg)',
+      marginLeft: 'auto',
+      transition: theme.transitions.create('transform', {
+        duration: theme.transitions.duration.shortest,
+      }),
+    },
+    expandOpen: {
+      transform: 'rotate(180deg)',
+    },
+    avatar: {
+      backgroundColor: red[500],
+    },
+  }),
+);
+
+const Challenges = (props: ChallengesProps) => {
+  const classes = useStyles();
+  const [type, setType] = useState<'owner' | 'opponent' | 'referee'>('owner');
+  // eslint-disable-next-line
+  useEffect(() => { props.loadChallenges(); }, []);
+
+  const updateChallengesFilter = (event: any) => {
+    setType(event.target.value);
   }
 
-  componentDidMount() {
-    this.props.loadChallenges();
+  let spinner = null;
+  if (props.loading) {
+    spinner = <Spinner />
+  }
+  let challengesDisplayed = [];
+  if (!props.loading && !props.error) {
+    challengesDisplayed = props.challenges.filter(createFilter(props, type))
+      .map(challenge => ({ ...challenge, seconds: getSecondsUntilDeadline(challenge) }));
   }
 
-  updateChallengesFilter = (event: any) => {
-    this.setState({ type: event.target.value });
-  }
+  return (
+    <div className="Challenges">
 
-  getFilter = (type: string) => {
-    switch (type) {
-      case 'opponent':
-        return (challenge: any) => challenge.opponent.id === this.props.profile.id;
-      case 'referee':
-        return (challenge: any) => challenge.referee.id === this.props.profile.id;
-      case 'owner':
-      default:
-        return (challenge: any) => challenge.owner.id === this.props.profile.id;
-    }
-  }
-
-  getSecondsUntilDeadline = (challenge: any) => {
-    const deadline = moment(challenge.deadline);
-    const durationUntilDeadline = moment.duration(deadline.diff(moment()));
-    return durationUntilDeadline.asSeconds();
-  }
-
-  render() {
-    let spinner = null;
-    if (this.props.loading) {
-      spinner = <Spinner />
-    }
-    let challengesDisplayed = [];
-    if (!this.props.loading && !this.props.error) {
-      challengesDisplayed = this.props.challenges.filter(this.getFilter(this.state.type))
-        .map(challenge => ({ ...challenge, seconds: this.getSecondsUntilDeadline(challenge) }));
-    }
-
-    return (
-      <div className="Challenges">
-
-        <FormControl>
-          <FormLabel>Filter challenges:</FormLabel>
-          <RadioGroup
-            aria-label="Challenges filter"
-            row
-            value={this.state.type}
-            onChange={this.updateChallengesFilter} >
-            <FormControlLabel
-              value="owner"
-              control={<Radio />}
-              label="My challenges" />
-            <FormControlLabel
-              value="opponent"
-              control={<Radio />}
-              label="I am opponent" />
-            <FormControlLabel
-              value="referee"
-              control={<Radio />}
-              label="I am referee" />
-          </RadioGroup>
-        </FormControl>
-        {spinner}
-        {challengesDisplayed.map(challenge => (
-          <Link to={'/challenges/' + challenge.id} key={challenge.id}>
-            <div className="ChallengeItem">
-              <div>
-                <div className="ChallengeTitle">
-                  {challenge.title}
-                </div>
-                <div className="ChallengeDeadline">
-                  {
-                    challenge.seconds >= 0
-                      ? <CountDown seconds={challenge.seconds} />
-                      : "Challenge expired"
-                  }
-                </div>
-              </div>
-              <div>
-                <div className="ChallengeItemLabel">Title </div>
-                <div className="ChallengeItemLabel">Deadline</div>
-              </div>
-            </div>
-
-          </Link>
-        ))}
-      </div>
-    );
-  }
+      <FormControl>
+        <FormLabel>Filter challenges:</FormLabel>
+        <RadioGroup
+          aria-label="Challenges filter"
+          row
+          value={type}
+          onChange={updateChallengesFilter} >
+          <FormControlLabel
+            value="owner"
+            control={<Radio />}
+            label="My challenges" />
+          <FormControlLabel
+            value="opponent"
+            control={<Radio />}
+            label="I am then opponent" />
+          <FormControlLabel
+            value="referee"
+            control={<Radio />}
+            label="I am the referee" />
+        </RadioGroup>
+      </FormControl>
+      {spinner}
+      {challengesDisplayed.map(challenge => (
+        <Card key={challenge.id}>
+          <CardHeader
+            avatar={
+              <Avatar alt={challenge.owner.name} src={challenge.opponent.pictureUrl || userIcon} />
+            }
+            title={challenge.title}
+            subheader={'Created: ' + moment(challenge.createdAt).format('MMMM DD, YYYY')}
+            className={classes.header} />
+          <CardContent>
+            <Typography variant="body2" color="textSecondary" component="p">{challenge.description}</Typography>
+            {
+              challenge.seconds >= 0
+                ? <CountDown seconds={challenge.seconds} />
+                : "Challenge expired"
+            }
+          </CardContent>
+          <CardActions>
+            <IconButton aria-label="add to favorites">
+              <Favorite />
+            </IconButton>
+            <IconButton aria-label="share">
+              <Share />
+            </IconButton>
+          </CardActions>
+        </Card>
+      ))}
+    </div>
+  );
 }
 
 const mapStateToProps = (state: any) => ({

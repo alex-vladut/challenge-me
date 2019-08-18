@@ -5,6 +5,7 @@ export const onCreateActivity = `subscription OnCreateActivity {
   onCreateActivity {
     id
     title
+    description
     owner {
       id
       name
@@ -24,6 +25,7 @@ export const onUpdateActivity = `subscription OnUpdateActivity {
   onUpdateActivity {
     id
     title
+    description
     owner {
       id
       name
@@ -43,6 +45,7 @@ export const onDeleteActivity = `subscription OnDeleteActivity {
   onDeleteActivity {
     id
     title
+    description
     owner {
       id
       name
@@ -62,6 +65,7 @@ export const onCreateChallenge = `subscription OnCreateChallenge {
   onCreateChallenge {
     id
     title
+    description
     owner {
       id
       name
@@ -89,6 +93,8 @@ export const onCreateChallenge = `subscription OnCreateChallenge {
       pictureUrl
       version
     }
+    createdAt
+    updatedAt
     version
   }
 }
@@ -97,6 +103,7 @@ export const onUpdateChallenge = `subscription OnUpdateChallenge {
   onUpdateChallenge {
     id
     title
+    description
     owner {
       id
       name
@@ -124,6 +131,8 @@ export const onUpdateChallenge = `subscription OnUpdateChallenge {
       pictureUrl
       version
     }
+    createdAt
+    updatedAt
     version
   }
 }
@@ -132,6 +141,7 @@ export const onDeleteChallenge = `subscription OnDeleteChallenge {
   onDeleteChallenge {
     id
     title
+    description
     owner {
       id
       name
@@ -159,6 +169,8 @@ export const onDeleteChallenge = `subscription OnDeleteChallenge {
       pictureUrl
       version
     }
+    createdAt
+    updatedAt
     version
   }
 }

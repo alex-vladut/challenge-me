@@ -20,6 +20,7 @@ interface ChallengeProps {
 
 interface ChallengeState {
   title: string
+  description: string
   opponent: any
   referee: any
   deadline: moment.Moment
@@ -32,6 +33,7 @@ class Challenge extends Component<ChallengeProps, ChallengeState> {
 
   state: ChallengeState = {
     title: '',
+    description: '',
     opponent: {},
     referee: {},
     deadline: moment(),
@@ -98,6 +100,7 @@ class Challenge extends Component<ChallengeProps, ChallengeState> {
     if (this.validate()) {
       this.props.onCreateChallenge({
         title: this.state.title,
+        description: this.state.description,
         opponent: this.state.opponent.id,
         referee: this.state.referee.id,
         deadline: this.state.deadline.toISOString()
@@ -107,6 +110,10 @@ class Challenge extends Component<ChallengeProps, ChallengeState> {
 
   updateTitle = (event: any) => {
     this.setState({ title: event.target.value });
+  }
+
+  updateDescription = (event: any) => {
+    this.setState({ description: event.target.value });
   }
 
   updateDeadline = (dateTime: string) => {
@@ -151,6 +158,17 @@ class Challenge extends Component<ChallengeProps, ChallengeState> {
             margin="normal"
             fullWidth
             variant="outlined"
+          />
+          <TextField
+            id="outlines-multiline-flexible"
+            label="Description"
+            multiline
+            rowsMax="4"
+            value={this.state.description}
+            onChange={this.updateDescription}
+            margin="normal"
+            variant="outlined"
+            fullWidth
           />
           <UserInput
             label="Opponent:"

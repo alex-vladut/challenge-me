@@ -4,6 +4,7 @@
 export type CreateActivityInput = {
   id?: string | null,
   title: string,
+  description: string,
   dateTime: string,
   numberOfAttendants: number,
   activityOwnerId?: string | null,
@@ -12,6 +13,7 @@ export type CreateActivityInput = {
 export type UpdateActivityInput = {
   id: string,
   title?: string | null,
+  description?: string | null,
   dateTime?: string | null,
   numberOfAttendants?: number | null,
   activityOwnerId?: string | null,
@@ -26,9 +28,12 @@ export type DeleteActivityInput = {
 export type CreateChallengeInput = {
   id?: string | null,
   title: string,
+  description: string,
   opponentStatus?: ParticipantApprovalStatus | null,
   refereeStatus?: ParticipantApprovalStatus | null,
   deadline: string,
+  createdAt?: string | null,
+  updatedAt?: string | null,
   challengeOwnerId?: string | null,
   challengeOpponentId: string,
   challengeRefereeId: string,
@@ -45,9 +50,12 @@ export enum ParticipantApprovalStatus {
 export type UpdateChallengeInput = {
   id: string,
   title?: string | null,
+  description?: string | null,
   opponentStatus?: ParticipantApprovalStatus | null,
   refereeStatus?: ParticipantApprovalStatus | null,
   deadline?: string | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
   challengeOwnerId?: string | null,
   challengeOpponentId?: string | null,
   challengeRefereeId?: string | null,
@@ -83,6 +91,7 @@ export type DeleteUserInput = {
 export type ModelActivityFilterInput = {
   id?: ModelIDFilterInput | null,
   title?: ModelStringFilterInput | null,
+  description?: ModelStringFilterInput | null,
   dateTime?: ModelStringFilterInput | null,
   numberOfAttendants?: ModelIntFilterInput | null,
   and?: Array< ModelActivityFilterInput | null > | null,
@@ -131,9 +140,12 @@ export type ModelIntFilterInput = {
 export type ModelChallengeFilterInput = {
   id?: ModelIDFilterInput | null,
   title?: ModelStringFilterInput | null,
+  description?: ModelStringFilterInput | null,
   opponentStatus?: ModelParticipantApprovalStatusFilterInput | null,
   refereeStatus?: ModelParticipantApprovalStatusFilterInput | null,
   deadline?: ModelStringFilterInput | null,
+  createdAt?: ModelStringFilterInput | null,
+  updatedAt?: ModelStringFilterInput | null,
   and?: Array< ModelChallengeFilterInput | null > | null,
   or?: Array< ModelChallengeFilterInput | null > | null,
   not?: ModelChallengeFilterInput | null,
@@ -213,6 +225,7 @@ export type CreateActivityMutation = {
     __typename: "Activity",
     id: string,
     title: string,
+    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -239,6 +252,7 @@ export type UpdateActivityMutation = {
     __typename: "Activity",
     id: string,
     title: string,
+    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -265,6 +279,7 @@ export type DeleteActivityMutation = {
     __typename: "Activity",
     id: string,
     title: string,
+    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -291,6 +306,7 @@ export type CreateChallengeMutation = {
     __typename: "Challenge",
     id: string,
     title: string,
+    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -322,6 +338,8 @@ export type CreateChallengeMutation = {
       pictureUrl: string | null,
       version: number,
     } | null,
+    createdAt: string | null,
+    updatedAt: string | null,
     version: number,
   } | null,
 };
@@ -335,6 +353,7 @@ export type UpdateChallengeMutation = {
     __typename: "Challenge",
     id: string,
     title: string,
+    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -366,6 +385,8 @@ export type UpdateChallengeMutation = {
       pictureUrl: string | null,
       version: number,
     } | null,
+    createdAt: string | null,
+    updatedAt: string | null,
     version: number,
   } | null,
 };
@@ -379,6 +400,7 @@ export type DeleteChallengeMutation = {
     __typename: "Challenge",
     id: string,
     title: string,
+    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -410,6 +432,8 @@ export type DeleteChallengeMutation = {
       pictureUrl: string | null,
       version: number,
     } | null,
+    createdAt: string | null,
+    updatedAt: string | null,
     version: number,
   } | null,
 };
@@ -465,6 +489,7 @@ export type GetActivityQuery = {
     __typename: "Activity",
     id: string,
     title: string,
+    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -495,6 +520,7 @@ export type ListActivitysQuery = {
       __typename: "Activity",
       id: string,
       title: string,
+      description: string,
       dateTime: string,
       numberOfAttendants: number,
       version: number,
@@ -512,6 +538,7 @@ export type GetChallengeQuery = {
     __typename: "Challenge",
     id: string,
     title: string,
+    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -543,6 +570,8 @@ export type GetChallengeQuery = {
       pictureUrl: string | null,
       version: number,
     } | null,
+    createdAt: string | null,
+    updatedAt: string | null,
     version: number,
   } | null,
 };
@@ -560,9 +589,12 @@ export type ListChallengesQuery = {
       __typename: "Challenge",
       id: string,
       title: string,
+      description: string,
       opponentStatus: ParticipantApprovalStatus | null,
       refereeStatus: ParticipantApprovalStatus | null,
       deadline: string,
+      createdAt: string | null,
+      updatedAt: string | null,
       version: number,
     } | null > | null,
     nextToken: string | null,
@@ -629,6 +661,7 @@ export type OnCreateActivitySubscription = {
     __typename: "Activity",
     id: string,
     title: string,
+    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -651,6 +684,7 @@ export type OnUpdateActivitySubscription = {
     __typename: "Activity",
     id: string,
     title: string,
+    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -673,6 +707,7 @@ export type OnDeleteActivitySubscription = {
     __typename: "Activity",
     id: string,
     title: string,
+    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -695,6 +730,7 @@ export type OnCreateChallengeSubscription = {
     __typename: "Challenge",
     id: string,
     title: string,
+    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -726,6 +762,8 @@ export type OnCreateChallengeSubscription = {
       pictureUrl: string | null,
       version: number,
     } | null,
+    createdAt: string | null,
+    updatedAt: string | null,
     version: number,
   } | null,
 };
@@ -735,6 +773,7 @@ export type OnUpdateChallengeSubscription = {
     __typename: "Challenge",
     id: string,
     title: string,
+    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -766,6 +805,8 @@ export type OnUpdateChallengeSubscription = {
       pictureUrl: string | null,
       version: number,
     } | null,
+    createdAt: string | null,
+    updatedAt: string | null,
     version: number,
   } | null,
 };
@@ -775,6 +816,7 @@ export type OnDeleteChallengeSubscription = {
     __typename: "Challenge",
     id: string,
     title: string,
+    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -806,6 +848,8 @@ export type OnDeleteChallengeSubscription = {
       pictureUrl: string | null,
       version: number,
     } | null,
+    createdAt: string | null,
+    updatedAt: string | null,
     version: number,
   } | null,
 };
