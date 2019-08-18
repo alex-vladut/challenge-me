@@ -9,6 +9,8 @@ type Activity @model @versioned {
   dateTime: String!
   numberOfAttendants: Int!
   attendants: [User!] @connection
+  createdAt: String
+  updatedAt: String
 }
 
 type Challenge @model @versioned {

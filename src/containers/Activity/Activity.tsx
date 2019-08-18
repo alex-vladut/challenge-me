@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
 import moment from 'moment';
 
-import DateFnsUtils from '@date-io/date-fns';
-import { Grid, TextField } from '@material-ui/core';
-import { KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { Grid, TextField, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 
-import { connect } from 'react-redux';
+import DateTimePicker from '../../components/DateTimePicker/DateTimePicker';
+
 import { CreateActivity } from '../../store/actions/activities.actions';
 
 const useStyles = makeStyles(theme => ({
@@ -17,11 +16,14 @@ const useStyles = makeStyles(theme => ({
 
 const validate = (form: any) => {
   let errors: any = {};
-  if (!form.title || form.title.length < 10 || form.title.length > 500) {
+  if (!form.title || form.title.length < 10 || form.title.length > 200) {
     errors = { ...errors, title: 'Please provide a title between 10 and 200 chars long.' };
   }
+  if (!form.description || form.description.length < 10 || form.description.length > 1000) {
+    errors = { ...errors, description: 'Please provide a description between 10 and 1000 chars long.' };
+  }
   if (!form.numberOfAttendants || form.numberOfAttendants < 1 || form.numberOfAttendants > 100) {
-    errors = { ...errors, numberOfAttendants: 'You could select between 1 and 100 attendants.' };
+    errors = { ...errors, numberOfAttendants: 'You should select between 1 and 100 attendants.' };
   }
   if (!form.dateTime || moment(form.dateTime).subtract(1, 'day').isBefore(moment())) {
     errors = { ...errors, dateTime: 'The time of your activity should be at least one day in the future.' }
@@ -40,17 +42,19 @@ const Activity = (props: ActivityProps) => {
   const nextMonth = moment().add(1, 'month').hour(10).minute(0).second(0).toDate();
   const [dateTime, setDateTime] = useState<Date | null>(nextMonth);
   const [title, setTitle] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
   const [numberOfAttendants, setNumberOfAttendants] = useState<number>(1);
   const [errors, setErrors] = useState<any>({});
 
   const handleDateChange = (date: Date | null) => setDateTime(date);
   const handleTitleChange = (event: any) => setTitle(event.target.value);
+  const handleDescriptionChange = (event: any) => setDescription(event.target.value);
   const handleNumberOfAttendantsChange = (event: any) => setNumberOfAttendants(Number(event.target.value));
 
   const submit = (event: any) => {
     event.preventDefault();
-    const activity = { title, dateTime, numberOfAttendants };
-    const errors = validate({ title, dateTime, numberOfAttendants });
+    const activity = { title, description, dateTime, numberOfAttendants };
+    const errors = validate({ title, description, dateTime, numberOfAttendants });
     setErrors(errors);
 
     if (Object.values(errors).length === 0) {
@@ -61,26 +65,34 @@ const Activity = (props: ActivityProps) => {
   return (
     <form onSubmit={submit}>
       <TextField
-        required
-        fullWidth
+        label="Title"
+        value={title}
+        onChange={handleTitleChange}
         error={!!errors.title}
         helperText={errors.title}
-        label="Title"
-        value={title} onChange={handleTitleChange} />
-      {/* create component for date/time picking */}
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <Grid container justify="space-between">
-          <KeyboardDatePicker
-            margin="normal" label="Date"
-            value={dateTime} onChange={handleDateChange}
-            KeyboardButtonProps={{ 'aria-label': 'change date' }} />
-          <KeyboardTimePicker margin="normal" label="Time"
-            value={dateTime} onChange={handleDateChange}
-            KeyboardButtonProps={{ 'aria-label': 'change time' }} />
-        </Grid>
-      </MuiPickersUtilsProvider>
-      <TextField required fullWidth label="Number of attendants" type="number"
-        value={numberOfAttendants} onChange={handleNumberOfAttendantsChange} />
+        required
+        fullWidth />
+      <TextField
+        label="Description"
+        value={description}
+        onChange={handleDescriptionChange}
+        error={!!errors.description}
+        helperText={errors.description}
+        multiline
+        rowsMax="5"
+        fullWidth
+        required
+      />
+      <DateTimePicker value={dateTime} onChange={handleDateChange} />
+      <TextField
+        required
+        fullWidth
+        label="Number of attendants"
+        type="number"
+        value={numberOfAttendants}
+        onChange={handleNumberOfAttendantsChange}
+        error={!!errors.numberOfAttendants}
+        helperText={errors.numberOfAttendants} />
 
       <Grid container alignItems="flex-start" justify="flex-end">
         <Button variant="contained" color="primary" className={classes.button} type="submit">Save</Button>
