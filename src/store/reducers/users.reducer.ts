@@ -1,13 +1,17 @@
-import { FetchUsers, FetchUsersFail, FetchUsersSuccess } from '../actions/users.actions';
+import {
+  FetchUsers,
+  FetchUsersFail,
+  FetchUsersSuccess
+} from "../actions/users.actions";
 
 export interface State {
-  loading: boolean
-  users: any[]
+  loading: boolean;
+  users: any[];
 }
 
 const initialState: State = {
   loading: false,
-  users: [],
+  users: []
 };
 
 const reducer = (state = initialState, action: any) => {

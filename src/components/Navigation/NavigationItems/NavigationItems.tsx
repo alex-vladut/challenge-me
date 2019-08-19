@@ -1,12 +1,12 @@
-import './NavigationItems.scss';
+import "./NavigationItems.scss";
 
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent } from "react";
 
-import NavigationItem from './NavigationItem/NavigationItem';
+import NavigationItem from "./NavigationItem/NavigationItem";
 
 interface NavigationItemsProps {
-  isAuthenticated: boolean
-  onClick?(): void
+  isAuthenticated: boolean;
+  onClick?(): void;
 }
 
 const NavigationItems: FunctionComponent<NavigationItemsProps> = props => {
@@ -14,20 +14,30 @@ const NavigationItems: FunctionComponent<NavigationItemsProps> = props => {
   if (props.isAuthenticated) {
     navItems = (
       <ul className="NavigationItems">
-        <NavigationItem link="/" onClick={props.onClick} exact >Home</NavigationItem>
-        <NavigationItem link="/activities/new" onClick={props.onClick} >Create</NavigationItem>
-        <NavigationItem link="/activities" onClick={props.onClick} >Activities</NavigationItem>
-        <NavigationItem link="/logout" onClick={props.onClick} >Log Out</NavigationItem>
+        <NavigationItem link="/" onClick={props.onClick} exact>
+          Home
+        </NavigationItem>
+        <NavigationItem link="/activities/new" onClick={props.onClick}>
+          Create
+        </NavigationItem>
+        <NavigationItem link="/activities" onClick={props.onClick}>
+          Activities
+        </NavigationItem>
+        <NavigationItem link="/logout" onClick={props.onClick}>
+          Log Out
+        </NavigationItem>
       </ul>
-    )
+    );
   } else {
     navItems = (
       <ul className="NavigationItems">
-        <NavigationItem link="/auth" onClick={props.onClick} >Log In</NavigationItem>
+        <NavigationItem link="/auth" onClick={props.onClick}>
+          Log In
+        </NavigationItem>
       </ul>
-    )
+    );
   }
   return navItems;
-}
+};
 
 export default NavigationItems;

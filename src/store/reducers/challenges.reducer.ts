@@ -13,19 +13,19 @@ import {
   RejectChallenge,
   RejectChallengeSuccess,
   SetChallengeWinner,
-  SetChallengeWinnerSuccess,
-} from '../actions/challenges.actions';
+  SetChallengeWinnerSuccess
+} from "../actions/challenges.actions";
 
 export interface State {
-  challenges: any[]
-  challenge: any
-  profile: any
-  loading: boolean
-  accepting: boolean
-  rejecting: boolean
-  error: any
-  challengeCreated: boolean
-  authenticated: boolean
+  challenges: any[];
+  challenge: any;
+  profile: any;
+  loading: boolean;
+  accepting: boolean;
+  rejecting: boolean;
+  error: any;
+  challengeCreated: boolean;
+  authenticated: boolean;
 }
 
 const initialState: State = {
@@ -82,15 +82,15 @@ const reducer = (state = initialState, action: any) => {
         loading: false,
         accepting: false,
         error: null,
-        challenge: action.payload,
-      }
+        challenge: action.payload
+      };
     case RejectChallengeSuccess.type:
       return {
         ...state,
         loading: false,
         rejecting: false,
         error: null,
-        challenge: action.payload,
+        challenge: action.payload
       };
     case FetchChallengesFail.type:
     case FetchChallengeFail.type:

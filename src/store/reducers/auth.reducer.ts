@@ -4,8 +4,8 @@ import {
   FetchProfileSuccess,
   SignOut,
   SignOutFail,
-  SignOutSuccess,
-} from '../actions/auth.actions';
+  SignOutSuccess
+} from "../actions/auth.actions";
 
 export interface State {
   loading: boolean;
@@ -16,7 +16,7 @@ export interface State {
 const initialState: State = {
   loading: false,
   authenticated: false,
-  profile: null,
+  profile: null
 };
 
 const reducer = (state = initialState, action: any) => {

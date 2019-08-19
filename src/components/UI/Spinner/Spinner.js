@@ -1,9 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import './Spinner.css';
+import "./Spinner.css";
 
-const spinner = () => (
-    <div className="loader"></div>
-);
+const spinner = () => <div className="loader"></div>;
 
 export default spinner;

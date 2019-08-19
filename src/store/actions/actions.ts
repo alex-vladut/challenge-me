@@ -3,7 +3,7 @@ export interface Action {
 }
 
 export interface ActionWithPayload<T> extends Action {
-  payload: T
+  payload: T;
 }
 
 interface ActionCreator<T> {
@@ -11,23 +11,23 @@ interface ActionCreator<T> {
 }
 
 export function payload<T>(): ActionCreator<T> {
-  return ({
+  return {
     create(type: string, payload: T): ActionWithPayload<T> {
-      return { type, payload }
+      return { type, payload };
     }
-  });
+  };
 }
 
 export function action<T>(type: string, payload: ActionCreator<T>) {
   return {
     type,
     create: (p: T) => payload.create(type, p)
-  }
-};
+  };
+}
 
 export function actionWithoutPayload(type: string) {
   return {
     type,
     create: (): Action => ({ type })
-  }
-};
+  };
+}

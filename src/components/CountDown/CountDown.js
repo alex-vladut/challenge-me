@@ -1,7 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment } from "react";
 
 class CountDown extends Component {
-
   constructor() {
     super();
     this.state = { time: {} };
@@ -20,9 +19,9 @@ class CountDown extends Component {
     let seconds = Math.ceil(divisor_for_seconds);
 
     let obj = {
-      "h": hours,
-      "m": minutes,
-      "s": seconds
+      h: hours,
+      m: minutes,
+      s: seconds
     };
     return obj;
   }
@@ -51,7 +50,7 @@ class CountDown extends Component {
     let seconds = this.state.seconds - 1;
     this.setState({
       time: this.secondsToTime(seconds),
-      seconds: seconds,
+      seconds: seconds
     });
 
     // Check if we're at zero.

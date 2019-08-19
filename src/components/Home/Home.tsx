@@ -1,10 +1,11 @@
-import './Home.scss';
+import "./Home.scss";
 
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent } from "react";
 
-const Home: FunctionComponent = () =>
-  (<div>
+const Home: FunctionComponent = () => (
+  <div>
     <div className="Home"></div>
-  </div>);
+  </div>
+);
 
 export default Home;

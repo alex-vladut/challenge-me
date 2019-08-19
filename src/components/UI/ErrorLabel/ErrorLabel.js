@@ -1,9 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import './ErrorLabel.css';
+import "./ErrorLabel.css";
 
-const errorLabel = (props) => (
-    <p className="ErrorLabel">{props.children}</p>
-);
+const errorLabel = props => <p className="ErrorLabel">{props.children}</p>;
 
 export default errorLabel;
