@@ -1,13 +1,15 @@
-import React, { useState, FunctionComponent } from "react";
+import React, { useState, FunctionComponent, useEffect } from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router";
 
 import moment from "moment";
-
-import { Grid, TextField, Button } from "@material-ui/core";
+import { useSnackbar } from "notistack";
+import { Grid, TextField, Button, CircularProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import DateTimePicker from "../../components/DateTimePicker/DateTimePicker";
-import { Create } from "../../store/actions/activities.actions";
+import { Create, CleanMessages } from "../../store/actions/activities.actions";
+import { State } from "../../store/reducers";
 
 const useStyles = makeStyles(theme => ({
   button: { marginTop: theme.spacing(3) }
@@ -49,11 +51,13 @@ const validate = (form: any) => {
 
 export interface ActivityProps {
   loading: boolean;
-  error: string;
+  successMessage: string | null;
+  errorMessage: string | null;
   createActivity(activity: any): void;
+  cleanMessages(): void;
 }
 
-const Activity: FunctionComponent<ActivityProps> = (props: ActivityProps) => {
+const Activity: FunctionComponent<ActivityProps> = ({ loading, successMessage, errorMessage, createActivity, cleanMessages }: ActivityProps) => {
   const classes = useStyles();
 
   const nextMonth = moment()
@@ -68,6 +72,20 @@ const Activity: FunctionComponent<ActivityProps> = (props: ActivityProps) => {
   const [numberOfAttendants, setNumberOfAttendants] = useState<number>(1);
   const [errors, setErrors] = useState<any>({});
 
+  // TODO extract this code in a distinct component
+  const { enqueueSnackbar } = useSnackbar();
+  useEffect(() => {
+    if (successMessage) {
+      enqueueSnackbar(successMessage, { variant: "success" });
+    }
+  }, [enqueueSnackbar, successMessage]);
+  useEffect(() => {
+    if (errorMessage) {
+      enqueueSnackbar(errorMessage, { variant: "error" });
+    }
+  }, [enqueueSnackbar, errorMessage]);
+  useEffect(() => () => cleanMessages(), [cleanMessages]);
+
   const handleDateChange = (date: Date | null) => setDateTime(date);
   const handleTitleChange = (event: any) => setTitle(event.target.value);
   const handleDescriptionChange = (event: any) => setDescription(event.target.value);
@@ -76,18 +94,20 @@ const Activity: FunctionComponent<ActivityProps> = (props: ActivityProps) => {
   const submit = (event: any) => {
     event.preventDefault();
     const activity = { title, description, dateTime, numberOfAttendants };
-    const errors = validate({
-      title,
-      description,
-      dateTime,
-      numberOfAttendants
-    });
+    const errors = validate(activity);
     setErrors(errors);
 
     if (Object.values(errors).length === 0) {
-      props.createActivity(activity);
+      createActivity(activity);
     }
   };
+
+  if (loading) {
+    return <CircularProgress />;
+  }
+  if (successMessage) {
+    return <Redirect to="/activities" />;
+  }
 
   return (
     <form onSubmit={submit}>
@@ -114,13 +134,15 @@ const Activity: FunctionComponent<ActivityProps> = (props: ActivityProps) => {
   );
 };
 
-const mapStateToProps = (state: any) => ({
-  loading: state.activities.loading,
-  error: state.activities.error
+const mapStateToProps = ({ activities: { loading, successMessage, errorMessage } }: State) => ({
+  loading,
+  successMessage,
+  errorMessage
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  createActivity: (activity: any) => dispatch(Create.create(activity))
+  createActivity: (activity: any) => dispatch(Create.create(activity)),
+  cleanMessages: () => dispatch(CleanMessages.create())
 });
 
 export default connect(
