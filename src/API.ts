@@ -7,6 +7,8 @@ export type CreateActivityInput = {
   description: string,
   dateTime: string,
   numberOfAttendants: number,
+  createdAt?: string | null,
+  updatedAt?: string | null,
   activityOwnerId?: string | null,
 };
 
@@ -16,6 +18,8 @@ export type UpdateActivityInput = {
   description?: string | null,
   dateTime?: string | null,
   numberOfAttendants?: number | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
   activityOwnerId?: string | null,
   expectedVersion: number,
 };
@@ -94,6 +98,8 @@ export type ModelActivityFilterInput = {
   description?: ModelStringFilterInput | null,
   dateTime?: ModelStringFilterInput | null,
   numberOfAttendants?: ModelIntFilterInput | null,
+  createdAt?: ModelStringFilterInput | null,
+  updatedAt?: ModelStringFilterInput | null,
   and?: Array< ModelActivityFilterInput | null > | null,
   or?: Array< ModelActivityFilterInput | null > | null,
   not?: ModelActivityFilterInput | null,
@@ -239,6 +245,8 @@ export type CreateActivityMutation = {
       __typename: "ModelUserConnection",
       nextToken: string | null,
     } | null,
+    createdAt: string | null,
+    updatedAt: string | null,
     version: number,
   } | null,
 };
@@ -266,6 +274,8 @@ export type UpdateActivityMutation = {
       __typename: "ModelUserConnection",
       nextToken: string | null,
     } | null,
+    createdAt: string | null,
+    updatedAt: string | null,
     version: number,
   } | null,
 };
@@ -293,6 +303,8 @@ export type DeleteActivityMutation = {
       __typename: "ModelUserConnection",
       nextToken: string | null,
     } | null,
+    createdAt: string | null,
+    updatedAt: string | null,
     version: number,
   } | null,
 };
@@ -503,6 +515,8 @@ export type GetActivityQuery = {
       __typename: "ModelUserConnection",
       nextToken: string | null,
     } | null,
+    createdAt: string | null,
+    updatedAt: string | null,
     version: number,
   } | null,
 };
@@ -523,6 +537,8 @@ export type ListActivitysQuery = {
       description: string,
       dateTime: string,
       numberOfAttendants: number,
+      createdAt: string | null,
+      updatedAt: string | null,
       version: number,
     } | null > | null,
     nextToken: string | null,
@@ -675,6 +691,8 @@ export type OnCreateActivitySubscription = {
       __typename: "ModelUserConnection",
       nextToken: string | null,
     } | null,
+    createdAt: string | null,
+    updatedAt: string | null,
     version: number,
   } | null,
 };
@@ -698,6 +716,8 @@ export type OnUpdateActivitySubscription = {
       __typename: "ModelUserConnection",
       nextToken: string | null,
     } | null,
+    createdAt: string | null,
+    updatedAt: string | null,
     version: number,
   } | null,
 };
@@ -721,6 +741,8 @@ export type OnDeleteActivitySubscription = {
       __typename: "ModelUserConnection",
       nextToken: string | null,
     } | null,
+    createdAt: string | null,
+    updatedAt: string | null,
     version: number,
   } | null,
 };

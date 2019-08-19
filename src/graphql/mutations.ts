@@ -17,6 +17,8 @@ export const createActivity = `mutation CreateActivity($input: CreateActivityInp
     attendants {
       nextToken
     }
+    createdAt
+    updatedAt
     version
   }
 }
@@ -37,6 +39,8 @@ export const updateActivity = `mutation UpdateActivity($input: UpdateActivityInp
     attendants {
       nextToken
     }
+    createdAt
+    updatedAt
     version
   }
 }
@@ -57,6 +61,8 @@ export const deleteActivity = `mutation DeleteActivity($input: DeleteActivityInp
     attendants {
       nextToken
     }
+    createdAt
+    updatedAt
     version
   }
 }

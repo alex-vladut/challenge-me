@@ -128,7 +128,7 @@ const Challenges = (props: ChallengesProps) => {
         <Card key={challenge.id}>
           <CardHeader
             avatar={
-              <Avatar alt={challenge.owner.name} src={challenge.opponent.pictureUrl || userIcon} />
+              <Avatar alt={challenge.owner.name} src={challenge.owner.pictureUrl || userIcon} />
             }
             title={challenge.title}
             subheader={'Created: ' + moment(challenge.createdAt).format('MMMM DD, YYYY')}

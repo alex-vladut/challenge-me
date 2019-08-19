@@ -15,7 +15,8 @@ const NavigationItems: FunctionComponent<NavigationItemsProps> = props => {
     navItems = (
       <ul className="NavigationItems">
         <NavigationItem link="/" onClick={props.onClick} exact >Home</NavigationItem>
-        <NavigationItem link="/activities/new" onClick={props.onClick} >New activity</NavigationItem>
+        <NavigationItem link="/activities/new" onClick={props.onClick} >Create</NavigationItem>
+        <NavigationItem link="/activities" onClick={props.onClick} >Activities</NavigationItem>
         <NavigationItem link="/logout" onClick={props.onClick} >Log Out</NavigationItem>
       </ul>
     )

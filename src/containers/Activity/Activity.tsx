@@ -7,8 +7,7 @@ import { Grid, TextField, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import DateTimePicker from '../../components/DateTimePicker/DateTimePicker';
-
-import { CreateActivity } from '../../store/actions/activities.actions';
+import { Create } from '../../store/actions/activities.actions';
 
 const useStyles = makeStyles(theme => ({
   button: { marginTop: theme.spacing(3) },
@@ -106,7 +105,7 @@ const mapStateToProps = (state: any) => ({
 })
 
 const mapDispatchToProps = (dispatch: any) => ({
-  createActivity: (activity: any) => dispatch(CreateActivity.create(activity)),
+  createActivity: (activity: any) => dispatch(Create.create(activity)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Activity)

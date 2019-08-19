@@ -17,6 +17,8 @@ export const getActivity = `query GetActivity($id: ID!) {
     attendants {
       nextToken
     }
+    createdAt
+    updatedAt
     version
   }
 }
@@ -33,6 +35,14 @@ export const listActivitys = `query ListActivitys(
       description
       dateTime
       numberOfAttendants
+      owner {
+        id
+        name
+        pictureUrl
+        version
+      }
+      createdAt
+      updatedAt
       version
     }
     nextToken
@@ -87,24 +97,6 @@ export const listChallenges = `query ListChallenges(
       id
       title
       description
-      owner {
-        id
-        name
-        pictureUrl
-        version
-      }
-      opponent {
-        id
-        name
-        pictureUrl
-        version
-      }
-      referee {
-        id
-        name
-        pictureUrl
-        version
-      }
       opponentStatus
       refereeStatus
       deadline

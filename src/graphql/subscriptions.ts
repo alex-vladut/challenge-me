@@ -17,6 +17,8 @@ export const onCreateActivity = `subscription OnCreateActivity {
     attendants {
       nextToken
     }
+    createdAt
+    updatedAt
     version
   }
 }
@@ -37,6 +39,8 @@ export const onUpdateActivity = `subscription OnUpdateActivity {
     attendants {
       nextToken
     }
+    createdAt
+    updatedAt
     version
   }
 }
@@ -57,6 +61,8 @@ export const onDeleteActivity = `subscription OnDeleteActivity {
     attendants {
       nextToken
     }
+    createdAt
+    updatedAt
     version
   }
 }
