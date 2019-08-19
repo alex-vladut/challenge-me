@@ -1,11 +1,4 @@
-import {
-  Create,
-  CreateFail,
-  CreateSuccess,
-  Fetch,
-  FetchFail,
-  FetchSuccess
-} from "../actions/activities.actions";
+import { Create, CreateFail, CreateSuccess, Fetch, FetchFail, FetchSuccess } from "../actions/activities.actions";
 
 export interface State {
   activities: any[];

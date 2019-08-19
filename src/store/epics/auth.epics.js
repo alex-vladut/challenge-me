@@ -5,30 +5,14 @@ import { catchError, map, switchMap } from "rxjs/operators";
 
 import * as mutations from "../../graphql/mutations";
 import * as queries from "../../graphql/queries";
-import {
-  FetchProfile,
-  FetchProfileFail,
-  FetchProfileNotFound,
-  FetchProfileSuccess,
-  SignOut,
-  SignOutFail,
-  SignOutSuccess
-} from "../actions/auth.actions";
+import { FetchProfile, FetchProfileFail, FetchProfileNotFound, FetchProfileSuccess, SignOut, SignOutFail, SignOutSuccess } from "../actions/auth.actions";
 
 function fetchProfile(actions$) {
   return actions$.pipe(
     ofType(FetchProfile.type),
     switchMap(() => from(Auth.currentAuthenticatedUser())),
-    switchMap(authenticatedUser =>
-      API.graphql(
-        graphqlOperation(queries.getUser, { id: authenticatedUser.id })
-      )
-    ),
-    map(response =>
-      response.data.getUser
-        ? FetchProfileSuccess.create(response.data.getUser)
-        : FetchProfileNotFound.create()
-    ),
+    switchMap(authenticatedUser => API.graphql(graphqlOperation(queries.getUser, { id: authenticatedUser.id }))),
+    map(response => (response.data.getUser ? FetchProfileSuccess.create(response.data.getUser) : FetchProfileNotFound.create())),
     catchError(error => of(FetchProfileFail.create(error)))
   );
 }

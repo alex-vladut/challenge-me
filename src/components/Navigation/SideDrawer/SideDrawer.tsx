@@ -13,9 +13,7 @@ interface SideDrawerProps {
 }
 
 const SideDrawer: FunctionComponent<SideDrawerProps> = props => {
-  const sideDrawerClasses = props.open
-    ? ["SideDrawer", "Open"]
-    : ["SideDrawer", "Close"];
+  const sideDrawerClasses = props.open ? ["SideDrawer", "Open"] : ["SideDrawer", "Close"];
   return (
     <div className={sideDrawerClasses.join(" ")}>
       <div style={{ height: "11%" }}>
@@ -23,10 +21,7 @@ const SideDrawer: FunctionComponent<SideDrawerProps> = props => {
       </div>
       <Close onClick={props.closed} />
       <nav>
-        <NavigationItems
-          onClick={props.closed}
-          isAuthenticated={props.isAuthenticated}
-        />
+        <NavigationItems onClick={props.closed} isAuthenticated={props.isAuthenticated} />
       </nav>
     </div>
   );

@@ -10,9 +10,7 @@ interface ChallengeOwnerViewProps {
   challenge: any;
 }
 
-const ChallengeOwnerView: FunctionComponent<
-  ChallengeOwnerViewProps
-> = props => {
+const ChallengeOwnerView: FunctionComponent<ChallengeOwnerViewProps> = props => {
   return (
     <div>
       <p>You created this challenge.</p>
@@ -20,20 +18,12 @@ const ChallengeOwnerView: FunctionComponent<
       <p>{props.challenge.title}</p>
       <Label>Opponent:</Label>
       <Grid container>
-        <Avatar
-          alt={props.challenge.opponent.name}
-          src={props.challenge.opponent.pictureUrl || userIcon}
-          style={{ margin: "0.25rem" }}
-        />
+        <Avatar alt={props.challenge.opponent.name} src={props.challenge.opponent.pictureUrl || userIcon} style={{ margin: "0.25rem" }} />
         <p>{props.challenge.opponent.name}</p>
       </Grid>
       <Label>Referee:</Label>
       <Grid container>
-        <Avatar
-          alt={props.challenge.referee.name}
-          src={props.challenge.referee.pictureUrl || userIcon}
-          style={{ margin: "0.25rem" }}
-        />
+        <Avatar alt={props.challenge.referee.name} src={props.challenge.referee.pictureUrl || userIcon} style={{ margin: "0.25rem" }} />
         <p>{props.challenge.referee.name}</p>
       </Grid>
     </div>

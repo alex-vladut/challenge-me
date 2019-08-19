@@ -7,8 +7,7 @@ import { connect } from "react-redux";
 import { FetchProfile, SignOut } from "../../store/actions/auth.actions";
 
 const federated = {
-  google_client_id:
-    "348450922576-hvs2fv955qfv4rjci73b7c3r944mkkdq.apps.googleusercontent.com"
+  google_client_id: "348450922576-hvs2fv955qfv4rjci73b7c3r944mkkdq.apps.googleusercontent.com"
 };
 interface AuthProps {
   isAuthenticated: boolean;
@@ -33,11 +32,7 @@ class Auth extends Component<AuthProps> {
 
   render() {
     if (this.props.isAuthenticated) {
-      const redirectUrl =
-        (this.props.location.state &&
-          this.props.location.state &&
-          this.props.location.state.from) ||
-        "/";
+      const redirectUrl = (this.props.location.state && this.props.location.state && this.props.location.state.from) || "/";
       return <Redirect to={redirectUrl} />;
     }
     return (

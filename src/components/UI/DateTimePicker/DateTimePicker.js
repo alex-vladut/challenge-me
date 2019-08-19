@@ -32,16 +32,7 @@ class DateTimePicker extends Component {
         {moment(this.props.dateTime).format("DD-MM-YYYY HH:mm")}
 
         {this.state.isCalendarOpen && (
-          <DatePicker
-            selected={this.props.dateTime}
-            onChange={this.updateDateTime}
-            showTimeSelect
-            withPortal
-            inline
-            timeIntervals={60}
-            timeFormat="HH:mm"
-            dateFormat="DD/MM/YYYY HH:mm"
-          />
+          <DatePicker selected={this.props.dateTime} onChange={this.updateDateTime} showTimeSelect withPortal inline timeIntervals={60} timeFormat="HH:mm" dateFormat="DD/MM/YYYY HH:mm" />
         )}
       </div>
     );

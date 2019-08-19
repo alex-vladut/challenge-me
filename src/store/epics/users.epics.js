@@ -4,11 +4,7 @@ import { from } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
 
 import * as queries from "../../graphql/queries";
-import {
-  FetchUsers,
-  FetchUsersSuccess,
-  FetchUsersFail
-} from "../actions/users.actions";
+import { FetchUsers, FetchUsersSuccess, FetchUsersFail } from "../actions/users.actions";
 
 function fetchUsers(actions$) {
   return actions$.pipe(

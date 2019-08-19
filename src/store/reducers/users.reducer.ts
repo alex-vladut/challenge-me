@@ -1,8 +1,4 @@
-import {
-  FetchUsers,
-  FetchUsersFail,
-  FetchUsersSuccess
-} from "../actions/users.actions";
+import { FetchUsers, FetchUsersFail, FetchUsersSuccess } from "../actions/users.actions";
 
 export interface State {
   loading: boolean;

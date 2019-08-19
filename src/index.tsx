@@ -21,10 +21,7 @@ Amplify.configure({
 });
 
 const epicMiddleware = createEpicMiddleware();
-const store = createStore(
-  reducer,
-  composeWithDevTools(applyMiddleware(epicMiddleware))
-);
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(epicMiddleware)));
 epicMiddleware.run(rootEpic);
 
 ReactDOM.render(

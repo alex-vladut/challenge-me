@@ -21,22 +21,13 @@ const validate = (form: any) => {
       title: "Please provide a title between 10 and 200 chars long."
     };
   }
-  if (
-    !form.description ||
-    form.description.length < 10 ||
-    form.description.length > 1000
-  ) {
+  if (!form.description || form.description.length < 10 || form.description.length > 1000) {
     errors = {
       ...errors,
-      description:
-        "Please provide a description between 10 and 1000 chars long."
+      description: "Please provide a description between 10 and 1000 chars long."
     };
   }
-  if (
-    !form.numberOfAttendants ||
-    form.numberOfAttendants < 1 ||
-    form.numberOfAttendants > 100
-  ) {
+  if (!form.numberOfAttendants || form.numberOfAttendants < 1 || form.numberOfAttendants > 100) {
     errors = {
       ...errors,
       numberOfAttendants: "You should select between 1 and 100 attendants."
@@ -50,8 +41,7 @@ const validate = (form: any) => {
   ) {
     errors = {
       ...errors,
-      dateTime:
-        "The time of your activity should be at least one day in the future."
+      dateTime: "The time of your activity should be at least one day in the future."
     };
   }
   return errors;
@@ -80,10 +70,8 @@ const Activity: FunctionComponent<ActivityProps> = (props: ActivityProps) => {
 
   const handleDateChange = (date: Date | null) => setDateTime(date);
   const handleTitleChange = (event: any) => setTitle(event.target.value);
-  const handleDescriptionChange = (event: any) =>
-    setDescription(event.target.value);
-  const handleNumberOfAttendantsChange = (event: any) =>
-    setNumberOfAttendants(Number(event.target.value));
+  const handleDescriptionChange = (event: any) => setDescription(event.target.value);
+  const handleNumberOfAttendantsChange = (event: any) => setNumberOfAttendants(Number(event.target.value));
 
   const submit = (event: any) => {
     event.preventDefault();
@@ -103,26 +91,8 @@ const Activity: FunctionComponent<ActivityProps> = (props: ActivityProps) => {
 
   return (
     <form onSubmit={submit}>
-      <TextField
-        label="Title"
-        value={title}
-        onChange={handleTitleChange}
-        error={!!errors.title}
-        helperText={errors.title}
-        required
-        fullWidth
-      />
-      <TextField
-        label="Description"
-        value={description}
-        onChange={handleDescriptionChange}
-        error={!!errors.description}
-        helperText={errors.description}
-        multiline
-        rowsMax="5"
-        fullWidth
-        required
-      />
+      <TextField label="Title" value={title} onChange={handleTitleChange} error={!!errors.title} helperText={errors.title} required fullWidth />
+      <TextField label="Description" value={description} onChange={handleDescriptionChange} error={!!errors.description} helperText={errors.description} multiline rowsMax="5" fullWidth required />
       <DateTimePicker value={dateTime} onChange={handleDateChange} />
       <TextField
         required
@@ -136,12 +106,7 @@ const Activity: FunctionComponent<ActivityProps> = (props: ActivityProps) => {
       />
 
       <Grid container alignItems="flex-start" justify="flex-end">
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          type="submit"
-        >
+        <Button variant="contained" color="primary" className={classes.button} type="submit">
           Save
         </Button>
       </Grid>

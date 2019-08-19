@@ -14,11 +14,7 @@ interface UserProps {
 const User: FunctionComponent<UserProps> = ({ user, onClick }) => (
   <div className="User" onClick={() => onClick(user)}>
     <Grid container justify="center" alignItems="center">
-      <Avatar
-        alt={user.name}
-        src={user.pictureUrl || userIcon}
-        style={{ margin: "0.25rem" }}
-      />
+      <Avatar alt={user.name} src={user.pictureUrl || userIcon} style={{ margin: "0.25rem" }} />
       <p>{user.name}</p>
     </Grid>
   </div>

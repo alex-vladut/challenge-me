@@ -29,15 +29,8 @@ class Layout extends Component<LayoutProps, LayoutState> {
   render() {
     return (
       <Fragment>
-        <Toolbar
-          onOpenMenu={this.sideDrawerOpenedHandler}
-          isAuthenticated={this.props.isAuthenticated}
-        />
-        <SideDrawer
-          open={this.state.showSideDrawer}
-          closed={this.sideDrawerClosedHandler}
-          isAuthenticated={this.props.isAuthenticated}
-        />
+        <Toolbar onOpenMenu={this.sideDrawerOpenedHandler} isAuthenticated={this.props.isAuthenticated} />
+        <SideDrawer open={this.state.showSideDrawer} closed={this.sideDrawerClosedHandler} isAuthenticated={this.props.isAuthenticated} />
         <main className="Content">{this.props.children}</main>
       </Fragment>
     );

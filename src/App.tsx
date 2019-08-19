@@ -27,42 +27,12 @@ class App extends Component<AppProps> {
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/auth" component={Auth} />
-            <PrivateRoute
-              path="/activities/new"
-              exact
-              component={Activity}
-              isAuthenticated={this.props.isAuthenticated}
-            />
-            <PrivateRoute
-              path="/activities"
-              exact
-              component={Activities}
-              isAuthenticated={this.props.isAuthenticated}
-            />
-            <PrivateRoute
-              path="/challenges/new"
-              exact
-              component={Challenge}
-              isAuthenticated={this.props.isAuthenticated}
-            />
-            <PrivateRoute
-              path="/challenges"
-              exact
-              component={Challenges}
-              isAuthenticated={this.props.isAuthenticated}
-            />
-            <PrivateRoute
-              path="/challenges/:challengeId"
-              exact
-              component={ViewChallenge}
-              isAuthenticated={this.props.isAuthenticated}
-            />
-            <PrivateRoute
-              path="/logout"
-              exact
-              component={LogOut}
-              isAuthenticated={this.props.isAuthenticated}
-            />
+            <PrivateRoute path="/activities/new" exact component={Activity} isAuthenticated={this.props.isAuthenticated} />
+            <PrivateRoute path="/activities" exact component={Activities} isAuthenticated={this.props.isAuthenticated} />
+            <PrivateRoute path="/challenges/new" exact component={Challenge} isAuthenticated={this.props.isAuthenticated} />
+            <PrivateRoute path="/challenges" exact component={Challenges} isAuthenticated={this.props.isAuthenticated} />
+            <PrivateRoute path="/challenges/:challengeId" exact component={ViewChallenge} isAuthenticated={this.props.isAuthenticated} />
+            <PrivateRoute path="/logout" exact component={LogOut} isAuthenticated={this.props.isAuthenticated} />
             <Route render={() => <h1>Page Not Found!</h1>} />
           </Switch>
         </Layout>

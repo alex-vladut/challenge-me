@@ -5,9 +5,4 @@ import authEpics from "./auth.epics";
 import challengesEpics from "./challenges.epics";
 import usersEpics from "./users.epics";
 
-export const rootEpic = combineEpics(
-  ...activitiesEpics,
-  ...challengesEpics,
-  ...usersEpics,
-  ...authEpics
-);
+export const rootEpic = combineEpics(...activitiesEpics, ...challengesEpics, ...usersEpics, ...authEpics);

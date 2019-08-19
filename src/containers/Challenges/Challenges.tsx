@@ -3,20 +3,7 @@ import { connect } from "react-redux";
 
 import "./Challenges.scss";
 
-import {
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  Card,
-  CardHeader,
-  CardContent,
-  CardActions,
-  Avatar,
-  IconButton,
-  Typography
-} from "@material-ui/core";
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Card, CardHeader, CardContent, CardActions, Avatar, IconButton, Typography } from "@material-ui/core";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import { red, grey } from "@material-ui/core/colors";
 import { Favorite, Share } from "@material-ui/icons";
@@ -39,11 +26,9 @@ interface ChallengesProps {
 const createFilter = (props: ChallengesProps, type: string | undefined) => {
   switch (type) {
     case "opponent":
-      return (challenge: any) =>
-        challenge.opponent && challenge.opponent.id === props.profile.id;
+      return (challenge: any) => challenge.opponent && challenge.opponent.id === props.profile.id;
     case "referee":
-      return (challenge: any) =>
-        challenge.referee && challenge.referee.id === props.profile.id;
+      return (challenge: any) => challenge.referee && challenge.referee.id === props.profile.id;
     case "owner":
     default:
       return (challenge: any) => challenge.owner.id === props.profile.id;
@@ -99,66 +84,36 @@ const Challenges = (props: ChallengesProps) => {
   }
   let challengesDisplayed = [];
   if (!props.loading && !props.error) {
-    challengesDisplayed = props.challenges
-      .filter(createFilter(props, type))
-      .map(challenge => ({
-        ...challenge,
-        seconds: getSecondsUntilDeadline(challenge)
-      }));
+    challengesDisplayed = props.challenges.filter(createFilter(props, type)).map(challenge => ({
+      ...challenge,
+      seconds: getSecondsUntilDeadline(challenge)
+    }));
   }
 
   return (
     <div className="Challenges">
       <FormControl>
         <FormLabel>Filter challenges:</FormLabel>
-        <RadioGroup
-          aria-label="Challenges filter"
-          row
-          value={type}
-          onChange={updateChallengesFilter}
-        >
-          <FormControlLabel
-            value="owner"
-            control={<Radio />}
-            label="My challenges"
-          />
-          <FormControlLabel
-            value="opponent"
-            control={<Radio />}
-            label="I am then opponent"
-          />
-          <FormControlLabel
-            value="referee"
-            control={<Radio />}
-            label="I am the referee"
-          />
+        <RadioGroup aria-label="Challenges filter" row value={type} onChange={updateChallengesFilter}>
+          <FormControlLabel value="owner" control={<Radio />} label="My challenges" />
+          <FormControlLabel value="opponent" control={<Radio />} label="I am then opponent" />
+          <FormControlLabel value="referee" control={<Radio />} label="I am the referee" />
         </RadioGroup>
       </FormControl>
       {spinner}
       {challengesDisplayed.map(challenge => (
         <Card key={challenge.id}>
           <CardHeader
-            avatar={
-              <Avatar
-                alt={challenge.owner.name}
-                src={challenge.owner.pictureUrl || userIcon}
-              />
-            }
+            avatar={<Avatar alt={challenge.owner.name} src={challenge.owner.pictureUrl || userIcon} />}
             title={challenge.title}
-            subheader={
-              "Created: " + moment(challenge.createdAt).format("MMMM DD, YYYY")
-            }
+            subheader={"Created: " + moment(challenge.createdAt).format("MMMM DD, YYYY")}
             className={classes.header}
           />
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
               {challenge.description}
             </Typography>
-            {challenge.seconds >= 0 ? (
-              <CountDown seconds={challenge.seconds} />
-            ) : (
-              "Challenge expired"
-            )}
+            {challenge.seconds >= 0 ? <CountDown seconds={challenge.seconds} /> : "Challenge expired"}
           </CardContent>
           <CardActions>
             <IconButton aria-label="add to favorites">

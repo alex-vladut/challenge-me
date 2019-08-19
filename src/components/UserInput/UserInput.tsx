@@ -21,11 +21,7 @@ class UserInput extends Component<UserInputProps> {
     return (
       <div className={cssClasses.join(" ")} onClick={this.props.onClick}>
         <Grid container>
-          <Avatar
-            alt={this.props.user.name}
-            src={this.props.user.pictureUrl || userIcon}
-            style={{ marginLeft: "0.25rem" }}
-          />
+          <Avatar alt={this.props.user.name} src={this.props.user.pictureUrl || userIcon} style={{ marginLeft: "0.25rem" }} />
           <p>{this.props.user.name || "Select a user"}</p>
         </Grid>
       </div>

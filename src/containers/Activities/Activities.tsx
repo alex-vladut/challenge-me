@@ -1,17 +1,7 @@
 import React, { Fragment, useEffect, FunctionComponent } from "react";
 import { connect } from "react-redux";
 
-import {
-  Avatar,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  CircularProgress,
-  Divider,
-  IconButton,
-  Typography
-} from "@material-ui/core";
+import { Avatar, Card, CardActions, CardContent, CardHeader, CircularProgress, Divider, IconButton, Typography } from "@material-ui/core";
 import { grey, red } from "@material-ui/core/colors";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { Favorite, Share } from "@material-ui/icons";
@@ -45,9 +35,7 @@ const init = (props: ActivitiesProps) => {
   }
 };
 
-const Activities: FunctionComponent<ActivitiesProps> = (
-  props: ActivitiesProps
-) => {
+const Activities: FunctionComponent<ActivitiesProps> = (props: ActivitiesProps) => {
   useEffect(() => init(props), [props]);
   const classes = useStyles();
 
@@ -59,18 +47,9 @@ const Activities: FunctionComponent<ActivitiesProps> = (
       {props.activities.map(activity => (
         <Card key={activity.id}>
           <CardHeader
-            avatar={
-              <Avatar
-                className={classes.avatar}
-                alt={activity.owner.name}
-                src={activity.owner.pictureUrl || userIcon}
-              />
-            }
+            avatar={<Avatar className={classes.avatar} alt={activity.owner.name} src={activity.owner.pictureUrl || userIcon} />}
             title={activity.title}
-            subheader={
-              "Created at: " +
-              moment(activity.createdAt).format("MMMM DD, YYYY")
-            }
+            subheader={"Created at: " + moment(activity.createdAt).format("MMMM DD, YYYY")}
             className={classes.header}
           />
           <CardContent>
@@ -79,9 +58,7 @@ const Activities: FunctionComponent<ActivitiesProps> = (
             </Typography>
             <Divider light />
             <Typography variant="subtitle1" color="textSecondary">
-              {moment(activity.dateTime).format("MMMM DD, YYYY") +
-                " at " +
-                moment(activity.dateTime).format("HH:mm")}
+              {moment(activity.dateTime).format("MMMM DD, YYYY") + " at " + moment(activity.dateTime).format("HH:mm")}
             </Typography>
           </CardContent>
           <CardActions>
@@ -98,11 +75,7 @@ const Activities: FunctionComponent<ActivitiesProps> = (
   );
 };
 
-const mapStateToProps = ({
-  activities: { loading, activities }
-}: {
-  activities: State;
-}) => ({
+const mapStateToProps = ({ activities: { loading, activities } }: { activities: State }) => ({
   loading,
   activities
 });

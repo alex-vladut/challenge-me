@@ -8,10 +8,7 @@ import { Button, TextField, Modal } from "@material-ui/core";
 
 import DateTimePicker from "../../components/UI/DateTimePicker/DateTimePicker";
 import UserInput from "../../components/UserInput/UserInput";
-import {
-  CreateChallenge,
-  CreateChallengeInit
-} from "../../store/actions/challenges.actions";
+import { CreateChallenge, CreateChallengeInit } from "../../store/actions/challenges.actions";
 import UserChooser from "../UserChooser/UserChooser";
 import Close from "../../components/Close/Close";
 
@@ -89,8 +86,7 @@ class Challenge extends Component<ChallengeProps, ChallengeState> {
       isValid = false;
     }
     if (this.state.deadline.isBefore(moment().add(30, "minutes"))) {
-      errors.deadlineError =
-        "Please select a deadline that is at least 30 minutes in the future.";
+      errors.deadlineError = "Please select a deadline that is at least 30 minutes in the future.";
       isValid = false;
     }
 
@@ -126,11 +122,7 @@ class Challenge extends Component<ChallengeProps, ChallengeState> {
   render() {
     if (this.state.isOpponentChooserOpen) {
       return (
-        <Modal
-          open={this.state.isOpponentChooserOpen}
-          onClose={this.toggleOpponentChooser}
-          hideBackdrop={true}
-        >
+        <Modal open={this.state.isOpponentChooserOpen} onClose={this.toggleOpponentChooser} hideBackdrop={true}>
           <div>
             <Close onClick={this.toggleOpponentChooser} />
             <UserChooser onSelect={this.selectOpponent} />
@@ -140,11 +132,7 @@ class Challenge extends Component<ChallengeProps, ChallengeState> {
     }
     if (this.state.isRefereeChooserOpen) {
       return (
-        <Modal
-          open={this.state.isRefereeChooserOpen}
-          onClose={this.toggleRefereeChooser}
-          hideBackdrop={true}
-        >
+        <Modal open={this.state.isRefereeChooserOpen} onClose={this.toggleRefereeChooser} hideBackdrop={true}>
           <div>
             <Close onClick={this.toggleRefereeChooser} />
             <UserChooser onSelect={this.selectReferee} />
@@ -157,16 +145,7 @@ class Challenge extends Component<ChallengeProps, ChallengeState> {
     if (!this.props.challengeCreated) {
       challenge = (
         <div className="Challenge">
-          <TextField
-            required
-            id="outlined-required"
-            label="Title"
-            defaultValue={this.state.title}
-            onChange={this.updateTitle}
-            margin="normal"
-            fullWidth
-            variant="outlined"
-          />
+          <TextField required id="outlined-required" label="Title" defaultValue={this.state.title} onChange={this.updateTitle} margin="normal" fullWidth variant="outlined" />
           <TextField
             id="outlines-multiline-flexible"
             label="Description"
@@ -178,30 +157,11 @@ class Challenge extends Component<ChallengeProps, ChallengeState> {
             variant="outlined"
             fullWidth
           />
-          <UserInput
-            label="Opponent:"
-            user={this.state.opponent}
-            onClick={this.toggleOpponentChooser}
-            errorMessage={this.state.errors.opponentError}
-          />
-          <UserInput
-            label="Referee:"
-            user={this.state.referee}
-            onClick={this.toggleRefereeChooser}
-            errorMessage={this.state.errors.refereeError}
-          />
-          <DateTimePicker
-            label="Deadline:"
-            dateTime={this.state.deadline.toDate()}
-            onChange={this.updateDeadline}
-            errorMessage={this.state.errors.deadlineError}
-          />
+          <UserInput label="Opponent:" user={this.state.opponent} onClick={this.toggleOpponentChooser} errorMessage={this.state.errors.opponentError} />
+          <UserInput label="Referee:" user={this.state.referee} onClick={this.toggleRefereeChooser} errorMessage={this.state.errors.refereeError} />
+          <DateTimePicker label="Deadline:" dateTime={this.state.deadline.toDate()} onChange={this.updateDeadline} errorMessage={this.state.errors.deadlineError} />
 
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={this.createChallenge}
-          >
+          <Button variant="contained" color="primary" onClick={this.createChallenge}>
             Create challenge
           </Button>
         </div>
@@ -217,8 +177,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
   onInitCreateChallenge: () => dispatch(CreateChallengeInit.create()),
-  onCreateChallenge: (challenge: any) =>
-    dispatch(CreateChallenge.create(challenge))
+  onCreateChallenge: (challenge: any) => dispatch(CreateChallenge.create(challenge))
 });
 
 export default connect(

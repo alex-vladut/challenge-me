@@ -19,24 +19,14 @@ interface ChallengeOpponentViewProps {
   challengeRejected(): void;
 }
 
-const ChallengeOpponentView: FunctionComponent<
-  ChallengeOpponentViewProps
-> = props => {
+const ChallengeOpponentView: FunctionComponent<ChallengeOpponentViewProps> = props => {
   let controls =
     props.challenge.opponentStatus === "PENDING" ? (
       <div className="Controls">
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={props.challengeAccepted}
-        >
+        <Button variant="contained" color="primary" onClick={props.challengeAccepted}>
           Accept
         </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={props.challengeRejected}
-        >
+        <Button variant="contained" color="secondary" onClick={props.challengeRejected}>
           Reject
         </Button>
       </div>
@@ -49,20 +39,12 @@ const ChallengeOpponentView: FunctionComponent<
       <p>{props.challenge.title}</p>
       <Label>Created by:</Label>
       <Grid container>
-        <Avatar
-          alt={props.challenge.opponent.name}
-          src={props.challenge.opponent.pictureUrl || userIcon}
-          style={{ margin: "0.25rem" }}
-        />
+        <Avatar alt={props.challenge.opponent.name} src={props.challenge.opponent.pictureUrl || userIcon} style={{ margin: "0.25rem" }} />
         <p>{props.challenge.opponent.name}</p>
       </Grid>
       <Label>Referee:</Label>
       <Grid container>
-        <Avatar
-          alt={props.challenge.referee.name}
-          src={props.challenge.referee.pictureUrl || userIcon}
-          style={{ margin: "0.25rem" }}
-        />
+        <Avatar alt={props.challenge.referee.name} src={props.challenge.referee.pictureUrl || userIcon} style={{ margin: "0.25rem" }} />
         <p>{props.challenge.referee.name}</p>
       </Grid>
     </div>

@@ -36,9 +36,7 @@ function createChallenge(actions$) {
         challengeOpponentId: challenge.opponent,
         challengeRefereeId: challenge.referee
       };
-      return API.graphql(
-        graphqlOperation(mutations.createChallenge, { input: challengeToSave })
-      );
+      return API.graphql(graphqlOperation(mutations.createChallenge, { input: challengeToSave }));
     }),
     map(response =>
       CreateChallengeSuccess.create({
@@ -52,12 +50,8 @@ function createChallenge(actions$) {
 function fetchChallenges(actions$) {
   return actions$.pipe(
     ofType(FetchChallenges.type),
-    switchMap(() =>
-      API.graphql(graphqlOperation(queries.listChallenges, { limit: 10 }))
-    ),
-    map(response =>
-      FetchChallengesSuccess.create(response.data.listChallenges.items)
-    ),
+    switchMap(() => API.graphql(graphqlOperation(queries.listChallenges, { limit: 10 }))),
+    map(response => FetchChallengesSuccess.create(response.data.listChallenges.items)),
     catchError(error => FetchChallengesFail.create(error))
   );
 }
@@ -65,9 +59,7 @@ function fetchChallenges(actions$) {
 function fetchChallenge(actions$) {
   return actions$.pipe(
     ofType(FetchChallenge.type),
-    switchMap(({ payload }) =>
-      API.graphql(graphqlOperation(queries.getChallenge, { id: payload }))
-    ),
+    switchMap(({ payload }) => API.graphql(graphqlOperation(queries.getChallenge, { id: payload }))),
     map(response => FetchChallengeSuccess.create(response.data.getChallenge)),
     catchError(error => FetchChallengeFail.create(error))
   );
@@ -99,9 +91,7 @@ function acceptChallenge(actions$, state$) {
       } else {
         throw new Error("You cannot accept or reject this challenge!");
       }
-      return API.graphql(
-        graphqlOperation(mutations.updateChallenge, { input: challengeToSave })
-      );
+      return API.graphql(graphqlOperation(mutations.updateChallenge, { input: challengeToSave }));
     }),
     map(response => AcceptChallengeSuccess.create(response.data.getChallenge)),
     catchError(error => AcceptChallengeFail.create(error))
@@ -121,9 +111,7 @@ function rejectChallenge(actions$, state$) {
       } else {
         throw new Error("You cannot accept or reject this challenge!");
       }
-      return API.graphql(
-        graphqlOperation(mutations.updateChallenge, { input: challengeToSave })
-      );
+      return API.graphql(graphqlOperation(mutations.updateChallenge, { input: challengeToSave }));
     }),
     map(response => RejectChallengeSuccess.create(response.data.getChallenge)),
     catchError(error => RejectChallengeFail.create(error))
@@ -143,18 +131,9 @@ function setChallengeWinner(actions$) {
         })
       )
     ),
-    map(response =>
-      SetChallengeWinnerSuccess.create(response.data.getChallenge)
-    ),
+    map(response => SetChallengeWinnerSuccess.create(response.data.getChallenge)),
     catchError(error => SetChallengeWinnerFail.create(error))
   );
 }
 
-export default [
-  createChallenge,
-  fetchChallenge,
-  fetchChallenges,
-  acceptChallenge,
-  rejectChallenge,
-  setChallengeWinner
-];
+export default [createChallenge, fetchChallenge, fetchChallenges, acceptChallenge, rejectChallenge, setChallengeWinner];
