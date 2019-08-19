@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createEpicMiddleware } from 'redux-observable';
+import { SnackbarProvider } from 'notistack';
 
 import App from './App';
 import awsExports from './aws-exports';
@@ -23,5 +24,10 @@ const epicMiddleware = createEpicMiddleware();
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(epicMiddleware)));
 epicMiddleware.run(rootEpic);
 
-ReactDOM.render((<Provider store={store}><App /></Provider>), document.getElementById('root'));
+ReactDOM.render((
+  <Provider store={store}>
+    <SnackbarProvider>
+      <App />
+    </SnackbarProvider>
+  </Provider>), document.getElementById('root'));
 registerServiceWorker();

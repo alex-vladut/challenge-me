@@ -13,7 +13,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { grey, red } from '@material-ui/core/colors';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Favorite, Share } from '@material-ui/icons';
 import moment from 'moment';
 
@@ -27,7 +27,7 @@ interface ActivitiesProps {
   fetchActivities(): void
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     header: {
       backgroundColor: grey[100],
