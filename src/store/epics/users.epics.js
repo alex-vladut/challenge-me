@@ -16,10 +16,10 @@ function fetchUsers(actions$) {
             limit: 100,
             filter: payload ? { name: { contains: payload } } : undefined
           })
-        ).pipe(
-          map(response => FetchUsersSuccess.create(response.data.listUsers.items)),
-          catchError(error => FetchUsersFail.create(error))
         )
+      ).pipe(
+        map(response => FetchUsersSuccess.create(response.data.listUsers.items)),
+        catchError(error => FetchUsersFail.create(error))
       )
     )
   );

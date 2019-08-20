@@ -12,7 +12,7 @@ function fetchProfile(actions$: any) {
     ofType(FetchProfile.type),
     switchMap(() => from(Auth.currentAuthenticatedUser())),
     switchMap((authenticatedUser: any) =>
-      API.graphql(graphqlOperation(queries.getUser, { id: authenticatedUser.id })).pipe(
+      from(API.graphql(graphqlOperation(queries.getUser, { id: authenticatedUser.id }))).pipe(
         map((response: any) => (response.data.getUser ? FetchProfileSuccess.create(response.data.getUser) : FetchProfileNotFound.create())),
         catchError(error => of(FetchProfileFail.create(error)))
       )
@@ -25,13 +25,15 @@ function createProfile(actions$: any) {
     ofType(FetchProfileNotFound.type),
     switchMap(() => from(Auth.currentAuthenticatedUser())),
     switchMap((authenticatedUser: any) =>
-      API.graphql(
-        graphqlOperation(mutations.createUser, {
-          input: {
-            name: authenticatedUser.name,
-            pictureUrl: authenticatedUser.picture
-          }
-        })
+      from(
+        API.graphql(
+          graphqlOperation(mutations.createUser, {
+            input: {
+              name: authenticatedUser.name,
+              pictureUrl: authenticatedUser.picture
+            }
+          })
+        )
       ).pipe(
         map((response: any) => FetchProfileSuccess.create(response.data.createUser)),
         catchError(error => of(FetchProfileFail.create(error)))
