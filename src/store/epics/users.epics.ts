@@ -1,12 +1,13 @@
 import { API, graphqlOperation } from "aws-amplify";
 import { ofType } from "redux-observable";
-import { from } from "rxjs";
+import { from, Observable, of } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
 
-import * as queries from "../../graphql/queries";
+import * as queries from "../../graphql-api/queries";
+import { ActionWithPayload } from "../actions/actions";
 import { FetchUsers, FetchUsersSuccess, FetchUsersFail } from "../actions/users.actions";
 
-function fetchUsers(actions$) {
+function fetchUsers(actions$: Observable<ActionWithPayload<any>>) {
   return actions$.pipe(
     ofType(FetchUsers.type),
     switchMap(({ payload }) =>
@@ -18,8 +19,8 @@ function fetchUsers(actions$) {
           })
         )
       ).pipe(
-        map(response => FetchUsersSuccess.create(response.data.listUsers.items)),
-        catchError(error => FetchUsersFail.create(error))
+        map((response: any) => FetchUsersSuccess.create(response.data.listUsers.items)),
+        catchError(error => of(FetchUsersFail.create(error)))
       )
     )
   );

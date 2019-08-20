@@ -3,8 +3,8 @@ import { ofType } from "redux-observable";
 import { from, of } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
 
-import * as mutations from "../../graphql/mutations";
-import * as queries from "../../graphql/queries";
+import * as mutations from "../../graphql-api/mutations";
+import * as queries from "../../graphql-api/queries";
 import { FetchProfile, FetchProfileFail, FetchProfileNotFound, FetchProfileSuccess, SignOut, SignOutFail, SignOutSuccess } from "../actions/auth.actions";
 
 function fetchProfile(actions$: any) {

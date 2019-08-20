@@ -3,8 +3,8 @@ import { ofType } from "redux-observable";
 import { from, Observable, of } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
 
-import * as mutations from "../../graphql/mutations";
-import { listActivitys } from "../../graphql/queries";
+import * as mutations from "../../graphql-api/mutations";
+import * as queries from "../../graphql-api/queries";
 import { ActionWithPayload, Action } from "../actions/actions";
 import { Create, CreateFail, CreateSuccess, Fetch, FetchSuccess, FetchFail, Delete, DeleteSuccess, DeleteFail } from "../actions/activities.actions";
 
@@ -34,7 +34,7 @@ const fetchActivities = (actions$: Observable<Action>) =>
   actions$.pipe(
     ofType(Fetch.type, DeleteSuccess.type),
     switchMap(() =>
-      from(API.graphql(graphqlOperation(listActivitys, { limit: 10 }))).pipe(
+      from(API.graphql(graphqlOperation(queries.listActivities, { limit: 10 }))).pipe(
         map(({ data }: any) => FetchSuccess.create(data.listActivitys.items)),
         catchError(() => of(FetchFail.create("Sorry, there was an error while loading the activities.")))
       )

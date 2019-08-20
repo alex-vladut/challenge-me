@@ -1,6 +1,6 @@
 projects:
   challengeMeGraphQL:
-    schemaPath: src/graphql/schema.json
+    schemaPath: amplify/backend/api/challengeMeGraphQL/build/schema.graphql
     includes:
       - src/graphql/**/*.ts
     excludes:
@@ -12,6 +12,3 @@ projects:
         docsFilePath: src/graphql
         graphQLApiId: rjadncgkkbbqrox6ryn372pav4
         maxDepth: 2
-      endpoints:
-        prod: >-
-          https://kgxopwzhjjgcbpyfbsp6ctjfaa.appsync-api.eu-central-1.amazonaws.com/graphql

@@ -35,71 +35,6 @@ export const listActivitys = `query ListActivitys(
       description
       dateTime
       numberOfAttendants
-      owner {
-        id
-        name
-        pictureUrl
-        version
-      }
-      createdAt
-      updatedAt
-      version
-    }
-    nextToken
-  }
-}
-`;
-export const getChallenge = `query GetChallenge($id: ID!) {
-  getChallenge(id: $id) {
-    id
-    title
-    description
-    owner {
-      id
-      name
-      pictureUrl
-      version
-    }
-    opponent {
-      id
-      name
-      pictureUrl
-      version
-    }
-    opponentStatus
-    referee {
-      id
-      name
-      pictureUrl
-      version
-    }
-    refereeStatus
-    deadline
-    winner {
-      id
-      name
-      pictureUrl
-      version
-    }
-    createdAt
-    updatedAt
-    version
-  }
-}
-`;
-export const listChallenges = `query ListChallenges(
-  $filter: ModelChallengeFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listChallenges(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      title
-      description
-      opponentStatus
-      refereeStatus
-      deadline
       createdAt
       updatedAt
       version
@@ -137,7 +72,7 @@ export const searchUsers = `query SearchUsers(
   $filter: SearchableUserFilterInput
   $sort: SearchableUserSortInput
   $limit: Int
-  $nextToken: Int
+  $nextToken: String
 ) {
   searchUsers(
     filter: $filter
