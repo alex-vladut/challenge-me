@@ -7,21 +7,24 @@ import * as mutations from "../../graphql/mutations";
 import * as queries from "../../graphql/queries";
 import { FetchProfile, FetchProfileFail, FetchProfileNotFound, FetchProfileSuccess, SignOut, SignOutFail, SignOutSuccess } from "../actions/auth.actions";
 
-function fetchProfile(actions$) {
+function fetchProfile(actions$: any) {
   return actions$.pipe(
     ofType(FetchProfile.type),
     switchMap(() => from(Auth.currentAuthenticatedUser())),
-    switchMap(authenticatedUser => API.graphql(graphqlOperation(queries.getUser, { id: authenticatedUser.id }))),
-    map(response => (response.data.getUser ? FetchProfileSuccess.create(response.data.getUser) : FetchProfileNotFound.create())),
-    catchError(error => of(FetchProfileFail.create(error)))
+    switchMap((authenticatedUser: any) =>
+      API.graphql(graphqlOperation(queries.getUser, { id: authenticatedUser.id })).pipe(
+        map((response: any) => (response.data.getUser ? FetchProfileSuccess.create(response.data.getUser) : FetchProfileNotFound.create())),
+        catchError(error => of(FetchProfileFail.create(error)))
+      )
+    )
   );
 }
 
-function createProfile(actions$) {
+function createProfile(actions$: any) {
   return actions$.pipe(
     ofType(FetchProfileNotFound.type),
     switchMap(() => from(Auth.currentAuthenticatedUser())),
-    switchMap(authenticatedUser =>
+    switchMap((authenticatedUser: any) =>
       API.graphql(
         graphqlOperation(mutations.createUser, {
           input: {
@@ -29,19 +32,23 @@ function createProfile(actions$) {
             pictureUrl: authenticatedUser.picture
           }
         })
+      ).pipe(
+        map((response: any) => FetchProfileSuccess.create(response.data.createUser)),
+        catchError(error => of(FetchProfileFail.create(error)))
       )
-    ),
-    map(response => FetchProfileSuccess.create(response.data.createUser)),
-    catchError(error => of(FetchProfileFail.create(error)))
+    )
   );
 }
 
-function signOut(actions$) {
+function signOut(actions$: any) {
   return actions$.pipe(
     ofType(SignOut.type),
-    switchMap(() => from(Auth.signOut())),
-    map(() => SignOutSuccess.create()),
-    catchError(error => of(SignOutFail.create(error)))
+    switchMap(() =>
+      from(Auth.signOut()).pipe(
+        map(() => SignOutSuccess.create()),
+        catchError(error => of(SignOutFail.create(error)))
+      )
+    )
   );
 }
 
