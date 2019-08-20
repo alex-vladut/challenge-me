@@ -13,27 +13,6 @@ type Activity @model @versioned {
   updatedAt: String
 }
 
-type Challenge @model @versioned {
-  id: ID!
-  title: String!
-  description: String!
-  owner: User @connection
-  opponent: User! @connection
-  opponentStatus: ParticipantApprovalStatus
-  referee: User! @connection
-  refereeStatus: ParticipantApprovalStatus
-  deadline: String!
-  winner: User @connection
-  createdAt: String
-  updatedAt: String
-}
-
-enum ParticipantApprovalStatus {
-  PENDING
-  ACCEPTED
-  REJECTED
-}
-
 type User @model @versioned @searchable {
   id: ID!
   name: String!
