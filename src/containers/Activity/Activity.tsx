@@ -77,14 +77,15 @@ const Activity: FunctionComponent<ActivityProps> = ({ loading, successMessage, e
   useEffect(() => {
     if (successMessage) {
       enqueueSnackbar(successMessage, { variant: "success" });
+      cleanMessages();
     }
-  }, [enqueueSnackbar, successMessage]);
+  }, [successMessage, enqueueSnackbar, cleanMessages]);
   useEffect(() => {
     if (errorMessage) {
       enqueueSnackbar(errorMessage, { variant: "error" });
+      cleanMessages();
     }
-  }, [enqueueSnackbar, errorMessage]);
-  useEffect(() => () => cleanMessages(), [cleanMessages]);
+  }, [errorMessage, enqueueSnackbar, cleanMessages]);
 
   const handleDateChange = (date: Date | null) => setDateTime(date);
   const handleTitleChange = (event: any) => setTitle(event.target.value);

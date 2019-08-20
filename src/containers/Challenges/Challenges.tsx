@@ -72,7 +72,7 @@ const Challenges = (props: ChallengesProps) => {
   // eslint-disable-next-line
   useEffect(() => {
     props.loadChallenges();
-  }, []);
+  }, [props]);
 
   const updateChallengesFilter = (event: any) => {
     setType(event.target.value);

@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 
 import moment from "moment";
 
-import { Avatar, Card, CardActions, CardContent, CardHeader, Divider, IconButton, Typography } from "@material-ui/core";
+import { Avatar, Card, CardActions, CardContent, CardHeader, Divider, IconButton, Typography, Dialog, DialogContent, DialogContentText, DialogActions, Button, DialogTitle } from "@material-ui/core";
 import { Share, Delete } from "@material-ui/icons";
 import { grey, red } from "@material-ui/core/colors";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
@@ -25,10 +25,12 @@ const useStyles = makeStyles(() =>
 
 interface ItemProps {
   activity: any;
+  isOwner: boolean;
   onDelete(item: any): void;
 }
 
-const Item: FunctionComponent<ItemProps> = ({ activity, onDelete }: ItemProps) => {
+const Item: FunctionComponent<ItemProps> = ({ activity, isOwner, onDelete }: ItemProps) => {
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const classes = useStyles();
 
   return (
@@ -52,10 +54,27 @@ const Item: FunctionComponent<ItemProps> = ({ activity, onDelete }: ItemProps) =
         <IconButton aria-label="share">
           <Share />
         </IconButton>
-        <IconButton aria-label="delete" onClick={() => onDelete(activity)}>
-          <Delete />
-        </IconButton>
+        {isOwner ? (
+          <IconButton aria-label="delete" onClick={() => setDeleteConfirmation(true)}>
+            <Delete />
+          </IconButton>
+        ) : null}
       </CardActions>
+
+      <Dialog open={deleteConfirmation} onClose={() => setDeleteConfirmation(false)} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+        <DialogTitle id="alert-dialog-title">{"Delete activity"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">Are you sure you want to delete this activity?</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDeleteConfirmation(false)} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={() => onDelete(activity)} color="primary" autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Card>
   );
 };
