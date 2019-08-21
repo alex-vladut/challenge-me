@@ -1,14 +1,13 @@
-import React, { useState, FunctionComponent, useEffect } from "react";
+import React, { useState, FunctionComponent } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
 
 import moment from "moment";
-import { useSnackbar } from "notistack";
 import { Grid, TextField, Button, CircularProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import DateTimePicker from "../../components/DateTimePicker/DateTimePicker";
-import { Create, CleanMessages } from "../../store/actions/activities.actions";
+import { Create } from "../../store/actions/activities.actions";
 import { State } from "../../store/reducers";
 
 const useStyles = makeStyles(theme => ({
@@ -51,13 +50,11 @@ const validate = (form: any) => {
 
 export interface ActivityProps {
   loading: boolean;
-  successMessage: string | null;
-  errorMessage: string | null;
+  created: boolean;
   createActivity(activity: any): void;
-  cleanMessages(): void;
 }
 
-const Activity: FunctionComponent<ActivityProps> = ({ loading, successMessage, errorMessage, createActivity, cleanMessages }: ActivityProps) => {
+const Activity: FunctionComponent<ActivityProps> = ({ loading, created, createActivity }: ActivityProps) => {
   const classes = useStyles();
 
   const nextMonth = moment()
@@ -71,21 +68,6 @@ const Activity: FunctionComponent<ActivityProps> = ({ loading, successMessage, e
   const [description, setDescription] = useState<string>("");
   const [numberOfAttendants, setNumberOfAttendants] = useState<number>(1);
   const [errors, setErrors] = useState<any>({});
-
-  // TODO extract this code in a distinct component
-  const { enqueueSnackbar } = useSnackbar();
-  useEffect(() => {
-    if (successMessage) {
-      enqueueSnackbar(successMessage, { variant: "success" });
-      cleanMessages();
-    }
-  }, [successMessage, enqueueSnackbar, cleanMessages]);
-  useEffect(() => {
-    if (errorMessage) {
-      enqueueSnackbar(errorMessage, { variant: "error" });
-      cleanMessages();
-    }
-  }, [errorMessage, enqueueSnackbar, cleanMessages]);
 
   const handleDateChange = (date: Date | null) => setDateTime(date);
   const handleTitleChange = (event: any) => setTitle(event.target.value);
@@ -106,7 +88,7 @@ const Activity: FunctionComponent<ActivityProps> = ({ loading, successMessage, e
   if (loading) {
     return <CircularProgress />;
   }
-  if (successMessage) {
+  if (created) {
     return <Redirect to="/activities" />;
   }
 
@@ -135,15 +117,13 @@ const Activity: FunctionComponent<ActivityProps> = ({ loading, successMessage, e
   );
 };
 
-const mapStateToProps = ({ activities: { loading, successMessage, errorMessage } }: State) => ({
+const mapStateToProps = ({ activities: { loading, created } }: State) => ({
   loading,
-  successMessage,
-  errorMessage
+  created
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  createActivity: (activity: any) => dispatch(Create.create(activity)),
-  cleanMessages: () => dispatch(CleanMessages.create())
+  createActivity: (activity: any) => dispatch(Create.create(activity))
 });
 
 export default connect(

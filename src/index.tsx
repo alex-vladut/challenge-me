@@ -9,6 +9,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { createEpicMiddleware } from "redux-observable";
 import { SnackbarProvider } from "notistack";
 
+import Notifications from "./hoc/Notifications";
 import App from "./App";
 import awsExports from "./aws-exports";
 import registerServiceWorker from "./registerServiceWorker";
@@ -27,7 +28,9 @@ epicMiddleware.run(rootEpic);
 ReactDOM.render(
   <Provider store={store}>
     <SnackbarProvider>
-      <App />
+      <Notifications>
+        <App />
+      </Notifications>
     </SnackbarProvider>
   </Provider>,
   document.getElementById("root")

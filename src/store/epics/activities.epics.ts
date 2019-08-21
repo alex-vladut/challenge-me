@@ -6,6 +6,7 @@ import { catchError, map, switchMap } from "rxjs/operators";
 import * as mutations from "../../graphql-api/mutations";
 import * as queries from "../../graphql-api/queries";
 import { ActionWithPayload, Action } from "../actions/actions";
+import { createNotification } from "../../shared/notifications";
 import {
   Create,
   CreateFail,
@@ -29,10 +30,16 @@ const createActivity = (actions$: Observable<ActionWithPayload<any>>) =>
     ofType(Create.type),
     switchMap(({ payload }) =>
       from(API.graphql(graphqlOperation(mutations.createActivity, { input: payload }))).pipe(
-        map(() => CreateSuccess.create()),
+        map(() => CreateSuccess.create("Your activity was successfully created!")),
         catchError(() => of(CreateFail.create("There was an error while creating your activity. Please try again.")))
       )
     )
+  );
+
+const actionSucceeded = (actions$: Observable<ActionWithPayload<string>>) =>
+  actions$.pipe(
+    ofType(CreateSuccess.type, DeleteSuccess.type),
+    switchMap(({ payload }) => of(createNotification(payload, "success")))
   );
 
 const deleteActivity = (actions$: Observable<ActionWithPayload<any>>) =>
@@ -40,7 +47,7 @@ const deleteActivity = (actions$: Observable<ActionWithPayload<any>>) =>
     ofType(Delete.type),
     switchMap(({ payload }) =>
       from(API.graphql(graphqlOperation(mutations.deleteActivity, { input: { id: payload.id, expectedVersion: payload.version } }))).pipe(
-        map(() => DeleteSuccess.create()),
+        map(() => DeleteSuccess.create("Your activity was successfully removed!")),
         catchError(() => of(DeleteFail.create("There was an error while attempting to delete your activity. Please try again.")))
       )
     )
@@ -79,4 +86,10 @@ const fetchActivities = (actions$: Observable<Action>) =>
     )
   );
 
-export default [createActivity, acceptActivity, deleteActivity, rejectActivity, fetchActivities];
+const actionFailed = (actions$: Observable<ActionWithPayload<string>>) =>
+  actions$.pipe(
+    ofType(FetchFail.type, CreateFail.type, AcceptFail.type, RejectFail.type, DeleteFail.type),
+    switchMap(({ payload }) => of(createNotification(payload)))
+  );
+
+export default [createActivity, acceptActivity, deleteActivity, rejectActivity, fetchActivities, actionSucceeded, actionFailed];

@@ -7,7 +7,6 @@ import {
   FetchFail,
   FetchSuccess,
   Delete,
-  CleanMessages,
   DeleteSuccess,
   DeleteFail,
   Accept,
@@ -21,51 +20,47 @@ import {
 export interface State {
   activities: any[];
   loading: boolean;
-  errorMessage: string | null;
-  successMessage: string | null;
+  created: boolean;
 }
 
 const initialState: State = {
   loading: false,
   activities: [],
-  errorMessage: null,
-  successMessage: null
+  created: false
 };
 
-const reducer = (state = initialState, { type, payload }: ActionWithPayload<any>) => {
+const reducer = (state = initialState, { type, payload }: ActionWithPayload<any>): State => {
   switch (type) {
     case Create.type:
-      return { ...state, errorMessage: null, successMessage: null, loading: true };
+      return { ...state, loading: true };
     case CreateSuccess.type:
-      return { ...state, loading: false, successMessage: "Your activity was successfully created!" };
+      return { ...state, created: true, loading: false };
     case CreateFail.type:
-      return { ...state, errorMessage: payload, loading: false };
+      return { ...state, loading: false };
     case Delete.type:
-      return { ...state, errorMessage: null, successMessage: null, loading: true };
+      return { ...state, loading: true };
     case DeleteSuccess.type:
-      return { ...state, loading: false, successMessage: "Your activity was successfully removed!" };
+      return { ...state, loading: false };
     case DeleteFail.type:
-      return { ...state, loading: false, errorMessage: payload };
+      return { ...state, loading: false };
     case Accept.type:
       return { ...state, loading: true };
     case AcceptSuccess.type:
-      return { ...state, loading: false, successMessage: "The owner of this activity will be informed that you will join :)" };
+      return { ...state, loading: false };
     case AcceptFail.type:
-      return { ...state, loading: false, errorMessage: payload };
+      return { ...state, loading: false };
     case Reject.type:
       return { ...state, loading: true };
     case RejectSuccess.type:
-      return { ...state, loading: false, successMessage: "The owner will be informed that you won't join this activity :(" };
+      return { ...state, loading: false };
     case RejectFail.type:
-      return { ...state, loading: false, errorMessage: payload };
+      return { ...state, loading: false };
     case Fetch.type:
-      return { ...state, errorMessage: null, successMessage: null, loading: true };
+      return { ...state, created: false, loading: true };
     case FetchSuccess.type:
       return { ...state, activities: payload, loading: false };
     case FetchFail.type:
-      return { ...state, errorMessage: payload, loading: false };
-    case CleanMessages.type:
-      return { ...state, errorMessage: null, successMessage: null };
+      return { ...state, loading: false };
     default:
       return state;
   }
