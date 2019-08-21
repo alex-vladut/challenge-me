@@ -34,7 +34,6 @@ export const getActivity = `query GetActivity($id: ID!) {
       id
       name
       pictureUrl
-      version
     }
     dateTime
     numberOfAttendants
@@ -65,6 +64,7 @@ export const participationsByActivityId = `query ParticipationsByActivityId(
       participant {
         id
         name
+        pictureUrl
       }
     }
     nextToken
@@ -88,7 +88,6 @@ export const listActivities = `query ListActivitys(
         id
         name
         pictureUrl
-        version
       }
       createdAt
       updatedAt

@@ -75,6 +75,7 @@ const ViewActivity = ({ activity, loading, match, fetchActivity, acceptActivity,
 
   const joinedActivity = () => activity.participations.find((item: any) => item.participant.id === profile.id);
   const isOwner = () => activity.owner.id === profile.id;
+  const isMaxNumberOfParticipants = () => activity.numberOfAttendants === activity.participations.length;
 
   const handleJoinActivity = () => acceptActivity({ activityId: activity.id, userId: profile.id });
   const handleRejectActivity = () => {
@@ -106,6 +107,11 @@ const ViewActivity = ({ activity, loading, match, fetchActivity, acceptActivity,
           <Typography variant="subtitle1" color="textSecondary">
             {moment(activity.dateTime).format("MMMM DD, YYYY") + " at " + moment(activity.dateTime).format("HH:mm")}
           </Typography>
+          {isMaxNumberOfParticipants() ? (
+            <Typography variant="subtitle1" color="secondary">
+              The maximum number of participants was met.
+            </Typography>
+          ) : null}
           {joinedActivity() ? (
             <Typography variant="subtitle1" color="primary">
               You confirmed will join this activity.
@@ -113,7 +119,7 @@ const ViewActivity = ({ activity, loading, match, fetchActivity, acceptActivity,
           ) : null}
         </CardContent>
         <CardActions>
-          {!isOwner() && !joinedActivity() ? (
+          {!isOwner() && !joinedActivity() && !isMaxNumberOfParticipants() ? (
             <IconButton aria-label="accept" onClick={handleJoinActivity}>
               <Check color="primary" />
             </IconButton>
