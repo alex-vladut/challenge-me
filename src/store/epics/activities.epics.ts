@@ -6,7 +6,23 @@ import { catchError, map, switchMap } from "rxjs/operators";
 import * as mutations from "../../graphql-api/mutations";
 import * as queries from "../../graphql-api/queries";
 import { ActionWithPayload, Action } from "../actions/actions";
-import { Create, CreateFail, CreateSuccess, Fetch, FetchSuccess, FetchFail, Delete, DeleteSuccess, DeleteFail } from "../actions/activities.actions";
+import {
+  Create,
+  CreateFail,
+  CreateSuccess,
+  Fetch,
+  FetchSuccess,
+  FetchFail,
+  Delete,
+  DeleteSuccess,
+  DeleteFail,
+  Accept,
+  AcceptSuccess,
+  AcceptFail,
+  Reject,
+  RejectSuccess,
+  RejectFail
+} from "../actions/activities.actions";
 
 const createActivity = (actions$: Observable<ActionWithPayload<any>>) =>
   actions$.pipe(
@@ -30,6 +46,28 @@ const deleteActivity = (actions$: Observable<ActionWithPayload<any>>) =>
     )
   );
 
+const acceptActivity = (actions$: Observable<ActionWithPayload<any>>) =>
+  actions$.pipe(
+    ofType(Accept.type),
+    switchMap(({ payload }) =>
+      from(API.graphql(graphqlOperation(mutations.createParticipation, { input: { participationActivityId: payload.activityId, participationParticipantId: payload.userId } }))).pipe(
+        map(() => AcceptSuccess.create()),
+        catchError(() => of(AcceptFail.create("There was an error while attempting to accept this activity. Please try again.")))
+      )
+    )
+  );
+
+const rejectActivity = (actions$: Observable<ActionWithPayload<any>>) =>
+  actions$.pipe(
+    ofType(Reject.type),
+    switchMap(({ payload }) =>
+      from(API.graphql(graphqlOperation(mutations.createParticipation, { input: { participationActivityId: payload.activityId, participationParticipantId: payload.userId } }))).pipe(
+        map(() => RejectSuccess.create()),
+        catchError(() => of(RejectFail.create("There was an error while attempting to reject this activity. Please try again.")))
+      )
+    )
+  );
+
 const fetchActivities = (actions$: Observable<Action>) =>
   actions$.pipe(
     ofType(Fetch.type, DeleteSuccess.type),
@@ -41,4 +79,4 @@ const fetchActivities = (actions$: Observable<Action>) =>
     )
   );
 
-export default [createActivity, deleteActivity, fetchActivities];
+export default [createActivity, acceptActivity, deleteActivity, rejectActivity, fetchActivities];

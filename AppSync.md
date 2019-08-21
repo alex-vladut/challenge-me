@@ -2,15 +2,16 @@ In order to integrate AppSync into the application, you'll have to first create 
 Then, you will have to also create a role that gives AppSync permissions to access the data sources (e.g. DynamoDB). This role is selected when you configure a new data source in AppSync.
 
 Plan:
+
 - learn a little more about GraphQL (what that is, why is useful, what problems it solves)
 - create a new AppSync GraphQL API and integrate it with Elasticsearch in order to enable searching for users
 - learn about and integrate VTL
 
 React app with AWS Amplify:
+
 - first you'll have to install aws-amplify cli globally (this will help you easily add different features to your application - like GraphQL)
 - also add the aws-amplify and aws-amplify-react to your package.json:
-> npm add aws-amplify aws-amplify-react --save
-
+  > npm add aws-amplify aws-amplify-react --save
 
 What I liked while watching the course is how easy it is to create a React application and already have it fully deployed in production with just a few simple commands. Amplify seems to work really great as a starting point, there might be issues when you use that in production, but for prototyping or just to start your project it seems to give you a huge boost in productivity. It took me a while to create all the resources myself (e.g. S3 bucket where the application is deployed, then build the application, copy the files to that bucket, make sure proper permissions are set on the bucket in order to be accessible on the internet etc.).
 I remember the guy that presented on Meetup mentioned that many of their clients start off with Amplify, but then "eject" it and go their own way in order to be able to perform optimizations as needed.
@@ -28,4 +29,7 @@ What seems to work is to create a User Pool as well as select federated identity
 
 I think I don't like that much the mutations and resolvers generated out of the box by Amplify. First, it's exposing way too much - you could basically updated any field (maybe not all of them are actually modifiable). Second, it's missing the business logic, you need to check certain things before allowing something to change. But as a first step I think it's good enough.
 
-I'm now sure how much business logic should be added into a VTL resolvers?
+I'm now sure how much business logic should be added into a VTL resolvers? Things like checking if a user should be allowed to delete an item, or that the title of an activity is not too long etc.
+
+There is a limitation now when a user joins an activity as they could join it multiple times, due to no uniqueness constraint at the database level. In order to progress faster with the development I will perform that check at the application level for the moment, but later will have to be fixed on the server side too.
+It seems that this Amplify thing works fine for simple use cases, but once you want to implement something more complex it sometimes even gets in your way or just requires too much effort. I think that in a way it forces you to perform more stuff at the application level (which is not a bad thing, if you are able to mirror the same logic server side as well).

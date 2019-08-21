@@ -3,7 +3,7 @@ import React, { FunctionComponent, useState } from "react";
 import moment from "moment";
 
 import { Avatar, Card, CardActions, CardContent, CardHeader, Divider, IconButton, Typography, Dialog, DialogContent, DialogContentText, DialogActions, Button, DialogTitle } from "@material-ui/core";
-import { Share, Delete } from "@material-ui/icons";
+import { Delete, Check, Clear } from "@material-ui/icons";
 import { grey, red } from "@material-ui/core/colors";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 
@@ -27,9 +27,11 @@ interface ItemProps {
   activity: any;
   isOwner: boolean;
   onDelete(item: any): void;
+  onAccept(item: any): void;
+  onReject(item: any): void;
 }
 
-const Item: FunctionComponent<ItemProps> = ({ activity, isOwner, onDelete }: ItemProps) => {
+const Item: FunctionComponent<ItemProps> = ({ activity, onAccept, onReject, onDelete }: ItemProps) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const classes = useStyles();
 
@@ -51,14 +53,15 @@ const Item: FunctionComponent<ItemProps> = ({ activity, isOwner, onDelete }: Ite
         </Typography>
       </CardContent>
       <CardActions>
-        <IconButton aria-label="share">
-          <Share />
+        <IconButton aria-label="accept" onClick={() => onAccept(activity)}>
+          <Check color="primary" />
         </IconButton>
-        {isOwner ? (
-          <IconButton aria-label="delete" onClick={() => setDeleteConfirmation(true)}>
-            <Delete />
-          </IconButton>
-        ) : null}
+        <IconButton aria-label="reject" onClick={() => onReject(activity)}>
+          <Clear color="error" />
+        </IconButton>
+        <IconButton aria-label="delete" onClick={() => setDeleteConfirmation(true)}>
+          <Delete />
+        </IconButton>
       </CardActions>
 
       <Dialog open={deleteConfirmation} onClose={() => setDeleteConfirmation(false)} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">

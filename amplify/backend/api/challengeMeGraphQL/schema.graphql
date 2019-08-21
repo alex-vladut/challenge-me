@@ -1,5 +1,11 @@
 # two types of activities: pick a number of attendants and don't allow any more submission
 # or allow any number of submissions and the user will decide who will be allowed
+type User @model @versioned {
+  id: ID!
+  name: String!
+  pictureUrl: String
+  activities: [Participation!] @connection(name: "UserActivities")
+}
 
 type Activity @model @versioned {
   id: ID!
@@ -8,13 +14,15 @@ type Activity @model @versioned {
   owner: User @connection
   dateTime: String!
   numberOfAttendants: Int!
-  attendants: [User!] @connection
+  participants: [Participation!] @connection(name: "ActivityParticipants")
   createdAt: String
   updatedAt: String
 }
 
-type User @model @versioned @searchable {
+# Create a join model and disable queries as you don't need them
+# and can query through Activity.participants and User.activities
+type Participation @model {
   id: ID!
-  name: String!
-  pictureUrl: String
+  activity: Activity! @connection(name: "ActivityParticipants")
+  participant: User! @connection(name: "UserActivities")
 }

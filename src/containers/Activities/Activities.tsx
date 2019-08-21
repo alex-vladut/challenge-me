@@ -5,7 +5,7 @@ import { CircularProgress } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
 
-import { Fetch, Delete, CleanMessages } from "../../store/actions/activities.actions";
+import { Fetch, Delete, CleanMessages, Accept, Reject } from "../../store/actions/activities.actions";
 import { State } from "../../store/reducers";
 
 import Item from "./Item/Item";
@@ -18,6 +18,8 @@ interface ActivitiesProps {
   profile: any;
   cleanMessages(): void;
   fetchActivities(): void;
+  acceptActivity({ userId, activityId }: any): void;
+  rejectActivity({ userId, activityId }: any): void;
   deleteActivity(activity: any): void;
 }
 
@@ -30,7 +32,18 @@ const useStyles = makeStyles(theme =>
   })
 );
 
-const Activities: FunctionComponent<ActivitiesProps> = ({ activities, loading, errorMessage, successMessage, profile, fetchActivities, deleteActivity, cleanMessages }: ActivitiesProps) => {
+const Activities: FunctionComponent<ActivitiesProps> = ({
+  activities,
+  loading,
+  errorMessage,
+  successMessage,
+  profile,
+  fetchActivities,
+  acceptActivity,
+  rejectActivity,
+  deleteActivity,
+  cleanMessages
+}: ActivitiesProps) => {
   const classes = useStyles();
 
   useEffect(() => {
@@ -60,7 +73,14 @@ const Activities: FunctionComponent<ActivitiesProps> = ({ activities, loading, e
   return (
     <div className={classes.root}>
       {activities.map(activity => (
-        <Item key={activity.id} activity={activity} isOwner={activity.owner.id === profile.id} onDelete={handleDeleteActivity} />
+        <Item
+          key={activity.id}
+          activity={activity}
+          isOwner={activity.owner.id === profile.id}
+          onAccept={activity => acceptActivity({ userId: profile.id, activityId: activity.id })}
+          onReject={activity => rejectActivity({ userId: profile.id, activityId: activity.id })}
+          onDelete={handleDeleteActivity}
+        />
       ))}
     </div>
   );
@@ -76,6 +96,8 @@ const mapStateToProps = ({ activities, auth }: State) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
   fetchActivities: () => dispatch(Fetch.create()),
+  acceptActivity: ({ userId, activityId }: any) => dispatch(Accept.create({ userId, activityId })),
+  rejectActivity: ({ userId, activityId }: any) => dispatch(Reject.create({ userId, activityId })),
   deleteActivity: (activity: any) => dispatch(Delete.create(activity)),
   cleanMessages: () => dispatch(CleanMessages.create())
 });

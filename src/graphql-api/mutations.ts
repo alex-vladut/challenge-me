@@ -3,6 +3,9 @@ export const createUser = `mutation CreateUser($input: CreateUserInput!) {
     id
     name
     pictureUrl
+    activities {
+      nextToken
+    }
     version
   }
 }
@@ -21,12 +24,35 @@ export const createActivity = `mutation CreateActivity($input: CreateActivityInp
     }
     dateTime
     numberOfAttendants
-    attendants {
+    participants {
       nextToken
     }
     createdAt
     updatedAt
     version
+  }
+}
+`;
+
+export const createParticipation = `mutation CreateParticipation($input: CreateParticipationInput!) {
+  createParticipation(input: $input) {
+    id
+    activity {
+      id
+      title
+      description
+      dateTime
+      numberOfAttendants
+      createdAt
+      updatedAt
+      version
+    }
+    participant {
+      id
+      name
+      pictureUrl
+      version
+    }
   }
 }
 `;
@@ -44,7 +70,7 @@ export const deleteActivity = `mutation DeleteActivity($input: DeleteActivityInp
     }
     dateTime
     numberOfAttendants
-    attendants {
+    participants {
       nextToken
     }
     createdAt

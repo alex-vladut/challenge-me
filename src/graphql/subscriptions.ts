@@ -1,6 +1,42 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
+export const onCreateUser = `subscription OnCreateUser {
+  onCreateUser {
+    id
+    name
+    pictureUrl
+    activities {
+      nextToken
+    }
+    version
+  }
+}
+`;
+export const onUpdateUser = `subscription OnUpdateUser {
+  onUpdateUser {
+    id
+    name
+    pictureUrl
+    activities {
+      nextToken
+    }
+    version
+  }
+}
+`;
+export const onDeleteUser = `subscription OnDeleteUser {
+  onDeleteUser {
+    id
+    name
+    pictureUrl
+    activities {
+      nextToken
+    }
+    version
+  }
+}
+`;
 export const onCreateActivity = `subscription OnCreateActivity {
   onCreateActivity {
     id
@@ -14,7 +50,7 @@ export const onCreateActivity = `subscription OnCreateActivity {
     }
     dateTime
     numberOfAttendants
-    attendants {
+    participants {
       nextToken
     }
     createdAt
@@ -36,7 +72,7 @@ export const onUpdateActivity = `subscription OnUpdateActivity {
     }
     dateTime
     numberOfAttendants
-    attendants {
+    participants {
       nextToken
     }
     createdAt
@@ -58,7 +94,7 @@ export const onDeleteActivity = `subscription OnDeleteActivity {
     }
     dateTime
     numberOfAttendants
-    attendants {
+    participants {
       nextToken
     }
     createdAt
@@ -67,30 +103,69 @@ export const onDeleteActivity = `subscription OnDeleteActivity {
   }
 }
 `;
-export const onCreateUser = `subscription OnCreateUser {
-  onCreateUser {
+export const onCreateParticipation = `subscription OnCreateParticipation {
+  onCreateParticipation {
     id
-    name
-    pictureUrl
-    version
+    activity {
+      id
+      title
+      description
+      dateTime
+      numberOfAttendants
+      createdAt
+      updatedAt
+      version
+    }
+    participant {
+      id
+      name
+      pictureUrl
+      version
+    }
   }
 }
 `;
-export const onUpdateUser = `subscription OnUpdateUser {
-  onUpdateUser {
+export const onUpdateParticipation = `subscription OnUpdateParticipation {
+  onUpdateParticipation {
     id
-    name
-    pictureUrl
-    version
+    activity {
+      id
+      title
+      description
+      dateTime
+      numberOfAttendants
+      createdAt
+      updatedAt
+      version
+    }
+    participant {
+      id
+      name
+      pictureUrl
+      version
+    }
   }
 }
 `;
-export const onDeleteUser = `subscription OnDeleteUser {
-  onDeleteUser {
+export const onDeleteParticipation = `subscription OnDeleteParticipation {
+  onDeleteParticipation {
     id
-    name
-    pictureUrl
-    version
+    activity {
+      id
+      title
+      description
+      dateTime
+      numberOfAttendants
+      createdAt
+      updatedAt
+      version
+    }
+    participant {
+      id
+      name
+      pictureUrl
+      version
+    }
   }
 }
 `;

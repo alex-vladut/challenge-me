@@ -1,6 +1,34 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
+export const getUser = `query GetUser($id: ID!) {
+  getUser(id: $id) {
+    id
+    name
+    pictureUrl
+    activities {
+      nextToken
+    }
+    version
+  }
+}
+`;
+export const listUsers = `query ListUsers(
+  $filter: ModelUserFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      pictureUrl
+      version
+    }
+    nextToken
+  }
+}
+`;
 export const getActivity = `query GetActivity($id: ID!) {
   getActivity(id: $id) {
     id
@@ -14,7 +42,7 @@ export const getActivity = `query GetActivity($id: ID!) {
     }
     dateTime
     numberOfAttendants
-    attendants {
+    participants {
       nextToken
     }
     createdAt
@@ -43,48 +71,36 @@ export const listActivitys = `query ListActivitys(
   }
 }
 `;
-export const getUser = `query GetUser($id: ID!) {
-  getUser(id: $id) {
+export const getParticipation = `query GetParticipation($id: ID!) {
+  getParticipation(id: $id) {
     id
-    name
-    pictureUrl
-    version
-  }
-}
-`;
-export const listUsers = `query ListUsers(
-  $filter: ModelUserFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
+    activity {
+      id
+      title
+      description
+      dateTime
+      numberOfAttendants
+      createdAt
+      updatedAt
+      version
+    }
+    participant {
       id
       name
       pictureUrl
       version
     }
-    nextToken
   }
 }
 `;
-export const searchUsers = `query SearchUsers(
-  $filter: SearchableUserFilterInput
-  $sort: SearchableUserSortInput
+export const listParticipations = `query ListParticipations(
+  $filter: ModelParticipationFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  searchUsers(
-    filter: $filter
-    sort: $sort
-    limit: $limit
-    nextToken: $nextToken
-  ) {
+  listParticipations(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      name
-      pictureUrl
-      version
     }
     nextToken
   }
