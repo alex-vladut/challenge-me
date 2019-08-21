@@ -25,6 +25,53 @@ export const listUsers = `query ListUsers(
 }
 `;
 
+export const getActivity = `query GetActivity($id: ID!) {
+  getActivity(id: $id) {
+    id
+    title
+    description
+    owner {
+      id
+      name
+      pictureUrl
+      version
+    }
+    dateTime
+    numberOfAttendants
+    createdAt
+    updatedAt
+    version
+  }
+}
+`;
+
+export const participationsByActivityId = `query ParticipationsByActivityId(
+  $activityId: ID
+  $sortDirection: ModelSortDirection
+  $filter: ModelParticipationFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  participationsByActivityId(
+    activityId: $activityId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      activityId
+      participant {
+        id
+        name
+      }
+    }
+    nextToken
+  }
+}
+`;
+
 export const listActivities = `query ListActivitys(
   $filter: ModelActivityFilterInput
   $limit: Int

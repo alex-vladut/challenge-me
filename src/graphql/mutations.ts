@@ -122,6 +122,7 @@ export const createParticipation = `mutation CreateParticipation($input: CreateP
       pictureUrl
       version
     }
+    activityId
   }
 }
 `;
@@ -144,6 +145,7 @@ export const updateParticipation = `mutation UpdateParticipation($input: UpdateP
       pictureUrl
       version
     }
+    activityId
   }
 }
 `;
@@ -166,6 +168,7 @@ export const deleteParticipation = `mutation DeleteParticipation($input: DeleteP
       pictureUrl
       version
     }
+    activityId
   }
 }
 `;

@@ -4,6 +4,7 @@ import { Authenticator, FederatedSignIn } from "aws-amplify-react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
+import { State } from "../../store/reducers";
 import { FetchProfile, SignOut } from "../../store/actions/auth.actions";
 
 const federated = {
@@ -43,8 +44,8 @@ class Auth extends Component<AuthProps> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
-  isAuthenticated: state.auth.authenticated
+const mapStateToProps = ({ auth }: State) => ({
+  isAuthenticated: auth.authenticated
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

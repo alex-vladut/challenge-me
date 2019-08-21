@@ -1,7 +1,7 @@
 import { API, graphqlOperation } from "aws-amplify";
 import { ofType } from "redux-observable";
 import { from, Observable, of } from "rxjs";
-import { catchError, map, switchMap } from "rxjs/operators";
+import { catchError, map, switchMap, withLatestFrom } from "rxjs/operators";
 
 import * as mutations from "../../graphql-api/mutations";
 import * as queries from "../../graphql-api/queries";
@@ -11,9 +11,9 @@ import {
   Create,
   CreateFail,
   CreateSuccess,
-  Fetch,
-  FetchSuccess,
-  FetchFail,
+  FetchAll,
+  FetchAllSuccess,
+  FetchAllFail,
   Delete,
   DeleteSuccess,
   DeleteFail,
@@ -22,8 +22,14 @@ import {
   AcceptFail,
   Reject,
   RejectSuccess,
-  RejectFail
+  RejectFail,
+  FetchActivity,
+  FetchActivitySuccess,
+  FetchActivityFail,
+  FetchParticipationsSuccess,
+  FetchParticipationsFail
 } from "../actions/activities.actions";
+import { State } from "../reducers";
 
 const createActivity = (actions$: Observable<ActionWithPayload<any>>) =>
   actions$.pipe(
@@ -34,12 +40,6 @@ const createActivity = (actions$: Observable<ActionWithPayload<any>>) =>
         catchError(() => of(CreateFail.create("There was an error while creating your activity. Please try again.")))
       )
     )
-  );
-
-const actionSucceeded = (actions$: Observable<ActionWithPayload<string>>) =>
-  actions$.pipe(
-    ofType(CreateSuccess.type, DeleteSuccess.type),
-    switchMap(({ payload }) => of(createNotification(payload, "success")))
   );
 
 const deleteActivity = (actions$: Observable<ActionWithPayload<any>>) =>
@@ -57,8 +57,12 @@ const acceptActivity = (actions$: Observable<ActionWithPayload<any>>) =>
   actions$.pipe(
     ofType(Accept.type),
     switchMap(({ payload }) =>
-      from(API.graphql(graphqlOperation(mutations.createParticipation, { input: { participationActivityId: payload.activityId, participationParticipantId: payload.userId } }))).pipe(
-        map(() => AcceptSuccess.create()),
+      from(
+        API.graphql(
+          graphqlOperation(mutations.createParticipation, { input: { participationActivityId: payload.activityId, activityId: payload.activityId, participationParticipantId: payload.userId } })
+        )
+      ).pipe(
+        map(() => AcceptSuccess.create("Great news! We will inform the owner that you will join this activity :)")),
         catchError(() => of(AcceptFail.create("There was an error while attempting to accept this activity. Please try again.")))
       )
     )
@@ -68,28 +72,57 @@ const rejectActivity = (actions$: Observable<ActionWithPayload<any>>) =>
   actions$.pipe(
     ofType(Reject.type),
     switchMap(({ payload }) =>
-      from(API.graphql(graphqlOperation(mutations.createParticipation, { input: { participationActivityId: payload.activityId, participationParticipantId: payload.userId } }))).pipe(
-        map(() => RejectSuccess.create()),
+      from(API.graphql(graphqlOperation(mutations.deleteParticipation, { input: { id: payload.id, expectedVersion: payload.version } }))).pipe(
+        map(() => RejectSuccess.create("Sad to hear that :(. We will let the owner know and you won't join this activity.")),
         catchError(() => of(RejectFail.create("There was an error while attempting to reject this activity. Please try again.")))
+      )
+    )
+  );
+
+const fetchActivity = (actions$: Observable<ActionWithPayload<string>>) =>
+  actions$.pipe(
+    ofType(FetchActivity.type),
+    switchMap(({ payload }) =>
+      from(API.graphql(graphqlOperation(queries.getActivity, { id: payload }))).pipe(
+        map(({ data }: any) => FetchActivitySuccess.create(data.getActivity)),
+        catchError(() => of(FetchActivityFail.create("Sorry, there was an error while loading the activity :(")))
+      )
+    )
+  );
+
+const fetchActivityParticipations = (actions$: Observable<ActionWithPayload<string>>, state$: Observable<State>) =>
+  actions$.pipe(
+    ofType(FetchActivitySuccess.type, AcceptSuccess.type, RejectSuccess.type),
+    withLatestFrom(state$),
+    switchMap(([action, { activities }]) =>
+      from(API.graphql(graphqlOperation(queries.participationsByActivityId, { activityId: activities.activity.id, limit: 100 }))).pipe(
+        map(({ data }: any) => FetchParticipationsSuccess.create(data.participationsByActivityId.items)),
+        catchError(() => of(FetchParticipationsFail.create()))
       )
     )
   );
 
 const fetchActivities = (actions$: Observable<Action>) =>
   actions$.pipe(
-    ofType(Fetch.type, DeleteSuccess.type),
+    ofType(FetchAll.type, DeleteSuccess.type),
     switchMap(() =>
       from(API.graphql(graphqlOperation(queries.listActivities, { limit: 10 }))).pipe(
-        map(({ data }: any) => FetchSuccess.create(data.listActivitys.items)),
-        catchError(() => of(FetchFail.create("Sorry, there was an error while loading the activities.")))
+        map(({ data }: any) => FetchAllSuccess.create(data.listActivitys.items)),
+        catchError(() => of(FetchAllFail.create("Sorry, there was an error while loading the activities.")))
       )
     )
   );
 
+const actionSucceeded = (actions$: Observable<ActionWithPayload<string>>) =>
+  actions$.pipe(
+    ofType(CreateSuccess.type, DeleteSuccess.type, AcceptSuccess.type, RejectSuccess.type),
+    switchMap(({ payload }) => of(createNotification(payload, "success")))
+  );
+
 const actionFailed = (actions$: Observable<ActionWithPayload<string>>) =>
   actions$.pipe(
-    ofType(FetchFail.type, CreateFail.type, AcceptFail.type, RejectFail.type, DeleteFail.type),
+    ofType(FetchAllFail.type, CreateFail.type, AcceptFail.type, RejectFail.type, DeleteFail.type),
     switchMap(({ payload }) => of(createNotification(payload)))
   );
 
-export default [createActivity, acceptActivity, deleteActivity, rejectActivity, fetchActivities, actionSucceeded, actionFailed];
+export default [createActivity, acceptActivity, deleteActivity, rejectActivity, fetchActivity, fetchActivityParticipations, fetchActivities, actionSucceeded, actionFailed];

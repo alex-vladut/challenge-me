@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { CircularProgress } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 
-import { Fetch, Delete, Accept, Reject } from "../../store/actions/activities.actions";
+import { FetchAll } from "../../store/actions/activities.actions";
 import { State } from "../../store/reducers";
 
 import Item from "./Item/Item";
@@ -12,14 +12,7 @@ import Item from "./Item/Item";
 interface ActivitiesProps {
   activities: any[];
   loading: boolean;
-  successMessage: string | null;
-  errorMessage: string | null;
-  profile: any;
-  cleanMessages(): void;
   fetchActivities(): void;
-  acceptActivity({ userId, activityId }: any): void;
-  rejectActivity({ userId, activityId }: any): void;
-  deleteActivity(activity: any): void;
 }
 
 const useStyles = makeStyles(theme =>
@@ -31,14 +24,12 @@ const useStyles = makeStyles(theme =>
   })
 );
 
-const Activities: FunctionComponent<ActivitiesProps> = ({ activities, loading, profile, fetchActivities, acceptActivity, rejectActivity, deleteActivity }: ActivitiesProps) => {
+const Activities: FunctionComponent<ActivitiesProps> = ({ activities, loading, fetchActivities }: ActivitiesProps) => {
   const classes = useStyles();
 
   useEffect(() => {
     fetchActivities();
   }, [fetchActivities]);
-
-  const handleDeleteActivity = (activity: any) => deleteActivity(activity);
 
   if (loading) {
     return <CircularProgress />;
@@ -46,14 +37,7 @@ const Activities: FunctionComponent<ActivitiesProps> = ({ activities, loading, p
   return (
     <div className={classes.root}>
       {activities.map(activity => (
-        <Item
-          key={activity.id}
-          activity={activity}
-          isOwner={activity.owner.id === profile.id}
-          onAccept={activity => acceptActivity({ userId: profile.id, activityId: activity.id })}
-          onReject={activity => rejectActivity({ userId: profile.id, activityId: activity.id })}
-          onDelete={handleDeleteActivity}
-        />
+        <Item key={activity.id} activity={activity} />
       ))}
     </div>
   );
@@ -66,10 +50,7 @@ const mapStateToProps = ({ activities, auth }: State) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  fetchActivities: () => dispatch(Fetch.create()),
-  acceptActivity: ({ userId, activityId }: any) => dispatch(Accept.create({ userId, activityId })),
-  rejectActivity: ({ userId, activityId }: any) => dispatch(Reject.create({ userId, activityId })),
-  deleteActivity: (activity: any) => dispatch(Delete.create(activity))
+  fetchActivities: () => dispatch(FetchAll.create())
 });
 
 export default connect(

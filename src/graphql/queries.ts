@@ -90,6 +90,7 @@ export const getParticipation = `query GetParticipation($id: ID!) {
       pictureUrl
       version
     }
+    activityId
   }
 }
 `;
@@ -101,6 +102,29 @@ export const listParticipations = `query ListParticipations(
   listParticipations(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
+      activityId
+    }
+    nextToken
+  }
+}
+`;
+export const participationsByActivityId = `query ParticipationsByActivityId(
+  $activityId: ID
+  $sortDirection: ModelSortDirection
+  $filter: ModelParticipationFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  participationsByActivityId(
+    activityId: $activityId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      activityId
     }
     nextToken
   }

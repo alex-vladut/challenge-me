@@ -3,9 +3,9 @@ import {
   Create,
   CreateFail,
   CreateSuccess,
-  Fetch,
-  FetchFail,
-  FetchSuccess,
+  FetchAll,
+  FetchAllFail,
+  FetchAllSuccess,
   Delete,
   DeleteSuccess,
   DeleteFail,
@@ -14,19 +14,26 @@ import {
   AcceptFail,
   Reject,
   RejectSuccess,
-  RejectFail
+  RejectFail,
+  FetchActivity,
+  FetchActivitySuccess,
+  FetchActivityFail,
+  FetchParticipationsSuccess,
+  FetchParticipationsFail
 } from "../actions/activities.actions";
 
 export interface State {
   activities: any[];
-  loading: boolean;
+  activity: any;
   created: boolean;
+  loading: boolean;
 }
 
 const initialState: State = {
-  loading: false,
   activities: [],
-  created: false
+  activity: null,
+  created: false,
+  loading: false
 };
 
 const reducer = (state = initialState, { type, payload }: ActionWithPayload<any>): State => {
@@ -55,11 +62,21 @@ const reducer = (state = initialState, { type, payload }: ActionWithPayload<any>
       return { ...state, loading: false };
     case RejectFail.type:
       return { ...state, loading: false };
-    case Fetch.type:
+    case FetchAll.type:
       return { ...state, created: false, loading: true };
-    case FetchSuccess.type:
+    case FetchAllSuccess.type:
       return { ...state, activities: payload, loading: false };
-    case FetchFail.type:
+    case FetchAllFail.type:
+      return { ...state, loading: false };
+    case FetchActivity.type:
+      return { ...state, loading: true };
+    case FetchActivitySuccess.type:
+      return { ...state, activity: payload, loading: true };
+    case FetchActivityFail.type:
+      return { ...state, loading: false };
+    case FetchParticipationsSuccess.type:
+      return { ...state, activity: { ...state.activity, participations: payload }, loading: false };
+    case FetchParticipationsFail.type:
       return { ...state, loading: false };
     default:
       return state;

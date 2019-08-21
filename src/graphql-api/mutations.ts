@@ -57,6 +57,29 @@ export const createParticipation = `mutation CreateParticipation($input: CreateP
 }
 `;
 
+export const deleteParticipation = `mutation DeleteParticipation($input: DeleteParticipationInput!) {
+  deleteParticipation(input: $input) {
+    id
+    activity {
+      id
+      title
+      description
+      dateTime
+      numberOfAttendants
+      createdAt
+      updatedAt
+      version
+    }
+    participant {
+      id
+      name
+      pictureUrl
+      version
+    }
+  }
+}
+`;
+
 export const deleteActivity = `mutation DeleteActivity($input: DeleteActivityInput!) {
   deleteActivity(input: $input) {
     id

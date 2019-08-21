@@ -21,8 +21,10 @@ type Activity @model @versioned {
 
 # Create a join model and disable queries as you don't need them
 # and can query through Activity.participants and User.activities
-type Participation @model {
+type Participation @model @key(name: "ByActivity", fields: ["activityId"], queryField: "participationsByActivityId") {
   id: ID!
   activity: Activity! @connection(name: "ActivityParticipants")
   participant: User! @connection(name: "UserActivities")
+  # required for @key in order to make it searchable
+  activityId: ID!
 }

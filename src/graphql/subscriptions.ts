@@ -122,6 +122,7 @@ export const onCreateParticipation = `subscription OnCreateParticipation {
       pictureUrl
       version
     }
+    activityId
   }
 }
 `;
@@ -144,6 +145,7 @@ export const onUpdateParticipation = `subscription OnUpdateParticipation {
       pictureUrl
       version
     }
+    activityId
   }
 }
 `;
@@ -166,6 +168,7 @@ export const onDeleteParticipation = `subscription OnDeleteParticipation {
       pictureUrl
       version
     }
+    activityId
   }
 }
 `;
