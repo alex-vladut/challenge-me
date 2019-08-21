@@ -1,6 +1,6 @@
-import React, { useEffect, Fragment } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { useSnackbar } from "notistack";
+import { useSnackbar, SnackbarProvider } from "notistack";
 
 import { State } from "../store/reducers";
 import { Clear } from "../store/actions/notifications.actions";
@@ -14,7 +14,7 @@ const Notifications = ({ item, children, clear }: any) => {
     }
   }, [item, enqueueSnackbar, clear]);
 
-  return <Fragment>{children}</Fragment>;
+  return children;
 };
 
 const mapStateToProps = ({ notifications: { item } }: State) => ({ item });
@@ -23,7 +23,15 @@ const mapDispatchToProps = (dispatch: any) => ({
   clear: () => dispatch(Clear.create())
 });
 
-export default connect(
+const NotificationsWithRedux = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Notifications);
+
+export default function NotificationsWithSnackbar(props: any) {
+  return (
+    <SnackbarProvider>
+      <NotificationsWithRedux {...props} />
+    </SnackbarProvider>
+  );
+}

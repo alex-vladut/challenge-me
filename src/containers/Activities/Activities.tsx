@@ -15,11 +15,10 @@ interface ActivitiesProps {
   fetchActivities(): void;
 }
 
-const useStyles = makeStyles(theme =>
+const useStyles = makeStyles(() =>
   createStyles({
     root: {
-      display: "grid",
-      backgroundColor: theme.palette.background.paper
+      display: "grid"
     }
   })
 );
