@@ -14,7 +14,6 @@ export const createUser = `mutation CreateUser($input: CreateUserInput!) {
 export const createActivity = `mutation CreateActivity($input: CreateActivityInput!) {
   createActivity(input: $input) {
     id
-    title
     description
     owner {
       id
@@ -30,52 +29,6 @@ export const createActivity = `mutation CreateActivity($input: CreateActivityInp
     createdAt
     updatedAt
     version
-  }
-}
-`;
-
-export const createParticipation = `mutation CreateParticipation($input: CreateParticipationInput!) {
-  createParticipation(input: $input) {
-    id
-    activity {
-      id
-      title
-      description
-      dateTime
-      numberOfAttendants
-      createdAt
-      updatedAt
-      version
-    }
-    participant {
-      id
-      name
-      pictureUrl
-      version
-    }
-  }
-}
-`;
-
-export const deleteParticipation = `mutation DeleteParticipation($input: DeleteParticipationInput!) {
-  deleteParticipation(input: $input) {
-    id
-    activity {
-      id
-      title
-      description
-      dateTime
-      numberOfAttendants
-      createdAt
-      updatedAt
-      version
-    }
-    participant {
-      id
-      name
-      pictureUrl
-      version
-    }
   }
 }
 `;
@@ -83,7 +36,6 @@ export const deleteParticipation = `mutation DeleteParticipation($input: DeleteP
 export const deleteActivity = `mutation DeleteActivity($input: DeleteActivityInput!) {
   deleteActivity(input: $input) {
     id
-    title
     description
     owner {
       id
@@ -99,6 +51,53 @@ export const deleteActivity = `mutation DeleteActivity($input: DeleteActivityInp
     createdAt
     updatedAt
     version
+  }
+}
+`;
+export const createParticipation = `mutation CreateParticipation($input: CreateParticipationInput!) {
+  createParticipation(input: $input) {
+    id
+    activity {
+      id
+      description
+      dateTime
+      numberOfAttendants
+      createdAt
+      updatedAt
+      version
+    }
+    participant {
+      id
+      name
+      pictureUrl
+      version
+    }
+    activityId
+    status
+  }
+}
+`;
+
+export const updateParticipation = `mutation UpdateParticipation($input: UpdateParticipationInput!) {
+  updateParticipation(input: $input) {
+    id
+    activity {
+      id
+      description
+      dateTime
+      numberOfAttendants
+      createdAt
+      updatedAt
+      version
+    }
+    participant {
+      id
+      name
+      pictureUrl
+      version
+    }
+    activityId
+    status
   }
 }
 `;

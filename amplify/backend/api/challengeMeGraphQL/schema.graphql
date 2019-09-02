@@ -9,7 +9,6 @@ type User @model @versioned {
 
 type Activity @model @versioned {
   id: ID!
-  title: String!
   description: String!
   owner: User @connection
   dateTime: String!
@@ -27,4 +26,10 @@ type Participation @model @key(name: "ByActivity", fields: ["activityId"], query
   participant: User! @connection(name: "UserActivities")
   # required for @key in order to make it searchable
   activityId: ID!
+  status: ParticipationStatus!
+}
+
+enum ParticipationStatus {
+  ACCEPTED
+  REJECTED
 }

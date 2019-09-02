@@ -35,10 +35,12 @@ import { createStyles, makeStyles } from "@material-ui/core/styles";
 import userIcon from "../../assets/user.png";
 import { State } from "../../store/reducers";
 import { FetchActivity, Accept, Reject, Delete } from "../../store/actions/activities.actions";
+import { Redirect } from "react-router";
 
 export interface ViewActivityProps {
   activity: any;
   profile: any;
+  deleted: boolean;
   loading: boolean;
   match: any;
   fetchActivity(activityId: string): void;
@@ -62,9 +64,8 @@ const useStyles = makeStyles(theme =>
   })
 );
 
-const ViewActivity = ({ activity, loading, match, fetchActivity, acceptActivity, profile, rejectActivity, deleteActivity }: ViewActivityProps) => {
+const ViewActivity = ({ activity, deleted, loading, match, fetchActivity, acceptActivity, profile, rejectActivity, deleteActivity }: ViewActivityProps) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-  const [rejectConfirmation, setRejectConfirmation] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const classes = useStyles();
 
@@ -73,29 +74,60 @@ const ViewActivity = ({ activity, loading, match, fetchActivity, acceptActivity,
     fetchActivity(activityId);
   }, [activityId, fetchActivity]);
 
-  const joinedActivity = () => activity.participations.find((item: any) => item.participant.id === profile.id);
+  const acceptedActivity = () => {
+    const participation = activity.participations.find((item: any) => item.participant.id === profile.id);
+    return participation && participation.status === "ACCEPTED";
+  };
+  const rejectedActivity = () => {
+    const participation = activity.participations.find((item: any) => item.participant.id === profile.id);
+    return participation && participation.status === "REJECTED";
+  };
+
   const isOwner = () => activity.owner.id === profile.id;
   const isMaxNumberOfParticipants = () => activity.numberOfAttendants === activity.participations.length;
 
-  const handleJoinActivity = () => acceptActivity({ activityId: activity.id, userId: profile.id });
-  const handleRejectActivity = () => {
-    const participation = activity.participations.find((item: any) => item.participant.id === profile.id);
-    if (participation) {
-      rejectActivity(participation);
-    }
-    setRejectConfirmation(false);
+  const handleJoinActivity = () => {
+    const participation = activity.participations.find((item: any) => item.participant.id === profile.id) || { activityId: activity.id, userId: profile.id };
+    acceptActivity(participation);
   };
-  const handleDeleteActivity = () => deleteActivity(activity.id);
+  const handleRejectActivity = () => {
+    const participation = activity.participations.find((item: any) => item.participant.id === profile.id) || { activityId: activity.id, userId: profile.id };
+    rejectActivity(participation);
+  };
+  const handleDeleteActivity = () => deleteActivity(activity);
 
+  if (deleted) {
+    return <Redirect to="/activities" />;
+  }
   if (loading || !activity) {
     return <CircularProgress />;
+  }
+
+  const actions = [];
+  if (isOwner()) {
+    actions.push(
+      <Grid container justify="flex-end" key="delete">
+        <IconButton aria-label="delete" onClick={() => setDeleteConfirmation(true)}>
+          <DeleteIcon />
+        </IconButton>
+      </Grid>
+    );
+  } else {
+    actions.push(
+      <IconButton aria-label="accept" onClick={handleJoinActivity} disabled={acceptedActivity()} key="accept">
+        <Check color={acceptedActivity() ? "disabled" : "primary"} />
+      </IconButton>,
+      <IconButton aria-label="reject" onClick={handleRejectActivity} disabled={rejectedActivity()} key="reject">
+        <Clear color={rejectedActivity() ? "disabled" : "error"} />
+      </IconButton>
+    );
   }
   return (
     <div>
       <Card>
         <CardHeader
           avatar={<Avatar className={classes.avatar} alt={activity.owner.name} src={activity.owner.pictureUrl || userIcon} />}
-          title={activity.title}
+          title={activity.owner.name}
           subheader={"Created at " + moment(activity.createdAt).format("MMMM DD, YYYY")}
           className={classes.header}
         />
@@ -112,33 +144,18 @@ const ViewActivity = ({ activity, loading, match, fetchActivity, acceptActivity,
               The maximum number of participants was met.
             </Typography>
           ) : null}
-          {joinedActivity() ? (
+          {acceptedActivity() ? (
             <Typography variant="subtitle1" color="primary">
               You confirmed will join this activity.
             </Typography>
           ) : null}
+          {rejectedActivity() ? (
+            <Typography variant="subtitle1" color="error">
+              You confirmed won't join this activity.
+            </Typography>
+          ) : null}
         </CardContent>
-        <CardActions>
-          {!isOwner() && !joinedActivity() && !isMaxNumberOfParticipants() ? (
-            <IconButton aria-label="accept" onClick={handleJoinActivity}>
-              <Check color="primary" />
-            </IconButton>
-          ) : null}
-
-          {!isOwner() && joinedActivity() ? (
-            <IconButton aria-label="reject" onClick={() => setRejectConfirmation(true)}>
-              <Clear color="error" />
-            </IconButton>
-          ) : null}
-
-          {isOwner() ? (
-            <Grid container justify="flex-end">
-              <IconButton aria-label="delete" onClick={() => setDeleteConfirmation(true)}>
-                <DeleteIcon />
-              </IconButton>
-            </Grid>
-          ) : null}
-        </CardActions>
+        <CardActions>{actions}</CardActions>
       </Card>
 
       {isOwner() ? (
@@ -184,34 +201,20 @@ const ViewActivity = ({ activity, loading, match, fetchActivity, acceptActivity,
           </Button>
         </DialogActions>
       </Dialog>
-
-      <Dialog open={rejectConfirmation} onClose={() => setRejectConfirmation(false)}>
-        <DialogTitle>{"Won't join this activity!"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">It seems you have changed your mind. Do you want to inform the owner that you won't join this activity anymore?</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setRejectConfirmation(false)} color="secondary">
-            Cancel
-          </Button>
-          <Button onClick={handleRejectActivity} color="primary" autoFocus>
-            Yes
-          </Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 };
 
 const mapStateToProps = ({ activities, auth }: State) => ({
   activity: activities.activity,
+  deleted: activities.deleted,
   loading: activities.loading,
   profile: auth.profile
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   fetchActivity: (activityId: string) => dispatch(FetchActivity.create(activityId)),
-  acceptActivity: ({ userId, activityId }: any) => dispatch(Accept.create({ userId, activityId })),
+  acceptActivity: (participation: any) => dispatch(Accept.create(participation)),
   rejectActivity: (participation: any) => dispatch(Reject.create(participation)),
   deleteActivity: (activity: any) => dispatch(Delete.create(activity))
 });

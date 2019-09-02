@@ -20,12 +20,6 @@ const useStyles = makeStyles(theme => ({
 
 const validate = (form: any) => {
   let errors: any = {};
-  if (!form.title || form.title.length < 10 || form.title.length > 200) {
-    errors = {
-      ...errors,
-      title: "Please provide a title between 10 and 200 chars long."
-    };
-  }
   if (!form.description || form.description.length < 10 || form.description.length > 1000) {
     errors = {
       ...errors,
@@ -68,19 +62,17 @@ const Activity: FunctionComponent<ActivityProps> = ({ loading, created, createAc
     .second(0)
     .toDate();
   const [dateTime, setDateTime] = useState<Date | null>(nextMonth);
-  const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [numberOfAttendants, setNumberOfAttendants] = useState<number>(1);
   const [errors, setErrors] = useState<any>({});
 
   const handleDateChange = (date: Date | null) => setDateTime(date);
-  const handleTitleChange = (event: any) => setTitle(event.target.value);
   const handleDescriptionChange = (event: any) => setDescription(event.target.value);
   const handleNumberOfAttendantsChange = (event: any) => setNumberOfAttendants(Number(event.target.value));
 
   const submit = (event: any) => {
     event.preventDefault();
-    const activity = { title, description, dateTime, numberOfAttendants };
+    const activity = { description, dateTime, numberOfAttendants };
     const errors = validate(activity);
     setErrors(errors);
 
@@ -99,7 +91,6 @@ const Activity: FunctionComponent<ActivityProps> = ({ loading, created, createAc
   return (
     <Box className={classes.root}>
       <form onSubmit={submit}>
-        <TextField label="Title" value={title} onChange={handleTitleChange} error={!!errors.title} helperText={errors.title} required fullWidth />
         <TextField label="Description" value={description} onChange={handleDescriptionChange} error={!!errors.description} helperText={errors.description} multiline rowsMax="5" fullWidth required />
         <DateTimePicker value={dateTime} onChange={handleDateChange} />
         <TextField

@@ -28,7 +28,6 @@ export const listUsers = `query ListUsers(
 export const getActivity = `query GetActivity($id: ID!) {
   getActivity(id: $id) {
     id
-    title
     description
     owner {
       id
@@ -61,6 +60,7 @@ export const participationsByActivityId = `query ParticipationsByActivityId(
     items {
       id
       activityId
+      status
       participant {
         id
         name
@@ -80,7 +80,6 @@ export const listActivities = `query ListActivitys(
   listActivitys(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      title
       description
       dateTime
       numberOfAttendants

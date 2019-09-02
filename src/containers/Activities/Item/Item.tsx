@@ -39,7 +39,7 @@ const Item: FunctionComponent<ItemProps> = ({ activity }: ItemProps) => {
     <Card className={classes.card}>
       <CardHeader
         avatar={<Avatar className={classes.avatar} alt={activity.owner.name} src={activity.owner.pictureUrl || userIcon} />}
-        title={activity.title}
+        title={activity.owner.name}
         subheader={"Created at " + moment(activity.createdAt).format("MMMM DD, YYYY")}
         className={classes.header}
       />

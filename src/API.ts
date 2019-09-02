@@ -21,7 +21,6 @@ export type DeleteUserInput = {
 
 export type CreateActivityInput = {
   id?: string | null,
-  title: string,
   description: string,
   dateTime: string,
   numberOfAttendants: number,
@@ -32,7 +31,6 @@ export type CreateActivityInput = {
 
 export type UpdateActivityInput = {
   id: string,
-  title?: string | null,
   description?: string | null,
   dateTime?: string | null,
   numberOfAttendants?: number | null,
@@ -50,13 +48,21 @@ export type DeleteActivityInput = {
 export type CreateParticipationInput = {
   id?: string | null,
   activityId: string,
+  status: ParticipationStatus,
   participationActivityId: string,
   participationParticipantId: string,
 };
 
+export enum ParticipationStatus {
+  ACCEPTED = "ACCEPTED",
+  REJECTED = "REJECTED",
+}
+
+
 export type UpdateParticipationInput = {
   id: string,
   activityId?: string | null,
+  status?: ParticipationStatus | null,
   participationActivityId?: string | null,
   participationParticipantId?: string | null,
 };
@@ -102,7 +108,6 @@ export type ModelStringFilterInput = {
 
 export type ModelActivityFilterInput = {
   id?: ModelIDFilterInput | null,
-  title?: ModelStringFilterInput | null,
   description?: ModelStringFilterInput | null,
   dateTime?: ModelStringFilterInput | null,
   numberOfAttendants?: ModelIntFilterInput | null,
@@ -128,9 +133,15 @@ export type ModelIntFilterInput = {
 export type ModelParticipationFilterInput = {
   id?: ModelIDFilterInput | null,
   activityId?: ModelIDFilterInput | null,
+  status?: ModelParticipationStatusFilterInput | null,
   and?: Array< ModelParticipationFilterInput | null > | null,
   or?: Array< ModelParticipationFilterInput | null > | null,
   not?: ModelParticipationFilterInput | null,
+};
+
+export type ModelParticipationStatusFilterInput = {
+  eq?: ParticipationStatus | null,
+  ne?: ParticipationStatus | null,
 };
 
 export enum ModelSortDirection {
@@ -201,7 +212,6 @@ export type CreateActivityMutation = {
   createActivity:  {
     __typename: "Activity",
     id: string,
-    title: string,
     description: string,
     owner:  {
       __typename: "User",
@@ -230,7 +240,6 @@ export type UpdateActivityMutation = {
   updateActivity:  {
     __typename: "Activity",
     id: string,
-    title: string,
     description: string,
     owner:  {
       __typename: "User",
@@ -259,7 +268,6 @@ export type DeleteActivityMutation = {
   deleteActivity:  {
     __typename: "Activity",
     id: string,
-    title: string,
     description: string,
     owner:  {
       __typename: "User",
@@ -291,7 +299,6 @@ export type CreateParticipationMutation = {
     activity:  {
       __typename: "Activity",
       id: string,
-      title: string,
       description: string,
       dateTime: string,
       numberOfAttendants: number,
@@ -307,6 +314,7 @@ export type CreateParticipationMutation = {
       version: number,
     },
     activityId: string,
+    status: ParticipationStatus,
   } | null,
 };
 
@@ -321,7 +329,6 @@ export type UpdateParticipationMutation = {
     activity:  {
       __typename: "Activity",
       id: string,
-      title: string,
       description: string,
       dateTime: string,
       numberOfAttendants: number,
@@ -337,6 +344,7 @@ export type UpdateParticipationMutation = {
       version: number,
     },
     activityId: string,
+    status: ParticipationStatus,
   } | null,
 };
 
@@ -351,7 +359,6 @@ export type DeleteParticipationMutation = {
     activity:  {
       __typename: "Activity",
       id: string,
-      title: string,
       description: string,
       dateTime: string,
       numberOfAttendants: number,
@@ -367,6 +374,7 @@ export type DeleteParticipationMutation = {
       version: number,
     },
     activityId: string,
+    status: ParticipationStatus,
   } | null,
 };
 
@@ -416,7 +424,6 @@ export type GetActivityQuery = {
   getActivity:  {
     __typename: "Activity",
     id: string,
-    title: string,
     description: string,
     owner:  {
       __typename: "User",
@@ -449,7 +456,6 @@ export type ListActivitysQuery = {
     items:  Array< {
       __typename: "Activity",
       id: string,
-      title: string,
       description: string,
       dateTime: string,
       numberOfAttendants: number,
@@ -472,7 +478,6 @@ export type GetParticipationQuery = {
     activity:  {
       __typename: "Activity",
       id: string,
-      title: string,
       description: string,
       dateTime: string,
       numberOfAttendants: number,
@@ -488,6 +493,7 @@ export type GetParticipationQuery = {
       version: number,
     },
     activityId: string,
+    status: ParticipationStatus,
   } | null,
 };
 
@@ -504,6 +510,7 @@ export type ListParticipationsQuery = {
       __typename: "Participation",
       id: string,
       activityId: string,
+      status: ParticipationStatus,
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -524,6 +531,7 @@ export type ParticipationsByActivityIdQuery = {
       __typename: "Participation",
       id: string,
       activityId: string,
+      status: ParticipationStatus,
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -575,7 +583,6 @@ export type OnCreateActivitySubscription = {
   onCreateActivity:  {
     __typename: "Activity",
     id: string,
-    title: string,
     description: string,
     owner:  {
       __typename: "User",
@@ -600,7 +607,6 @@ export type OnUpdateActivitySubscription = {
   onUpdateActivity:  {
     __typename: "Activity",
     id: string,
-    title: string,
     description: string,
     owner:  {
       __typename: "User",
@@ -625,7 +631,6 @@ export type OnDeleteActivitySubscription = {
   onDeleteActivity:  {
     __typename: "Activity",
     id: string,
-    title: string,
     description: string,
     owner:  {
       __typename: "User",
@@ -653,7 +658,6 @@ export type OnCreateParticipationSubscription = {
     activity:  {
       __typename: "Activity",
       id: string,
-      title: string,
       description: string,
       dateTime: string,
       numberOfAttendants: number,
@@ -669,6 +673,7 @@ export type OnCreateParticipationSubscription = {
       version: number,
     },
     activityId: string,
+    status: ParticipationStatus,
   } | null,
 };
 
@@ -679,7 +684,6 @@ export type OnUpdateParticipationSubscription = {
     activity:  {
       __typename: "Activity",
       id: string,
-      title: string,
       description: string,
       dateTime: string,
       numberOfAttendants: number,
@@ -695,6 +699,7 @@ export type OnUpdateParticipationSubscription = {
       version: number,
     },
     activityId: string,
+    status: ParticipationStatus,
   } | null,
 };
 
@@ -705,7 +710,6 @@ export type OnDeleteParticipationSubscription = {
     activity:  {
       __typename: "Activity",
       id: string,
-      title: string,
       description: string,
       dateTime: string,
       numberOfAttendants: number,
@@ -721,5 +725,6 @@ export type OnDeleteParticipationSubscription = {
       version: number,
     },
     activityId: string,
+    status: ParticipationStatus,
   } | null,
 };

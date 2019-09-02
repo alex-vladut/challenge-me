@@ -40,7 +40,6 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
 export const createActivity = `mutation CreateActivity($input: CreateActivityInput!) {
   createActivity(input: $input) {
     id
-    title
     description
     owner {
       id
@@ -62,7 +61,6 @@ export const createActivity = `mutation CreateActivity($input: CreateActivityInp
 export const updateActivity = `mutation UpdateActivity($input: UpdateActivityInput!) {
   updateActivity(input: $input) {
     id
-    title
     description
     owner {
       id
@@ -84,7 +82,6 @@ export const updateActivity = `mutation UpdateActivity($input: UpdateActivityInp
 export const deleteActivity = `mutation DeleteActivity($input: DeleteActivityInput!) {
   deleteActivity(input: $input) {
     id
-    title
     description
     owner {
       id
@@ -108,7 +105,6 @@ export const createParticipation = `mutation CreateParticipation($input: CreateP
     id
     activity {
       id
-      title
       description
       dateTime
       numberOfAttendants
@@ -123,6 +119,7 @@ export const createParticipation = `mutation CreateParticipation($input: CreateP
       version
     }
     activityId
+    status
   }
 }
 `;
@@ -131,7 +128,6 @@ export const updateParticipation = `mutation UpdateParticipation($input: UpdateP
     id
     activity {
       id
-      title
       description
       dateTime
       numberOfAttendants
@@ -146,6 +142,7 @@ export const updateParticipation = `mutation UpdateParticipation($input: UpdateP
       version
     }
     activityId
+    status
   }
 }
 `;
@@ -154,7 +151,6 @@ export const deleteParticipation = `mutation DeleteParticipation($input: DeleteP
     id
     activity {
       id
-      title
       description
       dateTime
       numberOfAttendants
@@ -169,6 +165,7 @@ export const deleteParticipation = `mutation DeleteParticipation($input: DeleteP
       version
     }
     activityId
+    status
   }
 }
 `;

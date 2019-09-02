@@ -32,7 +32,6 @@ export const listUsers = `query ListUsers(
 export const getActivity = `query GetActivity($id: ID!) {
   getActivity(id: $id) {
     id
-    title
     description
     owner {
       id
@@ -59,7 +58,6 @@ export const listActivitys = `query ListActivitys(
   listActivitys(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      title
       description
       dateTime
       numberOfAttendants
@@ -76,7 +74,6 @@ export const getParticipation = `query GetParticipation($id: ID!) {
     id
     activity {
       id
-      title
       description
       dateTime
       numberOfAttendants
@@ -91,6 +88,7 @@ export const getParticipation = `query GetParticipation($id: ID!) {
       version
     }
     activityId
+    status
   }
 }
 `;
@@ -103,6 +101,7 @@ export const listParticipations = `query ListParticipations(
     items {
       id
       activityId
+      status
     }
     nextToken
   }
@@ -125,6 +124,7 @@ export const participationsByActivityId = `query ParticipationsByActivityId(
     items {
       id
       activityId
+      status
     }
     nextToken
   }

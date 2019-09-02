@@ -40,7 +40,6 @@ export const onDeleteUser = `subscription OnDeleteUser {
 export const onCreateActivity = `subscription OnCreateActivity {
   onCreateActivity {
     id
-    title
     description
     owner {
       id
@@ -62,7 +61,6 @@ export const onCreateActivity = `subscription OnCreateActivity {
 export const onUpdateActivity = `subscription OnUpdateActivity {
   onUpdateActivity {
     id
-    title
     description
     owner {
       id
@@ -84,7 +82,6 @@ export const onUpdateActivity = `subscription OnUpdateActivity {
 export const onDeleteActivity = `subscription OnDeleteActivity {
   onDeleteActivity {
     id
-    title
     description
     owner {
       id
@@ -108,7 +105,6 @@ export const onCreateParticipation = `subscription OnCreateParticipation {
     id
     activity {
       id
-      title
       description
       dateTime
       numberOfAttendants
@@ -123,6 +119,7 @@ export const onCreateParticipation = `subscription OnCreateParticipation {
       version
     }
     activityId
+    status
   }
 }
 `;
@@ -131,7 +128,6 @@ export const onUpdateParticipation = `subscription OnUpdateParticipation {
     id
     activity {
       id
-      title
       description
       dateTime
       numberOfAttendants
@@ -146,6 +142,7 @@ export const onUpdateParticipation = `subscription OnUpdateParticipation {
       version
     }
     activityId
+    status
   }
 }
 `;
@@ -154,7 +151,6 @@ export const onDeleteParticipation = `subscription OnDeleteParticipation {
     id
     activity {
       id
-      title
       description
       dateTime
       numberOfAttendants
@@ -169,6 +165,7 @@ export const onDeleteParticipation = `subscription OnDeleteParticipation {
       version
     }
     activityId
+    status
   }
 }
 `;

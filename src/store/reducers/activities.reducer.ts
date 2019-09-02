@@ -26,6 +26,7 @@ export interface State {
   activities: any[];
   activity: any;
   created: boolean;
+  deleted: boolean;
   loading: boolean;
 }
 
@@ -33,6 +34,7 @@ const initialState: State = {
   activities: [],
   activity: null,
   created: false,
+  deleted: false,
   loading: false
 };
 
@@ -47,7 +49,7 @@ const reducer = (state = initialState, { type, payload }: ActionWithPayload<any>
     case Delete.type:
       return { ...state, loading: true };
     case DeleteSuccess.type:
-      return { ...state, loading: false };
+      return { ...state, deleted: true, activity: null, loading: false };
     case DeleteFail.type:
       return { ...state, loading: false };
     case Accept.type:
@@ -63,7 +65,7 @@ const reducer = (state = initialState, { type, payload }: ActionWithPayload<any>
     case RejectFail.type:
       return { ...state, loading: false };
     case FetchAll.type:
-      return { ...state, created: false, loading: true };
+      return { ...state, created: false, deleted: false, loading: true };
     case FetchAllSuccess.type:
       return { ...state, activities: payload, loading: false };
     case FetchAllFail.type:

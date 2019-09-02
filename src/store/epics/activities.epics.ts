@@ -56,27 +56,61 @@ const deleteActivity = (actions$: Observable<ActionWithPayload<any>>) =>
 const acceptActivity = (actions$: Observable<ActionWithPayload<any>>) =>
   actions$.pipe(
     ofType(Accept.type),
-    switchMap(({ payload }) =>
-      from(
-        API.graphql(
-          graphqlOperation(mutations.createParticipation, { input: { participationActivityId: payload.activityId, activityId: payload.activityId, participationParticipantId: payload.userId } })
-        )
-      ).pipe(
-        map(() => AcceptSuccess.create("Great news! We will inform the owner that you will join this activity :)")),
-        catchError(() => of(AcceptFail.create("There was an error while attempting to accept this activity. Please try again.")))
-      )
+    switchMap(({ payload }) => (payload.id ? updateAcceptedParticipation(payload) : createAcceptedParticipation(payload)))
+  );
+
+const createAcceptedParticipation = (payload: any) =>
+  from(
+    API.graphql(
+      graphqlOperation(mutations.createParticipation, {
+        input: { participationActivityId: payload.activityId, activityId: payload.activityId, participationParticipantId: payload.userId, status: "ACCEPTED" }
+      })
     )
+  ).pipe(
+    map(() => AcceptSuccess.create("Great news! We will inform the owner that you will join this activity :)")),
+    catchError(() => of(AcceptFail.create("There was an error while attempting to accept this activity. Please try again.")))
+  );
+
+const updateAcceptedParticipation = (payload: any) =>
+  from(
+    API.graphql(
+      graphqlOperation(mutations.updateParticipation, {
+        input: { id: payload.id, status: "ACCEPTED" }
+      })
+    )
+  ).pipe(
+    map(() => AcceptSuccess.create("Great news! We will inform the owner that you changed your mind and will join this activity :)")),
+    catchError(() => of(AcceptFail.create("There was an error while attempting to accept this activity. Please try again.")))
   );
 
 const rejectActivity = (actions$: Observable<ActionWithPayload<any>>) =>
   actions$.pipe(
     ofType(Reject.type),
-    switchMap(({ payload }) =>
-      from(API.graphql(graphqlOperation(mutations.deleteParticipation, { input: { id: payload.id, expectedVersion: payload.version } }))).pipe(
-        map(() => RejectSuccess.create("Sad to hear that :(. We will let the owner know and you won't join this activity.")),
-        catchError(() => of(RejectFail.create("There was an error while attempting to reject this activity. Please try again.")))
-      )
+    switchMap(({ payload }) => (payload.id ? updateRejectedParticipation(payload) : createRejectedParticipation(payload)))
+  );
+
+const createRejectedParticipation = (payload: any) =>
+  from(
+    API.graphql(
+      graphqlOperation(mutations.createParticipation, {
+        input: { participationActivityId: payload.activityId, activityId: payload.activityId, participationParticipantId: payload.userId, status: "REJECTED" }
+      })
     )
+  ).pipe(
+    map(() => RejectSuccess.create("Sad to hear that :(. We will let the owner know and you won't join this activity.")),
+    catchError(() => of(RejectFail.create("There was an error while attempting to reject this activity. Please try again.")))
+  );
+
+const updateRejectedParticipation = (payload: any) =>
+  from(
+    API.graphql(
+      graphqlOperation(mutations.updateParticipation, {
+        input: { id: payload.id, status: "REJECTED" }
+      })
+    )
+  ).pipe(
+    map(() => RejectSuccess.create("Sad to hear that :(. We will let the owner know and you won't join this activity.")),
+    catchError(() => of(RejectFail.create("There was an error while attempting to reject this activity. Please try again.")))
   );
 
 const fetchActivity = (actions$: Observable<ActionWithPayload<string>>) =>
