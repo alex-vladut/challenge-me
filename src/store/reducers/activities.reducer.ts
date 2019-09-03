@@ -1,3 +1,4 @@
+import sports from "../../shared/sports";
 import { ActionWithPayload } from "../actions/actions";
 import {
   Create,
@@ -25,6 +26,7 @@ import {
 export interface State {
   activities: any[];
   activity: any;
+  sports: any[];
   created: boolean;
   deleted: boolean;
   loading: boolean;
@@ -33,6 +35,7 @@ export interface State {
 const initialState: State = {
   activities: [],
   activity: null,
+  sports,
   created: false,
   deleted: false,
   loading: false

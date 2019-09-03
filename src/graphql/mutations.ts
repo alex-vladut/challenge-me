@@ -40,13 +40,14 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
 export const createActivity = `mutation CreateActivity($input: CreateActivityInput!) {
   createActivity(input: $input) {
     id
-    description
     owner {
       id
       name
       pictureUrl
       version
     }
+    description
+    sport
     dateTime
     numberOfAttendants
     participants {
@@ -61,13 +62,14 @@ export const createActivity = `mutation CreateActivity($input: CreateActivityInp
 export const updateActivity = `mutation UpdateActivity($input: UpdateActivityInput!) {
   updateActivity(input: $input) {
     id
-    description
     owner {
       id
       name
       pictureUrl
       version
     }
+    description
+    sport
     dateTime
     numberOfAttendants
     participants {
@@ -82,13 +84,14 @@ export const updateActivity = `mutation UpdateActivity($input: UpdateActivityInp
 export const deleteActivity = `mutation DeleteActivity($input: DeleteActivityInput!) {
   deleteActivity(input: $input) {
     id
-    description
     owner {
       id
       name
       pictureUrl
       version
     }
+    description
+    sport
     dateTime
     numberOfAttendants
     participants {
@@ -106,6 +109,7 @@ export const createParticipation = `mutation CreateParticipation($input: CreateP
     activity {
       id
       description
+      sport
       dateTime
       numberOfAttendants
       createdAt
@@ -129,6 +133,7 @@ export const updateParticipation = `mutation UpdateParticipation($input: UpdateP
     activity {
       id
       description
+      sport
       dateTime
       numberOfAttendants
       createdAt
@@ -152,6 +157,7 @@ export const deleteParticipation = `mutation DeleteParticipation($input: DeleteP
     activity {
       id
       description
+      sport
       dateTime
       numberOfAttendants
       createdAt

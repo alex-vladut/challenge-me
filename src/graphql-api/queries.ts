@@ -37,6 +37,7 @@ export const getActivity = `query GetActivity($id: ID!) {
     dateTime
     numberOfAttendants
     createdAt
+    sport
     updatedAt
     version
   }
@@ -89,6 +90,7 @@ export const listActivities = `query ListActivitys(
         pictureUrl
       }
       createdAt
+      sport
       updatedAt
       version
     }

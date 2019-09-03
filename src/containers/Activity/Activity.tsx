@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router";
 
 import moment from "moment";
-import { Grid, TextField, Button, CircularProgress, Box } from "@material-ui/core";
+import { Grid, TextField, Button, CircularProgress, Box, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import DateTimePicker from "../../components/DateTimePicker/DateTimePicker";
@@ -20,6 +20,9 @@ const useStyles = makeStyles(theme => ({
 
 const validate = (form: any) => {
   let errors: any = {};
+  if (!form.sport) {
+    errors = { ...errors, sport: "Please select the type of sport." };
+  }
   if (!form.description || form.description.length < 10 || form.description.length > 1000) {
     errors = {
       ...errors,
@@ -49,10 +52,11 @@ const validate = (form: any) => {
 export interface ActivityProps {
   loading: boolean;
   created: boolean;
+  sports: any[];
   createActivity(activity: any): void;
 }
 
-const Activity: FunctionComponent<ActivityProps> = ({ loading, created, createActivity }: ActivityProps) => {
+const Activity: FunctionComponent<ActivityProps> = ({ loading, created, sports, createActivity }: ActivityProps) => {
   const classes = useStyles();
 
   const nextMonth = moment()
@@ -61,18 +65,21 @@ const Activity: FunctionComponent<ActivityProps> = ({ loading, created, createAc
     .minute(0)
     .second(0)
     .toDate();
-  const [dateTime, setDateTime] = useState<Date | null>(nextMonth);
+
   const [description, setDescription] = useState<string>("");
+  const [sport, setSport] = useState<any>(sports[0]);
+  const [dateTime, setDateTime] = useState<Date | null>(nextMonth);
   const [numberOfAttendants, setNumberOfAttendants] = useState<number>(1);
   const [errors, setErrors] = useState<any>({});
 
-  const handleDateChange = (date: Date | null) => setDateTime(date);
   const handleDescriptionChange = (event: any) => setDescription(event.target.value);
+  const handleSportChange = (event: any) => setSport(event.target.value);
+  const handleDateChange = (date: Date | null) => setDateTime(date);
   const handleNumberOfAttendantsChange = (event: any) => setNumberOfAttendants(Number(event.target.value));
 
   const submit = (event: any) => {
     event.preventDefault();
-    const activity = { description, dateTime, numberOfAttendants };
+    const activity = { description, sport: sport.name, dateTime, numberOfAttendants };
     const errors = validate(activity);
     setErrors(errors);
 
@@ -91,7 +98,28 @@ const Activity: FunctionComponent<ActivityProps> = ({ loading, created, createAc
   return (
     <Box className={classes.root}>
       <form onSubmit={submit}>
-        <TextField label="Description" value={description} onChange={handleDescriptionChange} error={!!errors.description} helperText={errors.description} multiline rowsMax="5" fullWidth required />
+        <TextField
+          label="Description"
+          value={description}
+          onChange={handleDescriptionChange}
+          error={!!errors.description}
+          helperText={errors.description}
+          multiline
+          rows="3"
+          rowsMax="5"
+          fullWidth
+          required
+        />
+        <FormControl fullWidth required error={!!errors.sport}>
+          <InputLabel htmlFor="sport">Choose a sport</InputLabel>
+          <Select value={sport} onChange={handleSportChange} inputProps={{ id: "name" }}>
+            {sports.map(sport => (
+              <MenuItem value={sport} key={sport.name}>
+                {sport.emoji} {sport.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <DateTimePicker value={dateTime} onChange={handleDateChange} />
         <TextField
           required
@@ -114,9 +142,10 @@ const Activity: FunctionComponent<ActivityProps> = ({ loading, created, createAc
   );
 };
 
-const mapStateToProps = ({ activities: { loading, created } }: State) => ({
+const mapStateToProps = ({ activities: { loading, created, sports } }: State) => ({
   loading,
-  created
+  created,
+  sports
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

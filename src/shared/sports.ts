@@ -1,0 +1,23 @@
+export default [
+  { name: "Other" },
+  { name: "Football", emoji: "⚽️" },
+  { name: "Badminton", emoji: "🏸" },
+  { name: "Volleyball", emoji: "🏐" },
+  { name: "Tennis", emoji: "🎾" },
+  { name: "Table tennis", emoji: "🏓" },
+  { name: "Basketball", emoji: "🏀" },
+  { name: "Baseball", emoji: "⚾" },
+  { name: "Cricket", emoji: "🏏" },
+  { name: "Skateboarding", emoji: "🛹" },
+  { name: "Snowboarding", emoji: "🏂" },
+  { name: "Surfing", emoji: "🏄‍" },
+  { name: "Climbing", emoji: "🧗" },
+  { name: "Cycling", emoji: "🚴‍" },
+  { name: "Fishing", emoji: "🎣" },
+  { name: "Golf", emoji: "⛳️" },
+  { name: "Handball", emoji: "🤾‍" },
+  { name: "Hunting", emoji: "🏹" },
+  { name: "Curling", emoji: "🥌" },
+  { name: "Hockey", emoji: "🏑" },
+  { name: "Rugby", emoji: "🏉" }
+];

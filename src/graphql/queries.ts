@@ -32,13 +32,14 @@ export const listUsers = `query ListUsers(
 export const getActivity = `query GetActivity($id: ID!) {
   getActivity(id: $id) {
     id
-    description
     owner {
       id
       name
       pictureUrl
       version
     }
+    description
+    sport
     dateTime
     numberOfAttendants
     participants {
@@ -59,6 +60,7 @@ export const listActivitys = `query ListActivitys(
     items {
       id
       description
+      sport
       dateTime
       numberOfAttendants
       createdAt
@@ -75,6 +77,7 @@ export const getParticipation = `query GetParticipation($id: ID!) {
     activity {
       id
       description
+      sport
       dateTime
       numberOfAttendants
       createdAt

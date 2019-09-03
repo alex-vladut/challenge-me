@@ -40,13 +40,14 @@ export const onDeleteUser = `subscription OnDeleteUser {
 export const onCreateActivity = `subscription OnCreateActivity {
   onCreateActivity {
     id
-    description
     owner {
       id
       name
       pictureUrl
       version
     }
+    description
+    sport
     dateTime
     numberOfAttendants
     participants {
@@ -61,13 +62,14 @@ export const onCreateActivity = `subscription OnCreateActivity {
 export const onUpdateActivity = `subscription OnUpdateActivity {
   onUpdateActivity {
     id
-    description
     owner {
       id
       name
       pictureUrl
       version
     }
+    description
+    sport
     dateTime
     numberOfAttendants
     participants {
@@ -82,13 +84,14 @@ export const onUpdateActivity = `subscription OnUpdateActivity {
 export const onDeleteActivity = `subscription OnDeleteActivity {
   onDeleteActivity {
     id
-    description
     owner {
       id
       name
       pictureUrl
       version
     }
+    description
+    sport
     dateTime
     numberOfAttendants
     participants {
@@ -106,6 +109,7 @@ export const onCreateParticipation = `subscription OnCreateParticipation {
     activity {
       id
       description
+      sport
       dateTime
       numberOfAttendants
       createdAt
@@ -129,6 +133,7 @@ export const onUpdateParticipation = `subscription OnUpdateParticipation {
     activity {
       id
       description
+      sport
       dateTime
       numberOfAttendants
       createdAt
@@ -152,6 +157,7 @@ export const onDeleteParticipation = `subscription OnDeleteParticipation {
     activity {
       id
       description
+      sport
       dateTime
       numberOfAttendants
       createdAt

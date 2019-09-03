@@ -40,6 +40,7 @@ import { Redirect } from "react-router";
 export interface ViewActivityProps {
   activity: any;
   profile: any;
+  sports: any[];
   deleted: boolean;
   loading: boolean;
   match: any;
@@ -64,7 +65,7 @@ const useStyles = makeStyles(theme =>
   })
 );
 
-const ViewActivity = ({ activity, deleted, loading, match, fetchActivity, acceptActivity, profile, rejectActivity, deleteActivity }: ViewActivityProps) => {
+const ViewActivity = ({ activity, sports, deleted, loading, match, fetchActivity, acceptActivity, profile, rejectActivity, deleteActivity }: ViewActivityProps) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const classes = useStyles();
@@ -84,7 +85,11 @@ const ViewActivity = ({ activity, deleted, loading, match, fetchActivity, accept
   };
 
   const isOwner = () => activity.owner.id === profile.id;
-  const isMaxNumberOfParticipants = () => activity.numberOfAttendants === activity.participations.length;
+  const isMaxNumberOfParticipants = () => activity.numberOfAttendants === activity.participations.filter(({ status }: any) => status === "ACCEPTED").length;
+  const getSportLabel = () => {
+    const sport = sports.find(s => s.name === activity.sport);
+    return sport.emoji ? `${sport.emoji} ${sport.name}` : `${sport.name}`;
+  };
 
   const handleJoinActivity = () => {
     const participation = activity.participations.find((item: any) => item.participant.id === profile.id) || { activityId: activity.id, userId: profile.id };
@@ -135,6 +140,9 @@ const ViewActivity = ({ activity, deleted, loading, match, fetchActivity, accept
           <Typography variant="h6" color="textPrimary">
             {activity.description}
           </Typography>
+          <Typography variant="subtitle1" color="textSecondary">
+            {getSportLabel()}
+          </Typography>
           <Divider light />
           <Typography variant="subtitle1" color="textSecondary">
             {moment(activity.dateTime).format("MMMM DD, YYYY") + " at " + moment(activity.dateTime).format("HH:mm")}
@@ -173,14 +181,25 @@ const ViewActivity = ({ activity, deleted, loading, match, fetchActivity, accept
             ) : null}
             {activity.participations.length > 0 ? (
               <List dense className={classes.root}>
-                {activity.participations.map((participation: any) => (
-                  <ListItem key={participation.id} button>
-                    <ListItemAvatar>
-                      <Avatar className={classes.avatar} alt={participation.participant.name} src={participation.participant.pictureUrl || userIcon} />
-                    </ListItemAvatar>
-                    <ListItemText primary={participation.participant.name} />
-                  </ListItem>
-                ))}
+                {activity.participations
+                  .sort((p1: any, p2: any) => p1.status > p2.status)
+                  .map((participation: any) => (
+                    <ListItem key={participation.id} button>
+                      <ListItemAvatar>
+                        <Avatar className={classes.avatar} alt={participation.participant.name} src={participation.participant.pictureUrl || userIcon} />
+                      </ListItemAvatar>
+                      <ListItemText primary={participation.participant.name} />
+                      {participation.status === "ACCEPTED" ? (
+                        <IconButton aria-label="participant-accepted" disabled={true}>
+                          <Check color="primary" />
+                        </IconButton>
+                      ) : (
+                        <IconButton aria-label="participant-reject" disabled={true}>
+                          <Clear color="error" />
+                        </IconButton>
+                      )}
+                    </ListItem>
+                  ))}
               </List>
             ) : null}
           </ExpansionPanelDetails>
@@ -209,6 +228,7 @@ const mapStateToProps = ({ activities, auth }: State) => ({
   activity: activities.activity,
   deleted: activities.deleted,
   loading: activities.loading,
+  sports: activities.sports,
   profile: auth.profile
 });
 

@@ -9,8 +9,9 @@ type User @model @versioned {
 
 type Activity @model @versioned {
   id: ID!
-  description: String!
   owner: User @connection
+  description: String!
+  sport: String!
   dateTime: String!
   numberOfAttendants: Int!
   participants: [Participation!] @connection(name: "ActivityParticipants")

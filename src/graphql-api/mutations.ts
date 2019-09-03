@@ -15,6 +15,7 @@ export const createActivity = `mutation CreateActivity($input: CreateActivityInp
   createActivity(input: $input) {
     id
     description
+    sport
     owner {
       id
       name
@@ -44,6 +45,7 @@ export const deleteActivity = `mutation DeleteActivity($input: DeleteActivityInp
       version
     }
     dateTime
+    sport
     numberOfAttendants
     participants {
       nextToken
@@ -64,6 +66,7 @@ export const createParticipation = `mutation CreateParticipation($input: CreateP
       numberOfAttendants
       createdAt
       updatedAt
+      sport
       version
     }
     participant {
@@ -88,6 +91,7 @@ export const updateParticipation = `mutation UpdateParticipation($input: UpdateP
       numberOfAttendants
       createdAt
       updatedAt
+      sport
       version
     }
     participant {

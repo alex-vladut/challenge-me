@@ -22,6 +22,7 @@ export type DeleteUserInput = {
 export type CreateActivityInput = {
   id?: string | null,
   description: string,
+  sport: string,
   dateTime: string,
   numberOfAttendants: number,
   createdAt?: string | null,
@@ -32,6 +33,7 @@ export type CreateActivityInput = {
 export type UpdateActivityInput = {
   id: string,
   description?: string | null,
+  sport?: string | null,
   dateTime?: string | null,
   numberOfAttendants?: number | null,
   createdAt?: string | null,
@@ -109,6 +111,7 @@ export type ModelStringFilterInput = {
 export type ModelActivityFilterInput = {
   id?: ModelIDFilterInput | null,
   description?: ModelStringFilterInput | null,
+  sport?: ModelStringFilterInput | null,
   dateTime?: ModelStringFilterInput | null,
   numberOfAttendants?: ModelIntFilterInput | null,
   createdAt?: ModelStringFilterInput | null,
@@ -212,7 +215,6 @@ export type CreateActivityMutation = {
   createActivity:  {
     __typename: "Activity",
     id: string,
-    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -220,6 +222,8 @@ export type CreateActivityMutation = {
       pictureUrl: string | null,
       version: number,
     } | null,
+    description: string,
+    sport: string,
     dateTime: string,
     numberOfAttendants: number,
     participants:  {
@@ -240,7 +244,6 @@ export type UpdateActivityMutation = {
   updateActivity:  {
     __typename: "Activity",
     id: string,
-    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -248,6 +251,8 @@ export type UpdateActivityMutation = {
       pictureUrl: string | null,
       version: number,
     } | null,
+    description: string,
+    sport: string,
     dateTime: string,
     numberOfAttendants: number,
     participants:  {
@@ -268,7 +273,6 @@ export type DeleteActivityMutation = {
   deleteActivity:  {
     __typename: "Activity",
     id: string,
-    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -276,6 +280,8 @@ export type DeleteActivityMutation = {
       pictureUrl: string | null,
       version: number,
     } | null,
+    description: string,
+    sport: string,
     dateTime: string,
     numberOfAttendants: number,
     participants:  {
@@ -300,6 +306,7 @@ export type CreateParticipationMutation = {
       __typename: "Activity",
       id: string,
       description: string,
+      sport: string,
       dateTime: string,
       numberOfAttendants: number,
       createdAt: string | null,
@@ -330,6 +337,7 @@ export type UpdateParticipationMutation = {
       __typename: "Activity",
       id: string,
       description: string,
+      sport: string,
       dateTime: string,
       numberOfAttendants: number,
       createdAt: string | null,
@@ -360,6 +368,7 @@ export type DeleteParticipationMutation = {
       __typename: "Activity",
       id: string,
       description: string,
+      sport: string,
       dateTime: string,
       numberOfAttendants: number,
       createdAt: string | null,
@@ -424,7 +433,6 @@ export type GetActivityQuery = {
   getActivity:  {
     __typename: "Activity",
     id: string,
-    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -432,6 +440,8 @@ export type GetActivityQuery = {
       pictureUrl: string | null,
       version: number,
     } | null,
+    description: string,
+    sport: string,
     dateTime: string,
     numberOfAttendants: number,
     participants:  {
@@ -457,6 +467,7 @@ export type ListActivitysQuery = {
       __typename: "Activity",
       id: string,
       description: string,
+      sport: string,
       dateTime: string,
       numberOfAttendants: number,
       createdAt: string | null,
@@ -479,6 +490,7 @@ export type GetParticipationQuery = {
       __typename: "Activity",
       id: string,
       description: string,
+      sport: string,
       dateTime: string,
       numberOfAttendants: number,
       createdAt: string | null,
@@ -583,7 +595,6 @@ export type OnCreateActivitySubscription = {
   onCreateActivity:  {
     __typename: "Activity",
     id: string,
-    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -591,6 +602,8 @@ export type OnCreateActivitySubscription = {
       pictureUrl: string | null,
       version: number,
     } | null,
+    description: string,
+    sport: string,
     dateTime: string,
     numberOfAttendants: number,
     participants:  {
@@ -607,7 +620,6 @@ export type OnUpdateActivitySubscription = {
   onUpdateActivity:  {
     __typename: "Activity",
     id: string,
-    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -615,6 +627,8 @@ export type OnUpdateActivitySubscription = {
       pictureUrl: string | null,
       version: number,
     } | null,
+    description: string,
+    sport: string,
     dateTime: string,
     numberOfAttendants: number,
     participants:  {
@@ -631,7 +645,6 @@ export type OnDeleteActivitySubscription = {
   onDeleteActivity:  {
     __typename: "Activity",
     id: string,
-    description: string,
     owner:  {
       __typename: "User",
       id: string,
@@ -639,6 +652,8 @@ export type OnDeleteActivitySubscription = {
       pictureUrl: string | null,
       version: number,
     } | null,
+    description: string,
+    sport: string,
     dateTime: string,
     numberOfAttendants: number,
     participants:  {
@@ -659,6 +674,7 @@ export type OnCreateParticipationSubscription = {
       __typename: "Activity",
       id: string,
       description: string,
+      sport: string,
       dateTime: string,
       numberOfAttendants: number,
       createdAt: string | null,
@@ -685,6 +701,7 @@ export type OnUpdateParticipationSubscription = {
       __typename: "Activity",
       id: string,
       description: string,
+      sport: string,
       dateTime: string,
       numberOfAttendants: number,
       createdAt: string | null,
@@ -711,6 +728,7 @@ export type OnDeleteParticipationSubscription = {
       __typename: "Activity",
       id: string,
       description: string,
+      sport: string,
       dateTime: string,
       numberOfAttendants: number,
       createdAt: string | null,
