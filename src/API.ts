@@ -1,6 +1,11 @@
 /* tslint:disable */
 //  This file was automatically generated and should not be edited.
 
+export type DeleteActivityInput = {
+  id: string,
+  expectedVersion: number,
+};
+
 export type CreateUserInput = {
   id?: string | null,
   name: string,
@@ -28,23 +33,6 @@ export type CreateActivityInput = {
   createdAt?: string | null,
   updatedAt?: string | null,
   activityOwnerId?: string | null,
-};
-
-export type UpdateActivityInput = {
-  id: string,
-  description?: string | null,
-  sport?: string | null,
-  dateTime?: string | null,
-  numberOfAttendants?: number | null,
-  createdAt?: string | null,
-  updatedAt?: string | null,
-  activityOwnerId?: string | null,
-  expectedVersion: number,
-};
-
-export type DeleteActivityInput = {
-  id?: string | null,
-  expectedVersion: number,
 };
 
 export type CreateParticipationInput = {
@@ -153,6 +141,35 @@ export enum ModelSortDirection {
 }
 
 
+export type DeleteActivityMutationVariables = {
+  input: DeleteActivityInput,
+};
+
+export type DeleteActivityMutation = {
+  deleteActivity:  {
+    __typename: "Activity",
+    id: string,
+    owner:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      pictureUrl: string | null,
+      version: number,
+    } | null,
+    description: string,
+    sport: string,
+    dateTime: string,
+    numberOfAttendants: number,
+    participants:  {
+      __typename: "ModelParticipationConnection",
+      nextToken: string | null,
+    } | null,
+    createdAt: string | null,
+    updatedAt: string | null,
+    version: number,
+  },
+};
+
 export type CreateUserMutationVariables = {
   input: CreateUserInput,
 };
@@ -213,64 +230,6 @@ export type CreateActivityMutationVariables = {
 
 export type CreateActivityMutation = {
   createActivity:  {
-    __typename: "Activity",
-    id: string,
-    owner:  {
-      __typename: "User",
-      id: string,
-      name: string,
-      pictureUrl: string | null,
-      version: number,
-    } | null,
-    description: string,
-    sport: string,
-    dateTime: string,
-    numberOfAttendants: number,
-    participants:  {
-      __typename: "ModelParticipationConnection",
-      nextToken: string | null,
-    } | null,
-    createdAt: string | null,
-    updatedAt: string | null,
-    version: number,
-  } | null,
-};
-
-export type UpdateActivityMutationVariables = {
-  input: UpdateActivityInput,
-};
-
-export type UpdateActivityMutation = {
-  updateActivity:  {
-    __typename: "Activity",
-    id: string,
-    owner:  {
-      __typename: "User",
-      id: string,
-      name: string,
-      pictureUrl: string | null,
-      version: number,
-    } | null,
-    description: string,
-    sport: string,
-    dateTime: string,
-    numberOfAttendants: number,
-    participants:  {
-      __typename: "ModelParticipationConnection",
-      nextToken: string | null,
-    } | null,
-    createdAt: string | null,
-    updatedAt: string | null,
-    version: number,
-  } | null,
-};
-
-export type DeleteActivityMutationVariables = {
-  input: DeleteActivityInput,
-};
-
-export type DeleteActivityMutation = {
-  deleteActivity:  {
     __typename: "Activity",
     id: string,
     owner:  {
@@ -587,81 +546,6 @@ export type OnDeleteUserSubscription = {
       __typename: "ModelParticipationConnection",
       nextToken: string | null,
     } | null,
-    version: number,
-  } | null,
-};
-
-export type OnCreateActivitySubscription = {
-  onCreateActivity:  {
-    __typename: "Activity",
-    id: string,
-    owner:  {
-      __typename: "User",
-      id: string,
-      name: string,
-      pictureUrl: string | null,
-      version: number,
-    } | null,
-    description: string,
-    sport: string,
-    dateTime: string,
-    numberOfAttendants: number,
-    participants:  {
-      __typename: "ModelParticipationConnection",
-      nextToken: string | null,
-    } | null,
-    createdAt: string | null,
-    updatedAt: string | null,
-    version: number,
-  } | null,
-};
-
-export type OnUpdateActivitySubscription = {
-  onUpdateActivity:  {
-    __typename: "Activity",
-    id: string,
-    owner:  {
-      __typename: "User",
-      id: string,
-      name: string,
-      pictureUrl: string | null,
-      version: number,
-    } | null,
-    description: string,
-    sport: string,
-    dateTime: string,
-    numberOfAttendants: number,
-    participants:  {
-      __typename: "ModelParticipationConnection",
-      nextToken: string | null,
-    } | null,
-    createdAt: string | null,
-    updatedAt: string | null,
-    version: number,
-  } | null,
-};
-
-export type OnDeleteActivitySubscription = {
-  onDeleteActivity:  {
-    __typename: "Activity",
-    id: string,
-    owner:  {
-      __typename: "User",
-      id: string,
-      name: string,
-      pictureUrl: string | null,
-      version: number,
-    } | null,
-    description: string,
-    sport: string,
-    dateTime: string,
-    numberOfAttendants: number,
-    participants:  {
-      __typename: "ModelParticipationConnection",
-      nextToken: string | null,
-    } | null,
-    createdAt: string | null,
-    updatedAt: string | null,
     version: number,
   } | null,
 };

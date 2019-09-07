@@ -7,7 +7,7 @@ type User @model @versioned {
   activities: [Participation!] @connection(name: "UserActivities")
 }
 
-type Activity @model @versioned {
+type Activity @model(mutations: { create: "createActivity" }, subscriptions: null) @versioned {
   id: ID!
   owner: User @connection
   description: String!
@@ -33,4 +33,12 @@ type Participation @model @key(name: "ByActivity", fields: ["activityId"], query
 enum ParticipationStatus {
   ACCEPTED
   REJECTED
+}
+
+input DeleteActivityInput {
+  id: ID!
+}
+
+type Mutation {
+  deleteActivity(input: DeleteActivityInput!): Activity! @function(name: "delete-activity-${env}")
 }
