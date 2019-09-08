@@ -9,6 +9,7 @@ export const deleteActivity = `mutation DeleteActivity($input: DeleteActivityInp
       name
       pictureUrl
       version
+      owner
     }
     description
     sport
@@ -32,6 +33,7 @@ export const createUser = `mutation CreateUser($input: CreateUserInput!) {
       nextToken
     }
     version
+    owner
   }
 }
 `;
@@ -44,6 +46,7 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
       nextToken
     }
     version
+    owner
   }
 }
 `;
@@ -56,6 +59,7 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
       nextToken
     }
     version
+    owner
   }
 }
 `;
@@ -67,6 +71,7 @@ export const createActivity = `mutation CreateActivity($input: CreateActivityInp
       name
       pictureUrl
       version
+      owner
     }
     description
     sport
@@ -99,6 +104,7 @@ export const createParticipation = `mutation CreateParticipation($input: CreateP
       name
       pictureUrl
       version
+      owner
     }
     activityId
     status
@@ -123,6 +129,7 @@ export const updateParticipation = `mutation UpdateParticipation($input: UpdateP
       name
       pictureUrl
       version
+      owner
     }
     activityId
     status
@@ -147,6 +154,7 @@ export const deleteParticipation = `mutation DeleteParticipation($input: DeleteP
       name
       pictureUrl
       version
+      owner
     }
     activityId
     status

@@ -15,10 +15,7 @@ import registerServiceWorker from "./registerServiceWorker";
 import { rootEpic } from "./store/epics";
 import reducer from "./store/reducers";
 
-Amplify.configure({
-  ...awsExports,
-  aws_appsync_authenticationType: "AWS_IAM"
-});
+Amplify.configure(awsExports);
 
 const epicMiddleware = createEpicMiddleware();
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(epicMiddleware)));

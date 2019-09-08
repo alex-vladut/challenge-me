@@ -155,6 +155,7 @@ export type DeleteActivityMutation = {
       name: string,
       pictureUrl: string | null,
       version: number,
+      owner: string | null,
     } | null,
     description: string,
     sport: string,
@@ -185,6 +186,7 @@ export type CreateUserMutation = {
       nextToken: string | null,
     } | null,
     version: number,
+    owner: string | null,
   } | null,
 };
 
@@ -203,6 +205,7 @@ export type UpdateUserMutation = {
       nextToken: string | null,
     } | null,
     version: number,
+    owner: string | null,
   } | null,
 };
 
@@ -221,6 +224,7 @@ export type DeleteUserMutation = {
       nextToken: string | null,
     } | null,
     version: number,
+    owner: string | null,
   } | null,
 };
 
@@ -238,6 +242,7 @@ export type CreateActivityMutation = {
       name: string,
       pictureUrl: string | null,
       version: number,
+      owner: string | null,
     } | null,
     description: string,
     sport: string,
@@ -278,6 +283,7 @@ export type CreateParticipationMutation = {
       name: string,
       pictureUrl: string | null,
       version: number,
+      owner: string | null,
     },
     activityId: string,
     status: ParticipationStatus,
@@ -309,6 +315,7 @@ export type UpdateParticipationMutation = {
       name: string,
       pictureUrl: string | null,
       version: number,
+      owner: string | null,
     },
     activityId: string,
     status: ParticipationStatus,
@@ -340,6 +347,7 @@ export type DeleteParticipationMutation = {
       name: string,
       pictureUrl: string | null,
       version: number,
+      owner: string | null,
     },
     activityId: string,
     status: ParticipationStatus,
@@ -361,6 +369,7 @@ export type GetUserQuery = {
       nextToken: string | null,
     } | null,
     version: number,
+    owner: string | null,
   } | null,
 };
 
@@ -379,6 +388,7 @@ export type ListUsersQuery = {
       name: string,
       pictureUrl: string | null,
       version: number,
+      owner: string | null,
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -398,6 +408,7 @@ export type GetActivityQuery = {
       name: string,
       pictureUrl: string | null,
       version: number,
+      owner: string | null,
     } | null,
     description: string,
     sport: string,
@@ -462,6 +473,7 @@ export type GetParticipationQuery = {
       name: string,
       pictureUrl: string | null,
       version: number,
+      owner: string | null,
     },
     activityId: string,
     status: ParticipationStatus,
@@ -508,6 +520,10 @@ export type ParticipationsByActivityIdQuery = {
   } | null,
 };
 
+export type OnCreateUserSubscriptionVariables = {
+  owner: string,
+};
+
 export type OnCreateUserSubscription = {
   onCreateUser:  {
     __typename: "User",
@@ -519,7 +535,12 @@ export type OnCreateUserSubscription = {
       nextToken: string | null,
     } | null,
     version: number,
+    owner: string | null,
   } | null,
+};
+
+export type OnUpdateUserSubscriptionVariables = {
+  owner: string,
 };
 
 export type OnUpdateUserSubscription = {
@@ -533,7 +554,12 @@ export type OnUpdateUserSubscription = {
       nextToken: string | null,
     } | null,
     version: number,
+    owner: string | null,
   } | null,
+};
+
+export type OnDeleteUserSubscriptionVariables = {
+  owner: string,
 };
 
 export type OnDeleteUserSubscription = {
@@ -547,6 +573,7 @@ export type OnDeleteUserSubscription = {
       nextToken: string | null,
     } | null,
     version: number,
+    owner: string | null,
   } | null,
 };
 
@@ -571,6 +598,7 @@ export type OnCreateParticipationSubscription = {
       name: string,
       pictureUrl: string | null,
       version: number,
+      owner: string | null,
     },
     activityId: string,
     status: ParticipationStatus,
@@ -598,6 +626,7 @@ export type OnUpdateParticipationSubscription = {
       name: string,
       pictureUrl: string | null,
       version: number,
+      owner: string | null,
     },
     activityId: string,
     status: ParticipationStatus,
@@ -625,6 +654,7 @@ export type OnDeleteParticipationSubscription = {
       name: string,
       pictureUrl: string | null,
       version: number,
+      owner: string | null,
     },
     activityId: string,
     status: ParticipationStatus,

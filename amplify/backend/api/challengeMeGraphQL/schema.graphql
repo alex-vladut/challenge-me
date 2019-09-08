@@ -1,6 +1,6 @@
 # two types of activities: pick a number of attendants and don't allow any more submission
 # or allow any number of submissions and the user will decide who will be allowed
-type User @model @versioned {
+type User @model @versioned @auth(rules: [{ allow: owner }]) {
   id: ID!
   name: String!
   pictureUrl: String

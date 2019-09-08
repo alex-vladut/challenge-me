@@ -10,6 +10,7 @@ export const getUser = `query GetUser($id: ID!) {
       nextToken
     }
     version
+    owner
   }
 }
 `;
@@ -24,6 +25,7 @@ export const listUsers = `query ListUsers(
       name
       pictureUrl
       version
+      owner
     }
     nextToken
   }
@@ -37,6 +39,7 @@ export const getActivity = `query GetActivity($id: ID!) {
       name
       pictureUrl
       version
+      owner
     }
     description
     sport
@@ -89,6 +92,7 @@ export const getParticipation = `query GetParticipation($id: ID!) {
       name
       pictureUrl
       version
+      owner
     }
     activityId
     status
