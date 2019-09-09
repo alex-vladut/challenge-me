@@ -12,8 +12,13 @@
         },
         "categories": {
             "auth": {
-                "cognito111974aa": {
+                "challengemereacta7d0cb31": {
                     "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"348450922576-hvs2fv955qfv4rjci73b7c3r944mkkdq.apps.googleusercontent.com\",\"client_secret\":\"v7Edf4jm62HfBy2YyNUVc3zf\"}]"
+                }
+            },
+            "function": {
+                "challengemereacta7d0cb31PostConfirmation": {
+                    "GROUP": "USER"
                 }
             }
         }

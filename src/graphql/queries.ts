@@ -6,11 +6,12 @@ export const getUser = `query GetUser($id: ID!) {
     id
     name
     pictureUrl
+    googleIdentityId
+    email
     activities {
       nextToken
     }
     version
-    owner
   }
 }
 `;
@@ -24,8 +25,9 @@ export const listUsers = `query ListUsers(
       id
       name
       pictureUrl
+      googleIdentityId
+      email
       version
-      owner
     }
     nextToken
   }
@@ -38,8 +40,9 @@ export const getActivity = `query GetActivity($id: ID!) {
       id
       name
       pictureUrl
+      googleIdentityId
+      email
       version
-      owner
     }
     description
     sport
@@ -91,8 +94,9 @@ export const getParticipation = `query GetParticipation($id: ID!) {
       id
       name
       pictureUrl
+      googleIdentityId
+      email
       version
-      owner
     }
     activityId
     status

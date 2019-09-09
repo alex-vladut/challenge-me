@@ -1,42 +1,45 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
-export const onCreateUser = `subscription OnCreateUser($owner: String!) {
-  onCreateUser(owner: $owner) {
+export const onCreateUser = `subscription OnCreateUser {
+  onCreateUser {
     id
     name
     pictureUrl
+    googleIdentityId
+    email
     activities {
       nextToken
     }
     version
-    owner
   }
 }
 `;
-export const onUpdateUser = `subscription OnUpdateUser($owner: String!) {
-  onUpdateUser(owner: $owner) {
+export const onUpdateUser = `subscription OnUpdateUser {
+  onUpdateUser {
     id
     name
     pictureUrl
+    googleIdentityId
+    email
     activities {
       nextToken
     }
     version
-    owner
   }
 }
 `;
-export const onDeleteUser = `subscription OnDeleteUser($owner: String!) {
-  onDeleteUser(owner: $owner) {
+export const onDeleteUser = `subscription OnDeleteUser {
+  onDeleteUser {
     id
     name
     pictureUrl
+    googleIdentityId
+    email
     activities {
       nextToken
     }
     version
-    owner
   }
 }
 `;
@@ -57,8 +60,9 @@ export const onCreateParticipation = `subscription OnCreateParticipation {
       id
       name
       pictureUrl
+      googleIdentityId
+      email
       version
-      owner
     }
     activityId
     status
@@ -82,8 +86,9 @@ export const onUpdateParticipation = `subscription OnUpdateParticipation {
       id
       name
       pictureUrl
+      googleIdentityId
+      email
       version
-      owner
     }
     activityId
     status
@@ -107,8 +112,9 @@ export const onDeleteParticipation = `subscription OnDeleteParticipation {
       id
       name
       pictureUrl
+      googleIdentityId
+      email
       version
-      owner
     }
     activityId
     status

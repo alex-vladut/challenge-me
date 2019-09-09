@@ -1,0 +1,4 @@
+{
+  "modules": ["add-to-group", "add-user"],
+  "usersTable": "User-rjadncgkkbbqrox6ryn372pav4"
+}

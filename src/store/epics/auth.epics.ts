@@ -3,7 +3,6 @@ import { ofType } from "redux-observable";
 import { from, of } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
 
-import * as mutations from "../../graphql-api/mutations";
 import * as queries from "../../graphql-api/queries";
 import { FetchProfile, FetchProfileFail, FetchProfileNotFound, FetchProfileSuccess, SignOut, SignOutFail, SignOutSuccess } from "../actions/auth.actions";
 
@@ -12,30 +11,8 @@ function fetchProfile(actions$: any) {
     ofType(FetchProfile.type),
     switchMap(() => from(Auth.currentAuthenticatedUser())),
     switchMap((authenticatedUser: any) =>
-      from(API.graphql(graphqlOperation(queries.getUser, { id: authenticatedUser.id }))).pipe(
+      from(API.graphql(graphqlOperation(queries.getUser, { id: authenticatedUser.username }))).pipe(
         map((response: any) => (response.data.getUser ? FetchProfileSuccess.create(response.data.getUser) : FetchProfileNotFound.create())),
-        catchError(error => of(FetchProfileFail.create(error)))
-      )
-    )
-  );
-}
-
-function createProfile(actions$: any) {
-  return actions$.pipe(
-    ofType(FetchProfileNotFound.type),
-    switchMap(() => from(Auth.currentAuthenticatedUser())),
-    switchMap((authenticatedUser: any) =>
-      from(
-        API.graphql(
-          graphqlOperation(mutations.createUser, {
-            input: {
-              name: authenticatedUser.name,
-              pictureUrl: authenticatedUser.picture
-            }
-          })
-        )
-      ).pipe(
-        map((response: any) => FetchProfileSuccess.create(response.data.createUser)),
         catchError(error => of(FetchProfileFail.create(error)))
       )
     )
@@ -54,4 +31,4 @@ function signOut(actions$: any) {
   );
 }
 
-export default [fetchProfile, createProfile, signOut];
+export default [fetchProfile, signOut];

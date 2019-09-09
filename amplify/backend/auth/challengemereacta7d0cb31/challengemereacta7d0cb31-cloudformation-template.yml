@@ -9,6 +9,18 @@ Parameters:
     Type: String
   
   
+  
+  
+  functionchallengemereacta7d0cb31PostConfirmationArn: 
+    Type: String
+    Default: functionchallengemereacta7d0cb31PostConfirmationArn
+  
+  functionchallengemereacta7d0cb31PostConfirmationName: 
+    Type: String
+    Default: functionchallengemereacta7d0cb31PostConfirmationName
+  
+  
+  
 
     
   identityPoolName:
@@ -74,24 +86,30 @@ Parameters:
   userpoolClientSetAttributes:
     Type: String
             
-  openIdLambdaIAMPolicy:
-    Type: String
-              
-  roleExternalId:
-    Type: String
-              
-  useDefault:
+  resourceName:
     Type: String
               
   authSelections:
     Type: String
-              
-  resourceName:
+                                      
+  useDefault:
     Type: String
-                                        
+                
   hostedUI:
     Type: String
             
+  triggers:
+    Type: String
+                    
+  parentStack:
+    Type: String
+                
+  permissions:
+    Type: CommaDelimitedList
+              
+  dependsOn:
+    Type: CommaDelimitedList
+      
   hostedUIDomainName:
     Type: String
                       
@@ -100,10 +118,7 @@ Parameters:
       
   hostedUIProviderMeta:
     Type: String
-                      
-  dependsOn:
-    Type: CommaDelimitedList
-      
+              
   hostedUIProviderCreds:
     Type: String
               
@@ -121,7 +136,7 @@ Resources:
   # Created to allow the UserPool SMS Config to publish via the Simple Notification Service during MFA Process
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !If [ShouldNotCreateEnvResources, 'cognit90df6055_sns-role', !Join ['',['cognit90df6055_sns-role', '-', !Ref env]]]
+      RoleName: !If [ShouldNotCreateEnvResources, 'challea7d0cb31_sns-role', !Join ['',['challea7d0cb31_sns-role', '-', !Ref env]]]
       AssumeRolePolicyDocument: 
         Version: "2012-10-17"
         Statement: 
@@ -133,10 +148,10 @@ Resources:
               - "sts:AssumeRole"
             Condition: 
               StringEquals:
-                sts:ExternalId: cognit90df6055_role_external_id
+                sts:ExternalId: challea7d0cb31_role_external_id
       Policies: 
         - 
-          PolicyName: cognit90df6055-sns-policy
+          PolicyName: challea7d0cb31-sns-policy
           PolicyDocument: 
             Version: "2012-10-17"
             Statement: 
@@ -161,7 +176,30 @@ Resources:
           Required: true
           Mutable: true
         
+        -
+          Name: name
+          Required: true
+          Mutable: true
+        
+        -
+          Name: picture
+          Required: true
+          Mutable: true
+        
       
+      
+      LambdaConfig:
+        
+        
+        
+        
+        
+          PostConfirmation: !Ref functionchallengemereacta7d0cb31PostConfirmationArn
+        
+        
+        
+        
+        
       
       
       AutoVerifiedAttributes: !Ref autoVerifiedAttributes
@@ -182,15 +220,68 @@ Resources:
       SmsVerificationMessage: !Ref smsVerificationMessage
       SmsConfiguration: 
         SnsCallerArn: !GetAtt SNSRole.Arn
-        ExternalId: cognit90df6055_role_external_id
+        ExternalId: challea7d0cb31_role_external_id
     
+  
+    
+    
+  
+    
+  
+  UserPoolPostConfirmationLambdaInvokePermission: 
+    Type: "AWS::Lambda::Permission"
+    DependsOn: UserPool
+    Properties: 
+      Action: "lambda:invokeFunction"
+      Principal: "cognito-idp.amazonaws.com"
+      FunctionName: !Ref functionchallengemereacta7d0cb31PostConfirmationName
+      SourceArn: !GetAtt UserPool.Arn
+    
+  
+  
+   
+    
+  # Updating lambda role with permissions to Cognito
+  
+  
+  challengemereacta7d0cb31PostConfirmationAddToGroupCognito:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: challengemereacta7d0cb31PostConfirmationAddToGroupCognito
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+            
+              - cognito-idp:AdminAddUserToGroup
+            
+              - cognito-idp:GetGroup
+            
+              - cognito-idp:CreateGroup
+            
+            
+            
+            Resource: !GetAtt
+            
+              - UserPool
+            
+              - Arn
+            
+            
+            
+
+      Roles:
+        - !Join ['',["challengemereacta7d0cb31PostConfirmation", '-', !Ref env]]
+  
+  
   
   UserPoolClientWeb:
   # Created provide application access to user pool
   # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
-      ClientName: cognit90df6055_app_clientWeb
+      ClientName: challea7d0cb31_app_clientWeb
       
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
       UserPoolId: !Ref UserPool
@@ -200,7 +291,7 @@ Resources:
   # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
-      ClientName: cognit90df6055_app_client
+      ClientName: challea7d0cb31_app_client
       
       GenerateSecret: !Ref userpoolClientGenerateSecret
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
@@ -265,7 +356,7 @@ Resources:
   # Marked as depending on UserPoolClientRole for easier to understand CFN sequencing
     Type: 'AWS::IAM::Policy'
     Properties:
-      PolicyName: cognit90df6055_userpoolclient_lambda_iam_policy
+      PolicyName: challea7d0cb31_userpoolclient_lambda_iam_policy
       Roles: 
         - !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
       PolicyDocument:
@@ -282,7 +373,7 @@ Resources:
   # Marked as depending on UserPoolClientLambdaPolicy for easier to understand CFN sequencing
     Type: 'AWS::IAM::Policy'
     Properties:
-      PolicyName: cognit90df6055_userpoolclient_lambda_log_policy
+      PolicyName: challea7d0cb31_userpoolclient_lambda_log_policy
       Roles: 
         - !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
       PolicyDocument:
@@ -669,7 +760,7 @@ Resources:
   # Always created
     Type: AWS::Cognito::IdentityPool
     Properties: 
-      IdentityPoolName: !If [ShouldNotCreateEnvResources, 'challenge_me_react111974aa_identitypool_111974aa', !Join ['',['challenge_me_react111974aa_identitypool_111974aa', '__', !Ref env]]]
+      IdentityPoolName: !If [ShouldNotCreateEnvResources, 'challengemereacta7d0cb31_identitypool_a7d0cb31', !Join ['',['challengemereacta7d0cb31_identitypool_a7d0cb31', '__', !Ref env]]]
       
       CognitoIdentityProviders:
         - ClientId:  !Ref UserPoolClient

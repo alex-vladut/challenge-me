@@ -10,12 +10,16 @@ export type CreateUserInput = {
   id?: string | null,
   name: string,
   pictureUrl?: string | null,
+  googleIdentityId?: string | null,
+  email?: string | null,
 };
 
 export type UpdateUserInput = {
   id: string,
   name?: string | null,
   pictureUrl?: string | null,
+  googleIdentityId?: string | null,
+  email?: string | null,
   expectedVersion: number,
 };
 
@@ -65,6 +69,8 @@ export type ModelUserFilterInput = {
   id?: ModelIDFilterInput | null,
   name?: ModelStringFilterInput | null,
   pictureUrl?: ModelStringFilterInput | null,
+  googleIdentityId?: ModelStringFilterInput | null,
+  email?: ModelStringFilterInput | null,
   and?: Array< ModelUserFilterInput | null > | null,
   or?: Array< ModelUserFilterInput | null > | null,
   not?: ModelUserFilterInput | null,
@@ -154,8 +160,9 @@ export type DeleteActivityMutation = {
       id: string,
       name: string,
       pictureUrl: string | null,
+      googleIdentityId: string | null,
+      email: string | null,
       version: number,
-      owner: string | null,
     } | null,
     description: string,
     sport: string,
@@ -181,12 +188,13 @@ export type CreateUserMutation = {
     id: string,
     name: string,
     pictureUrl: string | null,
+    googleIdentityId: string | null,
+    email: string | null,
     activities:  {
       __typename: "ModelParticipationConnection",
       nextToken: string | null,
     } | null,
     version: number,
-    owner: string | null,
   } | null,
 };
 
@@ -200,12 +208,13 @@ export type UpdateUserMutation = {
     id: string,
     name: string,
     pictureUrl: string | null,
+    googleIdentityId: string | null,
+    email: string | null,
     activities:  {
       __typename: "ModelParticipationConnection",
       nextToken: string | null,
     } | null,
     version: number,
-    owner: string | null,
   } | null,
 };
 
@@ -219,12 +228,13 @@ export type DeleteUserMutation = {
     id: string,
     name: string,
     pictureUrl: string | null,
+    googleIdentityId: string | null,
+    email: string | null,
     activities:  {
       __typename: "ModelParticipationConnection",
       nextToken: string | null,
     } | null,
     version: number,
-    owner: string | null,
   } | null,
 };
 
@@ -241,8 +251,9 @@ export type CreateActivityMutation = {
       id: string,
       name: string,
       pictureUrl: string | null,
+      googleIdentityId: string | null,
+      email: string | null,
       version: number,
-      owner: string | null,
     } | null,
     description: string,
     sport: string,
@@ -282,8 +293,9 @@ export type CreateParticipationMutation = {
       id: string,
       name: string,
       pictureUrl: string | null,
+      googleIdentityId: string | null,
+      email: string | null,
       version: number,
-      owner: string | null,
     },
     activityId: string,
     status: ParticipationStatus,
@@ -314,8 +326,9 @@ export type UpdateParticipationMutation = {
       id: string,
       name: string,
       pictureUrl: string | null,
+      googleIdentityId: string | null,
+      email: string | null,
       version: number,
-      owner: string | null,
     },
     activityId: string,
     status: ParticipationStatus,
@@ -346,8 +359,9 @@ export type DeleteParticipationMutation = {
       id: string,
       name: string,
       pictureUrl: string | null,
+      googleIdentityId: string | null,
+      email: string | null,
       version: number,
-      owner: string | null,
     },
     activityId: string,
     status: ParticipationStatus,
@@ -364,12 +378,13 @@ export type GetUserQuery = {
     id: string,
     name: string,
     pictureUrl: string | null,
+    googleIdentityId: string | null,
+    email: string | null,
     activities:  {
       __typename: "ModelParticipationConnection",
       nextToken: string | null,
     } | null,
     version: number,
-    owner: string | null,
   } | null,
 };
 
@@ -387,8 +402,9 @@ export type ListUsersQuery = {
       id: string,
       name: string,
       pictureUrl: string | null,
+      googleIdentityId: string | null,
+      email: string | null,
       version: number,
-      owner: string | null,
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -407,8 +423,9 @@ export type GetActivityQuery = {
       id: string,
       name: string,
       pictureUrl: string | null,
+      googleIdentityId: string | null,
+      email: string | null,
       version: number,
-      owner: string | null,
     } | null,
     description: string,
     sport: string,
@@ -472,8 +489,9 @@ export type GetParticipationQuery = {
       id: string,
       name: string,
       pictureUrl: string | null,
+      googleIdentityId: string | null,
+      email: string | null,
       version: number,
-      owner: string | null,
     },
     activityId: string,
     status: ParticipationStatus,
@@ -520,27 +538,20 @@ export type ParticipationsByActivityIdQuery = {
   } | null,
 };
 
-export type OnCreateUserSubscriptionVariables = {
-  owner: string,
-};
-
 export type OnCreateUserSubscription = {
   onCreateUser:  {
     __typename: "User",
     id: string,
     name: string,
     pictureUrl: string | null,
+    googleIdentityId: string | null,
+    email: string | null,
     activities:  {
       __typename: "ModelParticipationConnection",
       nextToken: string | null,
     } | null,
     version: number,
-    owner: string | null,
   } | null,
-};
-
-export type OnUpdateUserSubscriptionVariables = {
-  owner: string,
 };
 
 export type OnUpdateUserSubscription = {
@@ -549,17 +560,14 @@ export type OnUpdateUserSubscription = {
     id: string,
     name: string,
     pictureUrl: string | null,
+    googleIdentityId: string | null,
+    email: string | null,
     activities:  {
       __typename: "ModelParticipationConnection",
       nextToken: string | null,
     } | null,
     version: number,
-    owner: string | null,
   } | null,
-};
-
-export type OnDeleteUserSubscriptionVariables = {
-  owner: string,
 };
 
 export type OnDeleteUserSubscription = {
@@ -568,12 +576,13 @@ export type OnDeleteUserSubscription = {
     id: string,
     name: string,
     pictureUrl: string | null,
+    googleIdentityId: string | null,
+    email: string | null,
     activities:  {
       __typename: "ModelParticipationConnection",
       nextToken: string | null,
     } | null,
     version: number,
-    owner: string | null,
   } | null,
 };
 
@@ -597,8 +606,9 @@ export type OnCreateParticipationSubscription = {
       id: string,
       name: string,
       pictureUrl: string | null,
+      googleIdentityId: string | null,
+      email: string | null,
       version: number,
-      owner: string | null,
     },
     activityId: string,
     status: ParticipationStatus,
@@ -625,8 +635,9 @@ export type OnUpdateParticipationSubscription = {
       id: string,
       name: string,
       pictureUrl: string | null,
+      googleIdentityId: string | null,
+      email: string | null,
       version: number,
-      owner: string | null,
     },
     activityId: string,
     status: ParticipationStatus,
@@ -653,8 +664,9 @@ export type OnDeleteParticipationSubscription = {
       id: string,
       name: string,
       pictureUrl: string | null,
+      googleIdentityId: string | null,
+      email: string | null,
       version: number,
-      owner: string | null,
     },
     activityId: string,
     status: ParticipationStatus,
