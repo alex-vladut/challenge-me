@@ -3,12 +3,12 @@ import "./App.scss";
 import React, { useEffect, FunctionComponent } from "react";
 import { connect } from "react-redux";
 import { HashRouter, Route, Switch } from "react-router-dom";
-import { Hub } from "aws-amplify";
+import { Hub, Auth } from "aws-amplify";
 import { State } from "./store/reducers";
 import { FetchProfile, SignOut } from "./store/actions/auth.actions";
 
 import Home from "./components/Home/Home";
-import Auth from "./containers/Auth/Auth";
+import Authentication from "./containers/Auth/Auth";
 import LogOut from "./containers/Auth/LogOut";
 import Layout from "./containers/Layout/Layout";
 import PrivateRoute from "./hoc/PrivateRoute";
@@ -23,14 +23,18 @@ interface AppProps {
 }
 
 const App: FunctionComponent<AppProps> = ({ isAuthenticated, fetchProfile, signOut }) => {
+  if (!isAuthenticated) {
+    Auth.currentAuthenticatedUser()
+      .then(() => fetchProfile())
+      .catch(() => {});
+  }
+
   useEffect(
     () =>
       Hub.listen("auth", ({ payload }) => {
         switch (payload.event) {
           case "signIn":
             return fetchProfile();
-          case "signOut":
-            return signOut();
           default:
             return;
         }
@@ -43,7 +47,7 @@ const App: FunctionComponent<AppProps> = ({ isAuthenticated, fetchProfile, signO
       <Layout>
         <Switch>
           <Route path="/" component={Home} exact />
-          <Route path="/auth" component={Auth} />
+          <Route path="/auth" component={Authentication} />
           <PrivateRoute path="/activities/new" exact component={Activity} isAuthenticated={isAuthenticated} />
           <PrivateRoute path="/activities/:activityId" exact component={ViewActivity} isAuthenticated={isAuthenticated} />
           <PrivateRoute path="/activities" exact component={Activities} isAuthenticated={isAuthenticated} />

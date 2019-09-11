@@ -3,6 +3,7 @@ import { ofType } from "redux-observable";
 import { from, of } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
 
+import * as mutations from '../../graphql-api/mutations';
 import * as queries from "../../graphql-api/queries";
 import { FetchProfile, FetchProfileFail, FetchProfileNotFound, FetchProfileSuccess, SignOut, SignOutFail, SignOutSuccess } from "../actions/auth.actions";
 
@@ -19,6 +20,32 @@ function fetchProfile(actions$: any) {
   );
 }
 
+function createProfile(actions$: any) {
+  return actions$.pipe(
+    ofType(FetchProfileNotFound.type),
+    switchMap(() => from(Auth.currentAuthenticatedUser())),
+    switchMap((authenticatedUser: any) =>
+      from(
+        API.graphql(
+          graphqlOperation(mutations.createUser, {
+            input: {
+              id: authenticatedUser.username,
+              googleIdentityId: authenticatedUser.username,
+              email: authenticatedUser.attributes.email,
+              name: authenticatedUser.attributes.name,
+              pictureUrl: authenticatedUser.attributes.picture
+            }
+          })
+        )
+      ).pipe(
+        map((response: any) => FetchProfileSuccess.create(response.data.createUser)),
+        catchError(error => of(FetchProfileFail.create(error)))
+      )
+    )
+  );
+}
+
+
 function signOut(actions$: any) {
   return actions$.pipe(
     ofType(SignOut.type),
@@ -31,4 +58,4 @@ function signOut(actions$: any) {
   );
 }
 
-export default [fetchProfile, signOut];
+export default [fetchProfile, createProfile, signOut];

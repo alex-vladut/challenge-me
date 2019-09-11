@@ -1,4 +1,4 @@
-type User @model @versioned @key(name: "ByGoogleIdentity", fields: ["googleIdentityId"]) {
+type User @model @versioned @auth(rules: [{ allow: owner, ownerField: "googleIdentityId", operations: [create, read] }]) {
   id: ID!
   name: String!
   pictureUrl: String
@@ -7,7 +7,7 @@ type User @model @versioned @key(name: "ByGoogleIdentity", fields: ["googleIdent
   activities: [Participation!] @connection(name: "UserActivities")
 }
 
-type Activity @model(mutations: { create: "createActivity" }, subscriptions: null) @versioned {
+type Activity @model(mutations: { create: "createActivity" }, subscriptions: null) @auth(rules: [{ allow: owner, operations: [create] }]) @versioned {
   id: ID!
   owner: User @connection
   description: String!
