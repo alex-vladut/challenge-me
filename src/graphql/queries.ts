@@ -6,7 +6,6 @@ export const getUser = `query GetUser($id: ID!) {
     id
     name
     pictureUrl
-    googleIdentityId
     email
     activities {
       nextToken
@@ -25,7 +24,6 @@ export const listUsers = `query ListUsers(
       id
       name
       pictureUrl
-      googleIdentityId
       email
       version
     }
@@ -40,7 +38,6 @@ export const getActivity = `query GetActivity($id: ID!) {
       id
       name
       pictureUrl
-      googleIdentityId
       email
       version
     }
@@ -94,7 +91,6 @@ export const getParticipation = `query GetParticipation($id: ID!) {
       id
       name
       pictureUrl
-      googleIdentityId
       email
       version
     }

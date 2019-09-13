@@ -6,7 +6,6 @@ export const onCreateUser = `subscription OnCreateUser {
     id
     name
     pictureUrl
-    googleIdentityId
     email
     activities {
       nextToken
@@ -20,7 +19,6 @@ export const onUpdateUser = `subscription OnUpdateUser {
     id
     name
     pictureUrl
-    googleIdentityId
     email
     activities {
       nextToken
@@ -34,7 +32,6 @@ export const onDeleteUser = `subscription OnDeleteUser {
     id
     name
     pictureUrl
-    googleIdentityId
     email
     activities {
       nextToken
@@ -60,7 +57,6 @@ export const onCreateParticipation = `subscription OnCreateParticipation {
       id
       name
       pictureUrl
-      googleIdentityId
       email
       version
     }
@@ -86,7 +82,6 @@ export const onUpdateParticipation = `subscription OnUpdateParticipation {
       id
       name
       pictureUrl
-      googleIdentityId
       email
       version
     }
@@ -112,7 +107,6 @@ export const onDeleteParticipation = `subscription OnDeleteParticipation {
       id
       name
       pictureUrl
-      googleIdentityId
       email
       version
     }

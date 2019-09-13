@@ -17,6 +17,9 @@ const Authentication: FunctionComponent<AuthProps> = ({ isAuthenticated }) => {
       <button onClick={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })}>
         <p>Sign in with Google</p>
       </button>
+      <button onClick={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Facebook })}>
+        <p>Sign in with Facebook</p>
+      </button>
     </div>
   );
 };

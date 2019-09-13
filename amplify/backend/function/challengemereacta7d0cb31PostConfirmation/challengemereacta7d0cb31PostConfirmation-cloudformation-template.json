@@ -108,7 +108,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "challenge-me-react-20190330153341-deployment",
-					"S3Key": "amplify-builds/challengemereacta7d0cb31PostConfirmation-5a61472b2f4648717a34-build.zip"
+					"S3Key": "amplify-builds/challengemereacta7d0cb31PostConfirmation-753750614c316b33664e-build.zip"
 				}
 			}
 		},

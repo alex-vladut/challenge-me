@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { HashRouter, Route, Switch } from "react-router-dom";
 import { Hub, Auth } from "aws-amplify";
 import { State } from "./store/reducers";
-import { FetchProfile, SignOut } from "./store/actions/auth.actions";
+import { FetchProfile } from "./store/actions/auth.actions";
 
 import Home from "./components/Home/Home";
 import Authentication from "./containers/Auth/Auth";
@@ -19,10 +19,9 @@ import ViewActivity from "./containers/ViewActivity/ViewActivity";
 interface AppProps {
   isAuthenticated: boolean;
   fetchProfile(): void;
-  signOut(): void;
 }
 
-const App: FunctionComponent<AppProps> = ({ isAuthenticated, fetchProfile, signOut }) => {
+const App: FunctionComponent<AppProps> = ({ isAuthenticated, fetchProfile }) => {
   if (!isAuthenticated) {
     Auth.currentAuthenticatedUser()
       .then(() => fetchProfile())
@@ -32,14 +31,11 @@ const App: FunctionComponent<AppProps> = ({ isAuthenticated, fetchProfile, signO
   useEffect(
     () =>
       Hub.listen("auth", ({ payload }) => {
-        switch (payload.event) {
-          case "signIn":
-            return fetchProfile();
-          default:
-            return;
+        if (payload.event === "signIn") {
+          fetchProfile();
         }
       }),
-    [fetchProfile, signOut]
+    [fetchProfile]
   );
 
   return (
@@ -64,8 +60,7 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  fetchProfile: () => dispatch(FetchProfile.create()),
-  signOut: () => dispatch(SignOut.create())
+  fetchProfile: () => dispatch(FetchProfile.create())
 });
 
 export default connect(

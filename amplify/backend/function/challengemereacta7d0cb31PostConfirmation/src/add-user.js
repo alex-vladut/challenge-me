@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: process.env.REGION });
-const luxon = require('luxon');
+const { DateTime } = require('luxon');
 
 exports.handler = async (event, _, callback) => {
   const identityId = event.userName;
@@ -11,16 +11,16 @@ exports.handler = async (event, _, callback) => {
     Key: { id: identityId }
   }).promise();
   if (!result || !result.Item) {
+    const pictureUrl = picture ? (typeof picture === 'string' ? picture : picture.url) : null
     const user = {
       __typename: 'User',
       id: identityId,
       name,
-      pictureUrl: picture,
+      pictureUrl,
       email,
-      googleIdentityId: identityId,
       activities: [],
-      createdAt: luxon.DateTime.utc().toISO(),
-      updatedAt: luxon.DateTime.utc().toISO(),
+      createdAt: DateTime.utc().toISO(),
+      updatedAt: DateTime.utc().toISO(),
       version: 1,
     };
     await dynamoDb.put({

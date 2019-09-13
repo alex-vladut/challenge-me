@@ -8,7 +8,6 @@ export const deleteActivity = `mutation DeleteActivity($input: DeleteActivityInp
       id
       name
       pictureUrl
-      googleIdentityId
       email
       version
     }
@@ -30,7 +29,6 @@ export const createUser = `mutation CreateUser($input: CreateUserInput!) {
     id
     name
     pictureUrl
-    googleIdentityId
     email
     activities {
       nextToken
@@ -44,7 +42,6 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
     id
     name
     pictureUrl
-    googleIdentityId
     email
     activities {
       nextToken
@@ -58,7 +55,6 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
     id
     name
     pictureUrl
-    googleIdentityId
     email
     activities {
       nextToken
@@ -74,7 +70,6 @@ export const createActivity = `mutation CreateActivity($input: CreateActivityInp
       id
       name
       pictureUrl
-      googleIdentityId
       email
       version
     }
@@ -108,7 +103,6 @@ export const createParticipation = `mutation CreateParticipation($input: CreateP
       id
       name
       pictureUrl
-      googleIdentityId
       email
       version
     }
@@ -134,7 +128,6 @@ export const updateParticipation = `mutation UpdateParticipation($input: UpdateP
       id
       name
       pictureUrl
-      googleIdentityId
       email
       version
     }
@@ -160,7 +153,6 @@ export const deleteParticipation = `mutation DeleteParticipation($input: DeleteP
       id
       name
       pictureUrl
-      googleIdentityId
       email
       version
     }
