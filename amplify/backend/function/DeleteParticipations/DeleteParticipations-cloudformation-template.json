@@ -5,7 +5,7 @@
 		"env": {
 			"Type": "String"
 		},
-		"activitiesTable": {
+		"participationsTable": {
 			"Type": "String"
 		}
 	},
@@ -31,12 +31,12 @@
 				"FunctionName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"delete-activity",
+						"delete-participations",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"delete-activity",
+									"delete-participations",
 									"-",
 									{
 										"Ref": "env"
@@ -53,9 +53,6 @@
 						},
 						"REGION": {
 							"Ref": "AWS::Region"
-						},
-						"ACTIVITIES_TABLE": {
-							"Ref": "activitiesTable"
 						}
 					}
 				},
@@ -69,7 +66,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "challenge-me-react-20190330153341-deployment",
-					"S3Key": "amplify-builds/DeleteActivity-682b35773153504c3474-build.zip"
+					"S3Key": "amplify-builds/DeleteParticipations-43462f4534784e496a58-build.zip"
 				}
 			}
 		},
@@ -79,12 +76,12 @@
 				"RoleName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"challengemereactLambdaRole9d2fbaa2",
+						"challengemereactLambdaRole0788f7f1",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"challengemereactLambdaRole9d2fbaa2",
+									"challengemereactLambdaRole0788f7f1",
 									"-",
 									{
 										"Ref": "env"
@@ -154,12 +151,12 @@
 						{
 							"Effect": "Allow",
 							"Action": [
-								"dynamodb:GetItem",
+								"dynamodb:Query",
 								"dynamodb:DeleteItem"
 							],
 							"Resource": {
 								"Fn::Sub": [
-									"arn:aws:dynamodb:${region}:${account}:table/${activitiesTable}-${env}",
+									"arn:aws:dynamodb:${region}:${account}:table/${participationsTable}-${env}",
 									{
 										"region": {
 											"Ref": "AWS::Region"
@@ -167,8 +164,8 @@
 										"account": {
 											"Ref": "AWS::AccountId"
 										},
-										"activitiesTable": {
-											"Ref": "activitiesTable"
+										"participationsTable": {
+											"Ref": "participationsTable"
 										},
 										"env": {
 											"Ref": "env"

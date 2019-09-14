@@ -2,7 +2,7 @@ const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: process.env.REGION });
 
 const deleteActivity = async event => {
-  const identityId = event.identity.cognitoIdentityId;
+  const identityId = event.identity.username;
   const activitiesTableName = `${process.env.ACTIVITIES_TABLE}-${process.env.ENV}`;
   const activityId = event.arguments.input.id;
   const expectedVersion = event.arguments.input.expectedVersion;
