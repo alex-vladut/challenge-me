@@ -1,13 +1,14 @@
 const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: process.env.REGION });
 
+const ACTIVITIES_TABLE = `${process.env.ACTIVITIES_TABLE}-${process.env.ENV}`;
+
 const deleteActivity = async event => {
   const identityId = event.identity.username;
-  const activitiesTableName = `${process.env.ACTIVITIES_TABLE}-${process.env.ENV}`;
   const activityId = event.arguments.input.id;
   const expectedVersion = event.arguments.input.expectedVersion;
   const result = await dynamoDb.get({
-    TableName: activitiesTableName,
+    TableName: ACTIVITIES_TABLE,
     Key: {
       id: activityId
     }
@@ -21,7 +22,7 @@ const deleteActivity = async event => {
   }
 
   await dynamoDb.delete({
-    TableName: activitiesTableName,
+    TableName: ACTIVITIES_TABLE,
     Key: {
       id: activityId
     },

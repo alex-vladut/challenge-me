@@ -53,6 +53,9 @@
 						},
 						"REGION": {
 							"Ref": "AWS::Region"
+						},
+						"PARTICIPATIONS_TABLE": {
+							"Ref": "participationsTable"
 						}
 					}
 				},
@@ -66,7 +69,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "challenge-me-react-20190330153341-deployment",
-					"S3Key": "amplify-builds/DeleteParticipations-43462f4534784e496a58-build.zip"
+					"S3Key": "amplify-builds/DeleteParticipations-5838694f4c7679444c35-build.zip"
 				}
 			}
 		},
@@ -151,7 +154,32 @@
 						{
 							"Effect": "Allow",
 							"Action": [
-								"dynamodb:Query",
+								"dynamodb:Query"
+							],
+							"Resource": {
+								"Fn::Sub": [
+									"arn:aws:dynamodb:${region}:${account}:table/${participationsTable}-${env}/index/gsi-ActivityParticipants",
+									{
+										"region": {
+											"Ref": "AWS::Region"
+										},
+										"account": {
+											"Ref": "AWS::AccountId"
+										},
+										"participationsTable": {
+											"Ref": "participationsTable"
+										},
+										"env": {
+											"Ref": "env"
+										}
+									}
+								]
+							}
+						},
+						{
+							"Effect": "Allow",
+							"Action": [
+								"dynamodb:BatchWriteItem",
 								"dynamodb:DeleteItem"
 							],
 							"Resource": {
