@@ -3,7 +3,17 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router";
 
 import moment from "moment";
-import { Grid, TextField, Button, CircularProgress, Box, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
+import {
+  Grid,
+  TextField,
+  Button,
+  CircularProgress,
+  Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import DateTimePicker from "../../components/DateTimePicker/DateTimePicker";

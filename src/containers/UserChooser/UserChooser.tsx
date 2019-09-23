@@ -52,7 +52,12 @@ class UserChooser extends Component<Props, State> {
       <div className="UserChooser">
         <Paper>
           <Grid container justify="center" alignItems="center">
-            <Input placeholder="Search" inputProps={{ "aria-label": "Search users" }} value={this.state.filter} onChange={this.setFilter} />
+            <Input
+              placeholder="Search"
+              inputProps={{ "aria-label": "Search users" }}
+              value={this.state.filter}
+              onChange={this.setFilter}
+            />
             <IconButton aria-label="Search" onClick={() => this.props.fetchUsers(this.state.filter)}>
               <SearchIcon />
             </IconButton>

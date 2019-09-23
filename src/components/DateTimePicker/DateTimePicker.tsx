@@ -13,8 +13,20 @@ const DateTimePicker: FunctionComponent<DateTimePickerProps> = (props: DateTimeP
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Grid container justify="space-between">
-        <KeyboardDatePicker margin="normal" label="Date" value={props.value} onChange={props.onChange} KeyboardButtonProps={{ "aria-label": "change date" }} />
-        <KeyboardTimePicker margin="normal" label="Time" value={props.value} onChange={props.onChange} KeyboardButtonProps={{ "aria-label": "change time" }} />
+        <KeyboardDatePicker
+          margin="normal"
+          label="Date"
+          value={props.value}
+          onChange={props.onChange}
+          KeyboardButtonProps={{ "aria-label": "change date" }}
+        />
+        <KeyboardTimePicker
+          margin="normal"
+          label="Time"
+          value={props.value}
+          onChange={props.onChange}
+          KeyboardButtonProps={{ "aria-label": "change time" }}
+        />
       </Grid>
     </MuiPickersUtilsProvider>
   );

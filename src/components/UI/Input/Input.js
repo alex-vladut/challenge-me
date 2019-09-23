@@ -11,7 +11,12 @@ const input = props => {
   }
   return (
     <div className="Input">
-      <input className={classes.join(" ")} onChange={props.onChange} placeholder={props.placeholder} type={props.type || "text"} />
+      <input
+        className={classes.join(" ")}
+        onChange={props.onChange}
+        placeholder={props.placeholder}
+        type={props.type || "text"}
+      />
     </div>
   );
 };

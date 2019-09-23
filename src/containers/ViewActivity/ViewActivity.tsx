@@ -65,7 +65,18 @@ const useStyles = makeStyles(theme =>
   })
 );
 
-const ViewActivity = ({ activity, sports, deleted, loading, match, fetchActivity, acceptActivity, profile, rejectActivity, deleteActivity }: ViewActivityProps) => {
+const ViewActivity = ({
+  activity,
+  sports,
+  deleted,
+  loading,
+  match,
+  fetchActivity,
+  acceptActivity,
+  profile,
+  rejectActivity,
+  deleteActivity
+}: ViewActivityProps) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const classes = useStyles();
@@ -85,18 +96,25 @@ const ViewActivity = ({ activity, sports, deleted, loading, match, fetchActivity
   };
 
   const isOwner = () => activity.owner.id === profile.id;
-  const isMaxNumberOfParticipants = () => activity.numberOfAttendants === activity.participations.filter(({ status }: any) => status === "ACCEPTED").length;
+  const isMaxNumberOfParticipants = () =>
+    activity.numberOfAttendants === activity.participations.filter(({ status }: any) => status === "ACCEPTED").length;
   const getSportLabel = () => {
     const sport = sports.find(s => s.name === activity.sport);
     return sport.emoji ? `${sport.emoji} ${sport.name}` : `${sport.name}`;
   };
 
   const handleJoinActivity = () => {
-    const participation = activity.participations.find((item: any) => item.participant.id === profile.id) || { activityId: activity.id, userId: profile.id };
+    const participation = activity.participations.find((item: any) => item.participant.id === profile.id) || {
+      activityId: activity.id,
+      userId: profile.id
+    };
     acceptActivity(participation);
   };
   const handleRejectActivity = () => {
-    const participation = activity.participations.find((item: any) => item.participant.id === profile.id) || { activityId: activity.id, userId: profile.id };
+    const participation = activity.participations.find((item: any) => item.participant.id === profile.id) || {
+      activityId: activity.id,
+      userId: profile.id
+    };
     rejectActivity(participation);
   };
   const handleDeleteActivity = () => deleteActivity(activity);
@@ -131,7 +149,9 @@ const ViewActivity = ({ activity, sports, deleted, loading, match, fetchActivity
     <div>
       <Card>
         <CardHeader
-          avatar={<Avatar className={classes.avatar} alt={activity.owner.name} src={activity.owner.pictureUrl || userIcon} />}
+          avatar={
+            <Avatar className={classes.avatar} alt={activity.owner.name} src={activity.owner.pictureUrl || userIcon} />
+          }
           title={activity.owner.name}
           subheader={"Created at " + moment(activity.createdAt).format("MMMM DD, YYYY")}
           className={classes.header}
@@ -186,7 +206,11 @@ const ViewActivity = ({ activity, sports, deleted, loading, match, fetchActivity
                   .map((participation: any) => (
                     <ListItem key={participation.id} button>
                       <ListItemAvatar>
-                        <Avatar className={classes.avatar} alt={participation.participant.name} src={participation.participant.pictureUrl || userIcon} />
+                        <Avatar
+                          className={classes.avatar}
+                          alt={participation.participant.name}
+                          src={participation.participant.pictureUrl || userIcon}
+                        />
                       </ListItemAvatar>
                       <ListItemText primary={participation.participant.name} />
                       {participation.status === "ACCEPTED" ? (

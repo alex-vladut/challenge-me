@@ -45,7 +45,12 @@ const App: FunctionComponent<AppProps> = ({ isAuthenticated, fetchProfile }) => 
           <Route path="/" component={Home} exact />
           <Route path="/auth" component={Authentication} />
           <PrivateRoute path="/activities/new" exact component={Activity} isAuthenticated={isAuthenticated} />
-          <PrivateRoute path="/activities/:activityId" exact component={ViewActivity} isAuthenticated={isAuthenticated} />
+          <PrivateRoute
+            path="/activities/:activityId"
+            exact
+            component={ViewActivity}
+            isAuthenticated={isAuthenticated}
+          />
           <PrivateRoute path="/activities" exact component={Activities} isAuthenticated={isAuthenticated} />
           <PrivateRoute path="/logout" exact component={LogOut} isAuthenticated={isAuthenticated} />
           <Route render={() => <h1>Page Not Found!</h1>} />
