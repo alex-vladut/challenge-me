@@ -3,6 +3,7 @@ export const getUser = `query GetUser($id: ID!) {
     id
     name
     pictureUrl
+    email
     version
   }
 }

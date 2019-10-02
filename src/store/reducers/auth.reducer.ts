@@ -1,11 +1,4 @@
-import {
-  FetchProfile,
-  FetchProfileFail,
-  FetchProfileSuccess,
-  SignOut,
-  SignOutFail,
-  SignOutSuccess
-} from "../actions/auth.actions";
+import { Fetch, FetchFail, FetchSuccess, Save, SignOut, SignOutFail, SignOutSuccess, SaveFail, SaveSuccess } from '../actions/auth.actions';
 
 export interface State {
   loading: boolean;
@@ -21,13 +14,15 @@ const initialState: State = {
 
 const reducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case FetchProfile.type:
+    case Fetch.type:
     case SignOut.type:
+    case Save.type:
       return {
         ...state,
         loading: true
       };
-    case FetchProfileSuccess.type:
+    case FetchSuccess.type:
+    case SaveSuccess.type:
       return {
         ...state,
         profile: action.payload,
@@ -41,11 +36,11 @@ const reducer = (state = initialState, action: any) => {
         authenticated: false,
         loading: false
       };
-    case FetchProfileFail.type:
+    case FetchFail.type:
     case SignOutFail.type:
+    case SaveFail.type:
       return {
         ...state,
-        challenges: [],
         loading: false,
         error: action.error
       };

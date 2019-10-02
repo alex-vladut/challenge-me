@@ -23,6 +23,9 @@ const NavigationItems: FunctionComponent<NavigationItemsProps> = props => {
         <NavigationItem link="/activities" onClick={props.onClick}>
           Activities
         </NavigationItem>
+        <NavigationItem link="/profile" onClick={props.onClick}>
+          Profile
+        </NavigationItem>
         <NavigationItem link="/logout" onClick={props.onClick}>
           Log Out
         </NavigationItem>

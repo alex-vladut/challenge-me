@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { HashRouter, Route, Switch } from "react-router-dom";
 import { Hub, Auth } from "aws-amplify";
 import { State } from "./store/reducers";
-import { FetchProfile } from "./store/actions/auth.actions";
+import { Fetch } from "./store/actions/auth.actions";
 
 import Home from "./components/Home/Home";
 import Authentication from "./containers/Auth/Auth";
@@ -15,6 +15,7 @@ import PrivateRoute from "./hoc/PrivateRoute";
 import Activity from "./containers/Activity/Activity";
 import Activities from "./containers/Activities/Activities";
 import ViewActivity from "./containers/ViewActivity/ViewActivity";
+import Profile from "./containers/Profile/Profile";
 
 interface AppProps {
   isAuthenticated: boolean;
@@ -52,6 +53,7 @@ const App: FunctionComponent<AppProps> = ({ isAuthenticated, fetchProfile }) => 
             isAuthenticated={isAuthenticated}
           />
           <PrivateRoute path="/activities" exact component={Activities} isAuthenticated={isAuthenticated} />
+          <PrivateRoute path="/profile" exact component={Profile} isAuthenticated={isAuthenticated} />
           <PrivateRoute path="/logout" exact component={LogOut} isAuthenticated={isAuthenticated} />
           <Route render={() => <h1>Page Not Found!</h1>} />
         </Switch>
@@ -65,7 +67,7 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  fetchProfile: () => dispatch(FetchProfile.create())
+  fetchProfile: () => dispatch(Fetch.create())
 });
 
 export default connect(

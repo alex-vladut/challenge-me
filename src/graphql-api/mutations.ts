@@ -1,11 +1,9 @@
-export const createUser = `mutation CreateUser($input: CreateUserInput!) {
-  createUser(input: $input) {
+export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
+  updateUser(input: $input) {
     id
     name
     pictureUrl
-    activities {
-      nextToken
-    }
+    email
     version
   }
 }
