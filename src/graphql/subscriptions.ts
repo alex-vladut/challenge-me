@@ -14,8 +14,8 @@ export const onCreateUser = `subscription OnCreateUser {
   }
 }
 `;
-export const onUpdateUser = `subscription OnUpdateUser {
-  onUpdateUser {
+export const onUpdateUser = `subscription OnUpdateUser($id: String!) {
+  onUpdateUser(id: $id) {
     id
     name
     pictureUrl

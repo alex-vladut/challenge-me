@@ -12,3 +12,6 @@ projects:
         docsFilePath: src/graphql
         graphQLApiId: rjadncgkkbbqrox6ryn372pav4
         maxDepth: 2
+extensions:
+  amplify:
+    version: 3
