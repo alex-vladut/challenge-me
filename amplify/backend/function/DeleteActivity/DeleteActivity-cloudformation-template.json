@@ -68,7 +68,7 @@
 				"Runtime": "nodejs10.x",
 				"Timeout": "25",
 				"Code": {
-					"S3Bucket": "challenge-me-react-20190330153341-deployment",
+					"S3Bucket": "challenge-me-react-test-20191006142104-deployment",
 					"S3Key": "amplify-builds/DeleteActivity-3051706b345a33514b72-build.zip"
 				}
 			}
