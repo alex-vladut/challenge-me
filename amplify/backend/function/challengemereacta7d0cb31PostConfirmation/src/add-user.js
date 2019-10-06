@@ -1,22 +1,28 @@
 const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: process.env.REGION });
 const { DateTime } = require('luxon');
+const { createHash } = require('crypto');
 
-exports.handler = async (event, _, callback) => {
+const USERS_TABLE = `${process.env.USERS_TABLE}-${process.env.ENV}`;
+
+const getGravatarUrl = email => {
+  const hash = createHash('md5').update(email).digest("hex");
+  return `https://www.gravatar.com/avatar/${hash}?size=200&default=monsterid`;
+}
+
+exports.handler = async event => {
   const identityId = event.userName;
-  const { name, picture, email } = event.request.userAttributes;
-  const usersTableName = `${process.env.USERS_TABLE}-${process.env.ENV}`;
+  const { name, email } = event.request.userAttributes;
   const result = await dynamoDb.get({
-    TableName: usersTableName,
+    TableName: USERS_TABLE,
     Key: { id: identityId }
   }).promise();
   if (!result || !result.Item) {
-    const pictureUrl = picture ? (typeof picture === 'string' ? picture : picture.url) : null
     const user = {
       __typename: 'User',
       id: identityId,
       name,
-      pictureUrl,
+      pictureUrl: getGravatarUrl(email),
       email,
       activities: [],
       createdAt: DateTime.utc().toISO(),
@@ -24,11 +30,11 @@ exports.handler = async (event, _, callback) => {
       version: 1,
     };
     await dynamoDb.put({
-      TableName: usersTableName,
+      TableName: USERS_TABLE,
       Item: user,
       ConditionExpression: 'attribute_not_exists(id)'
     }).promise();
   }
 
-  callback(null, event);
+  return event;
 }
