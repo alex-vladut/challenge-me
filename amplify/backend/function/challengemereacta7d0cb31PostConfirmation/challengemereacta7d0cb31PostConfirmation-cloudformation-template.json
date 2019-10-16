@@ -9,7 +9,7 @@
 		"modules": {
 			"Type": "String",
 			"Default": "",
-			"Description": "Comma-delimmited list of modules to be executed by a lambda trigger. Sent to resource as an env variable."
+			"Description": "Comma-delimited list of modules to be executed by a lambda trigger. Sent to resource as an env variable."
 		},
 		"resourceName": {
 			"Type": "String",
@@ -104,11 +104,11 @@
 						"Arn"
 					]
 				},
-				"Runtime": "nodejs8.10",
+				"Runtime": "nodejs10.x",
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "challenge-me-react-test-20191006142104-deployment",
-					"S3Key": "amplify-builds/challengemereacta7d0cb31PostConfirmation-67415075477866754969-build.zip"
+					"S3Key": "amplify-builds/challengemereacta7d0cb31PostConfirmation-644a36573965554a714e-build.zip"
 				}
 			}
 		},

@@ -1,4 +1,14 @@
-import { Fetch, FetchFail, FetchSuccess, Save, SignOut, SignOutFail, SignOutSuccess, SaveFail, SaveSuccess } from '../actions/auth.actions';
+import {
+  Fetch,
+  FetchFail,
+  FetchSuccess,
+  Save,
+  SignOut,
+  SignOutFail,
+  SignOutSuccess,
+  SaveFail,
+  SaveSuccess
+} from "../actions/auth.actions";
 
 export interface State {
   loading: boolean;

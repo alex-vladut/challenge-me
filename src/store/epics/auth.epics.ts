@@ -4,7 +4,7 @@ import { from, of, Observable } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
 
 import * as queries from "../../graphql-api/queries";
-import * as mutations from '../../graphql-api/mutations';
+import * as mutations from "../../graphql-api/mutations";
 import {
   Fetch,
   FetchFail,
@@ -14,7 +14,7 @@ import {
   SignOutSuccess,
   Save,
   SaveSuccess,
-  SaveFail,
+  SaveFail
 } from "../actions/auth.actions";
 import { ActionWithPayload } from "../actions/actions";
 import { createNotification } from "../../shared/notifications";
@@ -35,22 +35,28 @@ const saveProfile = (actions$: any) =>
   actions$.pipe(
     ofType(Save.type),
     switchMap(({ payload: { id, name, pictureUrl, email, version: expectedVersion } }) =>
-      from(API.graphql(graphqlOperation(mutations.updateUser, { input: { id, name, pictureUrl, email, expectedVersion } }))).pipe(
+      from(
+        API.graphql(graphqlOperation(mutations.updateUser, { input: { id, name, pictureUrl, email, expectedVersion } }))
+      ).pipe(
         map((response: any) => SaveSuccess.create(response.data.updateUser)),
         catchError(error => of(SaveFail.create(error)))
       )
     )
   );
 
-const saveProfileSuccessful = (actions$: Observable<ActionWithPayload<string>>) => actions$.pipe(
-  ofType(SaveSuccess.type),
-  switchMap(() => of(createNotification("Your profile was saved successfully!", "success")))
-);
+const saveProfileSuccessful = (actions$: Observable<ActionWithPayload<string>>) =>
+  actions$.pipe(
+    ofType(SaveSuccess.type),
+    switchMap(() => of(createNotification("Your profile was saved successfully!", "success")))
+  );
 
-const saveProfileFailed = (actions$: Observable<ActionWithPayload<string>>) => actions$.pipe(
-  ofType(SaveFail.type),
-  switchMap(() => of(createNotification("Ooops! There was an error while saving your profile. Please try again.", "error")))
-);
+const saveProfileFailed = (actions$: Observable<ActionWithPayload<string>>) =>
+  actions$.pipe(
+    ofType(SaveFail.type),
+    switchMap(() =>
+      of(createNotification("Ooops! There was an error while saving your profile. Please try again.", "error"))
+    )
+  );
 
 const signOut = (actions$: any) =>
   actions$.pipe(

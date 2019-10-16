@@ -1,4 +1,7 @@
-type User @model @versioned @auth(rules: [{ allow: owner, ownerField: "id", operations: [update] }, { allow: private, operations: [read] }]) {
+type User
+  @model
+  @versioned
+  @auth(rules: [{ allow: owner, ownerField: "id", operations: [update] }, { allow: private, operations: [read] }]) {
   id: ID!
   name: String!
   pictureUrl: String
@@ -8,7 +11,12 @@ type User @model @versioned @auth(rules: [{ allow: owner, ownerField: "id", oper
 
 type Activity
   @model(mutations: { create: "createActivity" }, subscriptions: null)
-  @auth(rules: [{ allow: owner, ownerField: "activityOwnerId", operations: [create] }, { allow: private, operations: [read] }])
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "activityOwnerId", operations: [create] }
+      { allow: private, operations: [read] }
+    ]
+  )
   @versioned {
   id: ID!
   owner: User @connection
@@ -23,7 +31,11 @@ type Activity
 
 # Create a join model and disable queries as you don't need them
 # and can query through Activity.participants and User.activities
-type Participation @model @key(name: "ByActivity", fields: ["activityId"], queryField: "participationsByActivityId") @auth(rules: [{ allow: private }]) {
+type Participation
+  @model
+  @auth(rules: [{ allow: private }])
+  @key(name: "ByActivity", fields: ["activityId"], queryField: "participationsByActivityId")
+  @auth(rules: [{ allow: private }]) {
   id: ID!
   activity: Activity! @connection(name: "ActivityParticipants")
   participant: User! @connection(name: "UserActivities")
@@ -42,5 +54,7 @@ input DeleteActivityInput {
 }
 
 type Mutation {
-  deleteActivity(input: DeleteActivityInput!): Activity! @function(name: "delete-activity-${env}") @function(name: "delete-participations-${env}")
+  deleteActivity(input: DeleteActivityInput!): Activity!
+    @function(name: "delete-activity-${env}")
+    @function(name: "delete-participations-${env}")
 }
