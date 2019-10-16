@@ -94,7 +94,6 @@ export const getParticipation = `query GetParticipation($id: ID!) {
       email
       version
     }
-    activityId
     status
   }
 }
@@ -107,30 +106,6 @@ export const listParticipations = `query ListParticipations(
   listParticipations(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      activityId
-      status
-    }
-    nextToken
-  }
-}
-`;
-export const participationsByActivityId = `query ParticipationsByActivityId(
-  $activityId: ID
-  $sortDirection: ModelSortDirection
-  $filter: ModelParticipationFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  participationsByActivityId(
-    activityId: $activityId
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      activityId
       status
     }
     nextToken

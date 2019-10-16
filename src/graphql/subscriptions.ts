@@ -60,7 +60,6 @@ export const onCreateParticipation = `subscription OnCreateParticipation {
       email
       version
     }
-    activityId
     status
   }
 }
@@ -85,7 +84,6 @@ export const onUpdateParticipation = `subscription OnUpdateParticipation {
       email
       version
     }
-    activityId
     status
   }
 }
@@ -110,7 +108,6 @@ export const onDeleteParticipation = `subscription OnDeleteParticipation {
       email
       version
     }
-    activityId
     status
   }
 }

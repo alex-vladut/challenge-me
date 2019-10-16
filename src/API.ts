@@ -39,7 +39,6 @@ export type CreateActivityInput = {
 
 export type CreateParticipationInput = {
   id?: string | null,
-  activityId: string,
   status: ParticipationStatus,
   participationActivityId: string,
   participationParticipantId: string,
@@ -53,7 +52,6 @@ export enum ParticipationStatus {
 
 export type UpdateParticipationInput = {
   id: string,
-  activityId?: string | null,
   status?: ParticipationStatus | null,
   participationActivityId?: string | null,
   participationParticipantId?: string | null,
@@ -126,7 +124,6 @@ export type ModelIntFilterInput = {
 
 export type ModelParticipationFilterInput = {
   id?: ModelIDFilterInput | null,
-  activityId?: ModelIDFilterInput | null,
   status?: ModelParticipationStatusFilterInput | null,
   and?: Array< ModelParticipationFilterInput | null > | null,
   or?: Array< ModelParticipationFilterInput | null > | null,
@@ -137,12 +134,6 @@ export type ModelParticipationStatusFilterInput = {
   eq?: ParticipationStatus | null,
   ne?: ParticipationStatus | null,
 };
-
-export enum ModelSortDirection {
-  ASC = "ASC",
-  DESC = "DESC",
-}
-
 
 export type DeleteActivityMutationVariables = {
   input: DeleteActivityInput,
@@ -288,7 +279,6 @@ export type CreateParticipationMutation = {
       email: string | null,
       version: number,
     },
-    activityId: string,
     status: ParticipationStatus,
   } | null,
 };
@@ -320,7 +310,6 @@ export type UpdateParticipationMutation = {
       email: string | null,
       version: number,
     },
-    activityId: string,
     status: ParticipationStatus,
   } | null,
 };
@@ -352,7 +341,6 @@ export type DeleteParticipationMutation = {
       email: string | null,
       version: number,
     },
-    activityId: string,
     status: ParticipationStatus,
   } | null,
 };
@@ -478,7 +466,6 @@ export type GetParticipationQuery = {
       email: string | null,
       version: number,
     },
-    activityId: string,
     status: ParticipationStatus,
   } | null,
 };
@@ -495,28 +482,6 @@ export type ListParticipationsQuery = {
     items:  Array< {
       __typename: "Participation",
       id: string,
-      activityId: string,
-      status: ParticipationStatus,
-    } | null > | null,
-    nextToken: string | null,
-  } | null,
-};
-
-export type ParticipationsByActivityIdQueryVariables = {
-  activityId?: string | null,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelParticipationFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ParticipationsByActivityIdQuery = {
-  participationsByActivityId:  {
-    __typename: "ModelParticipationConnection",
-    items:  Array< {
-      __typename: "Participation",
-      id: string,
-      activityId: string,
       status: ParticipationStatus,
     } | null > | null,
     nextToken: string | null,
@@ -595,7 +560,6 @@ export type OnCreateParticipationSubscription = {
       email: string | null,
       version: number,
     },
-    activityId: string,
     status: ParticipationStatus,
   } | null,
 };
@@ -623,7 +587,6 @@ export type OnUpdateParticipationSubscription = {
       email: string | null,
       version: number,
     },
-    activityId: string,
     status: ParticipationStatus,
   } | null,
 };
@@ -651,7 +614,6 @@ export type OnDeleteParticipationSubscription = {
       email: string | null,
       version: number,
     },
-    activityId: string,
     status: ParticipationStatus,
   } | null,
 };

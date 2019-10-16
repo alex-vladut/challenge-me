@@ -18,9 +18,7 @@ import {
   RejectFail,
   FetchActivity,
   FetchActivitySuccess,
-  FetchActivityFail,
-  FetchParticipationsSuccess,
-  FetchParticipationsFail
+  FetchActivityFail
 } from "../actions/activities.actions";
 
 export interface State {
@@ -76,12 +74,12 @@ const reducer = (state = initialState, { type, payload }: ActionWithPayload<any>
     case FetchActivity.type:
       return { ...state, loading: true };
     case FetchActivitySuccess.type:
-      return { ...state, activity: payload, loading: true };
+      return {
+        ...state,
+        activity: { ...payload, participations: payload.participants.items, participants: undefined },
+        loading: false
+      };
     case FetchActivityFail.type:
-      return { ...state, loading: false };
-    case FetchParticipationsSuccess.type:
-      return { ...state, activity: { ...state.activity, participations: payload }, loading: false };
-    case FetchParticipationsFail.type:
       return { ...state, loading: false };
     default:
       return state;

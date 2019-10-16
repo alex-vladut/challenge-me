@@ -106,7 +106,6 @@ export const createParticipation = `mutation CreateParticipation($input: CreateP
       email
       version
     }
-    activityId
     status
   }
 }
@@ -131,7 +130,6 @@ export const updateParticipation = `mutation UpdateParticipation($input: UpdateP
       email
       version
     }
-    activityId
     status
   }
 }
@@ -156,7 +154,6 @@ export const deleteParticipation = `mutation DeleteParticipation($input: DeleteP
       email
       version
     }
-    activityId
     status
   }
 }
