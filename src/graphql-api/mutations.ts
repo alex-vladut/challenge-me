@@ -73,7 +73,6 @@ export const createParticipation = `mutation CreateParticipation($input: CreateP
       pictureUrl
       version
     }
-    activityId
     status
   }
 }

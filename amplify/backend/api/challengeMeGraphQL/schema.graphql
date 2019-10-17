@@ -31,7 +31,7 @@ type Activity
 
 # Create a join model and disable queries as you don't need them
 # and can query through Activity.participants and User.activities
-type Participation @model @auth(rules: [{ allow: private }]) @auth(rules: [{ allow: private }]) {
+type Participation @model @auth(rules: [{ allow: private }]) @auth(rules: [{ allow: private }]) @versioned {
   id: ID!
   activity: Activity! @connection(name: "ActivityParticipants")
   participant: User! @connection(name: "UserActivities")

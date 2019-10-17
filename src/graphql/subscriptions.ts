@@ -61,6 +61,7 @@ export const onCreateParticipation = `subscription OnCreateParticipation {
       version
     }
     status
+    version
   }
 }
 `;
@@ -85,6 +86,7 @@ export const onUpdateParticipation = `subscription OnUpdateParticipation {
       version
     }
     status
+    version
   }
 }
 `;
@@ -109,6 +111,7 @@ export const onDeleteParticipation = `subscription OnDeleteParticipation {
       version
     }
     status
+    version
   }
 }
 `;

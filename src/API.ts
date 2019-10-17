@@ -53,12 +53,14 @@ export enum ParticipationStatus {
 export type UpdateParticipationInput = {
   id: string,
   status?: ParticipationStatus | null,
+  expectedVersion: number,
   participationActivityId?: string | null,
   participationParticipantId?: string | null,
 };
 
 export type DeleteParticipationInput = {
   id?: string | null,
+  expectedVersion: number,
 };
 
 export type ModelUserFilterInput = {
@@ -280,6 +282,7 @@ export type CreateParticipationMutation = {
       version: number,
     },
     status: ParticipationStatus,
+    version: number,
   } | null,
 };
 
@@ -311,6 +314,7 @@ export type UpdateParticipationMutation = {
       version: number,
     },
     status: ParticipationStatus,
+    version: number,
   } | null,
 };
 
@@ -342,6 +346,7 @@ export type DeleteParticipationMutation = {
       version: number,
     },
     status: ParticipationStatus,
+    version: number,
   } | null,
 };
 
@@ -467,6 +472,7 @@ export type GetParticipationQuery = {
       version: number,
     },
     status: ParticipationStatus,
+    version: number,
   } | null,
 };
 
@@ -483,6 +489,7 @@ export type ListParticipationsQuery = {
       __typename: "Participation",
       id: string,
       status: ParticipationStatus,
+      version: number,
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -561,6 +568,7 @@ export type OnCreateParticipationSubscription = {
       version: number,
     },
     status: ParticipationStatus,
+    version: number,
   } | null,
 };
 
@@ -588,6 +596,7 @@ export type OnUpdateParticipationSubscription = {
       version: number,
     },
     status: ParticipationStatus,
+    version: number,
   } | null,
 };
 
@@ -615,5 +624,6 @@ export type OnDeleteParticipationSubscription = {
       version: number,
     },
     status: ParticipationStatus,
+    version: number,
   } | null,
 };

@@ -86,7 +86,7 @@ const updateAcceptedParticipation = (payload: any) =>
   from(
     API.graphql(
       graphqlOperation(mutations.updateParticipation, {
-        input: { id: payload.id, status: "ACCEPTED" }
+        input: { id: payload.id, status: "ACCEPTED", expectedVersion: payload.version }
       })
     )
   ).pipe(
@@ -132,7 +132,7 @@ const updateRejectedParticipation = (payload: any) =>
   from(
     API.graphql(
       graphqlOperation(mutations.updateParticipation, {
-        input: { id: payload.id, status: "REJECTED" }
+        input: { id: payload.id, status: "REJECTED", expectedVersion: payload.version }
       })
     )
   ).pipe(

@@ -107,6 +107,7 @@ export const createParticipation = `mutation CreateParticipation($input: CreateP
       version
     }
     status
+    version
   }
 }
 `;
@@ -131,6 +132,7 @@ export const updateParticipation = `mutation UpdateParticipation($input: UpdateP
       version
     }
     status
+    version
   }
 }
 `;
@@ -155,6 +157,7 @@ export const deleteParticipation = `mutation DeleteParticipation($input: DeleteP
       version
     }
     status
+    version
   }
 }
 `;

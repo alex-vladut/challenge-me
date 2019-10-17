@@ -95,6 +95,7 @@ export const getParticipation = `query GetParticipation($id: ID!) {
       version
     }
     status
+    version
   }
 }
 `;
@@ -107,6 +108,7 @@ export const listParticipations = `query ListParticipations(
     items {
       id
       status
+      version
     }
     nextToken
   }
