@@ -22,9 +22,6 @@ export const createActivity = `mutation CreateActivity($input: CreateActivityInp
     }
     dateTime
     numberOfAttendants
-    participants {
-      nextToken
-    }
     createdAt
     updatedAt
     version
@@ -45,9 +42,6 @@ export const deleteActivity = `mutation DeleteActivity($input: DeleteActivityInp
     dateTime
     sport
     numberOfAttendants
-    participants {
-      nextToken
-    }
     createdAt
     updatedAt
     version

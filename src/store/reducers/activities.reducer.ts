@@ -76,7 +76,7 @@ const reducer = (state = initialState, { type, payload }: ActionWithPayload<any>
     case FetchActivitySuccess.type:
       return {
         ...state,
-        activity: { ...payload, participations: payload.participants.items, participants: undefined },
+        activity: { ...payload, participations: payload.participations.items },
         loading: false
       };
     case FetchActivityFail.type:

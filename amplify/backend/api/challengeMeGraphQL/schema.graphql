@@ -24,7 +24,7 @@ type Activity
   sport: String!
   dateTime: String!
   numberOfAttendants: Int!
-  participants: [Participation!] @connection(name: "ActivityParticipants")
+  participations: [Participation!] @connection(name: "ActivityParticipants")
   createdAt: String
   updatedAt: String
 }

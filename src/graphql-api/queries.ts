@@ -39,7 +39,7 @@ export const getActivity = `query GetActivity($id: ID!) {
     sport
     dateTime
     numberOfAttendants
-    participants {
+    participations {
       items {
         id
         status
@@ -55,35 +55,6 @@ export const getActivity = `query GetActivity($id: ID!) {
     createdAt
     updatedAt
     version
-  }
-}
-`;
-
-export const participationsByActivityId = `query ParticipationsByActivityId(
-  $activityId: ID
-  $sortDirection: ModelSortDirection
-  $filter: ModelParticipationFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  participationsByActivityId(
-    activityId: $activityId
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      activityId
-      status
-      participant {
-        id
-        name
-        pictureUrl
-      }
-    }
-    nextToken
   }
 }
 `;

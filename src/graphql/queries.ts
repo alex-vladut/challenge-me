@@ -45,7 +45,7 @@ export const getActivity = `query GetActivity($id: ID!) {
     sport
     dateTime
     numberOfAttendants
-    participants {
+    participations {
       nextToken
     }
     createdAt

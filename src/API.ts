@@ -157,7 +157,7 @@ export type DeleteActivityMutation = {
     sport: string,
     dateTime: string,
     numberOfAttendants: number,
-    participants:  {
+    participations:  {
       __typename: "ModelParticipationConnection",
       nextToken: string | null,
     } | null,
@@ -244,7 +244,7 @@ export type CreateActivityMutation = {
     sport: string,
     dateTime: string,
     numberOfAttendants: number,
-    participants:  {
+    participations:  {
       __typename: "ModelParticipationConnection",
       nextToken: string | null,
     } | null,
@@ -410,7 +410,7 @@ export type GetActivityQuery = {
     sport: string,
     dateTime: string,
     numberOfAttendants: number,
-    participants:  {
+    participations:  {
       __typename: "ModelParticipationConnection",
       nextToken: string | null,
     } | null,
