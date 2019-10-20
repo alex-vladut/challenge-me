@@ -15,6 +15,11 @@ export const deleteActivity = `mutation DeleteActivity($input: DeleteActivityInp
     sport
     dateTime
     numberOfAttendants
+    location {
+      latitude
+      longitude
+      address
+    }
     participations {
       nextToken
     }
@@ -77,6 +82,11 @@ export const createActivity = `mutation CreateActivity($input: CreateActivityInp
     sport
     dateTime
     numberOfAttendants
+    location {
+      latitude
+      longitude
+      address
+    }
     participations {
       nextToken
     }

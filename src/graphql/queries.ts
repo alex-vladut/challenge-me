@@ -45,6 +45,11 @@ export const getActivity = `query GetActivity($id: ID!) {
     sport
     dateTime
     numberOfAttendants
+    location {
+      latitude
+      longitude
+      address
+    }
     participations {
       nextToken
     }

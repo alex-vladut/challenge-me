@@ -17,6 +17,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 
 import DateTimePicker from "../../components/DateTimePicker/DateTimePicker";
+import AddressSelection from "./AddressSelection";
 import { Create } from "../../store/actions/activities.actions";
 import { State } from "../../store/reducers";
 
@@ -56,6 +57,12 @@ const validate = (form: any) => {
       dateTime: "The time of your activity should be at least one day in the future."
     };
   }
+  if (!form.location) {
+    errors = {
+      ...errors,
+      location: "Please select a location for your activity."
+    };
+  }
   return errors;
 };
 
@@ -80,6 +87,7 @@ const Activity: FunctionComponent<ActivityProps> = ({ loading, created, sports, 
   const [sport, setSport] = useState<any>(sports[0]);
   const [dateTime, setDateTime] = useState<Date | null>(nextMonth);
   const [numberOfAttendants, setNumberOfAttendants] = useState<number>(1);
+  const [location, setLocation] = useState<any>();
   const [errors, setErrors] = useState<any>({});
 
   const handleDescriptionChange = (event: any) => setDescription(event.target.value);
@@ -89,7 +97,7 @@ const Activity: FunctionComponent<ActivityProps> = ({ loading, created, sports, 
 
   const submit = (event: any) => {
     event.preventDefault();
-    const activity = { description, sport: sport.name, dateTime, numberOfAttendants };
+    const activity = { description, sport: sport.name, dateTime, numberOfAttendants, location };
     const errors = validate(activity);
     setErrors(errors);
 
@@ -140,6 +148,11 @@ const Activity: FunctionComponent<ActivityProps> = ({ loading, created, sports, 
           onChange={handleNumberOfAttendantsChange}
           error={!!errors.numberOfAttendants}
           helperText={errors.numberOfAttendants}
+        />
+        <AddressSelection
+          error={!!errors.location}
+          helperText={errors.location}
+          onLocationChanged={value => setLocation(value)}
         />
 
         <Grid container alignItems="flex-start" justify="flex-end">

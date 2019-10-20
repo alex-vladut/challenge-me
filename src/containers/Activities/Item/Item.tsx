@@ -53,6 +53,10 @@ const Item: FunctionComponent<ItemProps> = ({ activity }: ItemProps) => {
         <Typography variant="subtitle1" color="textSecondary">
           {moment(activity.dateTime).format("MMMM DD, YYYY") + " at " + moment(activity.dateTime).format("HH:mm")}
         </Typography>
+        <Divider light />
+        <Typography variant="subtitle1" color="textSecondary">
+          {activity.location.address}
+        </Typography>
       </CardContent>
       <CardActions className={classes.actions}>
         <Link to={"/activities/" + activity.id}>

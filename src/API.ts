@@ -32,9 +32,16 @@ export type CreateActivityInput = {
   sport: string,
   dateTime: string,
   numberOfAttendants: number,
+  location: LocationInput,
   createdAt?: string | null,
   updatedAt?: string | null,
   activityOwnerId?: string | null,
+};
+
+export type LocationInput = {
+  latitude: number,
+  longitude: number,
+  address: string,
 };
 
 export type CreateParticipationInput = {
@@ -157,6 +164,12 @@ export type DeleteActivityMutation = {
     sport: string,
     dateTime: string,
     numberOfAttendants: number,
+    location:  {
+      __typename: "Location",
+      latitude: number,
+      longitude: number,
+      address: string,
+    },
     participations:  {
       __typename: "ModelParticipationConnection",
       nextToken: string | null,
@@ -244,6 +257,12 @@ export type CreateActivityMutation = {
     sport: string,
     dateTime: string,
     numberOfAttendants: number,
+    location:  {
+      __typename: "Location",
+      latitude: number,
+      longitude: number,
+      address: string,
+    },
     participations:  {
       __typename: "ModelParticipationConnection",
       nextToken: string | null,
@@ -410,6 +429,12 @@ export type GetActivityQuery = {
     sport: string,
     dateTime: string,
     numberOfAttendants: number,
+    location:  {
+      __typename: "Location",
+      latitude: number,
+      longitude: number,
+      address: string,
+    },
     participations:  {
       __typename: "ModelParticipationConnection",
       nextToken: string | null,

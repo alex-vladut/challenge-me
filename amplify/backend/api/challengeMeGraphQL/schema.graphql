@@ -24,9 +24,16 @@ type Activity
   sport: String!
   dateTime: String!
   numberOfAttendants: Int!
+  location: Location!
   participations: [Participation!] @connection(name: "ActivityParticipants")
   createdAt: String
   updatedAt: String
+}
+
+type Location {
+  latitude: Float!
+  longitude: Float!
+  address: String!
 }
 
 # Create a join model and disable queries as you don't need them

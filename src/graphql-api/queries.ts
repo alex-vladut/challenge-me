@@ -39,6 +39,11 @@ export const getActivity = `query GetActivity($id: ID!) {
     sport
     dateTime
     numberOfAttendants
+    location {
+      latitude
+      longitude
+      address
+    }
     participations {
       items {
         id
@@ -70,6 +75,11 @@ export const listActivities = `query ListActivitys(
       description
       dateTime
       numberOfAttendants
+      location {
+        latitude
+        longitude
+        address
+      }
       owner {
         id
         name
