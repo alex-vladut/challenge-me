@@ -144,6 +144,75 @@ export type ModelParticipationStatusFilterInput = {
   ne?: ParticipationStatus | null,
 };
 
+export type SearchableActivityFilterInput = {
+  id?: SearchableIDFilterInput | null,
+  description?: SearchableStringFilterInput | null,
+  sport?: SearchableStringFilterInput | null,
+  dateTime?: SearchableStringFilterInput | null,
+  numberOfAttendants?: SearchableIntFilterInput | null,
+  createdAt?: SearchableStringFilterInput | null,
+  updatedAt?: SearchableStringFilterInput | null,
+  and?: Array< SearchableActivityFilterInput | null > | null,
+  or?: Array< SearchableActivityFilterInput | null > | null,
+  not?: SearchableActivityFilterInput | null,
+};
+
+export type SearchableIDFilterInput = {
+  ne?: string | null,
+  eq?: string | null,
+  match?: string | null,
+  matchPhrase?: string | null,
+  matchPhrasePrefix?: string | null,
+  multiMatch?: string | null,
+  exists?: boolean | null,
+  wildcard?: string | null,
+  regexp?: string | null,
+};
+
+export type SearchableStringFilterInput = {
+  ne?: string | null,
+  eq?: string | null,
+  match?: string | null,
+  matchPhrase?: string | null,
+  matchPhrasePrefix?: string | null,
+  multiMatch?: string | null,
+  exists?: boolean | null,
+  wildcard?: string | null,
+  regexp?: string | null,
+};
+
+export type SearchableIntFilterInput = {
+  ne?: number | null,
+  gt?: number | null,
+  lt?: number | null,
+  gte?: number | null,
+  lte?: number | null,
+  eq?: number | null,
+  range?: Array< number | null > | null,
+};
+
+export type SearchableActivitySortInput = {
+  field?: SearchableActivitySortableFields | null,
+  direction?: SearchableSortDirection | null,
+};
+
+export enum SearchableActivitySortableFields {
+  id = "id",
+  description = "description",
+  sport = "sport",
+  dateTime = "dateTime",
+  numberOfAttendants = "numberOfAttendants",
+  createdAt = "createdAt",
+  updatedAt = "updatedAt",
+}
+
+
+export enum SearchableSortDirection {
+  asc = "asc",
+  desc = "desc",
+}
+
+
 export type DeleteActivityMutationVariables = {
   input: DeleteActivityInput,
 };
@@ -514,6 +583,31 @@ export type ListParticipationsQuery = {
       __typename: "Participation",
       id: string,
       status: ParticipationStatus,
+      version: number,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
+export type SearchActivitysQueryVariables = {
+  filter?: SearchableActivityFilterInput | null,
+  sort?: SearchableActivitySortInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type SearchActivitysQuery = {
+  searchActivitys:  {
+    __typename: "SearchableActivityConnection",
+    items:  Array< {
+      __typename: "Activity",
+      id: string,
+      description: string,
+      sport: string,
+      dateTime: string,
+      numberOfAttendants: number,
+      createdAt: string | null,
+      updatedAt: string | null,
       version: number,
     } | null > | null,
     nextToken: string | null,

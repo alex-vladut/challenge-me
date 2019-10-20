@@ -11,6 +11,7 @@ type User
 
 type Activity
   @model(mutations: { create: "createActivity" }, subscriptions: null)
+  @searchable
   @auth(
     rules: [
       { allow: owner, ownerField: "activityOwnerId", operations: [create] }

@@ -119,3 +119,29 @@ export const listParticipations = `query ListParticipations(
   }
 }
 `;
+export const searchActivitys = `query SearchActivitys(
+  $filter: SearchableActivityFilterInput
+  $sort: SearchableActivitySortInput
+  $limit: Int
+  $nextToken: String
+) {
+  searchActivitys(
+    filter: $filter
+    sort: $sort
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      description
+      sport
+      dateTime
+      numberOfAttendants
+      createdAt
+      updatedAt
+      version
+    }
+    nextToken
+  }
+}
+`;

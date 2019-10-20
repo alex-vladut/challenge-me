@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: process.env.REGION });
 
-const ACTIVITIES_TABLE = `${process.env.ACTIVITIES_TABLE}-${process.env.ENV}`;
+const ACTIVITIES_TABLE = process.env.ACTIVITIES_TABLE;
 
 const deleteActivity = async event => {
   const identityId = event.identity.username;

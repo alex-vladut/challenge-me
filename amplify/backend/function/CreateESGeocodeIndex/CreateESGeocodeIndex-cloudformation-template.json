@@ -31,12 +31,12 @@
 				"FunctionName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"delete-participations",
+						"CreateESGeocodeIndex",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"delete-participations",
+									"CreateESGeocodeIndex",
 									"-",
 									{
 										"Ref": "env"
@@ -53,19 +53,6 @@
 						},
 						"REGION": {
 							"Ref": "AWS::Region"
-						},
-						"PARTICIPATIONS_TABLE": {
-							"Fn::Sub": [
-								"Participation-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}",
-								{
-									"apichallengeMeGraphQLGraphQLAPIIdOutput": {
-										"Ref": "apichallengeMeGraphQLGraphQLAPIIdOutput"
-									},
-									"env": {
-										"Ref": "env"
-									}
-								}
-							]
 						}
 					}
 				},
@@ -79,7 +66,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "challenge-me-react-test-20191006142104-deployment",
-					"S3Key": "amplify-builds/DeleteParticipations-69593342546154676147-build.zip"
+					"S3Key": "amplify-builds/CreateESGeocodeIndex-753236544741346a6154-build.zip"
 				}
 			}
 		},
@@ -89,12 +76,12 @@
 				"RoleName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"challengemereactLambdaRole0788f7f1",
+						"challengemereactLambdaRole86d4886f",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"challengemereactLambdaRole0788f7f1",
+									"challengemereactLambdaRole86d4886f",
 									"-",
 									{
 										"Ref": "env"
@@ -156,57 +143,6 @@
 										},
 										"lambda": {
 											"Ref": "LambdaFunction"
-										}
-									}
-								]
-							}
-						},
-						{
-							"Effect": "Allow",
-							"Action": [
-								"dynamodb:Query"
-							],
-							"Resource": {
-								"Fn::Sub": [
-									"arn:aws:dynamodb:${region}:${account}:table/Participation-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}/index/gsi-ActivityParticipants",
-									{
-										"region": {
-											"Ref": "AWS::Region"
-										},
-										"account": {
-											"Ref": "AWS::AccountId"
-										},
-										"apichallengeMeGraphQLGraphQLAPIIdOutput": {
-											"Ref": "apichallengeMeGraphQLGraphQLAPIIdOutput"
-										},
-										"env": {
-											"Ref": "env"
-										}
-									}
-								]
-							}
-						},
-						{
-							"Effect": "Allow",
-							"Action": [
-								"dynamodb:BatchWriteItem",
-								"dynamodb:DeleteItem"
-							],
-							"Resource": {
-								"Fn::Sub": [
-									"arn:aws:dynamodb:${region}:${account}:table/Participation-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}",
-									{
-										"region": {
-											"Ref": "AWS::Region"
-										},
-										"account": {
-											"Ref": "AWS::AccountId"
-										},
-										"apichallengeMeGraphQLGraphQLAPIIdOutput": {
-											"Ref": "apichallengeMeGraphQLGraphQLAPIIdOutput"
-										},
-										"env": {
-											"Ref": "env"
 										}
 									}
 								]

@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: process.env.REGION });
 
-const PARTICIPATIONS_TABLE = `${process.env.PARTICIPATIONS_TABLE}-${process.env.ENV}`;
+const PARTICIPATIONS_TABLE = process.env.PARTICIPATIONS_TABLE;
 
 exports.handler = async event => {
   const participations = await findActivityParticipations(event.prev.result.id);
