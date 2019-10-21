@@ -169,7 +169,7 @@ const ViewActivity = ({
           </Typography>
           <Divider light />
           <Typography variant="subtitle1" color="textSecondary">
-            {activity.location.address}
+            {activity.address}
           </Typography>
           {isMaxNumberOfParticipants() ? (
             <Typography variant="subtitle1" color="secondary">

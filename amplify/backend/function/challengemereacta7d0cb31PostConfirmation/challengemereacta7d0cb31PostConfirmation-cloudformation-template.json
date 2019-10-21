@@ -39,7 +39,8 @@
 			"Type": "String"
 		},
 		"usersTable": {
-			"Type": "String"
+			"Type": "String",
+			"Description": "Users Table Name"
 		}
 	},
 	"Conditions": {

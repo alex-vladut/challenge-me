@@ -40,10 +40,10 @@ export const getActivity = `query GetActivity($id: ID!) {
     dateTime
     numberOfAttendants
     location {
-      latitude
-      longitude
-      address
+      lat
+      lon
     }
+    address
     participations {
       items {
         id
@@ -76,10 +76,10 @@ export const listActivities = `query ListActivitys(
       dateTime
       numberOfAttendants
       location {
-        latitude
-        longitude
-        address
+        lat
+        lon
       }
+      address
       owner {
         id
         name

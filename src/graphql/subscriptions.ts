@@ -49,6 +49,7 @@ export const onCreateParticipation = `subscription OnCreateParticipation {
       sport
       dateTime
       numberOfAttendants
+      address
       createdAt
       updatedAt
       version
@@ -74,6 +75,7 @@ export const onUpdateParticipation = `subscription OnUpdateParticipation {
       sport
       dateTime
       numberOfAttendants
+      address
       createdAt
       updatedAt
       version
@@ -99,6 +101,7 @@ export const onDeleteParticipation = `subscription OnDeleteParticipation {
       sport
       dateTime
       numberOfAttendants
+      address
       createdAt
       updatedAt
       version

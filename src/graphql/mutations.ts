@@ -16,10 +16,10 @@ export const deleteActivity = `mutation DeleteActivity($input: DeleteActivityInp
     dateTime
     numberOfAttendants
     location {
-      latitude
-      longitude
-      address
+      lat
+      lon
     }
+    address
     participations {
       nextToken
     }
@@ -83,10 +83,10 @@ export const createActivity = `mutation CreateActivity($input: CreateActivityInp
     dateTime
     numberOfAttendants
     location {
-      latitude
-      longitude
-      address
+      lat
+      lon
     }
+    address
     participations {
       nextToken
     }
@@ -105,6 +105,7 @@ export const createParticipation = `mutation CreateParticipation($input: CreateP
       sport
       dateTime
       numberOfAttendants
+      address
       createdAt
       updatedAt
       version
@@ -130,6 +131,7 @@ export const updateParticipation = `mutation UpdateParticipation($input: UpdateP
       sport
       dateTime
       numberOfAttendants
+      address
       createdAt
       updatedAt
       version
@@ -155,6 +157,7 @@ export const deleteParticipation = `mutation DeleteParticipation($input: DeleteP
       sport
       dateTime
       numberOfAttendants
+      address
       createdAt
       updatedAt
       version

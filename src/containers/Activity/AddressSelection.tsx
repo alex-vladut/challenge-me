@@ -21,9 +21,9 @@ const AddressSelection: FunctionComponent<AddressSelectionProps> = ({ error, hel
     setAddress(address);
 
     const results = await geocodeByAddress(address);
-    const { lat: latitude, lng: longitude } = await getLatLng(results[0]);
+    const { lat, lng: lon } = await getLatLng(results[0]);
 
-    onLocationChanged({ latitude, longitude, address });
+    onLocationChanged({ location: { lat, lon }, address });
   };
 
   const onError = async (error: any) => {

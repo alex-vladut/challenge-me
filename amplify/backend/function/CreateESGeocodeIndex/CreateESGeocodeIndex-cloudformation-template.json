@@ -5,7 +5,10 @@
 		"env": {
 			"Type": "String"
 		},
-		"apichallengeMeGraphQLGraphQLAPIIdOutput": {
+		"elasticSearchEndpoint": {
+			"Type": "String"
+		},
+		"elasticSearchDomain": {
 			"Type": "String"
 		}
 	},
@@ -53,6 +56,9 @@
 						},
 						"REGION": {
 							"Ref": "AWS::Region"
+						},
+						"ELASTIC_SEARCH_ENDPOINT": {
+							"Ref": "elasticSearchEndpoint"
 						}
 					}
 				},
@@ -66,7 +72,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "challenge-me-react-test-20191006142104-deployment",
-					"S3Key": "amplify-builds/CreateESGeocodeIndex-753236544741346a6154-build.zip"
+					"S3Key": "amplify-builds/CreateESGeocodeIndex-452f45626b6774565371-build.zip"
 				}
 			}
 		},
@@ -143,6 +149,29 @@
 										},
 										"lambda": {
 											"Ref": "LambdaFunction"
+										}
+									}
+								]
+							}
+						},
+						{
+							"Effect": "Allow",
+							"Action": [
+								"es:ESHttpPut",
+								"es:ESHttpDelete"
+							],
+							"Resource": {
+								"Fn::Sub": [
+									"arn:aws:es:${region}:${account}:domain/${elasticSearchDomain}/*",
+									{
+										"region": {
+											"Ref": "AWS::Region"
+										},
+										"account": {
+											"Ref": "AWS::AccountId"
+										},
+										"elasticSearchDomain": {
+											"Ref": "elasticSearchDomain"
 										}
 									}
 								]

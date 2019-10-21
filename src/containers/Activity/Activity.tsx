@@ -97,7 +97,7 @@ const Activity: FunctionComponent<ActivityProps> = ({ loading, created, sports, 
 
   const submit = (event: any) => {
     event.preventDefault();
-    const activity = { description, sport: sport.name, dateTime, numberOfAttendants, location };
+    const activity = { description, sport: sport.name, dateTime, numberOfAttendants, ...location };
     const errors = validate(activity);
     setErrors(errors);
 

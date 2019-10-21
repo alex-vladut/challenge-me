@@ -46,10 +46,10 @@ export const getActivity = `query GetActivity($id: ID!) {
     dateTime
     numberOfAttendants
     location {
-      latitude
-      longitude
-      address
+      lat
+      lon
     }
+    address
     participations {
       nextToken
     }
@@ -71,6 +71,7 @@ export const listActivitys = `query ListActivitys(
       sport
       dateTime
       numberOfAttendants
+      address
       createdAt
       updatedAt
       version
@@ -88,6 +89,7 @@ export const getParticipation = `query GetParticipation($id: ID!) {
       sport
       dateTime
       numberOfAttendants
+      address
       createdAt
       updatedAt
       version
@@ -137,6 +139,7 @@ export const searchActivitys = `query SearchActivitys(
       sport
       dateTime
       numberOfAttendants
+      address
       createdAt
       updatedAt
       version

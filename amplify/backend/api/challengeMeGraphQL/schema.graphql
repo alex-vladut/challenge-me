@@ -26,15 +26,15 @@ type Activity
   dateTime: String!
   numberOfAttendants: Int!
   location: Location!
+  address: String! # human readable address (can't include it in Location because ES breaks)
   participations: [Participation!] @connection(name: "ActivityParticipants")
   createdAt: String
   updatedAt: String
 }
 
 type Location {
-  latitude: Float!
-  longitude: Float!
-  address: String!
+  lat: Float!
+  lon: Float!
 }
 
 # Create a join model and disable queries as you don't need them
