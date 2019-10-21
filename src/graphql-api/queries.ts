@@ -64,29 +64,25 @@ export const getActivity = `query GetActivity($id: ID!) {
 }
 `;
 
-export const listActivities = `query ListActivitys(
-  $filter: ModelActivityFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listActivitys(filter: $filter, limit: $limit, nextToken: $nextToken) {
+export const nearbyActivities = `query NearbyActivities($location: LocationInput!, $km: Int) {
+  nearbyActivities(location: $location, km: $km) {
     items {
       id
       description
+      sport
       dateTime
       numberOfAttendants
+      address
       location {
         lat
         lon
       }
-      address
       owner {
         id
         name
         pictureUrl
       }
       createdAt
-      sport
       updatedAt
       version
     }

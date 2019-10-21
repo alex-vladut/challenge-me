@@ -1,6 +1,24 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
+export const nearbyActivities = `query NearbyActivities($location: LocationInput!, $km: Int) {
+  nearbyActivities(location: $location, km: $km) {
+    items {
+      id
+      description
+      sport
+      dateTime
+      numberOfAttendants
+      address
+      createdAt
+      updatedAt
+      version
+    }
+    total
+    nextToken
+  }
+}
+`;
 export const getUser = `query GetUser($id: ID!) {
   getUser(id: $id) {
     id

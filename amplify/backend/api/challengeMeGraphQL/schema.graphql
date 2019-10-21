@@ -37,8 +37,6 @@ type Location {
   lon: Float!
 }
 
-# Create a join model and disable queries as you don't need them
-# and can query through Activity.participants and User.activities
 type Participation @model @auth(rules: [{ allow: private }]) @auth(rules: [{ allow: private }]) @versioned {
   id: ID!
   activity: Activity! @connection(name: "ActivityParticipants")
@@ -59,4 +57,19 @@ type Mutation {
   deleteActivity(input: DeleteActivityInput!): Activity!
     @function(name: "delete-activity-${env}")
     @function(name: "delete-participations-${env}")
+}
+
+input LocationInput {
+  lat: Float!
+  lon: Float!
+}
+
+type ActivityConnection {
+  items: [Activity]
+  total: Int
+  nextToken: String
+}
+
+type Query {
+  nearbyActivities(location: LocationInput!, km: Int): ActivityConnection
 }
