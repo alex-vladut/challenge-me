@@ -158,13 +158,12 @@ const fetchActivity = (actions$: ActionsObservable<ActionWithPayload<string>>) =
 const fetchActivities = (actions$: Observable<Action>) =>
   actions$.pipe(
     ofType(FetchAll.type, DeleteSuccess.type),
-    switchMap(() => {
-      const location = { lat: 46.7712101, lon: 23.623635299999933 };
-      return from(API.graphql(graphqlOperation(queries.nearbyActivities, { location, km: 10 }))).pipe(
+    switchMap(({ payload }: any) =>
+      from(API.graphql(graphqlOperation(queries.nearbyActivities, { location: payload, km: 10 }))).pipe(
         map(({ data }: any) => FetchAllSuccess.create(data.nearbyActivities.items)),
         catchError(() => of(FetchAllFail.create("Sorry, there was an error while loading the activities.")))
-      );
-    })
+      )
+    )
   );
 
 const actionSucceeded = (actions$: Observable<ActionWithPayload<string>>) =>

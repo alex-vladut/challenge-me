@@ -4,13 +4,14 @@ import PlacesAutocomplete, { geocodeByAddress, getLatLng } from "react-places-au
 import { TextField, CircularProgress, MenuItem, Paper } from "@material-ui/core";
 
 interface AddressSelectionProps {
-  error: boolean;
-  helperText: string;
+  value?: any;
+  error?: boolean;
+  helperText?: string;
   onLocationChanged(location: any): void;
 }
 
-const AddressSelection: FunctionComponent<AddressSelectionProps> = ({ error, helperText, onLocationChanged }) => {
-  const [address, setAddress] = useState("");
+const Address: FunctionComponent<AddressSelectionProps> = ({ value, error, helperText, onLocationChanged }) => {
+  const [address, setAddress] = useState((value && value.address) || "");
 
   const handleChange = (address: string) => {
     setAddress(address);
@@ -67,4 +68,4 @@ const AddressSelection: FunctionComponent<AddressSelectionProps> = ({ error, hel
   );
 };
 
-export default AddressSelection;
+export default Address;

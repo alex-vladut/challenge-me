@@ -17,7 +17,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 
 import DateTimePicker from "../../components/DateTimePicker/DateTimePicker";
-import AddressSelection from "./AddressSelection";
+import Address from "../../components/Address/Address";
 import { Create } from "../../store/actions/activities.actions";
 import { State } from "../../store/reducers";
 
@@ -149,11 +149,7 @@ const Activity: FunctionComponent<ActivityProps> = ({ loading, created, sports, 
           error={!!errors.numberOfAttendants}
           helperText={errors.numberOfAttendants}
         />
-        <AddressSelection
-          error={!!errors.location}
-          helperText={errors.location}
-          onLocationChanged={value => setLocation(value)}
-        />
+        <Address error={!!errors.location} helperText={errors.location} onLocationChanged={setLocation} />
 
         <Grid container alignItems="flex-start" justify="flex-end">
           <Button variant="contained" color="primary" className={classes.button} type="submit">
