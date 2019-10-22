@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 
 import { CircularProgress } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import { grey } from "@material-ui/core/colors";
 import Address from "../../components/Address/Address";
 import { FetchAll } from "../../store/actions/activities.actions";
 import { State } from "../../store/reducers";
@@ -24,15 +23,27 @@ interface ActivitiesProps {
 const useStyles = makeStyles(() =>
   createStyles({
     root: {
-      display: "grid",
-      backgroundColor: grey[100]
+      display: "grid"
     }
   })
 );
 
 const Activities: FunctionComponent<ActivitiesProps> = ({ activities, loading, fetchActivities }: ActivitiesProps) => {
   const classes = useStyles();
-  const [address, setAddress] = useState(DEFAULT_ADDRESS);
+  const [address, setAddress] = useState<any>(null);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        // TODO find a way to also display the address/city in the search bar
+        const { latitude: lat, longitude: lon } = position.coords;
+        fetchActivities({ lat, lon });
+      },
+      () => {
+        fetchActivities(DEFAULT_ADDRESS.location);
+      }
+    );
+  }, [fetchActivities]);
 
   useEffect(() => {
     if (address) {

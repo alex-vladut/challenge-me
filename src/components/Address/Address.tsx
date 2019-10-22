@@ -42,7 +42,7 @@ const Address: FunctionComponent<AddressSelectionProps> = ({ value, error, helpe
       debounce={300}
     >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-        <div>
+        <>
           <TextField
             {...getInputProps({
               label: "Location",
@@ -62,7 +62,7 @@ const Address: FunctionComponent<AddressSelectionProps> = ({ value, error, helpe
               </MenuItem>
             ))}
           </Paper>
-        </div>
+        </>
       )}
     </PlacesAutocomplete>
   );
