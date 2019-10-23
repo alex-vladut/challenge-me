@@ -3,47 +3,37 @@ import { connect } from "react-redux";
 
 import { CircularProgress } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
+import { colors } from "@material-ui/core";
 import Address from "../../components/Address/Address";
 import { FetchAll } from "../../store/actions/activities.actions";
 import { State } from "../../store/reducers";
 
 import Item from "./Item/Item";
 
-const DEFAULT_ADDRESS = {
-  location: { lat: 46.7712101, lon: 23.623635299999933 },
-  address: "Cluj-Napoca, Romania"
-};
-
 interface ActivitiesProps {
+  currentLocation: any;
   activities: any[];
   loading: boolean;
-  fetchActivities(address: any): void;
+  fetchActivities(location: any): void;
 }
 
 const useStyles = makeStyles(() =>
   createStyles({
     root: {
-      display: "grid"
+      display: "grid",
+      backgroundColor: colors.grey[100]
     }
   })
 );
 
-const Activities: FunctionComponent<ActivitiesProps> = ({ activities, loading, fetchActivities }: ActivitiesProps) => {
+const Activities: FunctionComponent<ActivitiesProps> = ({
+  currentLocation,
+  activities,
+  loading,
+  fetchActivities
+}: ActivitiesProps) => {
   const classes = useStyles();
-  const [address, setAddress] = useState<any>(null);
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        // TODO find a way to also display the address/city in the search bar
-        const { latitude: lat, longitude: lon } = position.coords;
-        fetchActivities({ lat, lon });
-      },
-      () => {
-        fetchActivities(DEFAULT_ADDRESS.location);
-      }
-    );
-  }, [fetchActivities]);
+  const [address, setAddress] = useState<any>(currentLocation);
 
   useEffect(() => {
     if (address) {
@@ -56,7 +46,9 @@ const Activities: FunctionComponent<ActivitiesProps> = ({ activities, loading, f
   }
   return (
     <div className={classes.root}>
-      <Address value={address} onLocationChanged={setAddress} />
+      <div className={classes.root}>
+        <Address value={address} onLocationChanged={setAddress} />
+      </div>
       {activities.map(activity => (
         <Item key={activity.id} activity={activity} />
       ))}
@@ -67,7 +59,8 @@ const Activities: FunctionComponent<ActivitiesProps> = ({ activities, loading, f
 const mapStateToProps = ({ activities, auth }: State) => ({
   loading: activities.loading,
   activities: activities.activities,
-  profile: auth.profile
+  profile: auth.profile,
+  currentLocation: auth.currentLocation
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

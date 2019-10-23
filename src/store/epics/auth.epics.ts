@@ -1,23 +1,29 @@
 import { API, Auth, graphqlOperation } from "aws-amplify";
 import { ofType } from "redux-observable";
-import { from, of, Observable } from "rxjs";
+import { from, Observable, of } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
 
-import * as queries from "../../graphql-api/queries";
 import * as mutations from "../../graphql-api/mutations";
+import * as queries from "../../graphql-api/queries";
+import { createNotification } from "../../shared/notifications";
+import { ActionWithPayload } from "../actions/actions";
 import {
   Fetch,
   FetchFail,
+  FetchLocationSuccess,
   FetchSuccess,
+  Save,
+  SaveFail,
+  SaveSuccess,
   SignOut,
   SignOutFail,
-  SignOutSuccess,
-  Save,
-  SaveSuccess,
-  SaveFail
+  SignOutSuccess
 } from "../actions/auth.actions";
-import { ActionWithPayload } from "../actions/actions";
-import { createNotification } from "../../shared/notifications";
+
+const DEFAULT_LOCATION = {
+  location: { lat: 46.7712101, lon: 23.623635299999933 },
+  address: "Cluj-Napoca, Romania"
+};
 
 const fetchProfile = (actions$: any) =>
   actions$.pipe(
@@ -27,6 +33,27 @@ const fetchProfile = (actions$: any) =>
       from(API.graphql(graphqlOperation(queries.getUser, { id: authenticatedUser.username }))).pipe(
         map((response: any) => FetchSuccess.create(response.data.getUser)),
         catchError(error => of(FetchFail.create(error)))
+      )
+    )
+  );
+
+const fetchLocation = (actions$: any) =>
+  actions$.pipe(
+    ofType(FetchSuccess.type),
+    switchMap(() =>
+      from(
+        new Promise(resolve =>
+          navigator.geolocation.getCurrentPosition(
+            ({ coords }) =>
+              resolve(
+                FetchLocationSuccess.create({
+                  location: { lat: coords.latitude, lon: coords.longitude },
+                  address: "Your current location"
+                })
+              ),
+            () => resolve(FetchLocationSuccess.create(DEFAULT_LOCATION))
+          )
+        )
       )
     )
   );
@@ -69,4 +96,4 @@ const signOut = (actions$: any) =>
     )
   );
 
-export default [fetchProfile, saveProfile, saveProfileSuccessful, saveProfileFailed, signOut];
+export default [fetchProfile, fetchLocation, saveProfile, saveProfileSuccessful, saveProfileFailed, signOut];

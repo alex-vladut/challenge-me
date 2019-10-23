@@ -1,7 +1,8 @@
 import React, { FunctionComponent, useState } from "react";
 
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from "react-places-autocomplete";
-import { TextField, CircularProgress, MenuItem, Paper } from "@material-ui/core";
+import { TextField, CircularProgress, MenuItem, Paper, InputAdornment, IconButton } from "@material-ui/core";
+import { Search, CloseRounded } from "@material-ui/icons";
 
 interface AddressSelectionProps {
   value?: any;
@@ -9,6 +10,9 @@ interface AddressSelectionProps {
   helperText?: string;
   onLocationChanged(location: any): void;
 }
+
+const getLocationDescription = (description: string) =>
+  description && description.length > 70 ? `${description.slice(0, 70)}...` : description;
 
 const Address: FunctionComponent<AddressSelectionProps> = ({ value, error, helperText, onLocationChanged }) => {
   const [address, setAddress] = useState((value && value.address) || "");
@@ -53,12 +57,24 @@ const Address: FunctionComponent<AddressSelectionProps> = ({ value, error, helpe
               error,
               helperText
             })}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+              endAdornment: address ? (
+                <IconButton aria-label="close" onClick={() => setAddress("")}>
+                  <CloseRounded />
+                </IconButton>
+              ) : null
+            }}
           />
           <Paper>
             {loading && <CircularProgress />}
             {suggestions.map(suggestion => (
               <MenuItem {...getSuggestionItemProps(suggestion, {})}>
-                <span>{suggestion.description}</span>
+                <span>{getLocationDescription(suggestion.description)}</span>
               </MenuItem>
             ))}
           </Paper>

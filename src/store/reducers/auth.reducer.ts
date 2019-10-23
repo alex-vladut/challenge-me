@@ -1,25 +1,28 @@
 import {
   Fetch,
   FetchFail,
+  FetchLocationSuccess,
   FetchSuccess,
   Save,
+  SaveFail,
+  SaveSuccess,
   SignOut,
   SignOutFail,
-  SignOutSuccess,
-  SaveFail,
-  SaveSuccess
+  SignOutSuccess
 } from "../actions/auth.actions";
 
 export interface State {
   loading: boolean;
   authenticated: boolean;
   profile: any;
+  currentLocation: any;
 }
 
 const initialState: State = {
   loading: false,
   authenticated: false,
-  profile: null
+  profile: null,
+  currentLocation: null
 };
 
 const reducer = (state = initialState, action: any) => {
@@ -38,6 +41,11 @@ const reducer = (state = initialState, action: any) => {
         profile: action.payload,
         authenticated: true,
         loading: false
+      };
+    case FetchLocationSuccess.type:
+      return {
+        ...state,
+        currentLocation: action.payload
       };
     case SignOutSuccess.type:
       return {
