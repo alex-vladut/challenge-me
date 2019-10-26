@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from "react";
 import { connect } from "react-redux";
 
-import { Avatar, Box, Button, CircularProgress, Grid, TextField, colors } from "@material-ui/core";
+import { Avatar, Button, CircularProgress, Grid, TextField, colors, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import userIcon from "../../assets/user.png";
@@ -64,7 +64,7 @@ const Profile: FunctionComponent<ProfileProps> = ({ profile, loading, save }: Pr
   }
   return (
     <form onSubmit={submit}>
-      <Box className={classes.root}>
+      <Paper className={classes.root}>
         <Grid container justify="center">
           <Avatar className={classes.avatar} alt={profile.name} src={profile.pictureUrl || userIcon} />
           <TextField
@@ -91,7 +91,7 @@ const Profile: FunctionComponent<ProfileProps> = ({ profile, loading, save }: Pr
             Save
           </Button>
         </Grid>
-      </Box>
+      </Paper>
     </form>
   );
 };

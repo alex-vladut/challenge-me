@@ -28,8 +28,8 @@ import {
   ExpansionPanelSummary,
   ExpansionPanelDetails
 } from "@material-ui/core";
-import { Delete as DeleteIcon, Check, Clear, ExpandMore } from "@material-ui/icons";
-import { grey, red } from "@material-ui/core/colors";
+import { Delete as DeleteIcon, Check, Clear, ExpandMore, ExploreOutlined } from "@material-ui/icons";
+import { grey } from "@material-ui/core/colors";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 
 import userIcon from "../../assets/user.png";
@@ -57,10 +57,10 @@ const useStyles = makeStyles(theme =>
       backgroundColor: theme.palette.background.paper
     },
     header: {
-      backgroundColor: grey[100]
+      backgroundColor: grey[200]
     },
     avatar: {
-      backgroundColor: red[500]
+      backgroundColor: grey[500]
     }
   })
 );
@@ -168,6 +168,7 @@ const ViewActivity = ({
             {moment(activity.dateTime).format("MMMM DD, YYYY") + " at " + moment(activity.dateTime).format("HH:mm")}
           </Typography>
           <Divider light />
+          <ExploreOutlined />
           <Typography variant="subtitle1" color="textSecondary">
             {activity.address}
           </Typography>

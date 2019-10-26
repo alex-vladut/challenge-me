@@ -1,14 +1,14 @@
 import React, { useEffect, FunctionComponent, useState } from "react";
 import { connect } from "react-redux";
 
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, Typography } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import { colors } from "@material-ui/core";
 import Address from "../../components/Address/Address";
 import { FetchAll } from "../../store/actions/activities.actions";
 import { State } from "../../store/reducers";
 
 import Item from "./Item/Item";
+import moment from "moment";
 
 interface ActivitiesProps {
   currentLocation: any;
@@ -20,8 +20,10 @@ interface ActivitiesProps {
 const useStyles = makeStyles(() =>
   createStyles({
     root: {
-      display: "grid",
-      backgroundColor: colors.grey[100]
+      display: "grid"
+    },
+    day: {
+      margin: "0.5rem"
     }
   })
 );
@@ -34,6 +36,8 @@ const Activities: FunctionComponent<ActivitiesProps> = ({
 }: ActivitiesProps) => {
   const classes = useStyles();
   const [address, setAddress] = useState<any>(currentLocation);
+
+  const activitiesGroupedByDate = groupActivitiesByDate(activities);
 
   useEffect(() => {
     if (address) {
@@ -49,12 +53,30 @@ const Activities: FunctionComponent<ActivitiesProps> = ({
       <div className={classes.root}>
         <Address value={address} onLocationChanged={setAddress} />
       </div>
-      {activities.map(activity => (
-        <Item key={activity.id} activity={activity} />
-      ))}
+
+      {Object.keys(activitiesGroupedByDate).map(date => {
+        const dateDelimiter = (
+          <Typography key={date} variant="body1" color="textPrimary" className={classes.day}>
+            <strong>{moment(date).format("dddd, MMMM DD")}</strong>
+          </Typography>
+        );
+        return [
+          dateDelimiter,
+          ...activitiesGroupedByDate[date].map((activity: any) => <Item key={activity.id} activity={activity} />)
+        ];
+      })}
     </div>
   );
 };
+
+const groupActivitiesByDate = (activities: any[]) =>
+  activities.reduce((accumulator, activity) => {
+    const date = moment(activity.dateTime).format("YYYY-MM-DD");
+    return {
+      ...accumulator,
+      [date]: [...(accumulator[date] || []), activity]
+    };
+  }, {});
 
 const mapStateToProps = ({ activities, auth }: State) => ({
   loading: activities.loading,

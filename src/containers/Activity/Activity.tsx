@@ -8,11 +8,11 @@ import {
   TextField,
   Button,
   CircularProgress,
-  Box,
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  Paper
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -114,7 +114,7 @@ const Activity: FunctionComponent<ActivityProps> = ({ loading, created, sports, 
   }
 
   return (
-    <Box className={classes.root}>
+    <Paper className={classes.root}>
       <form onSubmit={submit}>
         <TextField
           label="Description"
@@ -157,7 +157,7 @@ const Activity: FunctionComponent<ActivityProps> = ({ loading, created, sports, 
           </Button>
         </Grid>
       </form>
-    </Box>
+    </Paper>
   );
 };
 
