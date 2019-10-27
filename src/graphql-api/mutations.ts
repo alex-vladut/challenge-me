@@ -91,7 +91,6 @@ export const updateParticipation = `mutation UpdateParticipation($input: UpdateP
       pictureUrl
       version
     }
-    activityId
     status
   }
 }

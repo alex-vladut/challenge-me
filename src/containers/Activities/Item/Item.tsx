@@ -25,10 +25,19 @@ const useStyles = makeStyles(() =>
 );
 
 interface ItemProps {
+  profile: any;
   activity: any;
 }
 
-const Item: FunctionComponent<ItemProps> = ({ activity }: ItemProps) => {
+const getAttendanceStatus = (activity: any, profile: any) => {
+  const participation = profile.activities.find((p: any) => p.activity.id === activity.id);
+  if (!participation) {
+    return null;
+  }
+  return participation.status === "ACCEPTED" ? "Going" : "Not going";
+};
+
+const Item: FunctionComponent<ItemProps> = ({ activity, profile }: ItemProps) => {
   const classes = useStyles();
 
   return (
@@ -36,6 +45,11 @@ const Item: FunctionComponent<ItemProps> = ({ activity }: ItemProps) => {
       <CardHeader
         avatar={
           <Avatar className={classes.avatar} alt={activity.owner.name} src={activity.owner.pictureUrl || userIcon} />
+        }
+        action={
+          <Typography variant="subtitle1" color="textSecondary">
+            {getAttendanceStatus(activity, profile)}
+          </Typography>
         }
         title={activity.owner.name}
         subheader={activity.sport}
@@ -48,11 +62,11 @@ const Item: FunctionComponent<ItemProps> = ({ activity }: ItemProps) => {
               <div style={{ fontSize: 20, width: "100%", textAlign: "center" }}>
                 {moment(activity.dateTime).format("HH:mm A")}
               </div>
-              <AccessTime color="disabled" fontSize="large"/>
+              <AccessTime color="disabled" fontSize="large" />
             </Grid>
           </Grid>
           <Grid item>
-            <Typography variant="h6" color="textPrimary">
+            <Typography component="p" color="textPrimary">
               {activity.description}
             </Typography>
           </Grid>

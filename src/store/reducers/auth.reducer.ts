@@ -38,7 +38,7 @@ const reducer = (state = initialState, action: any) => {
     case SaveSuccess.type:
       return {
         ...state,
-        profile: action.payload,
+        profile: { ...action.payload, activities: action.payload.activities.items },
         authenticated: true,
         loading: false
       };

@@ -60,6 +60,12 @@ const useStyles = makeStyles(theme =>
     },
     avatar: {
       backgroundColor: grey[500]
+    },
+    description: {
+      backgroundColor: "#f5f5f5",
+      padding: "0.5rem",
+      marginBottom: "1rem",
+      minHeight: "2rem"
     }
   })
 );
@@ -156,7 +162,7 @@ const ViewActivity = ({
           className={classes.header}
         />
         <CardContent>
-          <Typography variant="h6" color="textPrimary">
+          <Typography component="p" color="textPrimary" className={classes.description}>
             {activity.description}
           </Typography>
           <Grid container>

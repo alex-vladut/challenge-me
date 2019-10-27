@@ -12,6 +12,7 @@ import moment from "moment";
 
 interface ActivitiesProps {
   currentLocation: any;
+  profile: any;
   activities: any[];
   loading: boolean;
   fetchActivities(location: any): void;
@@ -23,13 +24,14 @@ const useStyles = makeStyles(() =>
       display: "grid"
     },
     day: {
-      textAlign: 'center'
+      textAlign: "center"
     }
   })
 );
 
 const Activities: FunctionComponent<ActivitiesProps> = ({
   currentLocation,
+  profile,
   activities,
   loading,
   fetchActivities
@@ -62,7 +64,9 @@ const Activities: FunctionComponent<ActivitiesProps> = ({
         );
         return [
           dateDelimiter,
-          ...activitiesGroupedByDate[date].map((activity: any) => <Item key={activity.id} activity={activity} />)
+          ...activitiesGroupedByDate[date].map((activity: any) => (
+            <Item key={activity.id} profile={profile} activity={activity} />
+          ))
         ];
       })}
     </div>

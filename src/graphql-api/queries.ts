@@ -4,6 +4,16 @@ export const getUser = `query GetUser($id: ID!) {
     name
     pictureUrl
     email
+    activities {
+      items {
+        id
+        status
+        activity {
+          id
+        }
+      }
+      nextToken
+    }
     version
   }
 }

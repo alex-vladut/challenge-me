@@ -35,7 +35,7 @@ const NavigationItems: FunctionComponent<NavigationItemsProps> = props => {
     navItems = (
       <ul className="NavigationItems">
         <NavigationItem link="/auth" onClick={props.onClick}>
-          Log In
+          Sign Up / Log In
         </NavigationItem>
       </ul>
     );
