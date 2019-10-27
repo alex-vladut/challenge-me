@@ -12,7 +12,7 @@ import Authentication from "./containers/Auth/Auth";
 import LogOut from "./containers/Auth/LogOut";
 import Layout from "./containers/Layout/Layout";
 import PrivateRoute from "./hoc/PrivateRoute";
-import Activity from "./containers/Activity/Activity";
+import CreateActivity from "./containers/CreateActivity/CreateActivity";
 import Activities from "./containers/Activities/Activities";
 import ViewActivity from "./containers/ViewActivity/ViewActivity";
 import Profile from "./containers/Profile/Profile";
@@ -45,7 +45,7 @@ const App: FunctionComponent<AppProps> = ({ isAuthenticated, fetchProfile }) => 
         <Switch>
           <Route path="/" component={Home} exact />
           <Route path="/auth" component={Authentication} />
-          <PrivateRoute path="/activities/new" exact component={Activity} isAuthenticated={isAuthenticated} />
+          <PrivateRoute path="/activities/new" exact component={CreateActivity} isAuthenticated={isAuthenticated} />
           <PrivateRoute
             path="/activities/:activityId"
             exact

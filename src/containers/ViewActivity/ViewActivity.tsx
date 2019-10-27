@@ -9,7 +9,6 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  Divider,
   IconButton,
   Typography,
   Dialog,
@@ -28,7 +27,7 @@ import {
   ExpansionPanelSummary,
   ExpansionPanelDetails
 } from "@material-ui/core";
-import { Delete as DeleteIcon, Check, Clear, ExpandMore, ExploreOutlined } from "@material-ui/icons";
+import { Delete as DeleteIcon, Check, Clear, ExpandMore, Room, AccessTime, CalendarToday } from "@material-ui/icons";
 import { grey } from "@material-ui/core/colors";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 
@@ -160,17 +159,26 @@ const ViewActivity = ({
           <Typography variant="h6" color="textPrimary">
             {activity.description}
           </Typography>
+          <Grid container>
+            <CalendarToday color="disabled" />
+            <Typography variant="subtitle1" color="textSecondary">
+              {moment(activity.dateTime).format("dddd, MMMM DD")}
+            </Typography>
+          </Grid>
+          <Grid container>
+            <AccessTime color="disabled" />
+            <Typography variant="subtitle1" color="textSecondary">
+              {moment(activity.dateTime).format("HH:mm A")}
+            </Typography>
+          </Grid>
+          <Grid container>
+            <Room color="disabled" />
+            <Typography variant="subtitle1" color="textSecondary">
+              {activity.address}
+            </Typography>
+          </Grid>
           <Typography variant="subtitle1" color="textSecondary">
             {getSportLabel()}
-          </Typography>
-          <Divider light />
-          <Typography variant="subtitle1" color="textSecondary">
-            {moment(activity.dateTime).format("MMMM DD, YYYY") + " at " + moment(activity.dateTime).format("HH:mm")}
-          </Typography>
-          <Divider light />
-          <ExploreOutlined />
-          <Typography variant="subtitle1" color="textSecondary">
-            {activity.address}
           </Typography>
           {isMaxNumberOfParticipants() ? (
             <Typography variant="subtitle1" color="secondary">
@@ -190,51 +198,47 @@ const ViewActivity = ({
         </CardContent>
         <CardActions>{actions}</CardActions>
       </Card>
-
-      {isOwner() ? (
-        <ExpansionPanel expanded={expanded} onChange={() => setExpanded(!expanded)}>
-          <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-            <Typography variant="h6" color="textPrimary">
-              Participants
+      <ExpansionPanel expanded={expanded} onChange={() => setExpanded(!expanded)}>
+        <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+          <Typography variant="h6" color="textPrimary">
+            Participants ({activity.participations.length})
+          </Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          {activity.participations.length === 0 ? (
+            <Typography variant="subtitle1" color="textSecondary">
+              So far no user confirmed they will join your activity.
             </Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            {activity.participations.length === 0 ? (
-              <Typography variant="subtitle1" color="textSecondary">
-                So far no user confirmed they will join your activity.
-              </Typography>
-            ) : null}
-            {activity.participations.length > 0 ? (
-              <List dense className={classes.root}>
-                {activity.participations
-                  .sort((p1: any, p2: any) => p1.status > p2.status)
-                  .map((participation: any) => (
-                    <ListItem key={participation.id} button>
-                      <ListItemAvatar>
-                        <Avatar
-                          className={classes.avatar}
-                          alt={participation.participant.name}
-                          src={participation.participant.pictureUrl || userIcon}
-                        />
-                      </ListItemAvatar>
-                      <ListItemText primary={participation.participant.name} />
-                      {participation.status === "ACCEPTED" ? (
-                        <IconButton aria-label="participant-accepted" disabled={true}>
-                          <Check color="primary" />
-                        </IconButton>
-                      ) : (
-                        <IconButton aria-label="participant-reject" disabled={true}>
-                          <Clear color="error" />
-                        </IconButton>
-                      )}
-                    </ListItem>
-                  ))}
-              </List>
-            ) : null}
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      ) : null}
-
+          ) : null}
+          {activity.participations.length > 0 ? (
+            <List className={classes.root}>
+              {activity.participations
+                .sort((p1: any, p2: any) => p1.status > p2.status)
+                .map((participation: any) => (
+                  <ListItem key={participation.id} button>
+                    <ListItemAvatar>
+                      <Avatar
+                        className={classes.avatar}
+                        alt={participation.participant.name}
+                        src={participation.participant.pictureUrl || userIcon}
+                      />
+                    </ListItemAvatar>
+                    <ListItemText primary={participation.participant.name} />
+                    {participation.status === "ACCEPTED" ? (
+                      <IconButton aria-label="participant-accepted" disabled={true}>
+                        <Check color="primary" />
+                      </IconButton>
+                    ) : (
+                      <IconButton aria-label="participant-reject" disabled={true}>
+                        <Clear color="error" />
+                      </IconButton>
+                    )}
+                  </ListItem>
+                ))}
+            </List>
+          ) : null}
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
       <Dialog open={deleteConfirmation} onClose={() => setDeleteConfirmation(false)}>
         <DialogTitle>{"Delete activity"}</DialogTitle>
         <DialogContent>

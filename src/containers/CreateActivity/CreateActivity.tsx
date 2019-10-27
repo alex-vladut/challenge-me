@@ -66,14 +66,14 @@ const validate = (form: any) => {
   return errors;
 };
 
-export interface ActivityProps {
+export interface CreateActivityProps {
   loading: boolean;
   created: boolean;
   sports: any[];
   createActivity(activity: any): void;
 }
 
-const Activity: FunctionComponent<ActivityProps> = ({ loading, created, sports, createActivity }: ActivityProps) => {
+const CreateActivity: FunctionComponent<CreateActivityProps> = ({ loading, created, sports, createActivity }: CreateActivityProps) => {
   const classes = useStyles();
 
   const nextMonth = moment()
@@ -174,4 +174,4 @@ const mapDispatchToProps = (dispatch: any) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Activity);
+)(CreateActivity);

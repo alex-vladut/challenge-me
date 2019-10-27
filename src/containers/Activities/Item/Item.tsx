@@ -20,8 +20,7 @@ const useStyles = makeStyles(() =>
     },
     avatar: {
       backgroundColor: grey[500]
-    },
-    location: {}
+    }
   })
 );
 
@@ -39,7 +38,7 @@ const Item: FunctionComponent<ItemProps> = ({ activity }: ItemProps) => {
           <Avatar className={classes.avatar} alt={activity.owner.name} src={activity.owner.pictureUrl || userIcon} />
         }
         title={activity.owner.name}
-        subheader={"Created at " + moment(activity.createdAt).format("MMMM DD, YYYY")}
+        subheader={activity.sport}
         className={classes.header}
       />
       <CardContent>
@@ -49,7 +48,7 @@ const Item: FunctionComponent<ItemProps> = ({ activity }: ItemProps) => {
               <div style={{ fontSize: 20, width: "100%", textAlign: "center" }}>
                 {moment(activity.dateTime).format("HH:mm A")}
               </div>
-              <AccessTime color="disabled" fontSize="large"></AccessTime>
+              <AccessTime color="disabled" fontSize="large"/>
             </Grid>
           </Grid>
           <Grid item>
@@ -62,7 +61,7 @@ const Item: FunctionComponent<ItemProps> = ({ activity }: ItemProps) => {
       <CardActions>
         <Grid container alignItems="baseline">
           <Grid item xs={10}>
-            <Grid container className={classes.location}>
+            <Grid container>
               <Room color="disabled" />
               <Typography variant="subtitle1" color="textSecondary">
                 {activity.address}

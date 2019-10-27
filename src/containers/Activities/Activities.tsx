@@ -23,7 +23,7 @@ const useStyles = makeStyles(() =>
       display: "grid"
     },
     day: {
-      margin: "0.5rem"
+      textAlign: 'center'
     }
   })
 );
