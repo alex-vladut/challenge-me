@@ -1,75 +1,82 @@
 {
-  "hosting": {
-    "S3AndCloudFront": {
-      "service": "S3AndCloudFront",
-      "providerPlugin": "awscloudformation"
-    }
-  },
-  "api": {
-    "challengeMeGraphQL": {
-      "service": "AppSync",
-      "providerPlugin": "awscloudformation",
-      "output": {
-        "authConfig": {
-          "additionalAuthenticationProviders": [],
-          "defaultAuthentication": {
-            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-            "userPoolConfig": {
-              "userPoolId": "authchallengemereacta7d0cb31"
+    "hosting": {
+        "S3AndCloudFront": {
+            "service": "S3AndCloudFront",
+            "providerPlugin": "awscloudformation"
+        }
+    },
+    "api": {
+        "challengeMeGraphQL": {
+            "service": "AppSync",
+            "providerPlugin": "awscloudformation",
+            "output": {
+                "authConfig": {
+                    "additionalAuthenticationProviders": [],
+                    "defaultAuthentication": {
+                        "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+                        "userPoolConfig": {
+                            "userPoolId": "authchallengemereacta7d0cb31"
+                        }
+                    }
+                }
             }
-          }
         }
-      }
-    }
-  },
-  "auth": {
-    "challengemereacta7d0cb31": {
-      "service": "Cognito",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "challengemereacta7d0cb31PostConfirmation",
-          "triggerProvider": "Cognito",
-          "attributes": ["Arn", "Name"]
-        }
-      ]
-    }
-  },
-  "function": {
-    "DeleteActivity": {
-      "service": "Lambda",
-      "providerPlugin": "awscloudformation",
-      "build": true,
-      "dependsOn": [
-        {
-          "category": "api",
-          "resourceName": "challengeMeGraphQL",
-          "attributes": ["GraphQLAPIIdOutput"]
-        }
-      ]
     },
-    "challengemereacta7d0cb31PostConfirmation": {
-      "service": "Lambda",
-      "providerPlugin": "awscloudformation",
-      "build": true
-    },
-    "DeleteParticipations": {
-      "service": "Lambda",
-      "providerPlugin": "awscloudformation",
-      "build": true,
-      "dependsOn": [
-        {
-          "category": "api",
-          "resourceName": "challengeMeGraphQL",
-          "attributes": ["GraphQLAPIIdOutput"]
+    "auth": {
+        "challengemereacta7d0cb31": {
+            "service": "Cognito",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [
+                {
+                    "category": "function",
+                    "resourceName": "challengemereacta7d0cb31PostConfirmation",
+                    "triggerProvider": "Cognito",
+                    "attributes": [
+                        "Arn",
+                        "Name"
+                    ]
+                }
+            ]
         }
-      ]
     },
-    "CreateESGeocodeIndex": {
-      "service": "Lambda",
-      "providerPlugin": "awscloudformation",
-      "build": true
+    "function": {
+        "DeleteActivity": {
+            "service": "Lambda",
+            "providerPlugin": "awscloudformation",
+            "build": true,
+            "dependsOn": [
+                {
+                    "category": "api",
+                    "resourceName": "challengeMeGraphQL",
+                    "attributes": [
+                        "GraphQLAPIIdOutput"
+                    ]
+                }
+            ]
+        },
+        "challengemereacta7d0cb31PostConfirmation": {
+            "service": "Lambda",
+            "providerPlugin": "awscloudformation",
+            "build": true
+        },
+        "DeleteParticipations": {
+            "service": "Lambda",
+            "providerPlugin": "awscloudformation",
+            "build": true,
+            "dependsOn": [
+                {
+                    "category": "api",
+                    "resourceName": "challengeMeGraphQL",
+                    "attributes": [
+                        "GraphQLAPIIdOutput"
+                    ]
+                }
+            ]
+        },
+        "CreateESGeocodeIndex": {
+            "service": "Lambda",
+            "providerPlugin": "awscloudformation",
+            "build": true
+        }
     }
-  }
 }
