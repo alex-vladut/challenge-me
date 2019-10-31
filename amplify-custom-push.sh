@@ -95,7 +95,10 @@ CODEGEN="{\
 }"
 
 AUTHCONFIG="{\
-\"googleClientIdUserPool\":\"${GOOGLE_CLIENT_ID}\"\
+\"googleAppIdUserPool\":\"${GOOGLE_CLIENT_ID}\",\
+\"googleAppSecretUserPool\":\"${GOOGLE_CLIENT_SECRET}\",\
+\"facebookAppIdUserPool\":\"${FACEBOOK_CLIENT_ID}\",\
+\"facebookAppSecretUserPool\":\"${FACEBOOK_CLIENT_SECRET}\"\
 }"
 
 CATEGORIES="{\
