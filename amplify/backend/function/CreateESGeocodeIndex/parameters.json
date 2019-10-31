@@ -1,4 +1,4 @@
 {
-  "elasticSearchEndpoint": "https://search-challen-elasti-1xntreu2nwz04-mhpmizo5twcpbwly2wgkshbjna.eu-central-1.es.amazonaws.com",
-  "elasticSearchDomain": "challen-elasti-1xntreu2nwz04"
+  "elasticSearchEndpoint": "https://search-amplify-elasti-yli3ykjxr7dc-ddym5dolvstqjpdr3dabro33tm.eu-central-1.es.amazonaws.com",
+  "elasticSearchDomain": "amplify-elasti-yli3ykjxr7dc"
 }

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Original script can be found here: https://github.com/aws-amplify/amplify-console/tree/master/scripts
 set -e
 IFS='|'
 help_output () {
