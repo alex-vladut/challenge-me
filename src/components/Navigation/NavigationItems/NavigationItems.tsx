@@ -3,6 +3,7 @@ import "./NavigationItems.scss";
 import React, { FunctionComponent } from "react";
 
 import NavigationItem from "./NavigationItem/NavigationItem";
+import CallToAction from './CallToAction/CallToAction';
 
 interface NavigationItemsProps {
   isAuthenticated: boolean;
@@ -34,9 +35,9 @@ const NavigationItems: FunctionComponent<NavigationItemsProps> = props => {
   } else {
     navItems = (
       <ul className="NavigationItems">
-        <NavigationItem link="/auth" onClick={props.onClick}>
+        <CallToAction link="/auth" onClick={props.onClick}>
           Sign Up / Log In
-        </NavigationItem>
+        </CallToAction>
       </ul>
     );
   }
