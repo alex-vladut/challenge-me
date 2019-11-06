@@ -163,6 +163,7 @@ export const searchActivitys = `query SearchActivitys(
       version
     }
     nextToken
+    total
   }
 }
 `;

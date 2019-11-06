@@ -71,7 +71,7 @@
 				"Runtime": "nodejs10.x",
 				"Timeout": "25",
 				"Code": {
-					"S3Bucket": "challenge-me-react-test-20191006142104-deployment",
+					"S3Bucket": "amplify-challenge-me-react-production-191808-deployment",
 					"S3Key": "amplify-builds/CreateESGeocodeIndex-452f45626b6774565371-build.zip"
 				}
 			}

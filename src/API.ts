@@ -645,6 +645,7 @@ export type SearchActivitysQuery = {
       version: number,
     } | null > | null,
     nextToken: string | null,
+    total: number | null,
   } | null,
 };
 

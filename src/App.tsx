@@ -43,7 +43,7 @@ const App: FunctionComponent<AppProps> = ({ isAuthenticated, fetchProfile }) => 
     <HashRouter>
       <Layout>
         <Switch>
-          <Route path="/" component={Home} exact />
+          <Route path="/" component={isAuthenticated ? Activities : Home} exact />
           <Route path="/auth" component={Authentication} />
           <PrivateRoute path="/activities/new" exact component={CreateActivity} isAuthenticated={isAuthenticated} />
           <PrivateRoute

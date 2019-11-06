@@ -108,7 +108,7 @@
 				"Runtime": "nodejs10.x",
 				"Timeout": "25",
 				"Code": {
-					"S3Bucket": "challenge-me-react-test-20191006142104-deployment",
+					"S3Bucket": "amplify-challenge-me-react-production-191808-deployment",
 					"S3Key": "amplify-builds/challengemereacta7d0cb31PostConfirmation-644a36573965554a714e-build.zip"
 				}
 			}
