@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { CircularProgress, Typography } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import Address from "../../components/Address/Address";
-import { FetchAll } from "../../store/actions/activities.actions";
+import { FetchAll, SetFilters } from "../../store/actions/activities.actions";
 import { State } from "../../store/reducers";
 
 import Item from "./Item/Item";
@@ -12,10 +12,12 @@ import moment from "moment";
 
 interface ActivitiesProps {
   currentLocation: any;
+  filters: any;
   profile: any;
   activities: any[];
   loading: boolean;
   fetchActivities(location: any): void;
+  setFilters(filters: any): void;
 }
 
 const useStyles = makeStyles(() =>
@@ -30,22 +32,37 @@ const useStyles = makeStyles(() =>
 );
 
 const Activities: FunctionComponent<ActivitiesProps> = ({
+  filters,
   currentLocation,
   profile,
   activities,
   loading,
-  fetchActivities
+  fetchActivities,
+  setFilters
 }: ActivitiesProps) => {
   const classes = useStyles();
-  const [address, setAddress] = useState<any>(currentLocation);
+  const [address, setAddress] = useState<any>({ location: filters.location, address: filters.address });
 
   const activitiesGroupedByDate = groupActivitiesByDate(activities);
 
   useEffect(() => {
-    if (address) {
-      fetchActivities(address.location);
+    if (!filters.location) {
+      setFilters({ ...filters, ...currentLocation });
     }
-  }, [address, fetchActivities]);
+  }, [currentLocation, filters, setFilters]);
+
+  useEffect(() => {
+    if (filters.location) {
+      fetchActivities(filters);
+    }
+  }, [filters, fetchActivities]);
+
+  const handleLocationChanged = (location: any) => {
+    setAddress(location);
+    if (location) {
+      setFilters({ ...filters, ...location });
+    }
+  };
 
   if (loading) {
     return <CircularProgress />;
@@ -53,7 +70,7 @@ const Activities: FunctionComponent<ActivitiesProps> = ({
   return (
     <div className={classes.root}>
       <div className={classes.root}>
-        <Address value={address} onLocationChanged={setAddress} />
+        <Address value={address} onLocationChanged={handleLocationChanged} />
       </div>
 
       {Object.keys(activitiesGroupedByDate).map(date => {
@@ -85,11 +102,13 @@ const groupActivitiesByDate = (activities: any[]) =>
 const mapStateToProps = ({ activities, auth }: State) => ({
   loading: activities.loading,
   activities: activities.activities,
+  filters: activities.filters,
   profile: auth.profile,
   currentLocation: auth.currentLocation
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
+  setFilters: (filters: any) => dispatch(SetFilters.create(filters)),
   fetchActivities: (location: any) => dispatch(FetchAll.create(location))
 });
 

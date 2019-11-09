@@ -3,7 +3,7 @@ import "./NavigationItems.scss";
 import React, { FunctionComponent } from "react";
 
 import NavigationItem from "./NavigationItem/NavigationItem";
-import CallToAction from './CallToAction/CallToAction';
+import CallToAction from "./CallToAction/CallToAction";
 
 interface NavigationItemsProps {
   isAuthenticated: boolean;

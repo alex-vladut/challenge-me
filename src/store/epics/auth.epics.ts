@@ -20,11 +20,6 @@ import {
   SignOutSuccess
 } from "../actions/auth.actions";
 
-const DEFAULT_LOCATION = {
-  location: { lat: 46.7712101, lon: 23.623635299999933 },
-  address: "Cluj-Napoca, Romania"
-};
-
 const fetchProfile = (actions$: any) =>
   actions$.pipe(
     ofType(Fetch.type),
@@ -43,15 +38,13 @@ const fetchLocation = (actions$: any) =>
     switchMap(() =>
       from(
         new Promise(resolve =>
-          navigator.geolocation.getCurrentPosition(
-            ({ coords }) =>
-              resolve(
-                FetchLocationSuccess.create({
-                  location: { lat: coords.latitude, lon: coords.longitude },
-                  address: "Your current location"
-                })
-              ),
-            () => resolve(FetchLocationSuccess.create(DEFAULT_LOCATION))
+          navigator.geolocation.getCurrentPosition(({ coords }) =>
+            resolve(
+              FetchLocationSuccess.create({
+                location: { lat: coords.latitude, lon: coords.longitude },
+                address: "Your current location"
+              })
+            )
           )
         )
       )

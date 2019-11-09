@@ -1,6 +1,7 @@
 import { action, payload } from "./actions";
 
 export const FeatureKey = "[ACTIVITIES]";
+export const SetFilters = action(`${FeatureKey} SET FILTERS`, payload<any>());
 export const Create = action(`${FeatureKey} CREATE`, payload<any>());
 export const CreateSuccess = action(`${FeatureKey} CREATE_SUCCESS`, payload<string>());
 export const CreateFail = action(`${FeatureKey} CREATE_FAIL`, payload<string>());

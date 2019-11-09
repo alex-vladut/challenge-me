@@ -18,14 +18,20 @@ import {
   RejectFail,
   FetchActivity,
   FetchActivitySuccess,
-  FetchActivityFail
+  FetchActivityFail,
+  SetFilters
 } from "../actions/activities.actions";
+
+export interface FiltersState {
+  location: any;
+}
 
 export interface State {
   activities: any[];
   activity: any;
   sports: any[];
-  created: boolean;
+  created: string | null;
+  filters: FiltersState;
   deleted: boolean;
   loading: boolean;
 }
@@ -34,17 +40,22 @@ const initialState: State = {
   activities: [],
   activity: null,
   sports,
-  created: false,
+  created: null,
+  filters: {
+    location: {}
+  },
   deleted: false,
   loading: false
 };
 
 const reducer = (state = initialState, { type, payload }: ActionWithPayload<any>): State => {
   switch (type) {
+    case SetFilters.type:
+      return { ...state, filters: payload };
     case Create.type:
       return { ...state, loading: true };
     case CreateSuccess.type:
-      return { ...state, created: true, loading: false };
+      return { ...state, created: payload.id, loading: false };
     case CreateFail.type:
       return { ...state, loading: false };
     case Delete.type:
@@ -66,7 +77,7 @@ const reducer = (state = initialState, { type, payload }: ActionWithPayload<any>
     case RejectFail.type:
       return { ...state, loading: false };
     case FetchAll.type:
-      return { ...state, created: false, deleted: false, loading: true };
+      return { ...state, created: null, deleted: false, loading: true };
     case FetchAllSuccess.type:
       return { ...state, activities: payload, loading: false };
     case FetchAllFail.type:

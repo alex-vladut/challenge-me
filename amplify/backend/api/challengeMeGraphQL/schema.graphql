@@ -28,8 +28,8 @@ type Activity
   location: Location!
   address: String! # human readable address (can't include it in Location because ES breaks)
   participations: [Participation!] @connection(name: "ActivityParticipants")
-  createdAt: String
-  updatedAt: String
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
 }
 
 type Location {

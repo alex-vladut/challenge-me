@@ -68,12 +68,17 @@ const validate = (form: any) => {
 
 export interface CreateActivityProps {
   loading: boolean;
-  created: boolean;
+  created: string | null;
   sports: any[];
   createActivity(activity: any): void;
 }
 
-const CreateActivity: FunctionComponent<CreateActivityProps> = ({ loading, created, sports, createActivity }: CreateActivityProps) => {
+const CreateActivity: FunctionComponent<CreateActivityProps> = ({
+  loading,
+  created,
+  sports,
+  createActivity
+}: CreateActivityProps) => {
   const classes = useStyles();
 
   const nextMonth = moment()
@@ -110,7 +115,7 @@ const CreateActivity: FunctionComponent<CreateActivityProps> = ({ loading, creat
     return <CircularProgress />;
   }
   if (created) {
-    return <Redirect to="/activities" />;
+    return <Redirect to={`/activities/${created}`} />;
   }
 
   return (
