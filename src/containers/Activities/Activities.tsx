@@ -122,7 +122,4 @@ const mapDispatchToProps = (dispatch: any) => ({
   fetchActivities: (location: any) => dispatch(FetchAll.create(location))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Activities);
+export default connect(mapStateToProps, mapDispatchToProps)(Activities);

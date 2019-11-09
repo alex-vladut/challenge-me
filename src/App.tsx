@@ -70,7 +70,4 @@ const mapDispatchToProps = (dispatch: any) => ({
   fetchProfile: () => dispatch(Fetch.create())
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

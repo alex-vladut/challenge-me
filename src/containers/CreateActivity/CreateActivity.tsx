@@ -1,70 +1,39 @@
-import React, { useState, FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
 
-import moment from "moment";
 import {
-  Grid,
-  TextField,
-  Button,
   CircularProgress,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Paper
+  Paper,
+  Stepper,
+  Step,
+  StepContent,
+  StepLabel,
+  Typography
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
-import DateTimePicker from "../../components/DateTimePicker/DateTimePicker";
-import Address from "../../components/Address/Address";
 import { Create } from "../../store/actions/activities.actions";
 import { State } from "../../store/reducers";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    padding: "1rem",
-    backgroundColor: theme.palette.background.paper
-  },
-  button: { marginTop: theme.spacing(3) }
-}));
+import Description from "./Steps/Description/Description";
+import Location from "./Steps/Location/Location";
+import DateTime from "./Steps/DateTime/DateTime";
+import Attendants from "./Steps/Attendants/Attendants";
+import CreateActivityStep from "./Steps/CreateActivityStep";
 
-const validate = (form: any) => {
-  let errors: any = {};
-  if (!form.sport) {
-    errors = { ...errors, sport: "Please select the type of sport." };
-  }
-  if (!form.description || form.description.length < 10 || form.description.length > 1000) {
-    errors = {
-      ...errors,
-      description: "Please provide a description between 10 and 1000 chars long."
-    };
-  }
-  if (!form.numberOfAttendants || form.numberOfAttendants < 1 || form.numberOfAttendants > 100) {
-    errors = {
-      ...errors,
-      numberOfAttendants: "You should select between 1 and 100 attendants."
-    };
-  }
-  if (
-    !form.dateTime ||
-    moment(form.dateTime)
-      .subtract(1, "day")
-      .isBefore(moment())
-  ) {
-    errors = {
-      ...errors,
-      dateTime: "The time of your activity should be at least one day in the future."
-    };
-  }
-  if (!form.location) {
-    errors = {
-      ...errors,
-      location: "Please select a location for your activity."
-    };
-  }
-  return errors;
-};
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: "100%"
+    },
+    resetContainer: {
+      padding: theme.spacing(3)
+    }
+  })
+);
+
+const steps = ["General details", "Select a location", "Select date and time", "Number of attendants"];
 
 export interface CreateActivityProps {
   loading: boolean;
@@ -81,34 +50,14 @@ const CreateActivity: FunctionComponent<CreateActivityProps> = ({
 }: CreateActivityProps) => {
   const classes = useStyles();
 
-  const nextMonth = moment()
-    .add(1, "month")
-    .hour(10)
-    .minute(0)
-    .second(0)
-    .toDate();
+  const [activeStep, setActiveStep] = useState(0);
 
-  const [description, setDescription] = useState<string>("");
-  const [sport, setSport] = useState<any>(sports[0]);
-  const [dateTime, setDateTime] = useState<Date | null>(nextMonth);
-  const [numberOfAttendants, setNumberOfAttendants] = useState<number>(1);
-  const [location, setLocation] = useState<any>();
-  const [errors, setErrors] = useState<any>({});
+  const handleNext = () => {
+    setActiveStep(prevActiveStep => prevActiveStep + 1);
+  };
 
-  const handleDescriptionChange = (event: any) => setDescription(event.target.value);
-  const handleSportChange = (event: any) => setSport(event.target.value);
-  const handleDateChange = (date: Date | null) => setDateTime(date);
-  const handleNumberOfAttendantsChange = (event: any) => setNumberOfAttendants(Number(event.target.value));
-
-  const submit = (event: any) => {
-    event.preventDefault();
-    const activity = { description, sport: sport.name, dateTime, numberOfAttendants, ...location };
-    const errors = validate(activity);
-    setErrors(errors);
-
-    if (Object.values(errors).length === 0) {
-      createActivity(activity);
-    }
+  const handleBack = () => {
+    setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
 
   if (loading) {
@@ -118,50 +67,38 @@ const CreateActivity: FunctionComponent<CreateActivityProps> = ({
     return <Redirect to={`/activities/${created}`} />;
   }
 
+  const stepContent: any = {
+    0: <Description sports={sports} />,
+    1: <Location />,
+    2: <DateTime />,
+    3: <Attendants />
+  };
+
   return (
     <Paper className={classes.root}>
-      <form onSubmit={submit}>
-        <TextField
-          label="Description"
-          value={description}
-          onChange={handleDescriptionChange}
-          error={!!errors.description}
-          helperText={errors.description}
-          multiline
-          rows="3"
-          rowsMax="5"
-          fullWidth
-          required
-        />
-        <FormControl fullWidth required error={!!errors.sport}>
-          <InputLabel htmlFor="sport">Choose a sport</InputLabel>
-          <Select value={sport} onChange={handleSportChange} inputProps={{ id: "name" }}>
-            {sports.map(sport => (
-              <MenuItem value={sport} key={sport.name}>
-                {sport.emoji} {sport.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <DateTimePicker value={dateTime} onChange={handleDateChange} />
-        <TextField
-          required
-          fullWidth
-          label="Number of attendants"
-          type="number"
-          value={numberOfAttendants}
-          onChange={handleNumberOfAttendantsChange}
-          error={!!errors.numberOfAttendants}
-          helperText={errors.numberOfAttendants}
-        />
-        <Address error={!!errors.location} helperText={errors.location} onLocationChanged={setLocation} />
+      <Stepper activeStep={activeStep} orientation="vertical">
+        {steps.map((label, index) => (
+          <Step key={label}>
+            <StepLabel>{label}</StepLabel>
+            <StepContent>
+              <CreateActivityStep
+                isFirst={activeStep === 0}
+                isLast={activeStep === steps.length - 1}
+                onBack={handleBack}
+                onNext={handleNext}
+              >
+                {stepContent[index]}
+              </CreateActivityStep>
+            </StepContent>
+          </Step>
+        ))}
+      </Stepper>
 
-        <Grid container alignItems="flex-start" justify="flex-end">
-          <Button variant="contained" color="primary" className={classes.button} type="submit">
-            Save
-          </Button>
-        </Grid>
-      </form>
+      {activeStep === steps.length && (
+        <Paper square elevation={0} className={classes.resetContainer}>
+          <Typography>All steps completed - you&apos;re finished</Typography>
+        </Paper>
+      )}
     </Paper>
   );
 };

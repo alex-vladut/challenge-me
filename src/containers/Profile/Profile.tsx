@@ -105,7 +105,4 @@ const mapDispatchToProps = (dispatch: any) => ({
   save: (profile: any) => dispatch(Save.create(profile))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

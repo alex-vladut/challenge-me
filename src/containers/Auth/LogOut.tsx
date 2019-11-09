@@ -22,7 +22,4 @@ const mapDispatchToProps = (dispatch: any) => ({
   signOut: () => dispatch(SignOut.create())
 });
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(LogOut);
+export default connect(null, mapDispatchToProps)(LogOut);

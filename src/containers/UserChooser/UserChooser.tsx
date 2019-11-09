@@ -80,7 +80,4 @@ const mapDispatchToProps = (dispatch: any) => ({
   fetchUsers: (filter: string) => dispatch(FetchUsers.create(filter))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserChooser);
+export default connect(mapStateToProps, mapDispatchToProps)(UserChooser);

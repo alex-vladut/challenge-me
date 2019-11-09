@@ -56,7 +56,9 @@ const saveProfile = (actions$: any) =>
     ofType(Save.type),
     switchMap(({ payload: { id, name, pictureUrl, email, version: expectedVersion } }) =>
       from(
-        API.graphql(graphqlOperation(mutations.updateUser, { input: { id, name, pictureUrl, email, expectedVersion } })) as Promise<any>
+        API.graphql(
+          graphqlOperation(mutations.updateUser, { input: { id, name, pictureUrl, email, expectedVersion } })
+        ) as Promise<any>
       ).pipe(
         map((response: any) => SaveSuccess.create(response.data.updateUser)),
         catchError(error => of(SaveFail.create(error)))

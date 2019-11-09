@@ -278,7 +278,4 @@ const mapDispatchToProps = (dispatch: any) => ({
   deleteActivity: (activity: any) => dispatch(Delete.create(activity))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ViewActivity);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewActivity);

@@ -23,10 +23,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   clear: () => dispatch(Clear.create())
 });
 
-const NotificationsWithRedux = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Notifications);
+const NotificationsWithRedux = connect(mapStateToProps, mapDispatchToProps)(Notifications);
 
 export default function NotificationsWithSnackbar(props: any) {
   return (
