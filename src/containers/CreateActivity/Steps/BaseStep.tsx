@@ -1,6 +1,7 @@
+import React, { FunctionComponent } from 'react';
+
 import { Button, Grid } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import React, { FunctionComponent } from 'react';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,14 +19,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export interface CreateActivityStepProps {
+export interface BaseStepProps {
   isFirst: boolean;
   isLast: boolean;
   onBack(): void;
   onNext(): void;
 }
 
-const CreateActivityStep: FunctionComponent<CreateActivityStepProps> = ({
+const BaseStep: FunctionComponent<BaseStepProps> = ({
   children,
   isFirst,
   isLast,
@@ -50,4 +51,4 @@ const CreateActivityStep: FunctionComponent<CreateActivityStepProps> = ({
   );
 };
 
-export default CreateActivityStep;
+export default BaseStep;

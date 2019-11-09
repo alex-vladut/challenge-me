@@ -1,5 +1,8 @@
-import { FormControl, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState } from "react";
+
+import { FormControl, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
+
+import BaseStep from "../BaseStep";
 
 const validate = (form: any) => {
   let errors: any = {};
@@ -12,20 +15,24 @@ const validate = (form: any) => {
       description: "Please provide a description between 10 and 1000 chars long."
     };
   }
-  if (!form.numberOfAttendants || form.numberOfAttendants < 1 || form.numberOfAttendants > 100) {
-    errors = {
-      ...errors,
-      numberOfAttendants: "You should select between 1 and 100 attendants."
-    };
-  }
   return errors;
 };
 
 export interface DescriptionProps {
   sports: any[];
+  isFirst: boolean;
+  isLast: boolean;
+  onBack(): void;
+  onNext(description: any): void;
 }
 
-const Description: FunctionComponent<DescriptionProps> = ({ sports }) => {
+const Description: FunctionComponent<DescriptionProps> = ({
+  sports,
+  isFirst,
+  isLast,
+  onBack,
+  onNext
+}) => {
   const [description, setDescription] = useState<string>("");
   const [sport, setSport] = useState<any>(sports[0]);
   const [errors, setErrors] = useState<any>({});
@@ -33,18 +40,18 @@ const Description: FunctionComponent<DescriptionProps> = ({ sports }) => {
   const handleDescriptionChange = (event: any) => setDescription(event.target.value);
   const handleSportChange = (event: any) => setSport(event.target.value);
 
-  const next = (event: any) => {
-    event.preventDefault();
+  const handleNext = () => {
     const activity = { description, sport: sport.name };
     const errors = validate(activity);
     setErrors(errors);
 
     if (Object.values(errors).length === 0) {
+      onNext({ description, sport: sport.name });
     }
   };
 
   return (
-    <div>
+    <BaseStep isFirst={isFirst} isLast={isLast} onBack={onBack} onNext={handleNext}>
       <TextField
         label="Description"
         value={description}
@@ -67,7 +74,7 @@ const Description: FunctionComponent<DescriptionProps> = ({ sports }) => {
           ))}
         </Select>
       </FormControl>
-    </div>
+    </BaseStep>
   );
 };
 

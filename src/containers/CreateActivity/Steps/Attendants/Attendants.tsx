@@ -1,5 +1,8 @@
 import React, { FunctionComponent, useState } from "react";
+
 import { TextField } from "@material-ui/core";
+
+import BaseStep from "../BaseStep";
 
 const validate = (form: any) => {
   let errors: any = {};
@@ -12,35 +15,42 @@ const validate = (form: any) => {
   return errors;
 };
 
-export interface AttendantsProps {}
+export interface AttendantsProps {
+  isFirst: boolean;
+  isLast: boolean;
+  onBack(): void;
+  onNext(dateTime: any): void;
+}
 
-const Attendants: FunctionComponent<AttendantsProps> = () => {
+const Attendants: FunctionComponent<AttendantsProps> = ({ isFirst, isLast, onBack, onNext }) => {
   const [numberOfAttendants, setNumberOfAttendants] = useState<number>(1);
   const [errors, setErrors] = useState<any>({});
 
   const handleNumberOfAttendantsChange = (event: any) => setNumberOfAttendants(Number(event.target.value));
 
-  const next = (event: any) => {
-    event.preventDefault();
+  const handleNext = () => {
     const activity = { numberOfAttendants };
     const errors = validate(activity);
     setErrors(errors);
 
     if (Object.values(errors).length === 0) {
+      onNext({ numberOfAttendants });
     }
   };
 
   return (
-    <TextField
-      required
-      fullWidth
-      label="Number of attendants"
-      type="number"
-      value={numberOfAttendants}
-      onChange={handleNumberOfAttendantsChange}
-      error={!!errors.numberOfAttendants}
-      helperText={errors.numberOfAttendants}
-    />
+    <BaseStep isFirst={isFirst} isLast={isLast} onBack={onBack} onNext={handleNext}>
+      <TextField
+        required
+        fullWidth
+        label="Number of attendants"
+        type="number"
+        value={numberOfAttendants}
+        onChange={handleNumberOfAttendantsChange}
+        error={!!errors.numberOfAttendants}
+        helperText={errors.numberOfAttendants}
+      />
+    </BaseStep>
   );
 };
 

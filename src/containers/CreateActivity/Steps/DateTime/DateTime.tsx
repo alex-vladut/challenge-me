@@ -1,7 +1,10 @@
-import React, { FunctionComponent, useState } from 'react';
-import moment from 'moment';
+import React, { FunctionComponent, useState } from "react";
+import moment from "moment";
 
-import DateTimePicker from '../../../../components/DateTimePicker/DateTimePicker';
+import { InputLabel } from "@material-ui/core";
+
+import DateTimePicker from "../../../../components/DateTimePicker/DateTimePicker";
+import BaseStep from "../BaseStep";
 
 const validate = (form: any) => {
   let errors: any = {};
@@ -19,30 +22,40 @@ const validate = (form: any) => {
   return errors;
 };
 
-export interface DateTimeProps {}
+const nextMonth = moment()
+  .add(1, "month")
+  .hour(10)
+  .minute(0)
+  .second(0)
+  .toDate();
 
-const DateTime: FunctionComponent<DateTimeProps> = () => {
-  const nextMonth = moment()
-    .add(1, "month")
-    .hour(10)
-    .minute(0)
-    .second(0)
-    .toDate();
+export interface DateTimeProps {
+  isFirst: boolean;
+  isLast: boolean;
+  onBack(): void;
+  onNext(dateTime: any): void;
+}
+
+const DateTime: FunctionComponent<DateTimeProps> = ({ isFirst, isLast, onBack, onNext }) => {
   const [dateTime, setDateTime] = useState<Date | null>(nextMonth);
   const [errors, setErrors] = useState<any>({});
 
   const handleDateChange = (date: Date | null) => setDateTime(date);
 
-  const next = (event: any) => {
-    event.preventDefault();
-    const activity = { dateTime };
-    const errors = validate(activity);
+  const handleNext = () => {
+    const errors = validate({ dateTime });
     setErrors(errors);
 
     if (Object.values(errors).length === 0) {
+      onNext({ dateTime });
     }
   };
-  return <DateTimePicker value={dateTime} onChange={handleDateChange} />;
+  return (
+    <BaseStep isFirst={isFirst} isLast={isLast} onBack={onBack} onNext={handleNext}>
+      <DateTimePicker value={dateTime} onChange={handleDateChange} />
+      {!!errors.dateTime ? <InputLabel error={errors.dateTime}>{errors.dateTime}</InputLabel> : null}
+    </BaseStep>
+  );
 };
 
 export default DateTime;

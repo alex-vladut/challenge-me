@@ -64,7 +64,7 @@ const Address: FunctionComponent<AddressSelectionProps> = ({ value, error, helpe
                 </InputAdornment>
               ),
               endAdornment: address ? (
-                <IconButton aria-label="close" onClick={() => setAddress("")}>
+                <IconButton aria-label="close" onClick={() => handleChange("")}>
                   <CloseRounded />
                 </IconButton>
               ) : null

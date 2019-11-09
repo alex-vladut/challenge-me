@@ -1,16 +1,8 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
 
-import {
-  CircularProgress,
-  Paper,
-  Stepper,
-  Step,
-  StepContent,
-  StepLabel,
-  Typography
-} from "@material-ui/core";
+import { CircularProgress, Paper, Stepper, Step, StepContent, StepLabel, Typography } from "@material-ui/core";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
 import { Create } from "../../store/actions/activities.actions";
@@ -20,7 +12,6 @@ import Description from "./Steps/Description/Description";
 import Location from "./Steps/Location/Location";
 import DateTime from "./Steps/DateTime/DateTime";
 import Attendants from "./Steps/Attendants/Attendants";
-import CreateActivityStep from "./Steps/CreateActivityStep";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -50,9 +41,17 @@ const CreateActivity: FunctionComponent<CreateActivityProps> = ({
 }: CreateActivityProps) => {
   const classes = useStyles();
 
+  const [activity, setActivity] = useState<any>({});
   const [activeStep, setActiveStep] = useState(0);
 
-  const handleNext = () => {
+  useEffect(() => {
+    if (activeStep === steps.length) {
+      createActivity(activity);
+    }
+  }, [activity, activeStep, createActivity]);
+
+  const handleNext = (data: any) => {
+    setActivity({ ...activity, ...data });
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
 
@@ -68,10 +67,39 @@ const CreateActivity: FunctionComponent<CreateActivityProps> = ({
   }
 
   const stepContent: any = {
-    0: <Description sports={sports} />,
-    1: <Location />,
-    2: <DateTime />,
-    3: <Attendants />
+    0: (
+      <Description
+        sports={sports}
+        isFirst={activeStep === 0}
+        isLast={activeStep === steps.length - 1}
+        onBack={handleBack}
+        onNext={handleNext}
+      />
+    ),
+    1: (
+      <Location
+        isFirst={activeStep === 0}
+        isLast={activeStep === steps.length - 1}
+        onBack={handleBack}
+        onNext={handleNext}
+      />
+    ),
+    2: (
+      <DateTime
+        isFirst={activeStep === 0}
+        isLast={activeStep === steps.length - 1}
+        onBack={handleBack}
+        onNext={handleNext}
+      />
+    ),
+    3: (
+      <Attendants
+        isFirst={activeStep === 0}
+        isLast={activeStep === steps.length - 1}
+        onBack={handleBack}
+        onNext={handleNext}
+      />
+    )
   };
 
   return (
@@ -80,16 +108,7 @@ const CreateActivity: FunctionComponent<CreateActivityProps> = ({
         {steps.map((label, index) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
-            <StepContent>
-              <CreateActivityStep
-                isFirst={activeStep === 0}
-                isLast={activeStep === steps.length - 1}
-                onBack={handleBack}
-                onNext={handleNext}
-              >
-                {stepContent[index]}
-              </CreateActivityStep>
-            </StepContent>
+            <StepContent>{stepContent[index]}</StepContent>
           </Step>
         ))}
       </Stepper>
