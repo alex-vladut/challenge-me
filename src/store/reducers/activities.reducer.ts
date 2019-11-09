@@ -42,7 +42,7 @@ const initialState: State = {
   sports,
   created: null,
   filters: {
-    location: {}
+    location: null,
   },
   deleted: false,
   loading: false

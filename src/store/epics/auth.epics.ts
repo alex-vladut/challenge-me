@@ -25,7 +25,7 @@ const fetchProfile = (actions$: any) =>
     ofType(Fetch.type),
     switchMap(() => from(Auth.currentAuthenticatedUser())),
     switchMap((authenticatedUser: any) =>
-      from(API.graphql(graphqlOperation(queries.getUser, { id: authenticatedUser.username }))).pipe(
+      from(API.graphql(graphqlOperation(queries.getUser, { id: authenticatedUser.username })) as Promise<any>).pipe(
         map((response: any) => FetchSuccess.create(response.data.getUser)),
         catchError(error => of(FetchFail.create(error)))
       )
@@ -56,7 +56,7 @@ const saveProfile = (actions$: any) =>
     ofType(Save.type),
     switchMap(({ payload: { id, name, pictureUrl, email, version: expectedVersion } }) =>
       from(
-        API.graphql(graphqlOperation(mutations.updateUser, { input: { id, name, pictureUrl, email, expectedVersion } }))
+        API.graphql(graphqlOperation(mutations.updateUser, { input: { id, name, pictureUrl, email, expectedVersion } })) as Promise<any>
       ).pipe(
         map((response: any) => SaveSuccess.create(response.data.updateUser)),
         catchError(error => of(SaveFail.create(error)))

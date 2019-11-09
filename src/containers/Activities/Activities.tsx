@@ -9,6 +9,7 @@ import { State } from "../../store/reducers";
 
 import Item from "./Item/Item";
 import moment from "moment";
+import { NavLink } from "react-router-dom";
 
 interface ActivitiesProps {
   currentLocation: any;
@@ -23,7 +24,7 @@ interface ActivitiesProps {
 const useStyles = makeStyles(() =>
   createStyles({
     root: {
-      display: "grid"
+      marginBottom: "2rem"
     },
     day: {
       textAlign: "center"
@@ -46,8 +47,8 @@ const Activities: FunctionComponent<ActivitiesProps> = ({
   const activitiesGroupedByDate = groupActivitiesByDate(activities);
 
   useEffect(() => {
-    if (!filters.location) {
-      setFilters({ ...filters, ...currentLocation });
+    if (!filters.location && currentLocation) {
+      setFilters({ ...filters, ...currentLocation, nearBy: false });
     }
   }, [currentLocation, filters, setFilters]);
 
@@ -60,7 +61,7 @@ const Activities: FunctionComponent<ActivitiesProps> = ({
   const handleLocationChanged = (location: any) => {
     setAddress(location);
     if (location) {
-      setFilters({ ...filters, ...location });
+      setFilters({ ...filters, ...location, nearBy: false });
     }
   };
 
@@ -72,6 +73,15 @@ const Activities: FunctionComponent<ActivitiesProps> = ({
       <div className={classes.root}>
         <Address value={address} onLocationChanged={handleLocationChanged} />
       </div>
+
+      {filters.location && activities.length === 0 ? (
+        <p>
+          We didn't find any activity in that area.
+          <span>
+            <NavLink to="/activities/new">Click here to create one</NavLink>
+          </span>
+        </p>
+      ) : null}
 
       {Object.keys(activitiesGroupedByDate).map(date => {
         const dateDelimiter = (

@@ -17,7 +17,7 @@ function fetchUsers(actions$: Observable<ActionWithPayload<any>>) {
             limit: 100,
             filter: payload ? { name: { contains: payload } } : undefined
           })
-        )
+        ) as Promise<any>
       ).pipe(
         map((response: any) => FetchUsersSuccess.create(response.data.listUsers.items)),
         catchError(error => of(FetchUsersFail.create(error)))

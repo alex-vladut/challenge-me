@@ -33,7 +33,7 @@ const createActivity = (actions$: Observable<ActionWithPayload<any>>) =>
   actions$.pipe(
     ofType(Create.type),
     switchMap(({ payload }) =>
-      from(API.graphql(graphqlOperation(mutations.createActivity, { input: payload }))).pipe(
+      from(API.graphql(graphqlOperation(mutations.createActivity, { input: payload })) as Promise<any>).pipe(
         map((response: any) => CreateSuccess.create(response.data.createActivity)),
         catchError(error => of(CreateFail.create(error)))
       )
@@ -59,7 +59,7 @@ const deleteActivity = (actions$: Observable<ActionWithPayload<any>>) =>
       from(
         API.graphql(
           graphqlOperation(mutations.deleteActivity, { input: { id: payload.id, expectedVersion: payload.version } })
-        )
+        ) as Promise<any>
       ).pipe(
         map((response: any) => DeleteSuccess.create(response.data.deleteActivity)),
         catchError(error => of(DeleteFail.create(error)))
@@ -97,7 +97,7 @@ const createAcceptedParticipation = (payload: any) =>
           status: "ACCEPTED"
         }
       })
-    )
+    ) as Promise<any>
   ).pipe(
     map(() => AcceptSuccess.create("Great news! We will inform the owner that you will join this activity :)")),
     catchError(() =>
@@ -111,7 +111,7 @@ const updateAcceptedParticipation = (payload: any) =>
       graphqlOperation(mutations.updateParticipation, {
         input: { id: payload.id, status: "ACCEPTED", expectedVersion: payload.version }
       })
-    )
+    ) as Promise<any>
   ).pipe(
     map(() =>
       AcceptSuccess.create(
@@ -141,7 +141,7 @@ const createRejectedParticipation = (payload: any) =>
           status: "REJECTED"
         }
       })
-    )
+    ) as Promise<any>
   ).pipe(
     map(() =>
       RejectSuccess.create("Sad to hear that :(. We will let the owner know and you won't join this activity.")
@@ -157,7 +157,7 @@ const updateRejectedParticipation = (payload: any) =>
       graphqlOperation(mutations.updateParticipation, {
         input: { id: payload.id, status: "REJECTED", expectedVersion: payload.version }
       })
-    )
+    ) as Promise<any>
   ).pipe(
     map(() =>
       RejectSuccess.create("Sad to hear that :(. We will let the owner know and you won't join this activity.")
@@ -171,7 +171,7 @@ const fetchActivity = (actions$: ActionsObservable<ActionWithPayload<string>>) =
   actions$.pipe(
     ofType(FetchActivity.type),
     switchMap(({ payload }) =>
-      from(API.graphql(graphqlOperation(queries.getActivity, { id: payload }))).pipe(
+      from(API.graphql(graphqlOperation(queries.getActivity, { id: payload })) as Promise<any>).pipe(
         map(({ data }: any) => FetchActivitySuccess.create(data.getActivity)),
         catchError(() => of(FetchActivityFail.create("Sorry, there was an error while loading the activity :(")))
       )
@@ -183,7 +183,7 @@ const fetchActivities = (actions$: Observable<Action>, store$: Observable<State>
     ofType(FetchAll.type, DeleteSuccess.type),
     withLatestFrom(store$.pipe(map(({ activities }) => activities.filters))),
     switchMap(([_, filters]: any[]) =>
-      from(API.graphql(graphqlOperation(queries.nearbyActivities, { location: filters.location, km: 50 }))).pipe(
+      from(API.graphql(graphqlOperation(queries.nearbyActivities, { location: filters.location, km: 50 })) as Promise<any>).pipe(
         map(({ data }: any) => FetchAllSuccess.create(data.nearbyActivities.items)),
         catchError(() => of(FetchAllFail.create("Sorry, there was an error while loading the activities.")))
       )
