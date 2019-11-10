@@ -62,6 +62,8 @@ export const onCreateParticipation = `subscription OnCreateParticipation {
       version
     }
     status
+    createdAt
+    updatedAt
     version
   }
 }
@@ -88,6 +90,8 @@ export const onUpdateParticipation = `subscription OnUpdateParticipation {
       version
     }
     status
+    createdAt
+    updatedAt
     version
   }
 }
@@ -114,6 +118,8 @@ export const onDeleteParticipation = `subscription OnDeleteParticipation {
       version
     }
     status
+    createdAt
+    updatedAt
     version
   }
 }

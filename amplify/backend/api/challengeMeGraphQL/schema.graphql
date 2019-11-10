@@ -42,6 +42,8 @@ type Participation @model @auth(rules: [{ allow: private }]) @auth(rules: [{ all
   activity: Activity! @connection(name: "ActivityParticipants")
   participant: User! @connection(name: "UserActivities")
   status: ParticipationStatus!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
 }
 
 enum ParticipationStatus {

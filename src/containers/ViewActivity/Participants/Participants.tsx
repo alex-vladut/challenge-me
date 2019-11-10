@@ -1,0 +1,98 @@
+import React, { FunctionComponent, useState } from "react";
+
+import {
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Avatar,
+  IconButton,
+  Tabs,
+  Tab,
+  Paper,
+  Typography,
+  Divider
+} from "@material-ui/core";
+import { Check, Clear } from "@material-ui/icons";
+import { grey } from "@material-ui/core/colors";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
+import moment from "moment";
+
+const useStyles = makeStyles(theme =>
+  createStyles({
+    root: {
+      width: "100%",
+      flexGrow: 1,
+      backgroundColor: theme.palette.background.paper,
+      marginTop: theme.spacing(2),
+      paddingBottom: theme.spacing(2)
+    },
+    header: {
+      backgroundColor: grey[200]
+    },
+    avatar: {
+      backgroundColor: grey[500]
+    },
+    inline: {
+      display: "inline"
+    }
+  })
+);
+
+export interface ParticipantsProps {
+  participations: any[];
+}
+
+const Participants: FunctionComponent<ParticipantsProps> = ({ participations }) => {
+  const classes = useStyles({});
+
+  const [activeTab, setActiveTab] = useState(0);
+
+  const going = participations.filter(p => p.status === "ACCEPTED");
+  const notGoing = participations.filter(p => p.status === "REJECTED");
+
+  const handleTabChange = (_: React.ChangeEvent<{}>, newValue: number) => {
+    setActiveTab(newValue);
+  };
+
+  return (
+    <Paper className={classes.root}>
+      <Tabs indicatorColor="primary" textColor="primary" value={activeTab} onChange={handleTabChange} centered>
+        <Tab label={`Going (${going.length})`} />
+        <Tab label={`Not Going (${notGoing.length})`} />
+      </Tabs>
+      <List className={classes.root}>
+        {(activeTab === 0 ? going : notGoing).map((participation: any) => (
+          <>
+            <ListItem key={participation.id} alignItems="flex-start" button>
+              <ListItemAvatar>
+                <Avatar
+                  className={classes.avatar}
+                  alt={participation.participant.name}
+                  src={participation.participant.pictureUrl}
+                />
+              </ListItemAvatar>
+              <ListItemText
+                primary={participation.participant.name}
+                secondary={
+                  <>
+                    <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
+                      {participation.status === "ACCEPTED" ? "Accepted: " : "Rejected: "}
+                    </Typography>
+                    {" " + moment(participation.createdAt).format("MMMM DD")}
+                  </>
+                }
+              />
+              <IconButton aria-label="participant-status" disabled={true}>
+                {participation.status === "ACCEPTED" ? <Check color="primary" /> : <Clear color="error" />}
+              </IconButton>
+            </ListItem>
+            <Divider variant="inset" component="li" />
+          </>
+        ))}
+      </List>
+    </Paper>
+  );
+};
+
+export default Participants;

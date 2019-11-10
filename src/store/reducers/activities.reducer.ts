@@ -19,7 +19,8 @@ import {
   FetchActivity,
   FetchActivitySuccess,
   FetchActivityFail,
-  SetFilters
+  SetFilters,
+  SetActivityId
 } from "../actions/activities.actions";
 
 export interface FiltersState {
@@ -29,6 +30,7 @@ export interface FiltersState {
 export interface State {
   activities: any[];
   activity: any;
+  activityId: string | null;
   sports: any[];
   created: string | null;
   filters: FiltersState;
@@ -39,6 +41,7 @@ export interface State {
 const initialState: State = {
   activities: [],
   activity: null,
+  activityId: null,
   sports,
   created: null,
   filters: {
@@ -52,6 +55,8 @@ const reducer = (state = initialState, { type, payload }: ActionWithPayload<any>
   switch (type) {
     case SetFilters.type:
       return { ...state, filters: payload };
+    case SetActivityId.type:
+      return { ...state, activityId: payload };
     case Create.type:
       return { ...state, loading: true };
     case CreateSuccess.type:

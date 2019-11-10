@@ -58,6 +58,7 @@ export const getActivity = `query GetActivity($id: ID!) {
       items {
         id
         status
+        createdAt
         version
         participant {
           id

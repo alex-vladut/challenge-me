@@ -1,7 +1,7 @@
 import { action, payload } from "./actions";
 
 export const FeatureKey = "[ACTIVITIES]";
-export const SetFilters = action(`${FeatureKey} SET FILTERS`, payload<any>());
+export const SetFilters = action(`${FeatureKey} SET_FILTERS`, payload<any>());
 export const Create = action(`${FeatureKey} CREATE`, payload<any>());
 export const CreateSuccess = action(`${FeatureKey} CREATE_SUCCESS`, payload<string>());
 export const CreateFail = action(`${FeatureKey} CREATE_FAIL`, payload<string>());
@@ -11,6 +11,7 @@ export const DeleteFail = action(`${FeatureKey} DELETE_FAIL`, payload<any>());
 export const FetchAll = action(`${FeatureKey} FETCH_ALL`, payload<any>());
 export const FetchAllSuccess = action(`${FeatureKey} FETCH_ALL_SUCCESS`, payload<any>());
 export const FetchAllFail = action(`${FeatureKey} FETCH_ALL_FAIL`, payload<string>());
+export const SetActivityId = action(`${FeatureKey} SET_ACTIVITY_ID`, payload<string>());
 export const FetchActivity = action(`${FeatureKey} FETCH_ACTIVITY`, payload<any>());
 export const FetchActivitySuccess = action(`${FeatureKey} FETCH_ACTIVITY_SUCCESS`, payload<any>());
 export const FetchActivityFail = action(`${FeatureKey} FETCH_ACTIVITY_FAIL`, payload<any>());

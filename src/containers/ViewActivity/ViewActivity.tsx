@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Redirect } from "react-router";
 import { connect } from "react-redux";
 
 import moment from "moment";
@@ -18,23 +19,17 @@ import {
   Button,
   DialogTitle,
   CircularProgress,
-  Grid,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails
+  Grid
 } from "@material-ui/core";
-import { Delete as DeleteIcon, Check, Clear, ExpandMore, Room, AccessTime, CalendarToday } from "@material-ui/icons";
+import { Delete as DeleteIcon, Check, Clear, Room, AccessTime, CalendarToday } from "@material-ui/icons";
 import { grey } from "@material-ui/core/colors";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 
 import userIcon from "../../assets/user.png";
 import { State } from "../../store/reducers";
-import { FetchActivity, Accept, Reject, Delete } from "../../store/actions/activities.actions";
-import { Redirect } from "react-router";
+import { SetActivityId, Accept, Reject, Delete } from "../../store/actions/activities.actions";
+
+import Participants from "./Participants/Participants";
 
 export interface ViewActivityProps {
   activity: any;
@@ -43,13 +38,13 @@ export interface ViewActivityProps {
   deleted: boolean;
   loading: boolean;
   match: any;
-  fetchActivity(activityId: string): void;
+  setActivityId(activityId: string): void;
   acceptActivity({ userId, activityId }: any): void;
   rejectActivity(participation: any): void;
   deleteActivity(activity: string): void;
 }
 
-const useStyles = makeStyles(theme =>
+const useStyles: any = makeStyles(theme =>
   createStyles({
     root: {
       width: "100%",
@@ -63,9 +58,8 @@ const useStyles = makeStyles(theme =>
     },
     description: {
       backgroundColor: "#f5f5f5",
-      padding: "0.5rem",
-      marginBottom: "1rem",
-      minHeight: "2rem"
+      padding: theme.spacing(1),
+      marginBottom: theme.spacing(1)
     }
   })
 );
@@ -76,20 +70,19 @@ const ViewActivity = ({
   deleted,
   loading,
   match,
-  fetchActivity,
+  setActivityId,
   acceptActivity,
   profile,
   rejectActivity,
   deleteActivity
 }: ViewActivityProps) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-  const [expanded, setExpanded] = useState(false);
   const classes = useStyles();
 
   const activityId = match.params.activityId;
   useEffect(() => {
-    fetchActivity(activityId);
-  }, [activityId, fetchActivity]);
+    setActivityId(activityId);
+  }, [activityId, setActivityId]);
 
   const acceptedActivity = () => {
     const participation = activity.participations.find((item: any) => item.participant.id === profile.id);
@@ -204,47 +197,9 @@ const ViewActivity = ({
         </CardContent>
         <CardActions>{actions}</CardActions>
       </Card>
-      <ExpansionPanel expanded={expanded} onChange={() => setExpanded(!expanded)}>
-        <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-          <Typography variant="h6" color="textPrimary">
-            Participants ({activity.participations.length})
-          </Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          {activity.participations.length === 0 ? (
-            <Typography variant="subtitle1" color="textSecondary">
-              So far no user confirmed they will join your activity.
-            </Typography>
-          ) : null}
-          {activity.participations.length > 0 ? (
-            <List className={classes.root}>
-              {activity.participations
-                .sort((p1: any, p2: any) => p1.status > p2.status)
-                .map((participation: any) => (
-                  <ListItem key={participation.id} button>
-                    <ListItemAvatar>
-                      <Avatar
-                        className={classes.avatar}
-                        alt={participation.participant.name}
-                        src={participation.participant.pictureUrl || userIcon}
-                      />
-                    </ListItemAvatar>
-                    <ListItemText primary={participation.participant.name} />
-                    {participation.status === "ACCEPTED" ? (
-                      <IconButton aria-label="participant-accepted" disabled={true}>
-                        <Check color="primary" />
-                      </IconButton>
-                    ) : (
-                      <IconButton aria-label="participant-reject" disabled={true}>
-                        <Clear color="error" />
-                      </IconButton>
-                    )}
-                  </ListItem>
-                ))}
-            </List>
-          ) : null}
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+
+      <Participants participations={activity.participations} />
+
       <Dialog open={deleteConfirmation} onClose={() => setDeleteConfirmation(false)}>
         <DialogTitle>{"Delete activity"}</DialogTitle>
         <DialogContent>
@@ -272,10 +227,13 @@ const mapStateToProps = ({ activities, auth }: State) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  fetchActivity: (activityId: string) => dispatch(FetchActivity.create(activityId)),
+  setActivityId: (activityId: string) => dispatch(SetActivityId.create(activityId)),
   acceptActivity: (participation: any) => dispatch(Accept.create(participation)),
   rejectActivity: (participation: any) => dispatch(Reject.create(participation)),
   deleteActivity: (activity: any) => dispatch(Delete.create(activity))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ViewActivity);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ViewActivity);

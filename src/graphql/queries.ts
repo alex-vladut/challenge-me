@@ -120,6 +120,8 @@ export const getParticipation = `query GetParticipation($id: ID!) {
       version
     }
     status
+    createdAt
+    updatedAt
     version
   }
 }
@@ -133,6 +135,8 @@ export const listParticipations = `query ListParticipations(
     items {
       id
       status
+      createdAt
+      updatedAt
       version
     }
     nextToken

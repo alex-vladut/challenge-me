@@ -4,6 +4,16 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
     name
     pictureUrl
     email
+    activities {
+      items {
+        id
+        status
+        activity {
+          id
+        }
+      }
+      nextToken
+    }
     version
   }
 }

@@ -23,9 +23,9 @@ import {
   Reject,
   RejectSuccess,
   RejectFail,
-  FetchActivity,
   FetchActivitySuccess,
-  FetchActivityFail
+  FetchActivityFail,
+  SetActivityId
 } from "../actions/activities.actions";
 import { State } from "../reducers";
 
@@ -167,11 +167,12 @@ const updateRejectedParticipation = (payload: any) =>
     )
   );
 
-const fetchActivity = (actions$: ActionsObservable<ActionWithPayload<string>>) =>
+const fetchActivity = (actions$: ActionsObservable<ActionWithPayload<string>>, store$: Observable<State>) =>
   actions$.pipe(
-    ofType(FetchActivity.type),
-    switchMap(({ payload }) =>
-      from(API.graphql(graphqlOperation(queries.getActivity, { id: payload })) as Promise<any>).pipe(
+    ofType(SetActivityId.type, AcceptSuccess.type, RejectSuccess.type),
+    withLatestFrom(store$.pipe(map(({ activities }) => activities.activityId))),
+    switchMap(([_, activityId]: any[]) =>
+      from(API.graphql(graphqlOperation(queries.getActivity, { id: activityId })) as Promise<any>).pipe(
         map(({ data }: any) => FetchActivitySuccess.create(data.getActivity)),
         catchError(() => of(FetchActivityFail.create("Sorry, there was an error while loading the activity :(")))
       )
