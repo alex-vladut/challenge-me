@@ -2,7 +2,7 @@ import "./Logo.scss";
 
 import React, { FunctionComponent } from "react";
 
-import challengeMeLogo from "../../assets/challenge-me-logo.png";
+import challengeMeLogo from "../../assets/logo.png";
 
 const Logo: FunctionComponent = () => (
   <div className="Logo">
