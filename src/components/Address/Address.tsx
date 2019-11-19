@@ -1,8 +1,8 @@
-import React, { FunctionComponent, useState } from "react";
-
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from "react-places-autocomplete";
-import { TextField, CircularProgress, MenuItem, Paper, InputAdornment, IconButton } from "@material-ui/core";
-import { Search, CloseRounded } from "@material-ui/icons";
+import React, { FunctionComponent, useState } from 'react';
+import { CircularProgress, IconButton, InputBase, MenuItem, Paper } from '@material-ui/core';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { CloseRounded, Search } from '@material-ui/icons';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 interface AddressSelectionProps {
   value?: any;
@@ -11,10 +11,32 @@ interface AddressSelectionProps {
   onLocationChanged(location: any): void;
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      margin: theme.spacing(1),
+      padding: "2px 4px"
+    },
+    input: {
+      margin: theme.spacing(0.25),
+      flex: 1
+    },
+    iconButton: {
+      padding: 10
+    },
+    divider: {
+      height: 28,
+      margin: 4
+    }
+  })
+);
+
 const getLocationDescription = (description: string) =>
   description && description.length > 70 ? `${description.slice(0, 70)}...` : description;
 
-const Address: FunctionComponent<AddressSelectionProps> = ({ value, error, helperText, onLocationChanged }) => {
+const Address: FunctionComponent<AddressSelectionProps> = ({ value, error, onLocationChanged }) => {
+  const classes = useStyles();
+
   const [address, setAddress] = useState((value && value.address) || "");
 
   const handleChange = (address: string) => {
@@ -37,50 +59,49 @@ const Address: FunctionComponent<AddressSelectionProps> = ({ value, error, helpe
   };
 
   return (
-    <PlacesAutocomplete
-      value={address}
-      onChange={handleChange}
-      onSelect={handleSelect}
-      onError={onError}
-      shouldFetchSuggestions={address.length >= 2}
-      debounce={300}
-    >
-      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-        <>
-          <TextField
-            {...getInputProps({
-              label: "Location",
-              placeholder: "Search location...",
-              className: "location-search-input",
-              fullWidth: true,
-              required: true,
-              error,
-              helperText
-            })}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
+    <Paper className={classes.root}>
+      <PlacesAutocomplete
+        value={address}
+        onChange={handleChange}
+        onSelect={handleSelect}
+        onError={onError}
+        shouldFetchSuggestions={address.length >= 2}
+        debounce={300}
+      >
+        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+          <>
+            <InputBase
+              className={classes.input}
+              {...getInputProps({
+                label: "Location",
+                placeholder: "Search location...",
+                required: true,
+                fullWidth: true,
+                error
+              })}
+              startAdornment={
+                <IconButton className={classes.iconButton} disabled={true}>
                   <Search />
-                </InputAdornment>
-              ),
-              endAdornment: address ? (
+                </IconButton>
+              }
+              endAdornment={
                 <IconButton aria-label="close" onClick={() => handleChange("")}>
                   <CloseRounded />
                 </IconButton>
-              ) : null
-            }}
-          />
-          <Paper>
-            {loading && <CircularProgress />}
-            {suggestions.map(suggestion => (
-              <MenuItem {...getSuggestionItemProps(suggestion, {})}>
-                <span>{getLocationDescription(suggestion.description)}</span>
-              </MenuItem>
-            ))}
-          </Paper>
-        </>
-      )}
-    </PlacesAutocomplete>
+              }
+            />
+            <Paper>
+              {loading && <CircularProgress />}
+              {suggestions.map(suggestion => (
+                <MenuItem {...getSuggestionItemProps(suggestion, {})}>
+                  <span>{getLocationDescription(suggestion.description)}</span>
+                </MenuItem>
+              ))}
+            </Paper>
+          </>
+        )}
+      </PlacesAutocomplete>
+    </Paper>
   );
 };
 

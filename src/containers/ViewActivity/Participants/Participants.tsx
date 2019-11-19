@@ -1,22 +1,20 @@
-import React, { FunctionComponent, useState } from "react";
-
 import {
+  Avatar,
+  IconButton,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Avatar,
-  IconButton,
-  Tabs,
-  Tab,
   Paper,
-  Typography,
-  Divider
+  Tab,
+  Tabs,
+  Typography
 } from "@material-ui/core";
-import { Check, Clear } from "@material-ui/icons";
 import { grey } from "@material-ui/core/colors";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
+import { Check, Clear } from "@material-ui/icons";
 import moment from "moment";
+import React, { FunctionComponent, useState } from "react";
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -63,32 +61,29 @@ const Participants: FunctionComponent<ParticipantsProps> = ({ participations }) 
       </Tabs>
       <List className={classes.root}>
         {(activeTab === 0 ? going : notGoing).map((participation: any) => (
-          <>
-            <ListItem key={participation.id} alignItems="flex-start" button>
-              <ListItemAvatar>
-                <Avatar
-                  className={classes.avatar}
-                  alt={participation.participant.name}
-                  src={participation.participant.pictureUrl}
-                />
-              </ListItemAvatar>
-              <ListItemText
-                primary={participation.participant.name}
-                secondary={
-                  <>
-                    <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
-                      {participation.status === "ACCEPTED" ? "Accepted: " : "Rejected: "}
-                    </Typography>
-                    {" " + moment(participation.createdAt).format("MMMM DD")}
-                  </>
-                }
+          <ListItem key={participation.id} alignItems="flex-start" button>
+            <ListItemAvatar>
+              <Avatar
+                className={classes.avatar}
+                alt={participation.participant.name}
+                src={participation.participant.pictureUrl}
               />
-              <IconButton aria-label="participant-status" disabled={true}>
-                {participation.status === "ACCEPTED" ? <Check color="primary" /> : <Clear color="error" />}
-              </IconButton>
-            </ListItem>
-            <Divider variant="inset" component="li" />
-          </>
+            </ListItemAvatar>
+            <ListItemText
+              primary={participation.participant.name}
+              secondary={
+                <>
+                  <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
+                    {participation.status === "ACCEPTED" ? "Accepted: " : "Rejected: "}
+                  </Typography>
+                  {" " + moment(participation.createdAt).format("MMMM DD")}
+                </>
+              }
+            />
+            <IconButton aria-label="participant-status" disabled={true}>
+              {participation.status === "ACCEPTED" ? <Check color="primary" /> : <Clear color="error" />}
+            </IconButton>
+          </ListItem>
         ))}
       </List>
     </Paper>

@@ -24,7 +24,7 @@ interface ActivitiesProps {
 const useStyles = makeStyles(() =>
   createStyles({
     root: {
-      marginBottom: "2rem"
+      marginBottom: "1rem"
     },
     day: {
       textAlign: "center"

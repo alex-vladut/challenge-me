@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from "react";
+import { TextField } from "@material-ui/core";
 
-import { FormControl, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
-
+import Autocomplete from "../../../../components/Autocomplete";
 import BaseStep from "../BaseStep";
 
 const validate = (form: any) => {
@@ -26,19 +26,13 @@ export interface DescriptionProps {
   onNext(description: any): void;
 }
 
-const Description: FunctionComponent<DescriptionProps> = ({
-  sports,
-  isFirst,
-  isLast,
-  onBack,
-  onNext
-}) => {
+const Description: FunctionComponent<DescriptionProps> = ({ sports, isFirst, isLast, onBack, onNext }) => {
   const [description, setDescription] = useState<string>("");
   const [sport, setSport] = useState<any>(sports[0]);
   const [errors, setErrors] = useState<any>({});
 
   const handleDescriptionChange = (event: any) => setDescription(event.target.value);
-  const handleSportChange = (event: any) => setSport(event.target.value);
+  const handleSportChange = (event: any) => setSport(event);
 
   const handleNext = () => {
     const activity = { description, sport: sport.name };
@@ -64,16 +58,21 @@ const Description: FunctionComponent<DescriptionProps> = ({
         fullWidth
         required
       />
-      <FormControl fullWidth required error={!!errors.sport}>
-        <InputLabel htmlFor="sport">Choose a sport</InputLabel>
-        <Select value={sport} onChange={handleSportChange} inputProps={{ id: "name" }}>
+      <Autocomplete
+        value={sport}
+        onChange={handleSportChange}
+        suggestions={sports}
+        label="Sport"
+        placeholder="Search for a sport"
+        mapValue={sport => ({ label: `${sport.emoji} ${sport.name}`, value: sport.name })}
+      />
+      {/* <Select value={sport} onChange={handleSportChange} inputProps={{ id: "name" }}>
           {sports.map(sport => (
             <MenuItem value={sport} key={sport.name}>
               {sport.emoji} {sport.name}
             </MenuItem>
           ))}
-        </Select>
-      </FormControl>
+        </Select> */}
     </BaseStep>
   );
 };

@@ -1,7 +1,7 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent } from "react";
 
-import { Button, Grid } from '@material-ui/core';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { Button, Grid } from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -9,9 +9,9 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: theme.spacing(1),
       marginRight: theme.spacing(1)
     },
-    container:{
+    container: {
       marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(2),
+      marginBottom: theme.spacing(2)
     },
     actionsContainer: {
       marginBottom: theme.spacing(2)
@@ -26,13 +26,7 @@ export interface BaseStepProps {
   onNext(): void;
 }
 
-const BaseStep: FunctionComponent<BaseStepProps> = ({
-  children,
-  isFirst,
-  isLast,
-  onBack,
-  onNext
-}) => {
+const BaseStep: FunctionComponent<BaseStepProps> = ({ children, isFirst, isLast, onBack, onNext }) => {
   const classes = useStyles({});
   return (
     <>

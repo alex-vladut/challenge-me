@@ -132,7 +132,4 @@ const mapDispatchToProps = (dispatch: any) => ({
   createActivity: (activity: any) => dispatch(Create.create(activity))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CreateActivity);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateActivity);

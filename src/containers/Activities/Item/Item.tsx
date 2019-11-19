@@ -5,21 +5,27 @@ import moment from "moment";
 import { Avatar, Card, CardActions, CardContent, CardHeader, IconButton, Typography, Grid } from "@material-ui/core";
 import { ArrowForwardOutlined, AccessTime, Room } from "@material-ui/icons";
 import { grey } from "@material-ui/core/colors";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
 import userIcon from "../../../assets/user.png";
 import { Link } from "react-router-dom";
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     card: {
-      margin: "0.5rem"
+      margin: "1rem"
     },
     header: {
       backgroundColor: grey[200]
     },
     avatar: {
       backgroundColor: grey[500]
+    },
+    location: {
+      display: "grid",
+      gridTemplateColumns: "2em auto",
+      gridGap: theme.spacing(1),
+      alignItems: "center"
     }
   })
 );
@@ -65,7 +71,7 @@ const Item: FunctionComponent<ItemProps> = ({ activity, profile }: ItemProps) =>
               <AccessTime color="disabled" fontSize="large" />
             </Grid>
           </Grid>
-          <Grid item>
+          <Grid item xs={9}>
             <Typography component="p" color="textPrimary">
               {activity.description}
             </Typography>
@@ -73,14 +79,14 @@ const Item: FunctionComponent<ItemProps> = ({ activity, profile }: ItemProps) =>
         </Grid>
       </CardContent>
       <CardActions>
-        <Grid container alignItems="baseline">
+        <Grid container>
           <Grid item xs={10}>
-            <Grid container>
+            <div className={classes.location}>
               <Room color="disabled" />
-              <Typography variant="subtitle1" color="textSecondary">
+              <Typography noWrap variant="subtitle1" color="textSecondary">
                 {activity.address}
               </Typography>
-            </Grid>
+            </div>
           </Grid>
           <Grid item xs={2}>
             <Grid container justify="flex-end">
