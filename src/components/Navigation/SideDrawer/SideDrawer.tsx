@@ -8,6 +8,7 @@ import NavigationItems from "../NavigationItems/NavigationItems";
 
 interface SideDrawerProps {
   isAuthenticated: boolean;
+  profile: any;
   open: boolean;
   closed(): void;
 }
@@ -21,7 +22,7 @@ const SideDrawer: FunctionComponent<SideDrawerProps> = props => {
       </div>
       <Close onClick={props.closed} />
       <nav>
-        <NavigationItems onClick={props.closed} isAuthenticated={props.isAuthenticated} />
+        <NavigationItems onClick={props.closed} profile={props.profile} isAuthenticated={props.isAuthenticated} />
       </nav>
     </div>
   );

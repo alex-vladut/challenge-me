@@ -144,7 +144,7 @@ const ViewActivity = ({
     );
   }
   return (
-    <div>
+    <>
       <Card>
         <CardHeader
           avatar={
@@ -214,7 +214,7 @@ const ViewActivity = ({
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 };
 

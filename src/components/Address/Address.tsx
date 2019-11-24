@@ -1,8 +1,9 @@
-import React, { FunctionComponent, useState } from 'react';
-import { CircularProgress, IconButton, InputBase, MenuItem, Paper } from '@material-ui/core';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { CloseRounded, Search } from '@material-ui/icons';
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import React, { FunctionComponent, useState } from "react";
+
+import { CircularProgress, IconButton, InputBase, MenuItem, Paper } from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { CloseRounded, Search } from "@material-ui/icons";
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 
 interface AddressSelectionProps {
   value?: any;
@@ -15,7 +16,8 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       margin: theme.spacing(1),
-      padding: "2px 4px"
+      padding: "2px 4px",
+      position: "relative"
     },
     input: {
       margin: theme.spacing(0.25),
@@ -27,6 +29,13 @@ const useStyles = makeStyles((theme: Theme) =>
     divider: {
       height: 28,
       margin: 4
+    },
+    paper: {
+      position: "absolute",
+      zIndex: 1,
+      marginTop: theme.spacing(1),
+      left: 0,
+      right: 0
     }
   })
 );
@@ -90,11 +99,11 @@ const Address: FunctionComponent<AddressSelectionProps> = ({ value, error, onLoc
                 </IconButton>
               }
             />
-            <Paper>
+            <Paper className={classes.paper}>
               {loading && <CircularProgress />}
               {suggestions.map(suggestion => (
                 <MenuItem {...getSuggestionItemProps(suggestion, {})}>
-                  <span>{getLocationDescription(suggestion.description)}</span>
+                  {getLocationDescription(suggestion.description)}
                 </MenuItem>
               ))}
             </Paper>

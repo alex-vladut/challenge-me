@@ -4,9 +4,11 @@ import React, { FunctionComponent } from "react";
 
 import NavigationItem from "./NavigationItem/NavigationItem";
 import CallToAction from "./CallToAction/CallToAction";
+import Profile from "./Profile/Profile";
 
 interface NavigationItemsProps {
   isAuthenticated: boolean;
+  profile: any;
   onClick?(): void;
 }
 
@@ -21,12 +23,7 @@ const NavigationItems: FunctionComponent<NavigationItemsProps> = props => {
         <NavigationItem link="/" onClick={props.onClick}>
           Activities
         </NavigationItem>
-        <NavigationItem link="/profile" onClick={props.onClick}>
-          Profile
-        </NavigationItem>
-        <NavigationItem link="/logout" onClick={props.onClick}>
-          Log Out
-        </NavigationItem>
+        <Profile profile={props.profile} />
       </ul>
     );
   } else {

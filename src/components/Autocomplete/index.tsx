@@ -1,22 +1,22 @@
-import React, { CSSProperties, FunctionComponent, HTMLAttributes } from 'react';
-import Chip from '@material-ui/core/Chip';
-import MenuItem from '@material-ui/core/MenuItem';
-import Paper from '@material-ui/core/Paper';
-import { createStyles, emphasize, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
-import TextField, { BaseTextFieldProps } from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import CancelIcon from '@material-ui/icons/Cancel';
-import { Omit } from '@material-ui/types';
-import clsx from 'clsx';
-import Select from 'react-select';
-import { ValueContainerProps } from 'react-select/src/components/containers';
-import { ControlProps } from 'react-select/src/components/Control';
-import { MenuProps, NoticeProps } from 'react-select/src/components/Menu';
-import { MultiValueProps } from 'react-select/src/components/MultiValue';
-import { OptionProps } from 'react-select/src/components/Option';
-import { PlaceholderProps } from 'react-select/src/components/Placeholder';
-import { SingleValueProps } from 'react-select/src/components/SingleValue';
-import { ValueType } from 'react-select/src/types';
+import React, { CSSProperties, FunctionComponent, HTMLAttributes } from "react";
+import Chip from "@material-ui/core/Chip";
+import MenuItem from "@material-ui/core/MenuItem";
+import Paper from "@material-ui/core/Paper";
+import { createStyles, emphasize, makeStyles, Theme, useTheme } from "@material-ui/core/styles";
+import TextField, { BaseTextFieldProps } from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import CancelIcon from "@material-ui/icons/Cancel";
+import { Omit } from "@material-ui/types";
+import clsx from "clsx";
+import Select from "react-select";
+import { ValueContainerProps } from "react-select/src/components/containers";
+import { ControlProps } from "react-select/src/components/Control";
+import { MenuProps, NoticeProps } from "react-select/src/components/Menu";
+import { MultiValueProps } from "react-select/src/components/MultiValue";
+import { OptionProps } from "react-select/src/components/Option";
+import { PlaceholderProps } from "react-select/src/components/Placeholder";
+import { SingleValueProps } from "react-select/src/components/SingleValue";
+import { ValueType } from "react-select/src/types";
 
 interface OptionType {
   label: string;
@@ -210,9 +210,12 @@ const Autocomplete: FunctionComponent<AutocompleteProps> = ({
   const handleChangeSingle = (selectedValue: ValueType<OptionType>, e: any) => {
     const result = suggestions.find(suggestion => {
       const translatedValue = mapValue(suggestion);
-      return translatedValue.value === (selectedValue as OptionType).value && translatedValue.label === (selectedValue as OptionType).label;
+      return (
+        translatedValue.value === (selectedValue as OptionType).value &&
+        translatedValue.label === (selectedValue as OptionType).label
+      );
     });
-    console.log(result)
+    console.log(result);
     onChange(result);
   };
 

@@ -21,11 +21,21 @@ const useStyles = makeStyles((theme: Theme) =>
     avatar: {
       backgroundColor: grey[500]
     },
+    content: {
+      display: "grid",
+      gridTemplateColumns: "1fr 3fr",
+      gridGap: theme.spacing(1)
+    },
+    actions: {
+      display: "grid",
+      gridTemplateColumns: "5fr 1fr",
+      marginRight: theme.spacing(1)
+    },
     location: {
       display: "grid",
-      gridTemplateColumns: "2em auto",
+      gridTemplateColumns: "1em auto",
       gridGap: theme.spacing(1),
-      alignItems: "center"
+      padding: theme.spacing(1)
     }
   })
 );
@@ -61,42 +71,30 @@ const Item: FunctionComponent<ItemProps> = ({ activity, profile }: ItemProps) =>
         subheader={activity.sport}
         className={classes.header}
       />
-      <CardContent>
-        <Grid container>
-          <Grid item xs={3}>
-            <Grid container alignContent="center" justify="center" alignItems="center">
-              <div style={{ fontSize: 20, width: "100%", textAlign: "center" }}>
-                {moment(activity.dateTime).format("HH:mm A")}
-              </div>
-              <AccessTime color="disabled" fontSize="large" />
-            </Grid>
-          </Grid>
-          <Grid item xs={9}>
-            <Typography component="p" color="textPrimary">
-              {activity.description}
-            </Typography>
-          </Grid>
+      <CardContent className={classes.content}>
+        <Grid container alignContent="center" justify="center" alignItems="center">
+          <div style={{ fontSize: 20, width: "100%", textAlign: "center" }}>
+            {moment(activity.dateTime).format("HH:mm A")}
+          </div>
+          <AccessTime color="disabled" fontSize="large" />
         </Grid>
+        <Typography component="p" color="textPrimary">
+          {activity.description}
+        </Typography>
       </CardContent>
-      <CardActions>
-        <Grid container>
-          <Grid item xs={10}>
-            <div className={classes.location}>
-              <Room color="disabled" />
-              <Typography noWrap variant="subtitle1" color="textSecondary">
-                {activity.address}
-              </Typography>
-            </div>
-          </Grid>
-          <Grid item xs={2}>
-            <Grid container justify="flex-end">
-              <Link to={`/activities/${activity.id}`}>
-                <IconButton aria-label="open">
-                  <ArrowForwardOutlined />
-                </IconButton>
-              </Link>
-            </Grid>
-          </Grid>
+      <CardActions className={classes.actions}>
+        <div className={classes.location}>
+          <Room color="disabled" />
+          <Typography noWrap variant="subtitle1" color="textSecondary">
+            {activity.address}
+          </Typography>
+        </div>
+        <Grid container justify="flex-end">
+          <Link to={`/activities/${activity.id}`}>
+            <IconButton aria-label="open">
+              <ArrowForwardOutlined />
+            </IconButton>
+          </Link>
         </Grid>
       </CardActions>
     </Card>

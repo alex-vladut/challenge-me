@@ -3,6 +3,15 @@ import { TextField } from "@material-ui/core";
 
 import Autocomplete from "../../../../components/Autocomplete";
 import BaseStep from "../BaseStep";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    description: {
+      marginBottom: theme.spacing(2)
+    }
+  })
+);
 
 const validate = (form: any) => {
   let errors: any = {};
@@ -27,6 +36,8 @@ export interface DescriptionProps {
 }
 
 const Description: FunctionComponent<DescriptionProps> = ({ sports, isFirst, isLast, onBack, onNext }) => {
+  const classes = useStyles();
+
   const [description, setDescription] = useState<string>("");
   const [sport, setSport] = useState<any>(sports[0]);
   const [errors, setErrors] = useState<any>({});
@@ -52,6 +63,7 @@ const Description: FunctionComponent<DescriptionProps> = ({ sports, isFirst, isL
         onChange={handleDescriptionChange}
         error={!!errors.description}
         helperText={errors.description}
+        className={classes.description}
         multiline
         rows="3"
         rowsMax="5"
@@ -66,13 +78,6 @@ const Description: FunctionComponent<DescriptionProps> = ({ sports, isFirst, isL
         placeholder="Search for a sport"
         mapValue={sport => ({ label: `${sport.emoji} ${sport.name}`, value: sport.name })}
       />
-      {/* <Select value={sport} onChange={handleSportChange} inputProps={{ id: "name" }}>
-          {sports.map(sport => (
-            <MenuItem value={sport} key={sport.name}>
-              {sport.emoji} {sport.name}
-            </MenuItem>
-          ))}
-        </Select> */}
     </BaseStep>
   );
 };

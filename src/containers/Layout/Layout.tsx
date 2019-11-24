@@ -6,6 +6,7 @@ import SideDrawer from "../../components/Navigation/SideDrawer/SideDrawer";
 import Toolbar from "../../components/Navigation/Toolbar/Toolbar";
 
 interface LayoutProps {
+  profile: any;
   isAuthenticated: boolean;
 }
 
@@ -29,10 +30,15 @@ class Layout extends Component<LayoutProps, LayoutState> {
   render() {
     return (
       <Fragment>
-        <Toolbar onOpenMenu={this.sideDrawerOpenedHandler} isAuthenticated={this.props.isAuthenticated} />
+        <Toolbar
+          onOpenMenu={this.sideDrawerOpenedHandler}
+          profile={this.props.profile}
+          isAuthenticated={this.props.isAuthenticated}
+        />
         <SideDrawer
           open={this.state.showSideDrawer}
           closed={this.sideDrawerClosedHandler}
+          profile={this.props.profile}
           isAuthenticated={this.props.isAuthenticated}
         />
         <main className="Content">{this.props.children}</main>
@@ -42,7 +48,8 @@ class Layout extends Component<LayoutProps, LayoutState> {
 }
 
 const mapStateToProps = (state: any) => ({
-  isAuthenticated: state.auth.authenticated
+  isAuthenticated: state.auth.authenticated,
+  profile: state.auth.profile
 });
 
 export default connect(mapStateToProps)(Layout);
