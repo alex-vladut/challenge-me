@@ -6,6 +6,12 @@ export type DeleteActivityInput = {
   expectedVersion: number;
 };
 
+export type SendMessageInput = {
+  name: string;
+  email: string;
+  message: string;
+};
+
 export type CreateUserInput = {
   id?: string | null;
   name: string;
@@ -253,6 +259,14 @@ export type DeleteActivityMutation = {
     updatedAt: string | null;
     version: number;
   };
+};
+
+export type SendMessageMutationVariables = {
+  input: SendMessageInput;
+};
+
+export type SendMessageMutation = {
+  sendMessage: string | null;
 };
 
 export type CreateUserMutationVariables = {

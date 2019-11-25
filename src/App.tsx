@@ -16,6 +16,7 @@ import CreateActivity from "./containers/CreateActivity/CreateActivity";
 import Activities from "./containers/Activities/Activities";
 import ViewActivity from "./containers/ViewActivity/ViewActivity";
 import Profile from "./containers/Profile/Profile";
+import ContactUs from "./containers/ContactUs/ContactUs";
 
 interface AppProps {
   isAuthenticated: boolean;
@@ -54,6 +55,7 @@ const App: FunctionComponent<AppProps> = ({ isAuthenticated, fetchProfile }) => 
           />
           <PrivateRoute path="/activities" exact component={Activities} isAuthenticated={isAuthenticated} />
           <PrivateRoute path="/profile" exact component={Profile} isAuthenticated={isAuthenticated} />
+          <PrivateRoute path="/contact-us" exact component={ContactUs} isAuthenticated={isAuthenticated} />
           <PrivateRoute path="/logout" exact component={LogOut} isAuthenticated={isAuthenticated} />
           <Route render={() => <h1>Page Not Found!</h1>} />
         </Switch>

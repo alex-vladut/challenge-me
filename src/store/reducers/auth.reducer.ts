@@ -6,6 +6,9 @@ import {
   Save,
   SaveFail,
   SaveSuccess,
+  SendMessage,
+  SendMessageFail,
+  SendMessageSuccess,
   SignOut,
   SignOutFail,
   SignOutSuccess
@@ -30,6 +33,7 @@ const reducer = (state = initialState, action: any) => {
     case Fetch.type:
     case SignOut.type:
     case Save.type:
+    case SendMessage.type:
       return {
         ...state,
         loading: true
@@ -61,6 +65,12 @@ const reducer = (state = initialState, action: any) => {
         ...state,
         loading: false,
         error: action.error
+      };
+    case SendMessageFail.type:
+    case SendMessageSuccess.type:
+      return {
+        ...state,
+        loading: false
       };
     default:
       return state;

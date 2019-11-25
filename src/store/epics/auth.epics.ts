@@ -15,6 +15,9 @@ import {
   Save,
   SaveFail,
   SaveSuccess,
+  SendMessage,
+  SendMessageFail,
+  SendMessageSuccess,
   SignOut,
   SignOutFail,
   SignOutSuccess
@@ -91,4 +94,41 @@ const signOut = (actions$: any) =>
     )
   );
 
-export default [fetchProfile, fetchLocation, saveProfile, saveProfileSuccessful, saveProfileFailed, signOut];
+const sendMessage = (actions$: any) =>
+  actions$.pipe(
+    ofType(SendMessage.type),
+    switchMap(({ payload }) =>
+      from(API.graphql(graphqlOperation(mutations.sendMessage, { input: payload })) as Promise<any>).pipe(
+        map(() => SendMessageSuccess.create({})),
+        catchError(error => of(SendMessageFail.create(error)))
+      )
+    )
+  );
+
+const sendMessageSuccessful = (actions$: Observable<ActionWithPayload<string>>) =>
+  actions$.pipe(
+    ofType(SendMessageSuccess.type),
+    switchMap(() =>
+      of(createNotification("Thank you for your messages! Will get back to you as soon as possible.", "success"))
+    )
+  );
+
+const sendMessageFail = (actions$: Observable<ActionWithPayload<string>>) =>
+  actions$.pipe(
+    ofType(SendMessageFail.type),
+    switchMap(() =>
+      of(createNotification("Sorry, there was an error while sending your message. Please try again later."))
+    )
+  );
+
+export default [
+  fetchProfile,
+  fetchLocation,
+  saveProfile,
+  saveProfileSuccessful,
+  saveProfileFailed,
+  signOut,
+  sendMessage,
+  sendMessageSuccessful,
+  sendMessageFail
+];

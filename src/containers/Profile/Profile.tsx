@@ -16,7 +16,7 @@ interface ProfileProps {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: "1rem",
+    padding: theme.spacing(2),
     backgroundColor: theme.palette.background.paper
   },
   button: { marginTop: theme.spacing(3) },

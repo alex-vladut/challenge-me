@@ -55,10 +55,17 @@ input DeleteActivityInput {
   id: ID!
 }
 
+input SendMessageInput {
+  name: String!
+  email: String!
+  message: String!
+}
+
 type Mutation {
   deleteActivity(input: DeleteActivityInput!): Activity!
     @function(name: "delete-activity-${env}")
     @function(name: "delete-participations-${env}")
+  sendMessage(input: SendMessageInput!): String @function(name: "SubmitContactUsMessage-${env}")
 }
 
 input LocationInput {

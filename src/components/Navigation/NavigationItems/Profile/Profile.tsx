@@ -1,19 +1,20 @@
-import React, { FunctionComponent, useState, useRef, forwardRef } from "react";
+import React, { forwardRef, FunctionComponent, useRef, useState } from "react";
 import { NavLink, NavLinkProps } from "react-router-dom";
+
 import {
   Avatar,
-  IconButton,
-  Paper,
-  MenuList,
-  MenuItem,
   ClickAwayListener,
-  Popper,
   Grow,
+  IconButton,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  MenuItem,
+  MenuList,
+  Paper,
+  Popper
 } from "@material-ui/core";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { Person, ExitToApp } from "@material-ui/icons";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { Email, ExitToApp, Person } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -88,6 +89,18 @@ const Profile: FunctionComponent<ProfileProps> = ({ profile }) => {
                       <Person fontSize="small" />
                     </ListItemIcon>
                     <ListItemText primary="Profile" />
+                  </MenuItem>
+                  <MenuItem
+                    onClick={handleClose}
+                    component={forwardRef((props: NavLinkProps, ref: any) => (
+                      <NavLink exact {...props} innerRef={ref} />
+                    ))}
+                    to="/contact-us"
+                  >
+                    <ListItemIcon>
+                      <Email fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Contact Us" />
                   </MenuItem>
                   <MenuItem
                     onClick={handleClose}

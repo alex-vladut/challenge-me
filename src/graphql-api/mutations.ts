@@ -105,3 +105,8 @@ export const updateParticipation = `mutation UpdateParticipation($input: UpdateP
   }
 }
 `;
+
+export const sendMessage = `mutation SendMessage($input: SendMessageInput!) {
+  sendMessage(input: $input)
+}
+`;
