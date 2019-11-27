@@ -20,7 +20,10 @@ import {
   FetchActivitySuccess,
   FetchActivityFail,
   SetFilters,
-  SetActivityId
+  SetActivityId,
+  CreateComment,
+  CreateCommentSuccess,
+  CreateCommentFail
 } from "../actions/activities.actions";
 
 export interface FiltersState {
@@ -89,10 +92,15 @@ const reducer = (state = initialState, { type, payload }: ActionWithPayload<any>
       return { ...state, loading: false };
     case FetchActivity.type:
       return { ...state, loading: true };
+    case CreateComment.type:
+      return { ...state, loading: true };
+    case CreateCommentSuccess.type:
+    case CreateCommentFail.type:
+      return { ...state, loading: false };
     case FetchActivitySuccess.type:
       return {
         ...state,
-        activity: { ...payload, participations: payload.participations.items },
+        activity: { ...payload, participations: payload.participations.items, comments: payload.comments.items },
         loading: false
       };
     case FetchActivityFail.type:

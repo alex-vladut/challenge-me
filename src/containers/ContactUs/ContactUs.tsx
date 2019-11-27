@@ -37,10 +37,16 @@ const ContactUs: FunctionComponent<ContactUsProps> = ({ loading, sendMessage }) 
   const handleNameChange = (e: any) => setName(e.target.value);
   const handleEmailChange = (e: any) => setEmail(e.target.value);
   const handleMessageChange = (event: any) => setMessage(event.target.value);
+  const resetForm = () => {
+    setName("");
+    setEmail("");
+    setMessage("");
+  };
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (name && email && message) {
       sendMessage({ name, email, message });
+      resetForm();
     }
   };
 

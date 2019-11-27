@@ -10,6 +10,9 @@ export const onCreateUser = `subscription OnCreateUser {
     activities {
       nextToken
     }
+    comments {
+      nextToken
+    }
     version
   }
 }
@@ -23,6 +26,9 @@ export const onUpdateUser = `subscription OnUpdateUser($id: String!) {
     activities {
       nextToken
     }
+    comments {
+      nextToken
+    }
     version
   }
 }
@@ -34,6 +40,9 @@ export const onDeleteUser = `subscription OnDeleteUser {
     pictureUrl
     email
     activities {
+      nextToken
+    }
+    comments {
       nextToken
     }
     version
@@ -118,6 +127,90 @@ export const onDeleteParticipation = `subscription OnDeleteParticipation {
       version
     }
     status
+    createdAt
+    updatedAt
+    version
+  }
+}
+`;
+export const onCreateComment = `subscription OnCreateComment($commentUserId: String!) {
+  onCreateComment(commentUserId: $commentUserId) {
+    id
+    activity {
+      id
+      description
+      sport
+      dateTime
+      numberOfAttendants
+      address
+      createdAt
+      updatedAt
+      version
+    }
+    user {
+      id
+      name
+      pictureUrl
+      email
+      version
+    }
+    text
+    createdAt
+    updatedAt
+    version
+  }
+}
+`;
+export const onUpdateComment = `subscription OnUpdateComment {
+  onUpdateComment {
+    id
+    activity {
+      id
+      description
+      sport
+      dateTime
+      numberOfAttendants
+      address
+      createdAt
+      updatedAt
+      version
+    }
+    user {
+      id
+      name
+      pictureUrl
+      email
+      version
+    }
+    text
+    createdAt
+    updatedAt
+    version
+  }
+}
+`;
+export const onDeleteComment = `subscription OnDeleteComment($commentUserId: String!) {
+  onDeleteComment(commentUserId: $commentUserId) {
+    id
+    activity {
+      id
+      description
+      sport
+      dateTime
+      numberOfAttendants
+      address
+      createdAt
+      updatedAt
+      version
+    }
+    user {
+      id
+      name
+      pictureUrl
+      email
+      version
+    }
+    text
     createdAt
     updatedAt
     version

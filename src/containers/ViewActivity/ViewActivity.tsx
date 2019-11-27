@@ -19,7 +19,9 @@ import {
   Button,
   DialogTitle,
   CircularProgress,
-  Grid
+  Grid,
+  TextField,
+  Paper
 } from "@material-ui/core";
 import { Delete as DeleteIcon, Check, Clear, Room, AccessTime, CalendarToday } from "@material-ui/icons";
 import { grey } from "@material-ui/core/colors";
@@ -27,7 +29,7 @@ import { createStyles, makeStyles } from "@material-ui/core/styles";
 
 import userIcon from "../../assets/user.png";
 import { State } from "../../store/reducers";
-import { SetActivityId, Accept, Reject, Delete } from "../../store/actions/activities.actions";
+import { SetActivityId, Accept, Reject, Delete, CreateComment } from "../../store/actions/activities.actions";
 
 import Participants from "./Participants/Participants";
 
@@ -42,6 +44,7 @@ export interface ViewActivityProps {
   acceptActivity({ userId, activityId }: any): void;
   rejectActivity(participation: any): void;
   deleteActivity(activity: string): void;
+  createComment(comment: any): void;
 }
 
 const useStyles: any = makeStyles(theme =>
@@ -55,6 +58,13 @@ const useStyles: any = makeStyles(theme =>
     },
     avatar: {
       backgroundColor: grey[500]
+    },
+    comment: {
+      padding: theme.spacing(2)
+    },
+    commentButton: {
+      marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(2)
     },
     description: {
       backgroundColor: "#f5f5f5",
@@ -74,7 +84,8 @@ const ViewActivity = ({
   acceptActivity,
   profile,
   rejectActivity,
-  deleteActivity
+  deleteActivity,
+  createComment
 }: ViewActivityProps) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const classes = useStyles();
@@ -83,6 +94,16 @@ const ViewActivity = ({
   useEffect(() => {
     setActivityId(activityId);
   }, [activityId, setActivityId]);
+
+  const [comment, setComment] = useState<string>("");
+
+  const handleCommentChange = (e: any) => setComment(e.target.value);
+  const handleCreateComment = (e: any) => {
+    e.preventDefault();
+
+    createComment({ text: comment, commentActivityId: activity.id });
+    setComment("");
+  };
 
   const acceptedActivity = () => {
     const participation = activity.participations.find((item: any) => item.participant.id === profile.id);
@@ -200,6 +221,30 @@ const ViewActivity = ({
 
       <Participants participations={activity.participations} />
 
+      <Paper className={classes.comment}>
+        <TextField value={comment} onChange={handleCommentChange} multiline rows="3" rowsMax="5" fullWidth required />
+        <Grid container alignItems="flex-start" justify="flex-end" className={classes.commentButton}>
+          <Button variant="contained" color="primary" onClick={handleCreateComment}>
+            Comment
+          </Button>
+        </Grid>
+
+        {activity.comments.map((comment: any) => (
+          <Card key={comment.id} className={classes.commentButton}>
+            <CardHeader
+              avatar={<Avatar className={classes.avatar} alt={comment.user.name} src={comment.user.pictureUrl} />}
+              title={comment.user.name}
+              subheader={moment(comment.createdAt).format("MMMM DD, YYYY HH:mm")}
+            />
+            <CardContent>
+              <Typography component="p" color="textPrimary">
+                {comment.text}
+              </Typography>
+            </CardContent>
+          </Card>
+        ))}
+      </Paper>
+
       <Dialog open={deleteConfirmation} onClose={() => setDeleteConfirmation(false)}>
         <DialogTitle>{"Delete activity"}</DialogTitle>
         <DialogContent>
@@ -230,7 +275,8 @@ const mapDispatchToProps = (dispatch: any) => ({
   setActivityId: (activityId: string) => dispatch(SetActivityId.create(activityId)),
   acceptActivity: (participation: any) => dispatch(Accept.create(participation)),
   rejectActivity: (participation: any) => dispatch(Reject.create(participation)),
-  deleteActivity: (activity: any) => dispatch(Delete.create(activity))
+  deleteActivity: (activity: any) => dispatch(Delete.create(activity)),
+  createComment: (comment: any) => dispatch(CreateComment.create(comment))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewActivity);

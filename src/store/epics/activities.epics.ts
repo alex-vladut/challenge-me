@@ -1,33 +1,36 @@
-import { API, graphqlOperation } from "aws-amplify";
-import { ofType, ActionsObservable } from "redux-observable";
-import { from, of, Observable } from "rxjs";
-import { catchError, map, switchMap, withLatestFrom } from "rxjs/operators";
+import { API, graphqlOperation } from 'aws-amplify';
+import { ActionsObservable, ofType } from 'redux-observable';
+import { from, Observable, of } from 'rxjs';
+import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
-import * as mutations from "../../graphql-api/mutations";
-import * as queries from "../../graphql-api/queries";
-import { ActionWithPayload, Action } from "../actions/actions";
-import { createNotification } from "../../shared/notifications";
+import * as mutations from '../../graphql-api/mutations';
+import * as queries from '../../graphql-api/queries';
+import { createNotification } from '../../shared/notifications';
+import { Action, ActionWithPayload } from '../actions/actions';
 import {
+  Accept,
+  AcceptFail,
+  AcceptSuccess,
   Create,
   CreateFail,
+  CreateComment,
+  CreateCommentFail,
+  CreateCommentSuccess,
   CreateSuccess,
-  FetchAll,
-  FetchAllSuccess,
-  FetchAllFail,
   Delete,
-  DeleteSuccess,
   DeleteFail,
-  Accept,
-  AcceptSuccess,
-  AcceptFail,
-  Reject,
-  RejectSuccess,
-  RejectFail,
-  FetchActivitySuccess,
+  DeleteSuccess,
   FetchActivityFail,
-  SetActivityId
-} from "../actions/activities.actions";
-import { State } from "../reducers";
+  FetchActivitySuccess,
+  FetchAll,
+  FetchAllFail,
+  FetchAllSuccess,
+  Reject,
+  RejectFail,
+  RejectSuccess,
+  SetActivityId,
+} from '../actions/activities.actions';
+import { State } from '../reducers';
 
 const createActivity = (actions$: Observable<ActionWithPayload<any>>) =>
   actions$.pipe(
@@ -169,7 +172,7 @@ const updateRejectedParticipation = (payload: any) =>
 
 const fetchActivity = (actions$: ActionsObservable<ActionWithPayload<string>>, store$: Observable<State>) =>
   actions$.pipe(
-    ofType(SetActivityId.type, AcceptSuccess.type, RejectSuccess.type),
+    ofType(SetActivityId.type, AcceptSuccess.type, RejectSuccess.type, CreateCommentSuccess.type),
     withLatestFrom(store$.pipe(map(({ activities }) => activities.activityId))),
     switchMap(([_, activityId]: any[]) =>
       from(API.graphql(graphqlOperation(queries.getActivity, { id: activityId })) as Promise<any>).pipe(
@@ -189,6 +192,19 @@ const fetchActivities = (actions$: Observable<Action>, store$: Observable<State>
       ).pipe(
         map(({ data }: any) => FetchAllSuccess.create(data.nearbyActivities.items)),
         catchError(() => of(FetchAllFail.create("Sorry, there was an error while loading the activities.")))
+      )
+    )
+  );
+
+const createMessage = (actions$: Observable<ActionWithPayload<any>>) =>
+  actions$.pipe(
+    ofType(CreateComment.type),
+    switchMap(({ payload }) =>
+      from(
+        API.graphql(graphqlOperation(mutations.createComment, { input: payload })) as Promise<any>
+      ).pipe(
+        map(({ data }: any) => CreateCommentSuccess.create(data.createMessage)),
+        catchError((error: any) => of(CreateCommentFail.create(error)))
       )
     )
   );
@@ -217,5 +233,6 @@ export default [
   fetchActivity,
   fetchActivities,
   actionSucceeded,
-  actionFailed
+  actionFailed,
+  createMessage
 ];

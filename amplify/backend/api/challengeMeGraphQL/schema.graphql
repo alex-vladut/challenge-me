@@ -7,6 +7,7 @@ type User
   pictureUrl: AWSURL
   email: AWSEmail
   activities: [Participation!] @connection(name: "UserActivities")
+  comments: [Comment] @connection
 }
 
 type Activity
@@ -28,6 +29,7 @@ type Activity
   location: Location!
   address: String! # human readable address (can't include it in Location because ES breaks)
   participations: [Participation!] @connection(name: "ActivityParticipants")
+  comments: [Comment] @connection(name: "ActivityComments", sortField: "createdAt")
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
 }
@@ -37,11 +39,28 @@ type Location {
   lon: Float!
 }
 
-type Participation @model @auth(rules: [{ allow: private }]) @auth(rules: [{ allow: private }]) @versioned {
+type Participation @model @auth(rules: [{ allow: private }]) @versioned {
   id: ID!
   activity: Activity! @connection(name: "ActivityParticipants")
   participant: User! @connection(name: "UserActivities")
   status: ParticipationStatus!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Comment
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "commentUserId", operations: [create, delete] }
+      { allow: private, operations: [read] }
+    ]
+  )
+  @versioned {
+  id: ID!
+  activity: Activity! @connection(name: "ActivityComments", sortField: "createdAt")
+  user: User @connection
+  text: String!
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
 }

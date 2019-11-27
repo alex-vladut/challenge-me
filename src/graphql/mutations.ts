@@ -23,6 +23,9 @@ export const deleteActivity = `mutation DeleteActivity($input: DeleteActivityInp
     participations {
       nextToken
     }
+    comments {
+      nextToken
+    }
     createdAt
     updatedAt
     version
@@ -42,6 +45,9 @@ export const createUser = `mutation CreateUser($input: CreateUserInput!) {
     activities {
       nextToken
     }
+    comments {
+      nextToken
+    }
     version
   }
 }
@@ -55,6 +61,9 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
     activities {
       nextToken
     }
+    comments {
+      nextToken
+    }
     version
   }
 }
@@ -66,6 +75,9 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
     pictureUrl
     email
     activities {
+      nextToken
+    }
+    comments {
       nextToken
     }
     version
@@ -92,6 +104,9 @@ export const createActivity = `mutation CreateActivity($input: CreateActivityInp
     }
     address
     participations {
+      nextToken
+    }
+    comments {
       nextToken
     }
     createdAt
@@ -178,6 +193,90 @@ export const deleteParticipation = `mutation DeleteParticipation($input: DeleteP
       version
     }
     status
+    createdAt
+    updatedAt
+    version
+  }
+}
+`;
+export const createComment = `mutation CreateComment($input: CreateCommentInput!) {
+  createComment(input: $input) {
+    id
+    activity {
+      id
+      description
+      sport
+      dateTime
+      numberOfAttendants
+      address
+      createdAt
+      updatedAt
+      version
+    }
+    user {
+      id
+      name
+      pictureUrl
+      email
+      version
+    }
+    text
+    createdAt
+    updatedAt
+    version
+  }
+}
+`;
+export const updateComment = `mutation UpdateComment($input: UpdateCommentInput!) {
+  updateComment(input: $input) {
+    id
+    activity {
+      id
+      description
+      sport
+      dateTime
+      numberOfAttendants
+      address
+      createdAt
+      updatedAt
+      version
+    }
+    user {
+      id
+      name
+      pictureUrl
+      email
+      version
+    }
+    text
+    createdAt
+    updatedAt
+    version
+  }
+}
+`;
+export const deleteComment = `mutation DeleteComment($input: DeleteCommentInput!) {
+  deleteComment(input: $input) {
+    id
+    activity {
+      id
+      description
+      sport
+      dateTime
+      numberOfAttendants
+      address
+      createdAt
+      updatedAt
+      version
+    }
+    user {
+      id
+      name
+      pictureUrl
+      email
+      version
+    }
+    text
     createdAt
     updatedAt
     version

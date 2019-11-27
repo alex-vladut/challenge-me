@@ -68,6 +68,20 @@ export const getActivity = `query GetActivity($id: ID!) {
       }
       nextToken
     }
+    comments(sortDirection: DESC) {
+      items {
+        id
+        text
+        createdAt
+        version
+        user {
+          id
+          name
+          pictureUrl
+        }
+      }
+      nextToken
+    }
     createdAt
     updatedAt
     version

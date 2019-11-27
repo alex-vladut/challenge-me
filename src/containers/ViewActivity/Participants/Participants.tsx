@@ -23,6 +23,7 @@ const useStyles = makeStyles(theme =>
       flexGrow: 1,
       backgroundColor: theme.palette.background.paper,
       marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(2),
       paddingBottom: theme.spacing(2)
     },
     header: {

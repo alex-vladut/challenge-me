@@ -28,6 +28,9 @@ export const getUser = `query GetUser($id: ID!) {
     activities {
       nextToken
     }
+    comments {
+      nextToken
+    }
     version
   }
 }
@@ -69,6 +72,9 @@ export const getActivity = `query GetActivity($id: ID!) {
     }
     address
     participations {
+      nextToken
+    }
+    comments {
       nextToken
     }
     createdAt
@@ -135,6 +141,51 @@ export const listParticipations = `query ListParticipations(
     items {
       id
       status
+      createdAt
+      updatedAt
+      version
+    }
+    nextToken
+  }
+}
+`;
+export const getComment = `query GetComment($id: ID!) {
+  getComment(id: $id) {
+    id
+    activity {
+      id
+      description
+      sport
+      dateTime
+      numberOfAttendants
+      address
+      createdAt
+      updatedAt
+      version
+    }
+    user {
+      id
+      name
+      pictureUrl
+      email
+      version
+    }
+    text
+    createdAt
+    updatedAt
+    version
+  }
+}
+`;
+export const listComments = `query ListComments(
+  $filter: ModelCommentFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      text
       createdAt
       updatedAt
       version

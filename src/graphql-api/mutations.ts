@@ -110,3 +110,15 @@ export const sendMessage = `mutation SendMessage($input: SendMessageInput!) {
   sendMessage(input: $input)
 }
 `;
+
+
+export const createComment = `mutation CreateComment($input: CreateCommentInput!) {
+  createComment(input: $input) {
+    id
+    text
+    createdAt
+    updatedAt
+    version
+  }
+}
+`;
