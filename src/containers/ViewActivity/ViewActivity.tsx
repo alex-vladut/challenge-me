@@ -19,9 +19,10 @@ import {
   Button,
   DialogTitle,
   CircularProgress,
-  Grid
+  Grid,
+  Divider
 } from "@material-ui/core";
-import { Delete as DeleteIcon, Check, Clear, Room, AccessTime, CalendarToday } from "@material-ui/icons";
+import { Delete as DeleteIcon, Room, AccessTime, CalendarToday } from "@material-ui/icons";
 import { grey } from "@material-ui/core/colors";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 
@@ -64,20 +65,26 @@ const useStyles: any = makeStyles(theme =>
       marginBottom: theme.spacing(2)
     },
     description: {
-      backgroundColor: "#f5f5f5",
-      padding: theme.spacing(1),
-      marginBottom: theme.spacing(1)
+      marginBottom: theme.spacing(3)
+    },
+    divider: {
+      marginBottom: theme.spacing(3)
     },
     title: {
       marginTop: theme.spacing(2),
       marginBottom: theme.spacing(2)
+    },
+    iconText: {
+      marginBottom: theme.spacing(1)
+    },
+    icon: {
+      marginRight: theme.spacing(0.5)
     }
   })
 );
 
 const ViewActivity = ({
   activity,
-  sports,
   deleted,
   loading,
   match,
@@ -108,10 +115,6 @@ const ViewActivity = ({
   const isOwner = () => activity.owner.id === profile.id;
   const isMaxNumberOfParticipants = () =>
     activity.numberOfAttendants === activity.participations.filter(({ status }: any) => status === "ACCEPTED").length;
-  const getSportLabel = () => {
-    const sport = sports.find(s => s.name === activity.sport);
-    return sport.emoji ? `${sport.emoji} ${sport.name}` : `${sport.name}`;
-  };
 
   const handleJoinActivity = () => {
     const participation = activity.participations.find((item: any) => item.participant.id === profile.id) || {
@@ -130,6 +133,22 @@ const ViewActivity = ({
   const handleDeleteActivity = () => deleteActivity(activity);
   const handleCreateComment = (text: string) => createComment({ text, commentActivityId: activity.id });
 
+  const getAttendanceStatus = (activity: any, profile: any) => {
+    const participation = profile.activities.find((p: any) => p.activity.id === activity.id);
+    if (!participation) {
+      return null;
+    }
+    return participation.status === "ACCEPTED" ? (
+      <Typography variant="subtitle1" color="primary">
+        Going
+      </Typography>
+    ) : (
+      <Typography variant="subtitle1" color="error">
+        Not going
+      </Typography>
+    );
+  };
+
   if (deleted) {
     return <Redirect to="/activities" />;
   }
@@ -137,25 +156,35 @@ const ViewActivity = ({
     return <CircularProgress />;
   }
 
-  const actions = [];
+  let actions = null;
   if (isOwner()) {
-    actions.push(
+    actions = (
       <Grid container justify="flex-end" key="delete">
         <IconButton aria-label="delete" onClick={() => setDeleteConfirmation(true)}>
           <DeleteIcon />
         </IconButton>
       </Grid>
     );
-  } else {
-    actions.push(
-      <IconButton aria-label="accept" onClick={handleJoinActivity} disabled={acceptedActivity()} key="accept">
-        <Check color={acceptedActivity() ? "disabled" : "primary"} />
-      </IconButton>,
-      <IconButton aria-label="reject" onClick={handleRejectActivity} disabled={rejectedActivity()} key="reject">
-        <Clear color={rejectedActivity() ? "disabled" : "error"} />
-      </IconButton>
+  } else if (acceptedActivity()) {
+    actions = (
+      <Button aria-label="reject" variant="outlined" color="secondary" onClick={handleRejectActivity}>
+        Won't join
+      </Button>
+    );
+  } else if (rejectedActivity() || !isMaxNumberOfParticipants()) {
+    actions = (
+      <Button aria-label="accept" variant="outlined" color="primary" onClick={handleJoinActivity}>
+        Attend
+      </Button>
+    );
+  } else if (isMaxNumberOfParticipants()) {
+    actions = (
+      <Typography variant="subtitle1" color="error">
+        Too late, there is no spot left on this activity.
+      </Typography>
     );
   }
+
   return (
     <>
       <Card>
@@ -163,50 +192,36 @@ const ViewActivity = ({
           avatar={
             <Avatar className={classes.avatar} alt={activity.owner.name} src={activity.owner.pictureUrl || userIcon} />
           }
-          title={activity.owner.name}
-          subheader={"Created at " + moment(activity.createdAt).format("MMMM DD, YYYY")}
+          title={<strong>{activity.owner.name}</strong>}
+          subheader={"Created at " + moment(activity.createdAt).format("MMMM DD, YYYY") + " | " + activity.sport}
+          action={getAttendanceStatus(activity, profile)}
           className={classes.header}
         />
         <CardContent>
-          <Typography component="p" color="textPrimary" className={classes.description}>
-            {activity.description}
+          <Typography component="p" variant="body1" className={classes.description}>
+            <i>{activity.description}</i>
           </Typography>
-          <Grid container>
-            <CalendarToday color="disabled" />
+
+          <Divider className={classes.divider} />
+
+          <Grid container className={classes.iconText}>
+            <CalendarToday color="disabled" className={classes.icon} />
             <Typography variant="subtitle1" color="textSecondary">
               {moment(activity.dateTime).format("dddd, MMMM DD")}
             </Typography>
           </Grid>
-          <Grid container>
-            <AccessTime color="disabled" />
+          <Grid container className={classes.iconText}>
+            <AccessTime color="disabled" className={classes.icon} />
             <Typography variant="subtitle1" color="textSecondary">
               {moment(activity.dateTime).format("HH:mm A")}
             </Typography>
           </Grid>
-          <Grid container>
-            <Room color="disabled" />
+          <Grid container className={classes.iconText}>
+            <Room color="disabled" className={classes.icon} />
             <Typography variant="subtitle1" color="textSecondary">
               {activity.address}
             </Typography>
           </Grid>
-          <Typography variant="subtitle1" color="textSecondary">
-            {getSportLabel()}
-          </Typography>
-          {isMaxNumberOfParticipants() ? (
-            <Typography variant="subtitle1" color="secondary">
-              The maximum number of participants was met.
-            </Typography>
-          ) : null}
-          {acceptedActivity() ? (
-            <Typography variant="subtitle1" color="primary">
-              You confirmed will join this activity.
-            </Typography>
-          ) : null}
-          {rejectedActivity() ? (
-            <Typography variant="subtitle1" color="error">
-              You confirmed won't join this activity.
-            </Typography>
-          ) : null}
         </CardContent>
         <CardActions>{actions}</CardActions>
       </Card>

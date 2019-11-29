@@ -13,10 +13,10 @@ import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     card: {
-      margin: "1rem"
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(2)
     },
-    header: {
-    },
+    header: {},
     avatar: {
       backgroundColor: grey[500]
     },
@@ -49,7 +49,15 @@ const getAttendanceStatus = (activity: any, profile: any) => {
   if (!participation) {
     return null;
   }
-  return participation.status === "ACCEPTED" ? "Going" : "Not going";
+  return participation.status === "ACCEPTED" ? (
+    <Typography variant="subtitle1" color="primary">
+      Going
+    </Typography>
+  ) : (
+    <Typography variant="subtitle1" color="error">
+      Not going
+    </Typography>
+  );
 };
 
 const Item: FunctionComponent<ItemProps> = ({ activity, profile }: ItemProps) => {
@@ -61,11 +69,7 @@ const Item: FunctionComponent<ItemProps> = ({ activity, profile }: ItemProps) =>
         avatar={
           <Avatar className={classes.avatar} alt={activity.owner.name} src={activity.owner.pictureUrl || userIcon} />
         }
-        action={
-          <Typography variant="subtitle1" color="textSecondary">
-            {getAttendanceStatus(activity, profile)}
-          </Typography>
-        }
+        action={getAttendanceStatus(activity, profile)}
         title={<strong>{activity.owner.name}</strong>}
         subheader={activity.sport}
         className={classes.header}

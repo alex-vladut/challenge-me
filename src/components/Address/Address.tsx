@@ -15,7 +15,6 @@ interface AddressSelectionProps {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      margin: theme.spacing(1),
       padding: "2px 4px",
       position: "relative"
     },

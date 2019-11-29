@@ -71,7 +71,7 @@ const Participants: FunctionComponent<ParticipantsProps> = ({ participations }) 
               />
             </ListItemAvatar>
             <ListItemText
-              primary={participation.participant.name}
+              primary={<strong>{participation.participant.name}</strong>}
               secondary={
                 <>
                   <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">

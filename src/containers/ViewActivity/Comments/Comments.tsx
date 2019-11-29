@@ -6,7 +6,9 @@ import { Send, AccessTime } from "@material-ui/icons";
 
 const useStyles: any = makeStyles(theme =>
   createStyles({
-    root: {},
+    root: {
+      paddingBottom: "3rem",
+    },
     subheader: {
       display: "flex",
       alignItems: "center"
@@ -15,7 +17,7 @@ const useStyles: any = makeStyles(theme =>
       width: "1rem",
       height: "1rem",
       fontSize: "1rem",
-      marginRight: "6px"
+      marginRight: "3px"
     },
     input: {
       padding: "0.5rem 1rem",
