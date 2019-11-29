@@ -19,9 +19,7 @@ import {
   Button,
   DialogTitle,
   CircularProgress,
-  Grid,
-  TextField,
-  Paper
+  Grid
 } from "@material-ui/core";
 import { Delete as DeleteIcon, Check, Clear, Room, AccessTime, CalendarToday } from "@material-ui/icons";
 import { grey } from "@material-ui/core/colors";
@@ -32,6 +30,7 @@ import { State } from "../../store/reducers";
 import { SetActivityId, Accept, Reject, Delete, CreateComment } from "../../store/actions/activities.actions";
 
 import Participants from "./Participants/Participants";
+import Comments from "./Comments/Comments";
 
 export interface ViewActivityProps {
   activity: any;
@@ -70,6 +69,10 @@ const useStyles: any = makeStyles(theme =>
       backgroundColor: "#f5f5f5",
       padding: theme.spacing(1),
       marginBottom: theme.spacing(1)
+    },
+    title: {
+      marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(2)
     }
   })
 );
@@ -94,16 +97,6 @@ const ViewActivity = ({
   useEffect(() => {
     setActivityId(activityId);
   }, [activityId, setActivityId]);
-
-  const [comment, setComment] = useState<string>("");
-
-  const handleCommentChange = (e: any) => setComment(e.target.value);
-  const handleCreateComment = (e: any) => {
-    e.preventDefault();
-
-    createComment({ text: comment, commentActivityId: activity.id });
-    setComment("");
-  };
 
   const acceptedActivity = () => {
     const participation = activity.participations.find((item: any) => item.participant.id === profile.id);
@@ -137,6 +130,7 @@ const ViewActivity = ({
     rejectActivity(participation);
   };
   const handleDeleteActivity = () => deleteActivity(activity);
+  const handleCreateComment = (text: string) => createComment({ text, commentActivityId: activity.id });
 
   if (deleted) {
     return <Redirect to="/activities" />;
@@ -219,31 +213,14 @@ const ViewActivity = ({
         <CardActions>{actions}</CardActions>
       </Card>
 
+      <Typography variant="body1" color="textPrimary" className={classes.title}>
+        <strong>Participants</strong>
+      </Typography>
       <Participants participations={activity.participations} />
-
-      <Paper className={classes.comment}>
-        <TextField value={comment} onChange={handleCommentChange} multiline rows="3" rowsMax="5" fullWidth required />
-        <Grid container alignItems="flex-start" justify="flex-end" className={classes.commentButton}>
-          <Button variant="contained" color="primary" onClick={handleCreateComment}>
-            Comment
-          </Button>
-        </Grid>
-
-        {activity.comments.map((comment: any) => (
-          <Card key={comment.id} className={classes.commentButton}>
-            <CardHeader
-              avatar={<Avatar className={classes.avatar} alt={comment.user.name} src={comment.user.pictureUrl} />}
-              title={comment.user.name}
-              subheader={moment(comment.createdAt).format("MMMM DD, YYYY HH:mm")}
-            />
-            <CardContent>
-              <Typography component="p" color="textPrimary">
-                {comment.text}
-              </Typography>
-            </CardContent>
-          </Card>
-        ))}
-      </Paper>
+      <Typography variant="body1" color="textPrimary" className={classes.title}>
+        <strong>Comments</strong>
+      </Typography>
+      <Comments comments={activity.comments} onCreateComment={handleCreateComment} />
 
       <Dialog open={deleteConfirmation} onClose={() => setDeleteConfirmation(false)}>
         <DialogTitle>{"Delete activity"}</DialogTitle>

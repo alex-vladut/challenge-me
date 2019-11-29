@@ -1,12 +1,12 @@
-import { API, graphqlOperation } from 'aws-amplify';
-import { ActionsObservable, ofType } from 'redux-observable';
-import { from, Observable, of } from 'rxjs';
-import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { API, graphqlOperation } from "aws-amplify";
+import { ActionsObservable, ofType } from "redux-observable";
+import { from, Observable, of } from "rxjs";
+import { catchError, map, switchMap, withLatestFrom } from "rxjs/operators";
 
-import * as mutations from '../../graphql-api/mutations';
-import * as queries from '../../graphql-api/queries';
-import { createNotification } from '../../shared/notifications';
-import { Action, ActionWithPayload } from '../actions/actions';
+import * as mutations from "../../graphql-api/mutations";
+import * as queries from "../../graphql-api/queries";
+import { createNotification } from "../../shared/notifications";
+import { Action, ActionWithPayload } from "../actions/actions";
 import {
   Accept,
   AcceptFail,
@@ -28,9 +28,9 @@ import {
   Reject,
   RejectFail,
   RejectSuccess,
-  SetActivityId,
-} from '../actions/activities.actions';
-import { State } from '../reducers';
+  SetActivityId
+} from "../actions/activities.actions";
+import { State } from "../reducers";
 
 const createActivity = (actions$: Observable<ActionWithPayload<any>>) =>
   actions$.pipe(
@@ -200,9 +200,7 @@ const createMessage = (actions$: Observable<ActionWithPayload<any>>) =>
   actions$.pipe(
     ofType(CreateComment.type),
     switchMap(({ payload }) =>
-      from(
-        API.graphql(graphqlOperation(mutations.createComment, { input: payload })) as Promise<any>
-      ).pipe(
+      from(API.graphql(graphqlOperation(mutations.createComment, { input: payload })) as Promise<any>).pipe(
         map(({ data }: any) => CreateCommentSuccess.create(data.createMessage)),
         catchError((error: any) => of(CreateCommentFail.create(error)))
       )

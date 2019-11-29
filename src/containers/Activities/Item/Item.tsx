@@ -67,7 +67,7 @@ const Item: FunctionComponent<ItemProps> = ({ activity, profile }: ItemProps) =>
             {getAttendanceStatus(activity, profile)}
           </Typography>
         }
-        title={activity.owner.name}
+        title={<strong>{activity.owner.name}</strong>}
         subheader={activity.sport}
         className={classes.header}
       />
