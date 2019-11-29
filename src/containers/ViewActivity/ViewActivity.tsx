@@ -52,9 +52,7 @@ const useStyles: any = makeStyles(theme =>
       width: "100%",
       backgroundColor: theme.palette.background.paper
     },
-    header: {
-      backgroundColor: grey[200]
-    },
+    header: {},
     avatar: {
       backgroundColor: grey[500]
     },
@@ -220,7 +218,7 @@ const ViewActivity = ({
       <Typography variant="body1" color="textPrimary" className={classes.title}>
         <strong>Comments</strong>
       </Typography>
-      <Comments comments={activity.comments} onCreateComment={handleCreateComment} />
+      <Comments profile={profile} comments={activity.comments} onCreateComment={handleCreateComment} />
 
       <Dialog open={deleteConfirmation} onClose={() => setDeleteConfirmation(false)}>
         <DialogTitle>{"Delete activity"}</DialogTitle>

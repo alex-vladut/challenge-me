@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "1rem"
     },
     header: {
-      backgroundColor: grey[200]
     },
     avatar: {
       backgroundColor: grey[500]

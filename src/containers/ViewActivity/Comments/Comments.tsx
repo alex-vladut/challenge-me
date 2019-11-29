@@ -18,13 +18,15 @@ const useStyles: any = makeStyles(theme =>
       marginRight: "6px"
     },
     input: {
-      padding: "0.25rem 1rem",
+      padding: "0.5rem 1rem",
+      marginLeft: theme.spacing(2),
       marginRight: theme.spacing(1),
       flexGrow: 1
     },
     cardContent: {
       display: "flex",
-      alignItems: "center"
+      alignItems: "center",
+      marginTop: "0.5rem"
     },
     cardContentBody: {
       paddingTop: "0"
@@ -63,10 +65,12 @@ const timeDifference = (from: moment.Moment, to: moment.Moment) => {
 };
 
 export interface CommentsProps {
+  profile: any;
   comments: any[];
   onCreateComment(comment: string): void;
 }
-const Comments: FunctionComponent<CommentsProps> = ({ comments, onCreateComment }) => {
+
+const Comments: FunctionComponent<CommentsProps> = ({ profile, comments, onCreateComment }) => {
   const classes = useStyles();
 
   const [comment, setComment] = useState<string>("");
@@ -83,6 +87,7 @@ const Comments: FunctionComponent<CommentsProps> = ({ comments, onCreateComment 
     <div className={classes.root}>
       <Card>
         <CardContent className={classes.cardContent}>
+          <Avatar alt={profile.name} src={profile.pictureUrl} />
           <Paper elevation={1} className={classes.input}>
             <InputBase
               placeholder="Add a comment..."
