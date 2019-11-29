@@ -19,6 +19,7 @@ const useStyles: any = makeStyles(theme =>
     },
     input: {
       padding: "0.25rem 1rem",
+      marginRight: theme.spacing(1),
       flexGrow: 1
     },
     cardContent: {
@@ -34,6 +35,32 @@ const useStyles: any = makeStyles(theme =>
     }
   })
 );
+
+const timeDifference = (from: moment.Moment, to: moment.Moment) => {
+  const difference = moment.duration(to.diff(from));
+  const years = Math.floor(difference.asYears());
+  const months = Math.floor(difference.asMonths());
+  const days = Math.floor(difference.asDays());
+  const hours = Math.floor(difference.asHours());
+  const minutes = Math.floor(difference.asMinutes());
+
+  if (years > 0) {
+    return years === 1 ? "1 year ago" : `${years} years ago`;
+  }
+  if (months > 0) {
+    return months === 1 ? "1 month ago" : `${months} months ago`;
+  }
+  if (days > 0) {
+    return days === 1 ? "1 day ago" : `${days} days ago`;
+  }
+  if (hours > 0) {
+    return hours === 1 ? "1 hour ago" : `${hours} hours ago`;
+  }
+  if (minutes === 0) {
+    return "few seconds ago";
+  }
+  return minutes === 1 ? "1 minute ago" : `${minutes} minutes ago`;
+};
 
 export interface CommentsProps {
   comments: any[];
@@ -80,7 +107,7 @@ const Comments: FunctionComponent<CommentsProps> = ({ comments, onCreateComment 
               <div className={classes.subheader}>
                 <AccessTime className={classes.timeIcon} />
                 <Typography component="p" variant="body2">
-                  {moment(comment.createdAt).format("MMMM DD, YYYY HH:mm")}
+                  {timeDifference(moment(comment.createdAt), moment())}
                 </Typography>
               </div>
             }
