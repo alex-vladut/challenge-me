@@ -1,6 +1,6 @@
 {
     "identityPoolName": "challengemereacta7d0cb31_identitypool_a7d0cb31",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "challea7d0cb31",
     "userPoolName": "challengemereacta7d0cb31_userpool_a7d0cb31",
     "autoVerifiedAttributes": [
@@ -25,13 +25,15 @@
     "userpoolClientGenerateSecret": true,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [
-        "email"
+        "email",
+        "name",
+        "picture"
     ],
     "userpoolClientReadAttributes": [
         "email"
     ],
     "userpoolClientLambdaRole": "challea7d0cb31_userpoolclient_lambda_role",
-    "userpoolClientSetAttributes": false,
+    "userpoolClientSetAttributes": true,
     "resourceName": "challengemereacta7d0cb31",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
@@ -48,7 +50,7 @@
     },
     "useDefault": "defaultSocial",
     "hostedUI": true,
-    "triggers": "{\"PostConfirmation\":[\"add-to-group\"]}",
+    "triggers": "{\"PostConfirmation\":[\"add-to-group\",\"add-user\"]}",
     "parentStack": {
         "Ref": "AWS::StackId"
     },
@@ -72,6 +74,16 @@
         "Google"
     ],
     "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"email,public_profile\",\"AttributeMapping\":{\"email\":\"email\",\"name\":\"name\",\"picture\":\"picture\",\"username\":\"id\"}},{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"name\":\"name\",\"picture\":\"picture\",\"username\":\"sub\"}}]",
-    "userPoolGroupList": [],
+    "userPoolGroupList": [
+        "USER"
+    ],
+    "thirdPartyAuth": true,
+    "authProviders": [
+        "graph.facebook.com",
+        "accounts.google.com",
+        "www.amazon.com"
+    ],
+    "userPoolGroups": true,
+    "adminQueries": false,
     "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\",\"https://master.d4h1ov501zzfq.amplifyapp.com/\",\"https://sportpal.net/\"],\"LogoutURLs\":[\"http://localhost:3000/\",\"https://master.d4h1ov501zzfq.amplifyapp.com/\",\"https://sportpal.net/\"]}"
 }

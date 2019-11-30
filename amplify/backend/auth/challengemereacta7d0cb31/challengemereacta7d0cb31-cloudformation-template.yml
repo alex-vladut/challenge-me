@@ -121,7 +121,28 @@ Parameters:
                       
   userPoolGroupList:
     Type: CommaDelimitedList
-      
+        
+  thirdPartyAuth:
+    Type: String
+                    
+  authProviders:
+    Type: CommaDelimitedList
+        
+  userPoolGroups:
+    Type: String
+              
+  adminQueries:
+    Type: String
+            
+  facebookAppId:
+    Type: String
+              
+  googleClientId:
+    Type: String
+              
+  amazonAppId:
+    Type: String
+              
   hostedUIProviderCreds:
     Type: String
               
@@ -139,7 +160,7 @@ Resources:
   # Created to allow the UserPool SMS Config to publish via the Simple Notification Service during MFA Process
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !If [ShouldNotCreateEnvResources, 'challea7d0cb31_sns-role', !Join ['',['challea7d0cb31_sns-role', '-', !Ref env]]]
+      RoleName: !If [ShouldNotCreateEnvResources, 'challea7d0cb31_sns-role', !Join ['',[ 'sns', !Select [3, !Split ['-', !Ref 'AWS::StackName']], '-', !Ref env]]]
       AssumeRolePolicyDocument: 
         Version: "2012-10-17"
         Statement: 
@@ -286,6 +307,9 @@ Resources:
     Properties:
       ClientName: challea7d0cb31_app_clientWeb
       
+      ReadAttributes: !Ref userpoolClientReadAttributes
+      WriteAttributes: !Ref userpoolClientWriteAttributes
+      
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
       UserPoolId: !Ref UserPool
     DependsOn: UserPool
@@ -296,6 +320,9 @@ Resources:
     Properties:
       ClientName: challea7d0cb31_app_client
       
+      ReadAttributes: !Ref userpoolClientReadAttributes
+      WriteAttributes: !Ref userpoolClientWriteAttributes
+      
       GenerateSecret: !Ref userpoolClientGenerateSecret
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
       UserPoolId: !Ref UserPool
@@ -305,7 +332,7 @@ Resources:
   # Created to execute Lambda which gets userpool app client config values
     Type: 'AWS::IAM::Role'
     Properties:
-      RoleName: !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
+      RoleName: !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',['upClientLambdaRole', !Select [3, !Split ['-', !Ref 'AWS::StackName']], '-', !Ref env]]]
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -361,7 +388,7 @@ Resources:
     Properties:
       PolicyName: challea7d0cb31_userpoolclient_lambda_iam_policy
       Roles: 
-        - !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
+        - !Ref UserPoolClientRole
       PolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -378,7 +405,7 @@ Resources:
     Properties:
       PolicyName: challea7d0cb31_userpoolclient_lambda_log_policy
       Roles: 
-        - !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
+        - !Ref UserPoolClientRole
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -485,7 +512,7 @@ Resources:
     Properties:
       PolicyName: !Join ['-',[!Ref UserPool, 'hostedUI']]
       Roles: 
-        - !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
+        - !Ref UserPoolClientRole
       PolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -505,7 +532,7 @@ Resources:
     Properties:
       PolicyName: !Join ['-',[!Ref UserPool, 'hostedUILogPolicy']]
       Roles: 
-        - !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
+        - !Ref UserPoolClientRole
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -614,7 +641,7 @@ Resources:
     Properties:
       PolicyName: !Join ['-',[!Ref UserPool, 'hostedUIProvider']]
       Roles: 
-        - !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
+        - !Ref UserPoolClientRole
       PolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -632,7 +659,7 @@ Resources:
     Properties:
       PolicyName: !Join ['-',[!Ref UserPool, 'hostedUIProviderLogPolicy']]
       Roles: 
-        - !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
+        - !Ref UserPoolClientRole
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -713,7 +740,7 @@ Resources:
     Properties:
       PolicyName: !Join ['-',[!Ref UserPool, 'OAuth']]
       Roles: 
-        - !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
+        - !Ref UserPoolClientRole
       PolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -728,7 +755,7 @@ Resources:
     Properties:
       PolicyName: !Join ['-',[!Ref UserPool, 'OAuthLogPolicy']]
       Roles: 
-        - !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
+        - !Ref UserPoolClientRole
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -775,6 +802,17 @@ Resources:
             - cognito-idp.${region}.amazonaws.com/${client}
             - { region: !Ref "AWS::Region",  client: !Ref UserPool}
             
+      SupportedLoginProviders: 
+        
+        graph.facebook.com: !Ref facebookAppId
+        
+        
+        accounts.google.com: !Ref googleClientId
+        
+        
+        www.amazon.com: !Ref amazonAppId
+        
+      
       AllowUnauthenticatedIdentities: !Ref allowUnauthenticatedIdentities
        
        
@@ -824,9 +862,18 @@ Outputs :
   AppClientSecret:
     Value: !GetAtt UserPoolClientInputs.appSecret
   
+  
+  GoogleWebClient:
+    Value: !Ref googleClientId
    
    
   
+  
+  FacebookWebClient:
+    Value: !Ref facebookAppId
    
+  
+  AmazonWebClient:
+    Value: !Ref amazonAppId
    
   
