@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 import Auth, { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
-import { FacebookLoginButton, GoogleLoginButton } from "react-social-login-buttons";
+import { FacebookLoginButton, GoogleLoginButton, AmazonLoginButton } from "react-social-login-buttons";
 
 import { State } from "../../store/reducers";
 
@@ -17,6 +17,7 @@ const Authentication: FunctionComponent<AuthProps> = ({ isAuthenticated }) => {
   }
   const signInWithFacebook = () => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Facebook });
   const signInWithGoogle = () => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google });
+  const signInWithAmazon = () => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Amazon });
 
   return (
     <div>
@@ -26,6 +27,9 @@ const Authentication: FunctionComponent<AuthProps> = ({ isAuthenticated }) => {
       <GoogleLoginButton onClick={signInWithGoogle}>
         <span>Sign in with Google</span>
       </GoogleLoginButton>
+      <AmazonLoginButton onClick={signInWithAmazon}>
+        <span>Sign in with Amazon</span>
+      </AmazonLoginButton>
     </div>
   );
 };
