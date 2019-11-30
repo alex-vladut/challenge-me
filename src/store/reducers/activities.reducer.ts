@@ -4,7 +4,6 @@ import {
   Create,
   CreateFail,
   CreateSuccess,
-  FetchAll,
   FetchAllFail,
   FetchAllSuccess,
   Delete,
@@ -57,7 +56,7 @@ const initialState: State = {
 const reducer = (state = initialState, { type, payload }: ActionWithPayload<any>): State => {
   switch (type) {
     case SetFilters.type:
-      return { ...state, filters: payload };
+      return { ...state, filters: payload, loading: true };
     case SetActivityId.type:
       return { ...state, activityId: payload };
     case Create.type:
@@ -84,8 +83,6 @@ const reducer = (state = initialState, { type, payload }: ActionWithPayload<any>
       return { ...state, loading: false };
     case RejectFail.type:
       return { ...state, loading: false };
-    case FetchAll.type:
-      return { ...state, created: null, deleted: false, loading: true };
     case FetchAllSuccess.type:
       return { ...state, activities: payload, loading: false };
     case FetchAllFail.type:

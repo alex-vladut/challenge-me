@@ -5,7 +5,7 @@ type User
   id: ID!
   name: String!
   pictureUrl: AWSURL
-  email: AWSEmail
+  email: AWSEmail @auth(rules: [{ allow: owner, ownerField: "id", operations: [read, update] }])
   activities: [Participation!] @connection(name: "UserActivities")
   comments: [Comment] @connection
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
-
+import { Link } from "react-router-dom";
 import moment from "moment";
 
 import {
@@ -22,7 +22,7 @@ import {
   Grid,
   Divider
 } from "@material-ui/core";
-import { Delete as DeleteIcon, Room, AccessTime, CalendarToday } from "@material-ui/icons";
+import { Delete as DeleteIcon, Room, AccessTime, CalendarToday, ArrowBackOutlined } from "@material-ui/icons";
 import { grey } from "@material-ui/core/colors";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 
@@ -100,8 +100,10 @@ const ViewActivity = ({
 
   const activityId = match.params.activityId;
   useEffect(() => {
-    setActivityId(activityId);
-  }, [activityId, setActivityId]);
+    if (!activity || activity.id !== activityId) {
+      setActivityId(activityId);
+    }
+  }, [activity, activityId, setActivityId]);
 
   const acceptedActivity = () => {
     const participation = activity.participations.find((item: any) => item.participant.id === profile.id);
@@ -187,6 +189,17 @@ const ViewActivity = ({
 
   return (
     <>
+      <Grid container justify="flex-start" alignItems="center">
+        <Link to="/activities">
+          <IconButton aria-label="back">
+            <ArrowBackOutlined />
+          </IconButton>
+        </Link>
+        <Typography component="p" variant="subtitle1">
+          Go back to activities
+        </Typography>
+      </Grid>
+
       <Card>
         <CardHeader
           avatar={

@@ -12,7 +12,6 @@ export const Delete = action(`${FeatureKey} DELETE`, payload<any>());
 export const DeleteSuccess = action(`${FeatureKey} DELETE_SUCCESS`, payload<string>());
 export const DeleteFail = action(`${FeatureKey} DELETE_FAIL`, payload<any>());
 
-export const FetchAll = action(`${FeatureKey} FETCH_ALL`, payload<any>());
 export const FetchAllSuccess = action(`${FeatureKey} FETCH_ALL_SUCCESS`, payload<any>());
 export const FetchAllFail = action(`${FeatureKey} FETCH_ALL_FAIL`, payload<string>());
 

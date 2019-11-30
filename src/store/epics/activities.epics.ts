@@ -1,36 +1,44 @@
-import { API, graphqlOperation } from "aws-amplify";
-import { ActionsObservable, ofType } from "redux-observable";
-import { from, Observable, of } from "rxjs";
-import { catchError, map, switchMap, withLatestFrom } from "rxjs/operators";
+import { API, graphqlOperation } from 'aws-amplify';
+import { ActionsObservable, ofType } from 'redux-observable';
+import { from, Observable, of } from 'rxjs';
+import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
-import * as mutations from "../../graphql-api/mutations";
-import * as queries from "../../graphql-api/queries";
-import { createNotification } from "../../shared/notifications";
-import { Action, ActionWithPayload } from "../actions/actions";
+import * as mutations from '../../graphql-api/mutations';
+import * as queries from '../../graphql-api/queries';
+import { createNotification } from '../../shared/notifications';
+import { Action, ActionWithPayload } from '../actions/actions';
 import {
   Accept,
   AcceptFail,
   AcceptSuccess,
   Create,
-  CreateFail,
   CreateComment,
   CreateCommentFail,
   CreateCommentSuccess,
+  CreateFail,
   CreateSuccess,
   Delete,
   DeleteFail,
   DeleteSuccess,
   FetchActivityFail,
   FetchActivitySuccess,
-  FetchAll,
   FetchAllFail,
   FetchAllSuccess,
   Reject,
   RejectFail,
   RejectSuccess,
-  SetActivityId
-} from "../actions/activities.actions";
-import { State } from "../reducers";
+  SetActivityId,
+  SetFilters,
+} from '../actions/activities.actions';
+import { State } from '../reducers';
+import { FetchLocationSuccess } from '../actions/auth.actions';
+
+const setCurrentLocation = (actions$: Observable<ActionWithPayload<any>>) =>
+  actions$.pipe(
+    ofType(FetchLocationSuccess.type),
+    switchMap(({ payload }) => of(SetFilters.create(payload))
+    )
+  );
 
 const createActivity = (actions$: Observable<ActionWithPayload<any>>) =>
   actions$.pipe(
@@ -184,7 +192,7 @@ const fetchActivity = (actions$: ActionsObservable<ActionWithPayload<string>>, s
 
 const fetchActivities = (actions$: Observable<Action>, store$: Observable<State>) =>
   actions$.pipe(
-    ofType(FetchAll.type, DeleteSuccess.type),
+    ofType(SetFilters.type, DeleteSuccess.type),
     withLatestFrom(store$.pipe(map(({ activities }) => activities.filters))),
     switchMap(([_, filters]: any[]) =>
       from(
@@ -220,6 +228,7 @@ const actionFailed = (actions$: Observable<ActionWithPayload<string>>) =>
   );
 
 export default [
+  setCurrentLocation,
   createActivity,
   createActivitySuccessful,
   createActivityFailed,

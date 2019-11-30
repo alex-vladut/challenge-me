@@ -1,10 +1,10 @@
-import React, { useEffect, FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { connect } from "react-redux";
 
 import { CircularProgress, Typography } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import Address from "../../components/Address/Address";
-import { FetchAll, SetFilters } from "../../store/actions/activities.actions";
+import { SetFilters } from "../../store/actions/activities.actions";
 import { State } from "../../store/reducers";
 
 import Item from "./Item/Item";
@@ -12,12 +12,10 @@ import moment from "moment";
 import { NavLink } from "react-router-dom";
 
 interface ActivitiesProps {
-  currentLocation: any;
   filters: any;
   profile: any;
   activities: any[];
   loading: boolean;
-  fetchActivities(location: any): void;
   setFilters(filters: any): void;
 }
 
@@ -34,29 +32,15 @@ const useStyles = makeStyles(() =>
 
 const Activities: FunctionComponent<ActivitiesProps> = ({
   filters,
-  currentLocation,
   profile,
   activities,
   loading,
-  fetchActivities,
   setFilters
 }: ActivitiesProps) => {
   const classes = useStyles();
   const [address, setAddress] = useState<any>({ location: filters.location, address: filters.address });
 
   const activitiesGroupedByDate = groupActivitiesByDate(activities);
-
-  useEffect(() => {
-    if (!filters.location && currentLocation) {
-      setFilters({ ...filters, ...currentLocation, nearBy: false });
-    }
-  }, [currentLocation, filters, setFilters]);
-
-  useEffect(() => {
-    if (filters.location) {
-      fetchActivities(filters);
-    }
-  }, [filters, fetchActivities]);
 
   const handleLocationChanged = (location: any) => {
     setAddress(location);
@@ -113,13 +97,11 @@ const mapStateToProps = ({ activities, auth }: State) => ({
   loading: activities.loading,
   activities: activities.activities,
   filters: activities.filters,
-  profile: auth.profile,
-  currentLocation: auth.currentLocation
+  profile: auth.profile
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  setFilters: (filters: any) => dispatch(SetFilters.create(filters)),
-  fetchActivities: (location: any) => dispatch(FetchAll.create(location))
+  setFilters: (filters: any) => dispatch(SetFilters.create(filters))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Activities);

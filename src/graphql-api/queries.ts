@@ -19,23 +19,6 @@ export const getUser = `query GetUser($id: ID!) {
 }
 `;
 
-export const listUsers = `query ListUsers(
-  $filter: ModelUserFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      name
-      pictureUrl
-      version
-    }
-    nextToken
-  }
-}
-`;
-
 export const getActivity = `query GetActivity($id: ID!) {
   getActivity(id: $id) {
     id
@@ -43,7 +26,6 @@ export const getActivity = `query GetActivity($id: ID!) {
       id
       name
       pictureUrl
-      email
     }
     description
     sport
