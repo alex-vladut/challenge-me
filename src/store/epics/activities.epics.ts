@@ -1,12 +1,12 @@
-import { API, graphqlOperation } from 'aws-amplify';
-import { ActionsObservable, ofType } from 'redux-observable';
-import { from, Observable, of } from 'rxjs';
-import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { API, graphqlOperation } from "aws-amplify";
+import { ActionsObservable, ofType } from "redux-observable";
+import { from, Observable, of } from "rxjs";
+import { catchError, map, switchMap, withLatestFrom } from "rxjs/operators";
 
-import * as mutations from '../../graphql-api/mutations';
-import * as queries from '../../graphql-api/queries';
-import { createNotification } from '../../shared/notifications';
-import { Action, ActionWithPayload } from '../actions/actions';
+import * as mutations from "../../graphql-api/mutations";
+import * as queries from "../../graphql-api/queries";
+import { createNotification } from "../../shared/notifications";
+import { Action, ActionWithPayload } from "../actions/actions";
 import {
   Accept,
   AcceptFail,
@@ -31,16 +31,15 @@ import {
   RejectFail,
   RejectSuccess,
   SetActivityId,
-  SetFilters,
-} from '../actions/activities.actions';
-import { FetchLocationSuccess } from '../actions/auth.actions';
-import { State } from '../reducers';
+  SetFilters
+} from "../actions/activities.actions";
+import { FetchLocationSuccess } from "../actions/auth.actions";
+import { State } from "../reducers";
 
 const setCurrentLocation = (actions$: Observable<ActionWithPayload<any>>) =>
   actions$.pipe(
     ofType(FetchLocationSuccess.type),
-    switchMap(({ payload }) => of(SetFilters.create(payload))
-    )
+    switchMap(({ payload }) => of(SetFilters.create(payload)))
   );
 
 const createActivity = (actions$: Observable<ActionWithPayload<any>>) =>
@@ -210,10 +209,14 @@ const fetchActivities = (actions$: Observable<Action>, store$: Observable<State>
 const fetchMoreComments = (actions$: Observable<Action>, store$: Observable<State>) =>
   actions$.pipe(
     ofType(FetchMoreComments.type),
-    withLatestFrom(store$.pipe(map(({ activities }) => ({
-      activityId: activities.activityId,
-      nextToken: activities.commentsNextToken
-    })))),
+    withLatestFrom(
+      store$.pipe(
+        map(({ activities }) => ({
+          activityId: activities.activityId,
+          nextToken: activities.commentsNextToken
+        }))
+      )
+    ),
     switchMap(([_, { activityId, nextToken }]: any[]) =>
       from(
         API.graphql(graphqlOperation(queries.fetchMoreComments, { id: activityId, nextToken })) as Promise<any>

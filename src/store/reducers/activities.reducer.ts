@@ -55,7 +55,7 @@ const initialState: State = {
   },
   deleted: false,
   loading: false,
-  commentsNextToken: null,
+  commentsNextToken: null
 };
 
 const reducer = (state = initialState, { type, payload }: ActionWithPayload<any>): State => {
