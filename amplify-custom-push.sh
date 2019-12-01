@@ -96,13 +96,10 @@ CODEGEN="{\
 }"
 
 AUTHCONFIG="{\
-\"googleClientId\":\"${GOOGLE_CLIENT_ID}\",\
 \"googleAppIdUserPool\":\"${GOOGLE_CLIENT_ID}\",\
 \"googleAppSecretUserPool\":\"${GOOGLE_CLIENT_SECRET}\",\
-\"amazonAppId\":\"${AMAZON_CLIENT_ID}\",\
 \"amazonAppIdUserPool\":\"${AMAZON_CLIENT_ID}\",\
 \"amazonAppSecretUserPool\":\"${AMAZON_CLIENT_SECRET}\",\
-\"facebookAppId\":\"${FACEBOOK_CLIENT_ID}\",\
 \"facebookAppIdUserPool\":\"${FACEBOOK_CLIENT_ID}\",\
 \"facebookAppSecretUserPool\":\"${FACEBOOK_CLIENT_SECRET}\"\
 }"
