@@ -49,5 +49,5 @@ exports.handler = async event => {
       return await resolver(event);
     }
   }
-  throw new Error("Resolver not found.");
+  throw new Error("Resolver not found!");
 };
