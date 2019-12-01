@@ -20,7 +20,8 @@ import {
   DialogTitle,
   CircularProgress,
   Grid,
-  Divider
+  Divider,
+  Link as LinkButton
 } from "@material-ui/core";
 import { Delete as DeleteIcon, Room, AccessTime, CalendarToday, ArrowBackOutlined } from "@material-ui/icons";
 import { grey } from "@material-ui/core/colors";
@@ -28,30 +29,22 @@ import { createStyles, makeStyles } from "@material-ui/core/styles";
 
 import userIcon from "../../assets/user.png";
 import { State } from "../../store/reducers";
-import { SetActivityId, Accept, Reject, Delete, CreateComment } from "../../store/actions/activities.actions";
+import {
+  SetActivityId,
+  Accept,
+  Reject,
+  Delete,
+  CreateComment,
+  FetchMoreComments
+} from "../../store/actions/activities.actions";
 
 import Participants from "./Participants/Participants";
 import Comments from "./Comments/Comments";
 
-export interface ViewActivityProps {
-  activity: any;
-  profile: any;
-  sports: any[];
-  deleted: boolean;
-  loading: boolean;
-  match: any;
-  setActivityId(activityId: string): void;
-  acceptActivity({ userId, activityId }: any): void;
-  rejectActivity(participation: any): void;
-  deleteActivity(activity: string): void;
-  createComment(comment: any): void;
-}
-
 const useStyles: any = makeStyles(theme =>
   createStyles({
     root: {
-      width: "100%",
-      backgroundColor: theme.palette.background.paper
+      paddingBottom: "3rem"
     },
     header: {},
     avatar: {
@@ -83,6 +76,22 @@ const useStyles: any = makeStyles(theme =>
   })
 );
 
+export interface ViewActivityProps {
+  activity: any;
+  profile: any;
+  sports: any[];
+  deleted: boolean;
+  loading: boolean;
+  match: any;
+  hasMoreComments: boolean;
+  setActivityId(activityId: string): void;
+  acceptActivity({ userId, activityId }: any): void;
+  rejectActivity(participation: any): void;
+  deleteActivity(activity: string): void;
+  createComment(comment: any): void;
+  fetchMoreComments(): void;
+}
+
 const ViewActivity = ({
   activity,
   deleted,
@@ -91,9 +100,11 @@ const ViewActivity = ({
   setActivityId,
   acceptActivity,
   profile,
+  hasMoreComments,
   rejectActivity,
   deleteActivity,
-  createComment
+  createComment,
+  fetchMoreComments
 }: ViewActivityProps) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const classes = useStyles();
@@ -134,6 +145,11 @@ const ViewActivity = ({
   };
   const handleDeleteActivity = () => deleteActivity(activity);
   const handleCreateComment = (text: string) => createComment({ text, commentActivityId: activity.id });
+  const handleLoadMoreComments = (e: any) => {
+    e.preventDefault();
+
+    fetchMoreComments();
+  };
 
   const getAttendanceStatus = (activity: any, profile: any) => {
     const participation = profile.activities.find((p: any) => p.activity.id === activity.id);
@@ -188,7 +204,7 @@ const ViewActivity = ({
   }
 
   return (
-    <>
+    <div className={classes.root}>
       <Grid container justify="flex-start" alignItems="center">
         <Link to="/activities">
           <IconButton aria-label="back">
@@ -247,6 +263,11 @@ const ViewActivity = ({
         <strong>Comments</strong>
       </Typography>
       <Comments profile={profile} comments={activity.comments} onCreateComment={handleCreateComment} />
+      {hasMoreComments ? (
+        <LinkButton component="button" variant="body2" onClick={handleLoadMoreComments}>
+          Load more...
+        </LinkButton>
+      ) : null}
 
       <Dialog open={deleteConfirmation} onClose={() => setDeleteConfirmation(false)}>
         <DialogTitle>{"Delete activity"}</DialogTitle>
@@ -262,7 +283,7 @@ const ViewActivity = ({
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </div>
   );
 };
 
@@ -271,6 +292,7 @@ const mapStateToProps = ({ activities, auth }: State) => ({
   deleted: activities.deleted,
   loading: activities.loading,
   sports: activities.sports,
+  hasMoreComments: !!activities.commentsNextToken,
   profile: auth.profile
 });
 
@@ -279,7 +301,8 @@ const mapDispatchToProps = (dispatch: any) => ({
   acceptActivity: (participation: any) => dispatch(Accept.create(participation)),
   rejectActivity: (participation: any) => dispatch(Reject.create(participation)),
   deleteActivity: (activity: any) => dispatch(Delete.create(activity)),
-  createComment: (comment: any) => dispatch(CreateComment.create(comment))
+  createComment: (comment: any) => dispatch(CreateComment.create(comment)),
+  fetchMoreComments: () => dispatch(FetchMoreComments.create())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewActivity);

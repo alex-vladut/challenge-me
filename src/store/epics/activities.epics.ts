@@ -24,14 +24,17 @@ import {
   FetchActivitySuccess,
   FetchAllFail,
   FetchAllSuccess,
+  FetchMoreComments,
+  FetchMoreCommentsFail,
+  FetchMoreCommentsSuccess,
   Reject,
   RejectFail,
   RejectSuccess,
   SetActivityId,
   SetFilters,
 } from '../actions/activities.actions';
-import { State } from '../reducers';
 import { FetchLocationSuccess } from '../actions/auth.actions';
+import { State } from '../reducers';
 
 const setCurrentLocation = (actions$: Observable<ActionWithPayload<any>>) =>
   actions$.pipe(
@@ -198,8 +201,25 @@ const fetchActivities = (actions$: Observable<Action>, store$: Observable<State>
       from(
         API.graphql(graphqlOperation(queries.nearbyActivities, { location: filters.location, km: 50 })) as Promise<any>
       ).pipe(
-        map(({ data }: any) => FetchAllSuccess.create(data.nearbyActivities.items)),
+        map(({ data }: any) => FetchAllSuccess.create(data.nearbyActivities)),
         catchError(() => of(FetchAllFail.create("Sorry, there was an error while loading the activities.")))
+      )
+    )
+  );
+
+const fetchMoreComments = (actions$: Observable<Action>, store$: Observable<State>) =>
+  actions$.pipe(
+    ofType(FetchMoreComments.type),
+    withLatestFrom(store$.pipe(map(({ activities }) => ({
+      activityId: activities.activityId,
+      nextToken: activities.commentsNextToken
+    })))),
+    switchMap(([_, { activityId, nextToken }]: any[]) =>
+      from(
+        API.graphql(graphqlOperation(queries.fetchMoreComments, { id: activityId, nextToken })) as Promise<any>
+      ).pipe(
+        map(({ data }: any) => FetchMoreCommentsSuccess.create(data.getActivity)),
+        catchError(() => of(FetchMoreCommentsFail.create("Sorry, there was an error while loading the activities.")))
       )
     )
   );
@@ -239,6 +259,7 @@ export default [
   rejectActivity,
   fetchActivity,
   fetchActivities,
+  fetchMoreComments,
   actionSucceeded,
   actionFailed,
   createMessage

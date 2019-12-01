@@ -2,7 +2,7 @@ import "./App.scss";
 
 import React, { useEffect, FunctionComponent } from "react";
 import { connect } from "react-redux";
-import { HashRouter, Route, Switch } from "react-router-dom";
+import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Hub, Auth } from "aws-amplify";
 import { State } from "./store/reducers";
 import { Fetch } from "./store/actions/auth.actions";
@@ -57,7 +57,7 @@ const App: FunctionComponent<AppProps> = ({ isAuthenticated, fetchProfile }) => 
           <PrivateRoute path="/profile" exact component={Profile} isAuthenticated={isAuthenticated} />
           <PrivateRoute path="/contact-us" exact component={ContactUs} isAuthenticated={isAuthenticated} />
           <PrivateRoute path="/logout" exact component={LogOut} isAuthenticated={isAuthenticated} />
-          <Route render={() => <h1>Page Not Found!</h1>} />
+          <Route render={() => <Redirect to="/" />} />
         </Switch>
       </Layout>
     </HashRouter>

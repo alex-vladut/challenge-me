@@ -1,4 +1,4 @@
-import { action, payload } from "./actions";
+import { action, payload, actionWithoutPayload } from "./actions";
 
 export const FeatureKey = "[ACTIVITIES]";
 
@@ -32,3 +32,7 @@ export const RejectFail = action(`${FeatureKey} REJECT_FAIL`, payload<any>());
 export const CreateComment = action(`${FeatureKey} CREATE_COMMENT`, payload<any>());
 export const CreateCommentSuccess = action(`${FeatureKey} CREATE_COMMENT_SUCCESS`, payload<any>());
 export const CreateCommentFail = action(`${FeatureKey} CREATE_COMMENT_FAIL`, payload<any>());
+
+export const FetchMoreComments = actionWithoutPayload(`${FeatureKey} FETCH_MORE_COMMENTS`);
+export const FetchMoreCommentsSuccess = action(`${FeatureKey} FETCH_MORE_COMMENTS_SUCCESS`, payload<any>());
+export const FetchMoreCommentsFail = action(`${FeatureKey} FETCH_MORE_COMMENTS_FAIL`, payload<any>());

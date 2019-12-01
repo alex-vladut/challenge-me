@@ -6,9 +6,6 @@ import { Send, AccessTime } from "@material-ui/icons";
 
 const useStyles: any = makeStyles(theme =>
   createStyles({
-    root: {
-      paddingBottom: "3rem",
-    },
     subheader: {
       display: "flex",
       alignItems: "center"
@@ -86,7 +83,7 @@ const Comments: FunctionComponent<CommentsProps> = ({ profile, comments, onCreat
   };
 
   return (
-    <div className={classes.root}>
+    <>
       <Card>
         <CardContent className={classes.cardContent}>
           <Avatar alt={profile.name} src={profile.pictureUrl} />
@@ -126,7 +123,7 @@ const Comments: FunctionComponent<CommentsProps> = ({ profile, comments, onCreat
           </CardContent>
         </Card>
       ))}
-    </div>
+    </>
   );
 };
 

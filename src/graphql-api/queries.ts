@@ -71,6 +71,26 @@ export const getActivity = `query GetActivity($id: ID!) {
 }
 `;
 
+export const fetchMoreComments = `query GetActivity($id: ID!, $nextToken: String!) {
+  getActivity(id: $id) {
+    comments(sortDirection: DESC, nextToken: $nextToken) {
+      items {
+        id
+        text
+        createdAt
+        version
+        user {
+          id
+          name
+          pictureUrl
+        }
+      }
+      nextToken
+    }
+  }
+}
+`;
+
 export const nearbyActivities = `query NearbyActivities($location: LocationInput!, $km: Int) {
   nearbyActivities(location: $location, km: $km) {
     items {

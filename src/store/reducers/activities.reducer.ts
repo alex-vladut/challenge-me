@@ -22,7 +22,10 @@ import {
   SetActivityId,
   CreateComment,
   CreateCommentSuccess,
-  CreateCommentFail
+  CreateCommentFail,
+  FetchMoreComments,
+  FetchMoreCommentsSuccess,
+  FetchMoreCommentsFail
 } from "../actions/activities.actions";
 
 export interface FiltersState {
@@ -38,6 +41,7 @@ export interface State {
   filters: FiltersState;
   deleted: boolean;
   loading: boolean;
+  commentsNextToken: string | null;
 }
 
 const initialState: State = {
@@ -50,7 +54,8 @@ const initialState: State = {
     location: null
   },
   deleted: false,
-  loading: false
+  loading: false,
+  commentsNextToken: null,
 };
 
 const reducer = (state = initialState, { type, payload }: ActionWithPayload<any>): State => {
@@ -84,7 +89,11 @@ const reducer = (state = initialState, { type, payload }: ActionWithPayload<any>
     case RejectFail.type:
       return { ...state, loading: false };
     case FetchAllSuccess.type:
-      return { ...state, activities: payload, loading: false };
+      return {
+        ...state,
+        activities: payload.items,
+        loading: false
+      };
     case FetchAllFail.type:
       return { ...state, loading: false };
     case FetchActivity.type:
@@ -97,10 +106,28 @@ const reducer = (state = initialState, { type, payload }: ActionWithPayload<any>
     case FetchActivitySuccess.type:
       return {
         ...state,
-        activity: { ...payload, participations: payload.participations.items, comments: payload.comments.items },
+        activity: {
+          ...payload,
+          participations: payload.participations.items,
+          comments: payload.comments.items
+        },
+        commentsNextToken: payload.comments.nextToken,
+        loading: false
+      };
+    case FetchMoreComments.type:
+      return { ...state, loading: true };
+    case FetchMoreCommentsSuccess.type:
+      return {
+        ...state,
+        activity: {
+          ...state.activity,
+          comments: [...state.activity.comments, ...payload.comments.items]
+        },
+        commentsNextToken: payload.comments.nextToken,
         loading: false
       };
     case FetchActivityFail.type:
+    case FetchMoreCommentsFail.type:
       return { ...state, loading: false };
     default:
       return state;
