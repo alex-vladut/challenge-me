@@ -36,7 +36,8 @@
 			"Default": ""
 		},
 		"env": {
-			"Type": "String"
+			"Type": "String",
+      "Description": "Environment"
 		},
 		"usersTable": {
 			"Type": "String",
