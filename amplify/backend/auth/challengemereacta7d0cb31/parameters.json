@@ -85,5 +85,8 @@
     ],
     "userPoolGroups": true,
     "adminQueries": false,
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\",\"https://master.d4h1ov501zzfq.amplifyapp.com/\",\"https://sportpal.net/\"],\"LogoutURLs\":[\"http://localhost:3000/\",\"https://master.d4h1ov501zzfq.amplifyapp.com/\",\"https://sportpal.net/\"]}"
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\",\"https://master.d4h1ov501zzfq.amplifyapp.com/\",\"https://sportpal.net/\"],\"LogoutURLs\":[\"http://localhost:3000/\",\"https://master.d4h1ov501zzfq.amplifyapp.com/\",\"https://sportpal.net/\"]}",
+    "facebookAppId": "1150248915184782",
+    "googleClientId": "348450922576-hvs2fv955qfv4rjci73b7c3r944mkkdq.apps.googleusercontent.com",
+    "amazonAppId": "amzn1.application-oa2-client.311a8c4aac5140edb43a6f3ebf11568b"
 }
