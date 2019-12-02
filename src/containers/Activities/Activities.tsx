@@ -85,13 +85,15 @@ const Activities: FunctionComponent<ActivitiesProps> = ({
 };
 
 const groupActivitiesByDate = (activities: any[]) =>
-  activities.reduce((accumulator, activity) => {
-    const date = moment(activity.dateTime).format("YYYY-MM-DD");
-    return {
-      ...accumulator,
-      [date]: [...(accumulator[date] || []), activity]
-    };
-  }, {});
+  activities
+    .sort((a, b) => moment(a.dateTime).unix() - moment(b.dateTime).unix())
+    .reduce((accumulator, activity) => {
+      const date = moment(activity.dateTime).format("YYYY-MM-DD");
+      return {
+        ...accumulator,
+        [date]: [...(accumulator[date] || []), activity]
+      };
+    }, {});
 
 const mapStateToProps = ({ activities, auth }: State) => ({
   loading: activities.loading,

@@ -194,7 +194,7 @@ const fetchActivity = (actions$: ActionsObservable<ActionWithPayload<string>>, s
 
 const fetchActivities = (actions$: Observable<Action>, store$: Observable<State>) =>
   actions$.pipe(
-    ofType(SetFilters.type, DeleteSuccess.type),
+    ofType(SetFilters.type),
     withLatestFrom(store$.pipe(map(({ activities }) => activities.filters))),
     switchMap(([_, filters]: any[]) =>
       from(

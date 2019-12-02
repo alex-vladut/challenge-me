@@ -167,11 +167,12 @@ const ViewActivity = ({
     );
   };
 
-  if (deleted) {
-    return <Redirect to="/activities" />;
-  }
-  if (loading || !activity) {
+  if (loading || !activity || activity.id !== activityId) {
     return <CircularProgress />;
+  }
+
+  if (activity.deleted) {
+    return <Redirect to="/activities" />;
   }
 
   let actions = null;

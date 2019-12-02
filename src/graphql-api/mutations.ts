@@ -30,6 +30,11 @@ export const createActivity = `mutation CreateActivity($input: CreateActivityInp
       pictureUrl
       version
     }
+    address
+    location {
+      lat
+      lon
+    }
     dateTime
     numberOfAttendants
     createdAt

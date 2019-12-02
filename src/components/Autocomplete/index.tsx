@@ -215,7 +215,6 @@ const Autocomplete: FunctionComponent<AutocompleteProps> = ({
         translatedValue.label === (selectedValue as OptionType).label
       );
     });
-    console.log(result);
     onChange(result);
   };
 

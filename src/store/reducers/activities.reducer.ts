@@ -63,17 +63,27 @@ const reducer = (state = initialState, { type, payload }: ActionWithPayload<any>
     case SetFilters.type:
       return { ...state, filters: payload, loading: true };
     case SetActivityId.type:
-      return { ...state, activityId: payload };
+      return { ...state, activityId: payload, created: null };
     case Create.type:
       return { ...state, loading: true };
     case CreateSuccess.type:
-      return { ...state, created: payload.id, loading: false };
+      return {
+        ...state,
+        created: payload.id,
+        activities: [...state.activities, payload],
+        loading: false
+      };
     case CreateFail.type:
       return { ...state, loading: false };
     case Delete.type:
       return { ...state, loading: true };
     case DeleteSuccess.type:
-      return { ...state, deleted: true, activity: null, loading: false };
+      return {
+        ...state,
+        activity: { ...state.activity, deleted: true },
+        activities: state.activities.filter(({ id }) => id !== payload.id),
+        loading: false
+      };
     case DeleteFail.type:
       return { ...state, loading: false };
     case Accept.type:
