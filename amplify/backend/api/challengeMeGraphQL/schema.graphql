@@ -101,3 +101,9 @@ type ActivityConnection {
 type Query {
   nearbyActivities(location: LocationInput!, km: Int): ActivityConnection
 }
+
+type Subscription {
+  onCreateParticipation(participationParticipantId: String): Participation @aws_subscribe(mutations: "createParticipation")
+  onUpdateParticipation(id: ID, participationParticipantId: String): Participation @aws_subscribe(mutations: "updateParticipation")
+  onDeleteParticipation(id: ID, participationParticipantId: String): Participation @aws_subscribe(mutations: "deleteParticipation")
+}
