@@ -42,7 +42,7 @@ export const createUser = `mutation CreateUser($input: CreateUserInput!) {
     name
     pictureUrl
     email
-    activities {
+    participations {
       nextToken
     }
     comments {
@@ -58,7 +58,7 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
     name
     pictureUrl
     email
-    activities {
+    participations {
       nextToken
     }
     comments {
@@ -74,7 +74,7 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
     name
     pictureUrl
     email
-    activities {
+    participations {
       nextToken
     }
     comments {
@@ -136,6 +136,7 @@ export const createParticipation = `mutation CreateParticipation($input: CreateP
       email
       version
     }
+    participationParticipantId
     status
     createdAt
     updatedAt
@@ -164,6 +165,7 @@ export const updateParticipation = `mutation UpdateParticipation($input: UpdateP
       email
       version
     }
+    participationParticipantId
     status
     createdAt
     updatedAt
@@ -192,6 +194,7 @@ export const deleteParticipation = `mutation DeleteParticipation($input: DeleteP
       email
       version
     }
+    participationParticipantId
     status
     createdAt
     updatedAt

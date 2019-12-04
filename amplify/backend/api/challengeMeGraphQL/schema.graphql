@@ -6,7 +6,7 @@ type User
   name: String!
   pictureUrl: AWSURL
   email: AWSEmail @auth(rules: [{ allow: owner, ownerField: "id", operations: [read, update] }])
-  activities: [Participation!] @connection(name: "UserActivities")
+  participations: [Participation!] @connection(name: "UserActivities")
   comments: [Comment] @connection
 }
 
@@ -39,10 +39,19 @@ type Location {
   lon: Float!
 }
 
-type Participation @model(subscriptions: null) @auth(rules: [{ allow: private }]) @versioned {
+type Participation
+  @model(subscriptions: null)
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "participationParticipantId", operations: [create, update] }
+      { allow: private, operations: [read] }
+    ]
+  )
+  @versioned {
   id: ID!
   activity: Activity! @connection(name: "ActivityParticipants")
-  participant: User! @connection(name: "UserActivities")
+  participant: User @connection(name: "UserActivities")
+  participationParticipantId: String # This references the auto-generated participationParticipantId field in DynamoDB
   status: ParticipationStatus!
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
@@ -103,7 +112,7 @@ type Query {
 }
 
 type Subscription {
-  onCreateParticipation(participationParticipantId: String): Participation @aws_subscribe(mutations: ["createParticipation"])
-  onUpdateParticipation(id: ID, participationParticipantId: String): Participation @aws_subscribe(mutations: ["updateParticipation"])
-  onDeleteParticipation(id: ID, participationParticipantId: String): Participation @aws_subscribe(mutations: ["deleteParticipation"])
+  onCreateParticipation(participationParticipantId: String!): Participation
+    @aws_subscribe(mutations: ["createParticipation"])
+  onUpdateParticipation(id: ID): Participation @aws_subscribe(mutations: ["updateParticipation"])
 }

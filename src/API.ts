@@ -52,11 +52,11 @@ export type LocationInput = {
 
 export type CreateParticipationInput = {
   id?: string | null;
+  participationParticipantId?: string | null;
   status: ParticipationStatus;
   createdAt?: string | null;
   updatedAt?: string | null;
   participationActivityId: string;
-  participationParticipantId: string;
 };
 
 export enum ParticipationStatus {
@@ -66,12 +66,12 @@ export enum ParticipationStatus {
 
 export type UpdateParticipationInput = {
   id: string;
+  participationParticipantId?: string | null;
   status?: ParticipationStatus | null;
   createdAt?: string | null;
   updatedAt?: string | null;
   expectedVersion: number;
   participationActivityId?: string | null;
-  participationParticipantId?: string | null;
 };
 
 export type DeleteParticipationInput = {
@@ -167,6 +167,7 @@ export type ModelIntFilterInput = {
 
 export type ModelParticipationFilterInput = {
   id?: ModelIDFilterInput | null;
+  participationParticipantId?: ModelStringFilterInput | null;
   status?: ModelParticipationStatusFilterInput | null;
   createdAt?: ModelStringFilterInput | null;
   updatedAt?: ModelStringFilterInput | null;
@@ -318,7 +319,7 @@ export type CreateUserMutation = {
     name: string;
     pictureUrl: string | null;
     email: string | null;
-    activities: {
+    participations: {
       __typename: "ModelParticipationConnection";
       nextToken: string | null;
     } | null;
@@ -341,7 +342,7 @@ export type UpdateUserMutation = {
     name: string;
     pictureUrl: string | null;
     email: string | null;
-    activities: {
+    participations: {
       __typename: "ModelParticipationConnection";
       nextToken: string | null;
     } | null;
@@ -364,7 +365,7 @@ export type DeleteUserMutation = {
     name: string;
     pictureUrl: string | null;
     email: string | null;
-    activities: {
+    participations: {
       __typename: "ModelParticipationConnection";
       nextToken: string | null;
     } | null;
@@ -443,7 +444,8 @@ export type CreateParticipationMutation = {
       pictureUrl: string | null;
       email: string | null;
       version: number;
-    };
+    } | null;
+    participationParticipantId: string | null;
     status: ParticipationStatus;
     createdAt: string | null;
     updatedAt: string | null;
@@ -478,7 +480,8 @@ export type UpdateParticipationMutation = {
       pictureUrl: string | null;
       email: string | null;
       version: number;
-    };
+    } | null;
+    participationParticipantId: string | null;
     status: ParticipationStatus;
     createdAt: string | null;
     updatedAt: string | null;
@@ -513,7 +516,8 @@ export type DeleteParticipationMutation = {
       pictureUrl: string | null;
       email: string | null;
       version: number;
-    };
+    } | null;
+    participationParticipantId: string | null;
     status: ParticipationStatus;
     createdAt: string | null;
     updatedAt: string | null;
@@ -662,7 +666,7 @@ export type GetUserQuery = {
     name: string;
     pictureUrl: string | null;
     email: string | null;
-    activities: {
+    participations: {
       __typename: "ModelParticipationConnection";
       nextToken: string | null;
     } | null;
@@ -787,7 +791,8 @@ export type GetParticipationQuery = {
       pictureUrl: string | null;
       email: string | null;
       version: number;
-    };
+    } | null;
+    participationParticipantId: string | null;
     status: ParticipationStatus;
     createdAt: string | null;
     updatedAt: string | null;
@@ -807,6 +812,7 @@ export type ListParticipationsQuery = {
     items: Array<{
       __typename: "Participation";
       id: string;
+      participationParticipantId: string | null;
       status: ParticipationStatus;
       createdAt: string | null;
       updatedAt: string | null;
@@ -899,65 +905,8 @@ export type SearchActivitysQuery = {
   } | null;
 };
 
-export type OnCreateUserSubscription = {
-  onCreateUser: {
-    __typename: "User";
-    id: string;
-    name: string;
-    pictureUrl: string | null;
-    email: string | null;
-    activities: {
-      __typename: "ModelParticipationConnection";
-      nextToken: string | null;
-    } | null;
-    comments: {
-      __typename: "ModelCommentConnection";
-      nextToken: string | null;
-    } | null;
-    version: number;
-  } | null;
-};
-
-export type OnUpdateUserSubscriptionVariables = {
-  id: string;
-};
-
-export type OnUpdateUserSubscription = {
-  onUpdateUser: {
-    __typename: "User";
-    id: string;
-    name: string;
-    pictureUrl: string | null;
-    email: string | null;
-    activities: {
-      __typename: "ModelParticipationConnection";
-      nextToken: string | null;
-    } | null;
-    comments: {
-      __typename: "ModelCommentConnection";
-      nextToken: string | null;
-    } | null;
-    version: number;
-  } | null;
-};
-
-export type OnDeleteUserSubscription = {
-  onDeleteUser: {
-    __typename: "User";
-    id: string;
-    name: string;
-    pictureUrl: string | null;
-    email: string | null;
-    activities: {
-      __typename: "ModelParticipationConnection";
-      nextToken: string | null;
-    } | null;
-    comments: {
-      __typename: "ModelCommentConnection";
-      nextToken: string | null;
-    } | null;
-    version: number;
-  } | null;
+export type OnCreateParticipationSubscriptionVariables = {
+  participationParticipantId: string;
 };
 
 export type OnCreateParticipationSubscription = {
@@ -983,12 +932,17 @@ export type OnCreateParticipationSubscription = {
       pictureUrl: string | null;
       email: string | null;
       version: number;
-    };
+    } | null;
+    participationParticipantId: string | null;
     status: ParticipationStatus;
     createdAt: string | null;
     updatedAt: string | null;
     version: number;
   } | null;
+};
+
+export type OnUpdateParticipationSubscriptionVariables = {
+  id?: string | null;
 };
 
 export type OnUpdateParticipationSubscription = {
@@ -1014,140 +968,9 @@ export type OnUpdateParticipationSubscription = {
       pictureUrl: string | null;
       email: string | null;
       version: number;
-    };
+    } | null;
+    participationParticipantId: string | null;
     status: ParticipationStatus;
-    createdAt: string | null;
-    updatedAt: string | null;
-    version: number;
-  } | null;
-};
-
-export type OnDeleteParticipationSubscription = {
-  onDeleteParticipation: {
-    __typename: "Participation";
-    id: string;
-    activity: {
-      __typename: "Activity";
-      id: string;
-      description: string;
-      sport: string;
-      dateTime: string;
-      numberOfAttendants: number;
-      address: string;
-      createdAt: string | null;
-      updatedAt: string | null;
-      version: number;
-    };
-    participant: {
-      __typename: "User";
-      id: string;
-      name: string;
-      pictureUrl: string | null;
-      email: string | null;
-      version: number;
-    };
-    status: ParticipationStatus;
-    createdAt: string | null;
-    updatedAt: string | null;
-    version: number;
-  } | null;
-};
-
-export type OnCreateCommentSubscriptionVariables = {
-  commentUserId: string;
-};
-
-export type OnCreateCommentSubscription = {
-  onCreateComment: {
-    __typename: "Comment";
-    id: string;
-    activity: {
-      __typename: "Activity";
-      id: string;
-      description: string;
-      sport: string;
-      dateTime: string;
-      numberOfAttendants: number;
-      address: string;
-      createdAt: string | null;
-      updatedAt: string | null;
-      version: number;
-    };
-    user: {
-      __typename: "User";
-      id: string;
-      name: string;
-      pictureUrl: string | null;
-      email: string | null;
-      version: number;
-    } | null;
-    text: string;
-    createdAt: string | null;
-    updatedAt: string | null;
-    version: number;
-  } | null;
-};
-
-export type OnUpdateCommentSubscription = {
-  onUpdateComment: {
-    __typename: "Comment";
-    id: string;
-    activity: {
-      __typename: "Activity";
-      id: string;
-      description: string;
-      sport: string;
-      dateTime: string;
-      numberOfAttendants: number;
-      address: string;
-      createdAt: string | null;
-      updatedAt: string | null;
-      version: number;
-    };
-    user: {
-      __typename: "User";
-      id: string;
-      name: string;
-      pictureUrl: string | null;
-      email: string | null;
-      version: number;
-    } | null;
-    text: string;
-    createdAt: string | null;
-    updatedAt: string | null;
-    version: number;
-  } | null;
-};
-
-export type OnDeleteCommentSubscriptionVariables = {
-  commentUserId: string;
-};
-
-export type OnDeleteCommentSubscription = {
-  onDeleteComment: {
-    __typename: "Comment";
-    id: string;
-    activity: {
-      __typename: "Activity";
-      id: string;
-      description: string;
-      sport: string;
-      dateTime: string;
-      numberOfAttendants: number;
-      address: string;
-      createdAt: string | null;
-      updatedAt: string | null;
-      version: number;
-    };
-    user: {
-      __typename: "User";
-      id: string;
-      name: string;
-      pictureUrl: string | null;
-      email: string | null;
-      version: number;
-    } | null;
-    text: string;
     createdAt: string | null;
     updatedAt: string | null;
     version: number;

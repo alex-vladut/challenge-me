@@ -82,6 +82,7 @@ export const createParticipation = `mutation CreateParticipation($input: CreateP
       pictureUrl
       version
     }
+    participationParticipantId
     status
   }
 }
@@ -106,6 +107,7 @@ export const updateParticipation = `mutation UpdateParticipation($input: UpdateP
       pictureUrl
       version
     }
+    participationParticipantId
     status
   }
 }

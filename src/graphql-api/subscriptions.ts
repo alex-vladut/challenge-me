@@ -8,21 +8,6 @@ export const onCreateParticipation = `subscription OnCreateParticipation($partic
     id
     activity {
       id
-      description
-      sport
-      dateTime
-      numberOfAttendants
-      address
-      createdAt
-      updatedAt
-      version
-    }
-    participant {
-      id
-      name
-      pictureUrl
-      email
-      version
     }
     participationParticipantId
     status
@@ -37,23 +22,7 @@ export const onUpdateParticipation = `subscription OnUpdateParticipation($id: ID
     id
     activity {
       id
-      description
-      sport
-      dateTime
-      numberOfAttendants
-      address
-      createdAt
-      updatedAt
-      version
     }
-    participant {
-      id
-      name
-      pictureUrl
-      email
-      version
-    }
-    participationParticipantId
     status
     createdAt
     updatedAt

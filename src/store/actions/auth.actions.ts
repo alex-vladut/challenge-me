@@ -1,19 +1,24 @@
 import { action, actionWithoutPayload, payload } from "./actions";
 
-export const Fetch = actionWithoutPayload("FETCH_PROFILE");
-export const FetchSuccess = action("FETCH_PROFILE_SUCCESS", payload<any>());
-export const FetchFail = action("FETCH_PROFILE_FAIL", payload<any>());
+export const FeatureKey = "[AUTH]";
 
-export const FetchLocationSuccess = action("FETCH_LOCATION_SUCCESS", payload<any>());
+export const Fetch = actionWithoutPayload(`${FeatureKey} FETCH_PROFILE`);
+export const FetchSuccess = action(`${FeatureKey} FETCH_PROFILE_SUCCESS`, payload<any>());
+export const FetchFail = action(`${FeatureKey} FETCH_PROFILE_FAIL`, payload<any>());
 
-export const Save = action("SAVE", payload<any>());
-export const SaveSuccess = action("SAVE_SUCCESS", payload<any>());
-export const SaveFail = action("SAVE_FAIL", payload<any>());
+export const FetchLocationSuccess = action(`${FeatureKey} FETCH_LOCATION_SUCCESS`, payload<any>());
 
-export const SignOut = actionWithoutPayload("SIGN_OUT");
-export const SignOutSuccess = actionWithoutPayload("SIGN_OUT_SUCCESS");
-export const SignOutFail = action("SIGN_OUT_FAIL", payload<any>());
+export const Save = action(`${FeatureKey} SAVE`, payload<any>());
+export const SaveSuccess = action(`${FeatureKey} SAVE_SUCCESS`, payload<any>());
+export const SaveFail = action(`${FeatureKey} SAVE_FAIL`, payload<any>());
 
-export const SendMessage = action("SEND_MESSAGE", payload<any>());
-export const SendMessageSuccess = action("SEND_MESSAGE_SUCCESS", payload<any>());
-export const SendMessageFail = action("SEND_MESSAGE_FAIL", payload<any>());
+export const SignOut = actionWithoutPayload(`${FeatureKey} SIGN_OUT`);
+export const SignOutSuccess = actionWithoutPayload(`${FeatureKey} SIGN_OUT_SUCCESS`);
+export const SignOutFail = action(`${FeatureKey} SIGN_OUT_FAIL`, payload<any>());
+
+export const SendMessage = action(`${FeatureKey} SEND_MESSAGE`, payload<any>());
+export const SendMessageSuccess = action(`${FeatureKey} SEND_MESSAGE_SUCCESS`, payload<any>());
+export const SendMessageFail = action(`${FeatureKey} SEND_MESSAGE_FAIL`, payload<any>());
+
+export const ParticipationCreated = action(`${FeatureKey} PARTICIPATION_CREATED`, payload<any>());
+export const ParticipationUpdated = action(`${FeatureKey} PARTICIPATION_UPDATED`, payload<any>());

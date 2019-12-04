@@ -25,7 +25,7 @@ export const getUser = `query GetUser($id: ID!) {
     name
     pictureUrl
     email
-    activities {
+    participations {
       nextToken
     }
     comments {
@@ -125,6 +125,7 @@ export const getParticipation = `query GetParticipation($id: ID!) {
       email
       version
     }
+    participationParticipantId
     status
     createdAt
     updatedAt
@@ -140,6 +141,7 @@ export const listParticipations = `query ListParticipations(
   listParticipations(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
+      participationParticipantId
       status
       createdAt
       updatedAt

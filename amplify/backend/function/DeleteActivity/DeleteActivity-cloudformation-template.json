@@ -79,7 +79,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-challenge-me-react-production-191808-deployment",
-					"S3Key": "amplify-builds/DeleteActivity-7a58516279305a417579-build.zip"
+					"S3Key": "amplify-builds/DeleteActivity-7766567a585071317841-build.zip"
 				}
 			}
 		},

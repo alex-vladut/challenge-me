@@ -106,7 +106,6 @@ const createAcceptedParticipation = (payload: any) =>
       graphqlOperation(mutations.createParticipation, {
         input: {
           participationActivityId: payload.activityId,
-          participationParticipantId: payload.userId,
           status: "ACCEPTED"
         }
       })
@@ -150,7 +149,6 @@ const createRejectedParticipation = (payload: any) =>
       graphqlOperation(mutations.createParticipation, {
         input: {
           participationActivityId: payload.activityId,
-          participationParticipantId: payload.userId,
           status: "REJECTED"
         }
       })

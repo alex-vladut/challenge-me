@@ -1,10 +1,11 @@
 import { API, Auth, graphqlOperation } from "aws-amplify";
 import { ofType } from "redux-observable";
 import { from, Observable, of } from "rxjs";
-import { catchError, map, switchMap } from "rxjs/operators";
+import { catchError, map, mergeAll, switchMap, withLatestFrom, takeUntil } from "rxjs/operators";
 
 import * as mutations from "../../graphql-api/mutations";
 import * as queries from "../../graphql-api/queries";
+import * as subscriptions from "../../graphql-api/subscriptions";
 import { createNotification } from "../../shared/notifications";
 import { ActionWithPayload } from "../actions/actions";
 import {
@@ -12,6 +13,7 @@ import {
   FetchFail,
   FetchLocationSuccess,
   FetchSuccess,
+  ParticipationUpdated,
   Save,
   SaveFail,
   SaveSuccess,
@@ -20,8 +22,10 @@ import {
   SendMessageSuccess,
   SignOut,
   SignOutFail,
-  SignOutSuccess
+  SignOutSuccess,
+  ParticipationCreated
 } from "../actions/auth.actions";
+import { State } from "../reducers";
 
 const fetchProfile = (actions$: any) =>
   actions$.pipe(
@@ -33,6 +37,51 @@ const fetchProfile = (actions$: any) =>
         catchError(error => of(FetchFail.create(error)))
       )
     )
+  );
+
+const subscribeOnParticipationCreated = (actions$: any, store$: Observable<State>) =>
+  actions$.pipe(
+    ofType(FetchSuccess.type),
+    withLatestFrom(store$.pipe(map(({ auth }) => auth.profile))),
+    switchMap(
+      ([_, profile]: any[]) =>
+        API.graphql(
+          graphqlOperation(subscriptions.onCreateParticipation, {
+            participationParticipantId: profile.id
+          })
+        ) as Promise<any>
+    ),
+    map((response: any) => ParticipationCreated.create(response.value.data.onCreateParticipation)),
+    takeUntil(actions$.pipe(ofType(SignOut.type)))
+  );
+
+const subscribeOnParticipationUpdated = (actions$: any, store$: Observable<State>) =>
+  actions$.pipe(
+    ofType(FetchSuccess.type),
+    withLatestFrom(store$.pipe(map(({ auth }) => auth.profile))),
+    switchMap(([_, profile]: any[]) =>
+      profile.activities.map(({ id }: any) =>
+        API.graphql(graphqlOperation(subscriptions.onUpdateParticipation, { id }))
+      )
+    ),
+    mergeAll(5),
+    map((response: any) => ParticipationUpdated.create(response.value.data.onUpdateParticipation)),
+    takeUntil(actions$.pipe(ofType(SignOut.type)))
+  );
+
+const subscribeOnParticipationUpdatedAfterCreation = (actions$: any) =>
+  actions$.pipe(
+    ofType(ParticipationCreated.type),
+    switchMap(
+      ({ payload }) =>
+        API.graphql(
+          graphqlOperation(subscriptions.onUpdateParticipation, {
+            id: payload.id
+          })
+        ) as Promise<any>
+    ),
+    map((response: any) => ParticipationUpdated.create(response.value.data.onUpdateParticipation)),
+    takeUntil(actions$.pipe(ofType(SignOut.type)))
   );
 
 const fetchLocation = (actions$: any) =>
@@ -130,5 +179,8 @@ export default [
   signOut,
   sendMessage,
   sendMessageSuccessful,
-  sendMessageFail
+  sendMessageFail,
+  subscribeOnParticipationCreated,
+  subscribeOnParticipationUpdated,
+  subscribeOnParticipationUpdatedAfterCreation
 ];

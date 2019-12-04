@@ -3,6 +3,8 @@ import {
   FetchFail,
   FetchLocationSuccess,
   FetchSuccess,
+  ParticipationCreated,
+  ParticipationUpdated,
   Save,
   SaveFail,
   SaveSuccess,
@@ -42,9 +44,27 @@ const reducer = (state = initialState, action: any) => {
     case SaveSuccess.type:
       return {
         ...state,
-        profile: { ...action.payload, activities: action.payload.activities.items },
+        profile: { ...action.payload, activities: action.payload.participations.items },
         authenticated: true,
         loading: false
+      };
+    case ParticipationCreated.type:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          activities: [...state.profile.activities, action.payload]
+        }
+      };
+    case ParticipationUpdated.type:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          activities: state.profile.activities.map((item: any) =>
+            item.id === action.payload.id ? action.payload : item
+          )
+        }
       };
     case FetchLocationSuccess.type:
       return {
