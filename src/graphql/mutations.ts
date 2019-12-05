@@ -36,40 +36,8 @@ export const sendMessage = `mutation SendMessage($input: SendMessageInput!) {
   sendMessage(input: $input)
 }
 `;
-export const createUser = `mutation CreateUser($input: CreateUserInput!) {
-  createUser(input: $input) {
-    id
-    name
-    pictureUrl
-    email
-    participations {
-      nextToken
-    }
-    comments {
-      nextToken
-    }
-    version
-  }
-}
-`;
 export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
   updateUser(input: $input) {
-    id
-    name
-    pictureUrl
-    email
-    participations {
-      nextToken
-    }
-    comments {
-      nextToken
-    }
-    version
-  }
-}
-`;
-export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
-  deleteUser(input: $input) {
     id
     name
     pictureUrl
@@ -173,93 +141,8 @@ export const updateParticipation = `mutation UpdateParticipation($input: UpdateP
   }
 }
 `;
-export const deleteParticipation = `mutation DeleteParticipation($input: DeleteParticipationInput!) {
-  deleteParticipation(input: $input) {
-    id
-    activity {
-      id
-      description
-      sport
-      dateTime
-      numberOfAttendants
-      address
-      createdAt
-      updatedAt
-      version
-    }
-    participant {
-      id
-      name
-      pictureUrl
-      email
-      version
-    }
-    participationParticipantId
-    status
-    createdAt
-    updatedAt
-    version
-  }
-}
-`;
 export const createComment = `mutation CreateComment($input: CreateCommentInput!) {
   createComment(input: $input) {
-    id
-    activity {
-      id
-      description
-      sport
-      dateTime
-      numberOfAttendants
-      address
-      createdAt
-      updatedAt
-      version
-    }
-    user {
-      id
-      name
-      pictureUrl
-      email
-      version
-    }
-    text
-    createdAt
-    updatedAt
-    version
-  }
-}
-`;
-export const updateComment = `mutation UpdateComment($input: UpdateCommentInput!) {
-  updateComment(input: $input) {
-    id
-    activity {
-      id
-      description
-      sport
-      dateTime
-      numberOfAttendants
-      address
-      createdAt
-      updatedAt
-      version
-    }
-    user {
-      id
-      name
-      pictureUrl
-      email
-      version
-    }
-    text
-    createdAt
-    updatedAt
-    version
-  }
-}
-`;
-export const deleteComment = `mutation DeleteComment($input: DeleteCommentInput!) {
-  deleteComment(input: $input) {
     id
     activity {
       id
