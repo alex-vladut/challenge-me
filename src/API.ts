@@ -942,7 +942,7 @@ export type OnCreateParticipationSubscription = {
 };
 
 export type OnUpdateParticipationSubscriptionVariables = {
-  id?: string | null;
+  participationParticipantId: string;
 };
 
 export type OnUpdateParticipationSubscription = {

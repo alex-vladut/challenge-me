@@ -32,8 +32,10 @@ export const onCreateParticipation = `subscription OnCreateParticipation($partic
   }
 }
 `;
-export const onUpdateParticipation = `subscription OnUpdateParticipation($id: ID) {
-  onUpdateParticipation(id: $id) {
+export const onUpdateParticipation = `subscription OnUpdateParticipation($participationParticipantId: String!) {
+  onUpdateParticipation(
+    participationParticipantId: $participationParticipantId
+  ) {
     id
     activity {
       id

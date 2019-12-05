@@ -114,5 +114,6 @@ type Query {
 type Subscription {
   onCreateParticipation(participationParticipantId: String!): Participation
     @aws_subscribe(mutations: ["createParticipation"])
-  onUpdateParticipation(id: ID): Participation @aws_subscribe(mutations: ["updateParticipation"])
+  onUpdateParticipation(participationParticipantId: String!): Participation
+    @aws_subscribe(mutations: ["updateParticipation"])
 }
