@@ -1,13 +1,13 @@
-import { API, Auth, graphqlOperation } from 'aws-amplify';
-import { ofType } from 'redux-observable';
-import { from, Observable, of } from 'rxjs';
-import { catchError, map, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { API, Auth, graphqlOperation } from "aws-amplify";
+import { ofType } from "redux-observable";
+import { from, Observable, of } from "rxjs";
+import { catchError, map, switchMap, takeUntil, withLatestFrom } from "rxjs/operators";
 
-import * as mutations from '../../graphql-api/mutations';
-import * as queries from '../../graphql-api/queries';
-import * as subscriptions from '../../graphql-api/subscriptions';
-import { createNotification } from '../../shared/notifications';
-import { ActionWithPayload } from '../actions/actions';
+import * as mutations from "../../graphql-api/mutations";
+import * as queries from "../../graphql-api/queries";
+import * as subscriptions from "../../graphql-api/subscriptions";
+import { createNotification } from "../../shared/notifications";
+import { ActionWithPayload } from "../actions/actions";
 import {
   Fetch,
   FetchFail,
@@ -23,9 +23,9 @@ import {
   SendMessageSuccess,
   SignOut,
   SignOutFail,
-  SignOutSuccess,
-} from '../actions/auth.actions';
-import { State } from '../reducers';
+  SignOutSuccess
+} from "../actions/auth.actions";
+import { State } from "../reducers";
 
 const fetchProfile = (actions$: any) =>
   actions$.pipe(

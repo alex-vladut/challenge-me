@@ -45,9 +45,6 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
     participations {
       nextToken
     }
-    comments {
-      nextToken
-    }
     version
   }
 }

@@ -7,7 +7,6 @@ type User
   pictureUrl: AWSURL
   email: AWSEmail @auth(rules: [{ allow: owner, ownerField: "id", operations: [read, update] }])
   participations: [Participation!] @connection(name: "UserActivities")
-  comments: [Comment] @connection
 }
 
 type Activity

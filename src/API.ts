@@ -68,7 +68,6 @@ export type CreateCommentInput = {
   text: string,
   createdAt?: string | null,
   updatedAt?: string | null,
-  userCommentsId?: string | null,
   commentActivityId: string,
   commentUserId?: string | null,
 };
@@ -205,10 +204,6 @@ export type UpdateUserMutation = {
     email: string | null,
     participations:  {
       __typename: "ModelParticipationConnection",
-      nextToken: string | null,
-    } | null,
-    comments:  {
-      __typename: "ModelCommentConnection",
       nextToken: string | null,
     } | null,
     version: number,
@@ -400,10 +395,6 @@ export type GetUserQuery = {
     email: string | null,
     participations:  {
       __typename: "ModelParticipationConnection",
-      nextToken: string | null,
-    } | null,
-    comments:  {
-      __typename: "ModelCommentConnection",
       nextToken: string | null,
     } | null,
     version: number,

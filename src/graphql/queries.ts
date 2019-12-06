@@ -28,9 +28,6 @@ export const getUser = `query GetUser($id: ID!) {
     participations {
       nextToken
     }
-    comments {
-      nextToken
-    }
     version
   }
 }
