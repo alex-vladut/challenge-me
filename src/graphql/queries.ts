@@ -27,6 +27,7 @@ export const getUser = `query GetUser($id: ID!) {
     id
     name
     pictureUrl
+    bio
     email
     participations {
       nextToken
@@ -42,6 +43,7 @@ export const getActivity = `query GetActivity($id: ID!) {
       id
       name
       pictureUrl
+      bio
       email
       version
     }
@@ -90,42 +92,12 @@ export const getParticipation = `query GetParticipation($id: ID!) {
       id
       name
       pictureUrl
+      bio
       email
       version
     }
     participationParticipantId
     status
-    createdAt
-    updatedAt
-    version
-  }
-}
-`;
-export const getComment = `query GetComment($id: ID!) {
-  getComment(id: $id) {
-    id
-    activity {
-      id
-      description
-      sport
-      dateTime
-      numberOfAttendants
-      address
-      createdAt
-      updatedAt
-      hashKey
-      rangeKey
-      geohash
-      version
-    }
-    user {
-      id
-      name
-      pictureUrl
-      email
-      version
-    }
-    text
     createdAt
     updatedAt
     version

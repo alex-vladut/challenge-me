@@ -93,10 +93,10 @@ const fetchLocation = (actions$: any) =>
 const saveProfile = (actions$: any) =>
   actions$.pipe(
     ofType(Save.type),
-    switchMap(({ payload: { id, name, pictureUrl, email, version: expectedVersion } }) =>
+    switchMap(({ payload: { id, name, bio, pictureUrl, email, version: expectedVersion } }) =>
       from(
         API.graphql(
-          graphqlOperation(mutations.updateUser, { input: { id, name, pictureUrl, email, expectedVersion } })
+          graphqlOperation(mutations.updateUser, { input: { id, name, bio, pictureUrl, email, expectedVersion } })
         ) as Promise<any>
       ).pipe(
         map((response: any) => SaveSuccess.create(response.data.updateUser)),

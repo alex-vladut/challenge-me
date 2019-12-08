@@ -24,6 +24,7 @@ export const onCreateParticipation = `subscription OnCreateParticipation($partic
       id
       name
       pictureUrl
+      bio
       email
       version
     }
@@ -58,6 +59,7 @@ export const onUpdateParticipation = `subscription OnUpdateParticipation($partic
       id
       name
       pictureUrl
+      bio
       email
       version
     }

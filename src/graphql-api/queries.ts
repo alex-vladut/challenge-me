@@ -4,6 +4,7 @@ export const getUser = `query GetUser($id: ID!) {
     name
     pictureUrl
     email
+    bio
     participations {
       items {
         id

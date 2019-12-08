@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper
   },
   button: { marginTop: theme.spacing(3) },
+  input: { marginBottom: theme.spacing(2) },
   avatar: {
     backgroundColor: colors.red[500],
     margin: 10,
@@ -43,12 +44,13 @@ const Profile: FunctionComponent<ProfileProps> = ({ profile, loading, save }: Pr
   const classes = useStyles();
 
   const [name, setName] = useState<string>(profile.name);
+  const [bio, setBio] = useState<string>(profile.bio || "");
   const [email, setEmail] = useState<string>(profile.email);
   const [errors, setErrors] = useState<any>({});
 
   const submit = (event: any) => {
     event.preventDefault();
-    const updatedProfile = { ...profile, name, email };
+    const updatedProfile = { ...profile, name, bio, email };
     const errors = validate(updatedProfile);
     setErrors(errors);
 
@@ -57,6 +59,7 @@ const Profile: FunctionComponent<ProfileProps> = ({ profile, loading, save }: Pr
     }
   };
   const handleNameChange = (event: any) => setName(event.target.value);
+  const handleBioChange = (event: any) => setBio(event.target.value);
   const handleEmailChange = (event: any) => setEmail(event.target.value);
 
   if (loading) {
@@ -73,8 +76,20 @@ const Profile: FunctionComponent<ProfileProps> = ({ profile, loading, save }: Pr
             onChange={handleNameChange}
             error={!!errors.name}
             helperText={errors.name}
+            className={classes.input}
             fullWidth
             required
+          />
+          <TextField
+            label="Bio"
+            value={bio}
+            onChange={handleBioChange}
+            error={!!errors.bio}
+            helperText={errors.bio}
+            placeholder="Write something you want other people to know about you..."
+            className={classes.input}
+            multiline
+            fullWidth
           />
           <TextField
             label="Email"
@@ -82,6 +97,7 @@ const Profile: FunctionComponent<ProfileProps> = ({ profile, loading, save }: Pr
             onChange={handleEmailChange}
             error={!!errors.email}
             helperText={errors.email}
+            className={classes.input}
             fullWidth
             required
           />

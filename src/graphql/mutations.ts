@@ -8,6 +8,7 @@ export const createActivity = `mutation CreateActivity($input: CreateActivityInp
       id
       name
       pictureUrl
+      bio
       email
       version
     }
@@ -42,6 +43,7 @@ export const deleteActivity = `mutation DeleteActivity($input: DeleteActivityInp
       id
       name
       pictureUrl
+      bio
       email
       version
     }
@@ -78,6 +80,7 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
     id
     name
     pictureUrl
+    bio
     email
     participations {
       nextToken
@@ -107,6 +110,7 @@ export const createParticipation = `mutation CreateParticipation($input: CreateP
       id
       name
       pictureUrl
+      bio
       email
       version
     }
@@ -139,6 +143,7 @@ export const updateParticipation = `mutation UpdateParticipation($input: UpdateP
       id
       name
       pictureUrl
+      bio
       email
       version
     }
@@ -171,6 +176,7 @@ export const createComment = `mutation CreateComment($input: CreateCommentInput!
       id
       name
       pictureUrl
+      bio
       email
       version
     }

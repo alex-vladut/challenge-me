@@ -1,10 +1,11 @@
 type User
   @model(mutations: { update: "updateUser" }, queries: { get: "getUser" }, subscriptions: null)
-  @versioned
-  @auth(rules: [{ allow: owner, ownerField: "id", operations: [update] }, { allow: private, operations: [read] }]) {
+  @auth(rules: [{ allow: owner, ownerField: "id", operations: [update] }, { allow: private, operations: [read] }])
+  @versioned {
   id: ID!
   name: String!
   pictureUrl: AWSURL
+  bio: String
   email: AWSEmail @auth(rules: [{ allow: owner, ownerField: "id", operations: [read, update] }])
   participations: [Participation!] @connection(name: "UserActivities")
 }
@@ -66,7 +67,7 @@ type Participation
 }
 
 type Comment
-  @model(mutations: { create: "createComment" }, queries: { get: "getComment" }, subscriptions: null)
+  @model(mutations: { create: "createComment" }, queries: null, subscriptions: null)
   @auth(
     rules: [{ allow: owner, ownerField: "commentUserId", operations: [create] }, { allow: private, operations: [read] }]
   )
