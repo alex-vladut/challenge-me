@@ -15,6 +15,9 @@ export const onCreateParticipation = `subscription OnCreateParticipation($partic
       address
       createdAt
       updatedAt
+      hashKey
+      rangeKey
+      geohash
       version
     }
     participant {
@@ -46,6 +49,9 @@ export const onUpdateParticipation = `subscription OnUpdateParticipation($partic
       address
       createdAt
       updatedAt
+      hashKey
+      rangeKey
+      geohash
       version
     }
     participant {

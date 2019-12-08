@@ -1,54 +1,6 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
-export const deleteActivity = `mutation DeleteActivity($input: DeleteActivityInput!) {
-  deleteActivity(input: $input) {
-    id
-    owner {
-      id
-      name
-      pictureUrl
-      email
-      version
-    }
-    description
-    sport
-    dateTime
-    numberOfAttendants
-    location {
-      lat
-      lon
-    }
-    address
-    participations {
-      nextToken
-    }
-    comments {
-      nextToken
-    }
-    createdAt
-    updatedAt
-    version
-  }
-}
-`;
-export const sendMessage = `mutation SendMessage($input: SendMessageInput!) {
-  sendMessage(input: $input)
-}
-`;
-export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
-  updateUser(input: $input) {
-    id
-    name
-    pictureUrl
-    email
-    participations {
-      nextToken
-    }
-    version
-  }
-}
-`;
 export const createActivity = `mutation CreateActivity($input: CreateActivityInput!) {
   createActivity(input: $input) {
     id
@@ -76,6 +28,60 @@ export const createActivity = `mutation CreateActivity($input: CreateActivityInp
     }
     createdAt
     updatedAt
+    hashKey
+    rangeKey
+    geohash
+    version
+  }
+}
+`;
+export const deleteActivity = `mutation DeleteActivity($input: DeleteActivityInput!) {
+  deleteActivity(input: $input) {
+    id
+    owner {
+      id
+      name
+      pictureUrl
+      email
+      version
+    }
+    description
+    sport
+    dateTime
+    numberOfAttendants
+    location {
+      lat
+      lon
+    }
+    address
+    participations {
+      nextToken
+    }
+    comments {
+      nextToken
+    }
+    createdAt
+    updatedAt
+    hashKey
+    rangeKey
+    geohash
+    version
+  }
+}
+`;
+export const sendMessage = `mutation SendMessage($input: SendMessageInput!) {
+  sendMessage(input: $input)
+}
+`;
+export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
+  updateUser(input: $input) {
+    id
+    name
+    pictureUrl
+    email
+    participations {
+      nextToken
+    }
     version
   }
 }
@@ -92,6 +98,9 @@ export const createParticipation = `mutation CreateParticipation($input: CreateP
       address
       createdAt
       updatedAt
+      hashKey
+      rangeKey
+      geohash
       version
     }
     participant {
@@ -121,6 +130,9 @@ export const updateParticipation = `mutation UpdateParticipation($input: UpdateP
       address
       createdAt
       updatedAt
+      hashKey
+      rangeKey
+      geohash
       version
     }
     participant {
@@ -150,6 +162,9 @@ export const createComment = `mutation CreateComment($input: CreateCommentInput!
       address
       createdAt
       updatedAt
+      hashKey
+      rangeKey
+      geohash
       version
     }
     user {

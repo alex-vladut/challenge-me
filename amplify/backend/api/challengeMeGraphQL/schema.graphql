@@ -10,7 +10,7 @@ type User
 }
 
 type Activity
-  @model(mutations: { create: "createActivity" }, queries: { get: "getActivity" }, subscriptions: null)
+  @model(mutations: null, queries: { get: "getActivity" }, subscriptions: null)
   @searchable
   @auth(
     rules: [
@@ -18,6 +18,8 @@ type Activity
       { allow: private, operations: [read] }
     ]
   )
+  @key(name: "geo-hash-range-index", fields: ["hashKey", "rangeKey"], queryField: "byGeolocation")
+  @key(name: "geohash-index", fields: ["hashKey", "geohash"], queryField: "byHashByGeohash")
   @versioned {
   id: ID!
   owner: User @connection
@@ -27,10 +29,14 @@ type Activity
   numberOfAttendants: Int!
   location: Location!
   address: String! # human readable address (can't include it in Location because ES breaks)
-  participations: [Participation!] @connection(name: "ActivityParticipants")
+  participations: [Participation] @connection(name: "ActivityParticipants")
   comments: [Comment] @connection(name: "ActivityComments", sortField: "createdAt")
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
+  # geolocation with DynamoDB
+  hashKey: Int!
+  rangeKey: String!
+  geohash: Int!
 }
 
 type Location {
@@ -89,16 +95,26 @@ input SendMessageInput {
   message: String!
 }
 
+input LocationInput {
+  lat: Float!
+  lon: Float!
+}
+
+input CreateActivityInput {
+  description: String!
+  sport: String!
+  dateTime: String!
+  numberOfAttendants: Int!
+  location: LocationInput!
+  address: String!
+}
+
 type Mutation {
+  createActivity(input: CreateActivityInput!): Activity! @function(name: "create-activity-${env}")
   deleteActivity(input: DeleteActivityInput!): Activity!
     @function(name: "delete-activity-${env}")
     @function(name: "delete-participations-${env}")
   sendMessage(input: SendMessageInput!): String @function(name: "SubmitContactUsMessage-${env}")
-}
-
-input LocationInput {
-  lat: Float!
-  lon: Float!
 }
 
 type ActivityConnection {
@@ -109,4 +125,6 @@ type ActivityConnection {
 
 type Query {
   nearbyActivities(location: LocationInput!, km: Int): ActivityConnection
+  nearbyActivitiesDdb(location: LocationInput!, km: Int): ActivityConnection
+    @function(name: "nearby-activities-ddb-${env}")
 }

@@ -1,0 +1,299 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Description": "Lambda resource stack creation using Amplify CLI",
+	"Parameters": {
+		"env": {
+			"Type": "String"
+		},
+		"apichallengeMeGraphQLGraphQLAPIIdOutput": {
+			"Type": "String",
+			"Default": "apichallengeMeGraphQLGraphQLAPIIdOutput"
+		},
+		"apichallengeMeGraphQLGraphQLAPIEndpointOutput": {
+			"Type": "String",
+			"Default": "apichallengeMeGraphQLGraphQLAPIEndpointOutput"
+		}
+	},
+	"Conditions": {
+		"ShouldNotCreateEnvResources": {
+			"Fn::Equals": [
+				{
+					"Ref": "env"
+				},
+				"NONE"
+			]
+		}
+	},
+	"Resources": {
+		"LambdaFunction": {
+			"Type": "AWS::Lambda::Function",
+			"Metadata": {
+				"aws:asset:path": "./src",
+				"aws:asset:property": "Code"
+			},
+			"Properties": {
+				"Handler": "index.handler",
+				"FunctionName": {
+					"Fn::If": [
+						"ShouldNotCreateEnvResources",
+						"nearby-activities-ddb",
+						{
+							"Fn::Join": [
+								"",
+								[
+									"nearby-activities-ddb",
+									"-",
+									{
+										"Ref": "env"
+									}
+								]
+							]
+						}
+					]
+				},
+				"Environment": {
+					"Variables": {
+						"ENV": {
+							"Ref": "env"
+						},
+						"REGION": {
+							"Ref": "AWS::Region"
+						},
+						"ACTIVITIES_TABLE": {
+							"Fn::Sub": [
+								"Activity-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}",
+								{
+									"apichallengeMeGraphQLGraphQLAPIIdOutput": {
+										"Ref": "apichallengeMeGraphQLGraphQLAPIIdOutput"
+									},
+									"env": {
+										"Ref": "env"
+									}
+								}
+							]
+						},
+						"API_CHALLENGEMEGRAPHQL_GRAPHQLAPIIDOUTPUT": {
+							"Ref": "apichallengeMeGraphQLGraphQLAPIIdOutput"
+						},
+						"API_CHALLENGEMEGRAPHQL_GRAPHQLAPIENDPOINTOUTPUT": {
+							"Ref": "apichallengeMeGraphQLGraphQLAPIEndpointOutput"
+						}
+					}
+				},
+				"Role": {
+					"Fn::GetAtt": [
+						"LambdaExecutionRole",
+						"Arn"
+					]
+				},
+				"Runtime": "nodejs10.x",
+				"Timeout": "25",
+				"Code": {
+					"S3Bucket": "amplify-challenge-me-react-production-191808-deployment",
+					"S3Key": "amplify-builds/NearbyActivitiesDDB-6b36556a4d7842506a4f-build.zip"
+				}
+			}
+		},
+		"LambdaExecutionRole": {
+			"Type": "AWS::IAM::Role",
+			"Properties": {
+				"RoleName": {
+					"Fn::If": [
+						"ShouldNotCreateEnvResources",
+						"challengemereactLambdaRolef7f3af81",
+						{
+							"Fn::Join": [
+								"",
+								[
+									"challengemereactLambdaRolef7f3af81",
+									"-",
+									{
+										"Ref": "env"
+									}
+								]
+							]
+						}
+					]
+				},
+				"AssumeRolePolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": [
+						{
+							"Effect": "Allow",
+							"Principal": {
+								"Service": [
+									"lambda.amazonaws.com"
+								]
+							},
+							"Action": [
+								"sts:AssumeRole"
+							]
+						}
+					]
+				}
+			}
+		},
+		"lambdaexecutionpolicy": {
+			"DependsOn": [
+				"LambdaExecutionRole"
+			],
+			"Type": "AWS::IAM::Policy",
+			"Properties": {
+				"PolicyName": "lambda-execution-policy",
+				"Roles": [
+					{
+						"Ref": "LambdaExecutionRole"
+					}
+				],
+				"PolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": [
+						{
+							"Effect": "Allow",
+							"Action": [
+								"logs:CreateLogGroup",
+								"logs:CreateLogStream",
+								"logs:PutLogEvents"
+							],
+							"Resource": {
+								"Fn::Sub": [
+									"arn:aws:logs:${region}:${account}:log-group:/aws/lambda/${lambda}:log-stream:*",
+									{
+										"region": {
+											"Ref": "AWS::Region"
+										},
+										"account": {
+											"Ref": "AWS::AccountId"
+										},
+										"lambda": {
+											"Ref": "LambdaFunction"
+										}
+									}
+								]
+							}
+						},
+						{
+							"Effect": "Allow",
+							"Action": [
+								"dynamodb:Query"
+							],
+							"Resource": [
+								{
+									"Fn::Sub": [
+										"arn:aws:dynamodb:${region}:${account}:table/Activity-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}",
+										{
+											"region": {
+												"Ref": "AWS::Region"
+											},
+											"account": {
+												"Ref": "AWS::AccountId"
+											},
+											"apichallengeMeGraphQLGraphQLAPIIdOutput": {
+												"Ref": "apichallengeMeGraphQLGraphQLAPIIdOutput"
+											},
+											"env": {
+												"Ref": "env"
+											}
+										}
+									]
+								},
+								{
+									"Fn::Sub": [
+										"arn:aws:dynamodb:${region}:${account}:table/Activity-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}/index/geohash-index",
+										{
+											"region": {
+												"Ref": "AWS::Region"
+											},
+											"account": {
+												"Ref": "AWS::AccountId"
+											},
+											"apichallengeMeGraphQLGraphQLAPIIdOutput": {
+												"Ref": "apichallengeMeGraphQLGraphQLAPIIdOutput"
+											},
+											"env": {
+												"Ref": "env"
+											}
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			}
+		},
+		"AmplifyResourcesPolicy": {
+			"DependsOn": [
+				"LambdaExecutionRole"
+			],
+			"Type": "AWS::IAM::Policy",
+			"Properties": {
+				"PolicyName": "amplify-lambda-execution-policy",
+				"Roles": [
+					{
+						"Ref": "LambdaExecutionRole"
+					}
+				],
+				"PolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": [
+						{
+							"Effect": "Allow",
+							"Action": [
+								"appsync:Get*",
+								"appsync:List*"
+							],
+							"Resource": [
+								{
+									"Fn::Join": [
+										"",
+										[
+											"arn:aws:appsync:",
+											{
+												"Ref": "AWS::Region"
+											},
+											":",
+											{
+												"Ref": "AWS::AccountId"
+											},
+											":apis/",
+											{
+												"Ref": "apichallengeMeGraphQLGraphQLAPIIdOutput"
+											},
+											"/*"
+										]
+									]
+								}
+							]
+						}
+					]
+				}
+			}
+		}
+	},
+	"Outputs": {
+		"Name": {
+			"Value": {
+				"Ref": "LambdaFunction"
+			}
+		},
+		"Arn": {
+			"Value": {
+				"Fn::GetAtt": [
+					"LambdaFunction",
+					"Arn"
+				]
+			}
+		},
+		"Region": {
+			"Value": {
+				"Ref": "AWS::Region"
+			}
+		},
+		"LambdaExecutionRole": {
+			"Value": {
+				"Ref": "LambdaExecutionRole"
+			}
+		}
+	}
+}

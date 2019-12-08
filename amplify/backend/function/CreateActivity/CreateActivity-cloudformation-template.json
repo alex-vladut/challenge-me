@@ -2,46 +2,16 @@
 	"AWSTemplateFormatVersion": "2010-09-09",
 	"Description": "Lambda resource stack creation using Amplify CLI",
 	"Parameters": {
-		"GROUP": {
-			"Type": "String",
-			"Default": "USER"
-		},
-		"modules": {
-			"Type": "String",
-			"Default": "",
-			"Description": "Comma-delimited list of modules to be executed by a lambda trigger. Sent to resource as an env variable."
-		},
-		"resourceName": {
-			"Type": "String",
-			"Default": ""
-		},
-		"trigger": {
-			"Type": "String",
-			"Default": "true"
-		},
-		"functionName": {
-			"Type": "String",
-			"Default": ""
-		},
-		"roleName": {
-			"Type": "String",
-			"Default": ""
-		},
-		"parentResource": {
-			"Type": "String",
-			"Default": ""
-		},
-		"parentStack": {
-			"Type": "String",
-			"Default": ""
-		},
 		"env": {
-			"Type": "String",
-			"Description": "Environment"
+			"Type": "String"
 		},
-		"usersTable": {
+		"apichallengeMeGraphQLGraphQLAPIIdOutput": {
 			"Type": "String",
-			"Description": "Users Table Name"
+			"Default": "apichallengeMeGraphQLGraphQLAPIIdOutput"
+		},
+		"apichallengeMeGraphQLGraphQLAPIEndpointOutput": {
+			"Type": "String",
+			"Default": "apichallengeMeGraphQLGraphQLAPIEndpointOutput"
 		}
 	},
 	"Conditions": {
@@ -66,12 +36,12 @@
 				"FunctionName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"challengemereacta7d0cb31PostConfirmation",
+						"create-activity",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"challengemereacta7d0cb31PostConfirmation",
+									"create-activity",
 									"-",
 									{
 										"Ref": "env"
@@ -86,17 +56,27 @@
 						"ENV": {
 							"Ref": "env"
 						},
-						"MODULES": {
-							"Ref": "modules"
-						},
 						"REGION": {
 							"Ref": "AWS::Region"
 						},
-						"GROUP": {
-							"Ref": "GROUP"
+						"ACTIVITIES_TABLE": {
+							"Fn::Sub": [
+								"Activity-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}",
+								{
+									"apichallengeMeGraphQLGraphQLAPIIdOutput": {
+										"Ref": "apichallengeMeGraphQLGraphQLAPIIdOutput"
+									},
+									"env": {
+										"Ref": "env"
+									}
+								}
+							]
 						},
-						"USERS_TABLE": {
-							"Ref": "usersTable"
+						"API_CHALLENGEMEGRAPHQL_GRAPHQLAPIIDOUTPUT": {
+							"Ref": "apichallengeMeGraphQLGraphQLAPIIdOutput"
+						},
+						"API_CHALLENGEMEGRAPHQL_GRAPHQLAPIENDPOINTOUTPUT": {
+							"Ref": "apichallengeMeGraphQLGraphQLAPIEndpointOutput"
 						}
 					}
 				},
@@ -110,7 +90,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-challenge-me-react-production-191808-deployment",
-					"S3Key": "amplify-builds/challengemereacta7d0cb31PostConfirmation-4d6139425734734a584f-build.zip"
+					"S3Key": "amplify-builds/CreateActivity-32694a2f396e562f382f-build.zip"
 				}
 			}
 		},
@@ -120,12 +100,12 @@
 				"RoleName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"challengemereacta7d0cb31PostConfirmation",
+						"challengemereactLambdaRolee4d24b9d",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"challengemereacta7d0cb31PostConfirmation",
+									"challengemereactLambdaRolee4d24b9d",
 									"-",
 									{
 										"Ref": "env"
@@ -200,7 +180,7 @@
 							],
 							"Resource": {
 								"Fn::Sub": [
-									"arn:aws:dynamodb:${region}:${account}:table/${usersTable}-${env}",
+									"arn:aws:dynamodb:${region}:${account}:table/Activity-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}",
 									{
 										"region": {
 											"Ref": "AWS::Region"
@@ -208,8 +188,8 @@
 										"account": {
 											"Ref": "AWS::AccountId"
 										},
-										"usersTable": {
-											"Ref": "usersTable"
+										"apichallengeMeGraphQLGraphQLAPIIdOutput": {
+											"Ref": "apichallengeMeGraphQLGraphQLAPIIdOutput"
 										},
 										"env": {
 											"Ref": "env"
@@ -217,6 +197,55 @@
 									}
 								]
 							}
+						}
+					]
+				}
+			}
+		},
+		"AmplifyResourcesPolicy": {
+			"DependsOn": [
+				"LambdaExecutionRole"
+			],
+			"Type": "AWS::IAM::Policy",
+			"Properties": {
+				"PolicyName": "amplify-lambda-execution-policy",
+				"Roles": [
+					{
+						"Ref": "LambdaExecutionRole"
+					}
+				],
+				"PolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": [
+						{
+							"Effect": "Allow",
+							"Action": [
+								"appsync:Create*",
+								"appsync:StartSchemaCreation",
+								"appsync:GraphQL"
+							],
+							"Resource": [
+								{
+									"Fn::Join": [
+										"",
+										[
+											"arn:aws:appsync:",
+											{
+												"Ref": "AWS::Region"
+											},
+											":",
+											{
+												"Ref": "AWS::AccountId"
+											},
+											":apis/",
+											{
+												"Ref": "apichallengeMeGraphQLGraphQLAPIIdOutput"
+											},
+											"/*"
+										]
+									]
+								}
+							]
 						}
 					]
 				}
@@ -240,6 +269,11 @@
 		"Region": {
 			"Value": {
 				"Ref": "AWS::Region"
+			}
+		},
+		"LambdaExecutionRole": {
+			"Value": {
+				"Ref": "LambdaExecutionRole"
 			}
 		}
 	}

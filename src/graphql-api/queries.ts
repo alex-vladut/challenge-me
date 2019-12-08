@@ -117,3 +117,29 @@ export const nearbyActivities = `query NearbyActivities($location: LocationInput
   }
 }
 `;
+
+export const nearbyActivitiesDdb = `query NearbyActivitiesDdb($location: LocationInput!, $km: Int) {
+  nearbyActivitiesDdb(location: $location, km: $km) {
+    items {
+      id
+      description
+      sport
+      dateTime
+      numberOfAttendants
+      address
+      location {
+        lat
+        lon
+      }
+      owner {
+        id
+        name
+        pictureUrl
+      }
+      createdAt
+      updatedAt
+      version
+    }
+  }
+}
+`;

@@ -24,7 +24,6 @@ exports.handler = async event => {
       name,
       pictureUrl: getGravatarUrl(email),
       email,
-      activities: [],
       createdAt: DateTime.utc().toISO(),
       updatedAt: DateTime.utc().toISO(),
       version: 1,

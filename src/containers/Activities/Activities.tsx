@@ -1,15 +1,17 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState, useEffect } from "react";
 import { connect } from "react-redux";
+import { NavLink } from "react-router-dom";
 
-import { CircularProgress, Typography } from "@material-ui/core";
+import moment from "moment";
+
+import { Typography, LinearProgress } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
+
 import Address from "../../components/Address/Address";
+import Item from "./Item/Item";
+
 import { SetFilters } from "../../store/actions/activities.actions";
 import { State } from "../../store/reducers";
-
-import Item from "./Item/Item";
-import moment from "moment";
-import { NavLink } from "react-router-dom";
 
 interface ActivitiesProps {
   filters: any;
@@ -39,18 +41,34 @@ const Activities: FunctionComponent<ActivitiesProps> = ({
 }: ActivitiesProps) => {
   const classes = useStyles();
   const [address, setAddress] = useState<any>({ location: filters.location, address: filters.address });
+  const [completed, setCompleted] = React.useState(0);
 
   const activitiesGroupedByDate = groupActivitiesByDate(activities);
 
+  useEffect(() => {
+    function progress() {
+      setCompleted(oldCompleted => {
+        const diff = Math.random() * 10;
+        return Math.min(oldCompleted + diff, 100);
+      });
+    }
+
+    const timer = setInterval(progress, 300);
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
   const handleLocationChanged = (location: any) => {
     setAddress(location);
+    setCompleted(0);
     if (location) {
       setFilters({ ...filters, ...location, nearBy: false });
     }
   };
 
   if (loading) {
-    return <CircularProgress />;
+    return <LinearProgress variant="determinate" value={completed} />;
   }
   return (
     <div className={classes.root}>

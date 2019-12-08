@@ -12,6 +12,30 @@ export const nearbyActivities = `query NearbyActivities($location: LocationInput
       address
       createdAt
       updatedAt
+      hashKey
+      rangeKey
+      geohash
+      version
+    }
+    total
+    nextToken
+  }
+}
+`;
+export const nearbyActivitiesDdb = `query NearbyActivitiesDdb($location: LocationInput!, $km: Int) {
+  nearbyActivitiesDdb(location: $location, km: $km) {
+    items {
+      id
+      description
+      sport
+      dateTime
+      numberOfAttendants
+      address
+      createdAt
+      updatedAt
+      hashKey
+      rangeKey
+      geohash
       version
     }
     total
@@ -59,6 +83,9 @@ export const getActivity = `query GetActivity($id: ID!) {
     }
     createdAt
     updatedAt
+    hashKey
+    rangeKey
+    geohash
     version
   }
 }
@@ -75,6 +102,9 @@ export const getParticipation = `query GetParticipation($id: ID!) {
       address
       createdAt
       updatedAt
+      hashKey
+      rangeKey
+      geohash
       version
     }
     participant {
@@ -104,6 +134,9 @@ export const getComment = `query GetComment($id: ID!) {
       address
       createdAt
       updatedAt
+      hashKey
+      rangeKey
+      geohash
       version
     }
     user {
@@ -117,6 +150,74 @@ export const getComment = `query GetComment($id: ID!) {
     createdAt
     updatedAt
     version
+  }
+}
+`;
+export const byGeolocation = `query ByGeolocation(
+  $hashKey: Int
+  $rangeKey: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelActivityFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  byGeolocation(
+    hashKey: $hashKey
+    rangeKey: $rangeKey
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      description
+      sport
+      dateTime
+      numberOfAttendants
+      address
+      createdAt
+      updatedAt
+      hashKey
+      rangeKey
+      geohash
+      version
+    }
+    nextToken
+  }
+}
+`;
+export const byHashByGeohash = `query ByHashByGeohash(
+  $hashKey: Int
+  $geohash: ModelIntKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelActivityFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  byHashByGeohash(
+    hashKey: $hashKey
+    geohash: $geohash
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      description
+      sport
+      dateTime
+      numberOfAttendants
+      address
+      createdAt
+      updatedAt
+      hashKey
+      rangeKey
+      geohash
+      version
+    }
+    nextToken
   }
 }
 `;
@@ -141,6 +242,9 @@ export const searchActivitys = `query SearchActivitys(
       address
       createdAt
       updatedAt
+      hashKey
+      rangeKey
+      geohash
       version
     }
     nextToken
