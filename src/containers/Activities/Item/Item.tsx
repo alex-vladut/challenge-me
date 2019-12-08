@@ -1,14 +1,23 @@
-import React, { FunctionComponent } from "react";
-
+import React, { FunctionComponent, forwardRef } from "react";
+import { NavLink, NavLinkProps } from "react-router-dom";
 import moment from "moment";
 
-import { Avatar, Card, CardActions, CardContent, CardHeader, IconButton, Typography, Grid } from "@material-ui/core";
+import {
+  Avatar,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  IconButton,
+  Typography,
+  Grid,
+  Link
+} from "@material-ui/core";
 import { ArrowForwardOutlined, AccessTime, Room } from "@material-ui/icons";
 import { grey } from "@material-ui/core/colors";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
 import userIcon from "../../../assets/user.png";
-import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -67,10 +76,23 @@ const Item: FunctionComponent<ItemProps> = ({ activity, profile }: ItemProps) =>
     <Card className={classes.card}>
       <CardHeader
         avatar={
-          <Avatar className={classes.avatar} alt={activity.owner.name} src={activity.owner.pictureUrl || userIcon} />
+          <NavLink to={`/profiles/${activity.owner.id}`}>
+            <Avatar className={classes.avatar} alt={activity.owner.name} src={activity.owner.pictureUrl || userIcon} />
+          </NavLink>
         }
         action={getAttendanceStatus(activity, profile)}
-        title={<strong>{activity.owner.name}</strong>}
+        title={
+          <Link
+            variant="subtitle1"
+            color="textPrimary"
+            component={forwardRef((props: NavLinkProps, ref: any) => (
+              <NavLink {...props} innerRef={ref} />
+            ))}
+            to={`/profiles/${activity.owner.id}`}
+          >
+            <strong>{activity.owner.name}</strong>
+          </Link>
+        }
         subheader={activity.sport}
         className={classes.header}
       />
@@ -93,11 +115,11 @@ const Item: FunctionComponent<ItemProps> = ({ activity, profile }: ItemProps) =>
           </Typography>
         </div>
         <Grid container justify="flex-end">
-          <Link to={`/activities/${activity.id}`}>
+          <NavLink to={`/activities/${activity.id}`}>
             <IconButton aria-label="open">
               <ArrowForwardOutlined />
             </IconButton>
-          </Link>
+          </NavLink>
         </Grid>
       </CardActions>
     </Card>

@@ -16,6 +16,7 @@ import CreateActivity from "./containers/CreateActivity/CreateActivity";
 import Activities from "./containers/Activities/Activities";
 import ViewActivity from "./containers/ViewActivity/ViewActivity";
 import Profile from "./containers/Profile/Profile";
+import ViewProfile from "./containers/ViewProfile/ViewProfile";
 import ContactUs from "./containers/ContactUs/ContactUs";
 
 interface AppProps {
@@ -54,6 +55,7 @@ const App: FunctionComponent<AppProps> = ({ isAuthenticated, fetchProfile }) => 
             isAuthenticated={isAuthenticated}
           />
           <PrivateRoute path="/activities" exact component={Activities} isAuthenticated={isAuthenticated} />
+          <PrivateRoute path="/profiles/:profileId" exact component={ViewProfile} isAuthenticated={isAuthenticated} />
           <PrivateRoute path="/profile" exact component={Profile} isAuthenticated={isAuthenticated} />
           <PrivateRoute path="/contact-us" exact component={ContactUs} isAuthenticated={isAuthenticated} />
           <PrivateRoute path="/logout" exact component={LogOut} isAuthenticated={isAuthenticated} />

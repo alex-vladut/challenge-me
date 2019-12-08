@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { NavLink, NavLinkProps } from "react-router-dom";
+
 import moment from "moment";
 
 import {
@@ -21,7 +22,8 @@ import {
   CircularProgress,
   Grid,
   Divider,
-  Link as LinkButton
+  Link as LinkButton,
+  Link
 } from "@material-ui/core";
 import { Delete as DeleteIcon, Room, AccessTime, CalendarToday, ArrowBackOutlined } from "@material-ui/icons";
 import { grey } from "@material-ui/core/colors";
@@ -80,7 +82,6 @@ export interface ViewActivityProps {
   activity: any;
   profile: any;
   sports: any[];
-  deleted: boolean;
   loading: boolean;
   match: any;
   hasMoreComments: boolean;
@@ -94,7 +95,6 @@ export interface ViewActivityProps {
 
 const ViewActivity = ({
   activity,
-  deleted,
   loading,
   match,
   setActivityId,
@@ -106,8 +106,9 @@ const ViewActivity = ({
   createComment,
   fetchMoreComments
 }: ViewActivityProps) => {
-  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const classes = useStyles();
+
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
   const activityId = match.params.activityId;
   useEffect(() => {
@@ -207,11 +208,11 @@ const ViewActivity = ({
   return (
     <div className={classes.root}>
       <Grid container justify="flex-start" alignItems="center">
-        <Link to="/activities">
+        <NavLink to="/activities">
           <IconButton aria-label="back">
             <ArrowBackOutlined />
           </IconButton>
-        </Link>
+        </NavLink>
         <Typography component="p" variant="subtitle1">
           Go back to activities
         </Typography>
@@ -220,9 +221,26 @@ const ViewActivity = ({
       <Card>
         <CardHeader
           avatar={
-            <Avatar className={classes.avatar} alt={activity.owner.name} src={activity.owner.pictureUrl || userIcon} />
+            <NavLink to={`/profiles/${activity.owner.id}`}>
+              <Avatar
+                className={classes.avatar}
+                alt={activity.owner.name}
+                src={activity.owner.pictureUrl || userIcon}
+              />
+            </NavLink>
           }
-          title={<strong>{activity.owner.name}</strong>}
+          title={
+            <Link
+              variant="subtitle1"
+              color="textPrimary"
+              component={forwardRef((props: NavLinkProps, ref: any) => (
+                <NavLink {...props} innerRef={ref} />
+              ))}
+              to={`/profiles/${activity.owner.id}`}
+            >
+              <strong>{activity.owner.name}</strong>
+            </Link>
+          }
           subheader={"Created at " + moment(activity.createdAt).format("MMMM DD, YYYY") + " | " + activity.sport}
           action={getAttendanceStatus(activity, profile)}
           className={classes.header}
@@ -290,7 +308,6 @@ const ViewActivity = ({
 
 const mapStateToProps = ({ activities, auth }: State) => ({
   activity: activities.activity,
-  deleted: activities.deleted,
   loading: activities.loading,
   sports: activities.sports,
   hasMoreComments: !!activities.commentsNextToken,

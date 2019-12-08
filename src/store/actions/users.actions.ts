@@ -1,5 +1,7 @@
 import { action, payload } from "./actions";
 
-export const FetchUsers = action("FETCH_USERS", payload<string>());
-export const FetchUsersSuccess = action("FETCH_USERS_SUCCESS", payload<any[]>());
-export const FetchUsersFail = action("FETCH_USERS_FAIL", payload<any>());
+export const FeatureKey = "[USERS]";
+
+export const FetchUser = action(`${FeatureKey} FETCH_USER`, payload<string>());
+export const FetchUserSuccess = action(`${FeatureKey} FETCH_USER_SUCCESS`, payload<any[]>());
+export const FetchUserFail = action(`${FeatureKey} FETCH_USER_FAIL`, payload<any>());

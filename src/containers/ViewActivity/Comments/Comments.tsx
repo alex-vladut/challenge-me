@@ -1,8 +1,19 @@
-import React, { FunctionComponent, useState } from "react";
-import { Avatar, Card, CardContent, CardHeader, Paper, Typography, InputBase, IconButton } from "@material-ui/core";
+import React, { FunctionComponent, useState, forwardRef } from "react";
+import {
+  Avatar,
+  Card,
+  CardContent,
+  CardHeader,
+  Paper,
+  Typography,
+  InputBase,
+  IconButton,
+  Link
+} from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import moment from "moment";
 import { Send, AccessTime } from "@material-ui/icons";
+import { NavLink, NavLinkProps } from "react-router-dom";
 
 const useStyles: any = makeStyles(theme =>
   createStyles({
@@ -105,8 +116,23 @@ const Comments: FunctionComponent<CommentsProps> = ({ profile, comments, onCreat
       {comments.map((comment: any) => (
         <Card key={comment.id} className={classes.commentButton}>
           <CardHeader
-            avatar={<Avatar className={classes.avatar} alt={comment.user.name} src={comment.user.pictureUrl} />}
-            title={<strong>{comment.user.name}</strong>}
+            avatar={
+              <NavLink to={`/profiles/${comment.user.id}`}>
+                <Avatar className={classes.avatar} alt={comment.user.name} src={comment.user.pictureUrl} />
+              </NavLink>
+            }
+            title={
+              <Link
+                variant="subtitle1"
+                color="textPrimary"
+                component={forwardRef((props: NavLinkProps, ref: any) => (
+                  <NavLink {...props} innerRef={ref} />
+                ))}
+                to={`/profiles/${comment.user.id}`}
+              >
+                <strong>{comment.user.name}</strong>
+              </Link>
+            }
             subheader={
               <div className={classes.subheader}>
                 <AccessTime className={classes.timeIcon} />

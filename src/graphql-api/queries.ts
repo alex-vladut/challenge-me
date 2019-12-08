@@ -20,6 +20,17 @@ export const getUser = `query GetUser($id: ID!) {
 }
 `;
 
+export const getUserRead = `query GetUser($id: ID!) {
+  getUser(id: $id) {
+    id
+    name
+    pictureUrl
+    bio
+    version
+  }
+}
+`;
+
 export const getActivity = `query GetActivity($id: ID!) {
   getActivity(id: $id) {
     id

@@ -1,22 +1,25 @@
-import { FetchUsers, FetchUsersFail, FetchUsersSuccess } from "../actions/users.actions";
+import { ActionWithPayload } from "../actions/actions";
+import { FetchUser, FetchUserSuccess, FetchUserFail } from "../actions/users.actions";
 
 export interface State {
   loading: boolean;
-  users: any[];
+  userId: string | null;
+  user: any;
 }
 
 const initialState: State = {
   loading: false,
-  users: []
+  userId: null,
+  user: null
 };
 
-const reducer = (state = initialState, action: any) => {
+const reducer = (state = initialState, action: ActionWithPayload<any>) => {
   switch (action.type) {
-    case FetchUsers.type:
-      return { ...state, loading: true };
-    case FetchUsersSuccess.type:
-      return { ...state, users: action.payload, loading: false };
-    case FetchUsersFail.type:
+    case FetchUser.type:
+      return { ...state, userId: action.payload, loading: true };
+    case FetchUserSuccess.type:
+      return { ...state, user: action.payload, loading: false };
+    case FetchUserFail.type:
       return { ...state, loading: false };
     default:
       return state;

@@ -14,7 +14,8 @@ import { grey } from "@material-ui/core/colors";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { Check, Clear } from "@material-ui/icons";
 import moment from "moment";
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState, forwardRef } from "react";
+import { NavLink, NavLinkProps } from "react-router-dom";
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -62,7 +63,15 @@ const Participants: FunctionComponent<ParticipantsProps> = ({ participations }) 
       </Tabs>
       <List className={classes.root}>
         {(activeTab === 0 ? going : notGoing).map((participation: any) => (
-          <ListItem key={participation.id} alignItems="flex-start" button>
+          <ListItem
+            component={forwardRef((props: NavLinkProps, ref: any) => (
+              <NavLink {...props} innerRef={ref} />
+            ))}
+            to={`/profiles/${participation.participant.id}`}
+            key={participation.id}
+            alignItems="flex-start"
+            button
+          >
             <ListItemAvatar>
               <Avatar
                 className={classes.avatar}
