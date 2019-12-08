@@ -48,7 +48,7 @@ const ViewProfile: FunctionComponent<ViewProfileProps> = ({ match, user, loading
       <Grid container justify="center">
         <Avatar className={classes.avatar} alt={user.name} src={user.pictureUrl} />
         <TextField disabled label="Name" value={user.name} className={classes.input} fullWidth />
-        <TextField disabled label="Bio" value={user.bio} className={classes.input} multiline fullWidth />
+        <TextField disabled label="Bio" value={user.bio || ""} className={classes.input} multiline fullWidth />
       </Grid>
     </Paper>
   );
