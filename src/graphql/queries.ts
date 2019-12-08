@@ -1,27 +1,6 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
-export const nearbyActivities = `query NearbyActivities($location: LocationInput!, $km: Int) {
-  nearbyActivities(location: $location, km: $km) {
-    items {
-      id
-      description
-      sport
-      dateTime
-      numberOfAttendants
-      address
-      createdAt
-      updatedAt
-      hashKey
-      rangeKey
-      geohash
-      version
-    }
-    total
-    nextToken
-  }
-}
-`;
 export const nearbyActivitiesDdb = `query NearbyActivitiesDdb($location: LocationInput!, $km: Int) {
   nearbyActivitiesDdb(location: $location, km: $km) {
     items {
@@ -218,37 +197,6 @@ export const byHashByGeohash = `query ByHashByGeohash(
       version
     }
     nextToken
-  }
-}
-`;
-export const searchActivitys = `query SearchActivitys(
-  $filter: SearchableActivityFilterInput
-  $sort: SearchableActivitySortInput
-  $limit: Int
-  $nextToken: String
-) {
-  searchActivitys(
-    filter: $filter
-    sort: $sort
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      description
-      sport
-      dateTime
-      numberOfAttendants
-      address
-      createdAt
-      updatedAt
-      hashKey
-      rangeKey
-      geohash
-      version
-    }
-    nextToken
-    total
   }
 }
 `;

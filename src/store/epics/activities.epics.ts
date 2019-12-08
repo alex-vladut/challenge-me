@@ -196,9 +196,9 @@ const fetchActivities = (actions$: Observable<Action>, store$: Observable<State>
     withLatestFrom(store$.pipe(map(({ activities }) => activities.filters))),
     switchMap(([_, filters]: any[]) =>
       from(
-        API.graphql(graphqlOperation(queries.nearbyActivities, { location: filters.location, km: 50 })) as Promise<any>
+        API.graphql(graphqlOperation(queries.nearbyActivitiesDdb, { location: filters.location, km: 50 })) as Promise<any>
       ).pipe(
-        map(({ data }: any) => FetchAllSuccess.create(data.nearbyActivities)),
+        map(({ data }: any) => FetchAllSuccess.create(data.nearbyActivitiesDdb)),
         catchError(() => of(FetchAllFail.create("Sorry, there was an error while loading the activities.")))
       )
     )

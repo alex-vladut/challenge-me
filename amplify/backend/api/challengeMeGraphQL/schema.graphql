@@ -11,7 +11,6 @@ type User
 
 type Activity
   @model(mutations: null, queries: { get: "getActivity" }, subscriptions: null)
-  @searchable
   @auth(
     rules: [
       { allow: owner, ownerField: "activityOwnerId", operations: [create] }
@@ -124,7 +123,6 @@ type ActivityConnection {
 }
 
 type Query {
-  nearbyActivities(location: LocationInput!, km: Int): ActivityConnection
   nearbyActivitiesDdb(location: LocationInput!, km: Int): ActivityConnection
     @function(name: "nearby-activities-ddb-${env}")
 }
