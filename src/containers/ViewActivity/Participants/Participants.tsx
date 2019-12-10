@@ -13,7 +13,7 @@ import {
 import { grey } from "@material-ui/core/colors";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { Check, Clear } from "@material-ui/icons";
-import moment from "moment";
+import formatDate from "date-fns/format";
 import React, { FunctionComponent, useState, forwardRef } from "react";
 import { NavLink, NavLinkProps } from "react-router-dom";
 
@@ -86,7 +86,7 @@ const Participants: FunctionComponent<ParticipantsProps> = ({ participations }) 
                   <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
                     {participation.status === "ACCEPTED" ? "Accepted: " : "Rejected: "}
                   </Typography>
-                  {" " + moment(participation.createdAt).format("MMMM DD")}
+                  {" " + formatDate(new Date(participation.createdAt), "MMMM dd")}
                 </>
               }
             />

@@ -1,4 +1,6 @@
 import React, { FunctionComponent, useState, forwardRef } from "react";
+import { NavLink, NavLinkProps } from "react-router-dom";
+
 import {
   Avatar,
   Card,
@@ -11,9 +13,9 @@ import {
   Link
 } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import moment from "moment";
 import { Send, AccessTime } from "@material-ui/icons";
-import { NavLink, NavLinkProps } from "react-router-dom";
+
+import differenceInMinutes from "date-fns/differenceInMinutes";
 
 const useStyles: any = makeStyles(theme =>
   createStyles({
@@ -48,13 +50,12 @@ const useStyles: any = makeStyles(theme =>
   })
 );
 
-const timeDifference = (from: moment.Moment, to: moment.Moment) => {
-  const difference = moment.duration(to.diff(from));
-  const years = Math.floor(difference.asYears());
-  const months = Math.floor(difference.asMonths());
-  const days = Math.floor(difference.asDays());
-  const hours = Math.floor(difference.asHours());
-  const minutes = Math.floor(difference.asMinutes());
+const timeDifference = (from: Date, to: Date) => {
+  const minutes = Math.floor(differenceInMinutes(to, from));
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+  const months = Math.floor(days / 31);
+  const years = Math.floor(months / 12);
 
   if (years > 0) {
     return years === 1 ? "1 year ago" : `${years} years ago`;
@@ -137,7 +138,7 @@ const Comments: FunctionComponent<CommentsProps> = ({ profile, comments, onCreat
               <div className={classes.subheader}>
                 <AccessTime className={classes.timeIcon} />
                 <Typography component="p" variant="body2">
-                  {timeDifference(moment(comment.createdAt), moment())}
+                  {timeDifference(new Date(comment.createdAt), new Date())}
                 </Typography>
               </div>
             }

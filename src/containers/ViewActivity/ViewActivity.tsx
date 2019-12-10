@@ -2,9 +2,7 @@ import React, { useState, useEffect, forwardRef } from "react";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
 import { NavLink, NavLinkProps } from "react-router-dom";
-
-import moment from "moment";
-
+import formatDate from "date-fns/format";
 import {
   Avatar,
   Card,
@@ -241,7 +239,7 @@ const ViewActivity = ({
               <strong>{activity.owner.name}</strong>
             </Link>
           }
-          subheader={"Created at " + moment(activity.createdAt).format("MMMM DD, YYYY") + " | " + activity.sport}
+          subheader={"Created at " + formatDate(new Date(activity.createdAt), "MMMM dd, yyyy") + " | " + activity.sport}
           action={getAttendanceStatus(activity, profile)}
           className={classes.header}
         />
@@ -255,13 +253,13 @@ const ViewActivity = ({
           <Grid container className={classes.iconText}>
             <CalendarToday color="disabled" className={classes.icon} />
             <Typography variant="subtitle1" color="textSecondary">
-              {moment(activity.dateTime).format("dddd, MMMM DD")}
+              {formatDate(new Date(activity.dateTime), "EEEE, MMMM dd")}
             </Typography>
           </Grid>
           <Grid container className={classes.iconText}>
             <AccessTime color="disabled" className={classes.icon} />
             <Typography variant="subtitle1" color="textSecondary">
-              {moment(activity.dateTime).format("HH:mm A")}
+              {formatDate(new Date(activity.dateTime), "hh:mm a")}
             </Typography>
           </Grid>
           <Grid container className={classes.iconText}>

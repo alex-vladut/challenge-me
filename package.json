@@ -13,7 +13,6 @@
     "aws-amplify-react": "^3.1.1",
     "date-fns": "^2.8.1",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
     "node-sass": "^4.13.0",
     "notistack": "^0.9.7",
     "react": "^16.12.0",

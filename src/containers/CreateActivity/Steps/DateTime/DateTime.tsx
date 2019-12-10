@@ -1,19 +1,17 @@
 import React, { FunctionComponent, useState } from "react";
-import moment from "moment";
 
-import { InputLabel } from "@material-ui/core";
+import subtractDays from "date-fns/subDays";
+import isBefore from "date-fns/isBefore";
+import addMonths from "date-fns/addMonths";
+
+import InputLabel from "@material-ui/core/InputLabel";
 
 import DateTimePicker from "../../../../components/DateTimePicker/DateTimePicker";
 import BaseStep from "../BaseStep";
 
 const validate = (form: any) => {
   let errors: any = {};
-  if (
-    !form.dateTime ||
-    moment(form.dateTime)
-      .subtract(1, "day")
-      .isBefore(moment())
-  ) {
+  if (!form.dateTime || isBefore(subtractDays(new Date(form.dateTime), 1), new Date())) {
     errors = {
       ...errors,
       dateTime: "The time of your activity should be at least one day in the future."
@@ -22,12 +20,10 @@ const validate = (form: any) => {
   return errors;
 };
 
-const nextMonth = moment()
-  .add(1, "month")
-  .hour(10)
-  .minute(0)
-  .second(0)
-  .toDate();
+const date = new Date();
+date.setHours(11);
+date.setMinutes(0);
+const nextMonth = addMonths(date, 1);
 
 export interface DateTimeProps {
   isFirst: boolean;

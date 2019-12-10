@@ -2,9 +2,10 @@ import React, { FunctionComponent, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 
-import moment from "moment";
+import formatDate from "date-fns/format";
 
-import { Typography, LinearProgress } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 
 import Address from "../../components/Address/Address";
@@ -88,7 +89,7 @@ const Activities: FunctionComponent<ActivitiesProps> = ({
       {Object.keys(activitiesGroupedByDate).map(date => {
         const dateDelimiter = (
           <Typography key={date} variant="body1" color="textPrimary" className={classes.day}>
-            <strong>{moment(date).format("dddd, MMMM DD")}</strong>
+            <strong>{formatDate(new Date(date), "EEEE, MMMM dd")}</strong>
           </Typography>
         );
         return [
@@ -104,9 +105,9 @@ const Activities: FunctionComponent<ActivitiesProps> = ({
 
 const groupActivitiesByDate = (activities: any[]) =>
   activities
-    .sort((a, b) => moment(a.dateTime).unix() - moment(b.dateTime).unix())
+    .sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime())
     .reduce((accumulator, activity) => {
-      const date = moment(activity.dateTime).format("YYYY-MM-DD");
+      const date = formatDate(new Date(activity.dateTime), "yyyy-MM-dd");
       return {
         ...accumulator,
         [date]: [...(accumulator[date] || []), activity]

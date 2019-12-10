@@ -1,6 +1,6 @@
 import React, { FunctionComponent, forwardRef } from "react";
 import { NavLink, NavLinkProps } from "react-router-dom";
-import moment from "moment";
+import formatDate from "date-fns/format";
 
 import {
   Avatar,
@@ -99,7 +99,7 @@ const Item: FunctionComponent<ItemProps> = ({ activity, profile }: ItemProps) =>
       <CardContent className={classes.content}>
         <Grid container alignContent="center" justify="center" alignItems="center">
           <div style={{ fontSize: 20, width: "100%", textAlign: "center" }}>
-            {moment(activity.dateTime).format("HH:mm A")}
+            {formatDate(new Date(activity.dateTime), "hh:mm a")}
           </div>
           <AccessTime color="disabled" fontSize="large" />
         </Grid>
