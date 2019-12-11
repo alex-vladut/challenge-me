@@ -1,12 +1,15 @@
 import "./Logo.scss";
 
 import React, { FunctionComponent } from "react";
+import { NavLink } from "react-router-dom";
 
-import challengeMeLogo from "../../assets/logo.png";
+import logo from "../../assets/logo.png";
 
 const Logo: FunctionComponent = () => (
   <div className="Logo">
-    <img src={challengeMeLogo} alt="Challenge me!"></img>
+    <NavLink to="/">
+      <img src={logo} alt="Challenge me!" />
+    </NavLink>
   </div>
 );
 

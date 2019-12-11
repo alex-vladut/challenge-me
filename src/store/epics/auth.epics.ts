@@ -59,16 +59,17 @@ const fetchLocation = (actions$: any) =>
     ofType(FetchSuccess.type),
     switchMap(() =>
       from(
-        new Promise(resolve =>
-          navigator.geolocation.getCurrentPosition(({ coords }) =>
-            resolve(
-              FetchLocationSuccess.create({
-                location: { lat: coords.latitude, lon: coords.longitude },
-                address: "Your current location"
-              })
-            )
+        fetch("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyBYT5OOBcCAG1GgP7uSB7lMzaUCyXqbCdo", {
+          method: "POST"
+        })
+          .then(response => response.json())
+          .then(({ location }) =>
+            FetchLocationSuccess.create({
+              location: { lat: location.lat, lon: location.lng },
+              address: "Your current location"
+            })
           )
-        )
+          .catch(() => {})
       )
     )
   );
