@@ -20,5 +20,4 @@ export const SendMessage = action(`${FeatureKey} SEND_MESSAGE`, payload<any>());
 export const SendMessageSuccess = action(`${FeatureKey} SEND_MESSAGE_SUCCESS`, payload<any>());
 export const SendMessageFail = action(`${FeatureKey} SEND_MESSAGE_FAIL`, payload<any>());
 
-export const ParticipationCreated = action(`${FeatureKey} PARTICIPATION_CREATED`, payload<any>());
-export const ParticipationUpdated = action(`${FeatureKey} PARTICIPATION_UPDATED`, payload<any>());
+export const ParticipationCreatedOrUpdated = action(`${FeatureKey} PARTICIPATION_CREATED_OR_UPDATED`, payload<any>());

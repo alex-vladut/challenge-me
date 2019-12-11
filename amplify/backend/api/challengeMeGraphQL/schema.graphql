@@ -48,7 +48,7 @@ type Participation
   @model(
     mutations: { create: "createParticipation", update: "updateParticipation" }
     queries: { get: "getParticipation" }
-    subscriptions: { onCreate: ["onCreateParticipation"], onUpdate: ["onUpdateParticipation"] }
+    subscriptions: { onCreate: ["onCreateUpdateParticipation"], onUpdate: ["onCreateUpdateParticipation"] }
   )
   @auth(
     rules: [

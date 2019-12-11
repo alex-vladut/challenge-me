@@ -13,8 +13,7 @@ import {
   FetchFail,
   FetchLocationSuccess,
   FetchSuccess,
-  ParticipationCreated,
-  ParticipationUpdated,
+  ParticipationCreatedOrUpdated,
   Save,
   SaveFail,
   SaveSuccess,
@@ -46,28 +45,12 @@ const subscribeOnParticipationCreated = (actions$: any, store$: Observable<State
     switchMap(
       ([_, profile]: any[]) =>
         API.graphql(
-          graphqlOperation(subscriptions.onCreateParticipation, {
+          graphqlOperation(subscriptions.onCreateUpdateParticipation, {
             participationParticipantId: profile.id
           })
         ) as Promise<any>
     ),
-    map((response: any) => ParticipationCreated.create(response.value.data.onCreateParticipation)),
-    takeUntil(actions$.pipe(ofType(SignOut.type)))
-  );
-
-const subscribeOnParticipationUpdated = (actions$: any, store$: Observable<State>) =>
-  actions$.pipe(
-    ofType(FetchSuccess.type),
-    withLatestFrom(store$.pipe(map(({ auth }) => auth.profile))),
-    switchMap(
-      ([_, profile]: any[]) =>
-        API.graphql(
-          graphqlOperation(subscriptions.onUpdateParticipation, {
-            participationParticipantId: profile.id
-          })
-        ) as Promise<any>
-    ),
-    map((response: any) => ParticipationUpdated.create(response.value.data.onUpdateParticipation)),
+    map((response: any) => ParticipationCreatedOrUpdated.create(response.value.data.onCreateUpdateParticipation)),
     takeUntil(actions$.pipe(ofType(SignOut.type)))
   );
 
@@ -167,6 +150,5 @@ export default [
   sendMessage,
   sendMessageSuccessful,
   sendMessageFail,
-  subscribeOnParticipationCreated,
-  subscribeOnParticipationUpdated
+  subscribeOnParticipationCreated
 ];
