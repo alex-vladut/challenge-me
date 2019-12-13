@@ -1,53 +1,75 @@
-import React, { FunctionComponent } from "react";
-import { Typography, Button } from "@material-ui/core";
-import { makeStyles, createStyles } from "@material-ui/styles";
-import { NavLink } from "react-router-dom";
+import React, { forwardRef, FunctionComponent } from 'react';
+import { NavLink, NavLinkProps } from 'react-router-dom';
 
-import homeImage from "../../assets/home.jpeg";
+import { Button, Typography } from '@material-ui/core';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { EmojiEvents } from '@material-ui/icons';
+
+import homeImage from '../../assets/home.jpeg';
 
 const useStyles = makeStyles(() =>
   createStyles({
     root: {
       display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center"
+      alignItems: "center",
+      justifyContent: "center",
+      flexFlow: "wrap"
     },
     presentation: {
       display: "inline-block",
       textAlign: "center",
-      maxWidth: "45%"
+      margin: "0.5rem",
+      maxWidth: "60%",
+
     },
     button: {
-      margin: "1rem",
-      backgroundColor: "green",
-      maxWidth: "15rem",
-      color: "white"
+      marginTop: "2rem",
+      padding: "1rem 2rem",
+      backgroundColor: "#4dc78a",
+      color: "#fff",
+      '&:hover': {
+        background: "#379164",
+      },
     },
-    callToAction: {
-      textDecoration: "none"
+    title: {
+      marginBottom: "1rem",
+      color: "#20593d"
     },
     image: {
       display: "inline-block",
       height: "auto",
-      maxWidth: "400px"
+      maxWidth: "100%",
+      maskImage: "linear-gradient(#000, #fff, transparent)",
+    },
+    imageContainer: {
+      margin: "1rem"
     }
   })
 );
 
 const Home: FunctionComponent = () => {
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
       <div className={classes.presentation}>
-        <Typography variant="h4">Do you want to make new friends, have fun and be active at the same time?</Typography>
-        <Typography variant="h6">Join our community for free</Typography>
-        <NavLink to="/auth" exact className={classes.callToAction}>
-          <Button variant="contained" className={classes.button}>
-            Join now
+        <Typography variant="h3" className={classes.title}>FIND ACTIVITIES NEAR YOU</Typography>
+        <Typography><strong>SportPal</strong> is the easiest way to find activities and people nearby.<br /> Join our community for free and let's stay in shape together.</Typography>
+        <Button
+          component={forwardRef((props: NavLinkProps, ref: any) => (
+            <NavLink exact {...props} innerRef={ref} />
+          ))}
+          to="/auth"
+          variant="contained"
+          className={classes.button}
+          startIcon={<EmojiEvents />}>
+          <Typography>JOIN NOW</Typography>
         </Button>
-        </NavLink>
       </div>
-      <img src={homeImage} alt="beautiful woman stretching" className={classes.image} />
+      <div className={classes.imageContainer}>
+        <img src={homeImage} alt="beautiful woman stretching" className={classes.image} />
+      </div>
+
 
     </div>
   );

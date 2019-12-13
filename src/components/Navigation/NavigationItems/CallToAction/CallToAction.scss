@@ -11,7 +11,7 @@
     box-sizing: border-box;
     display: block;
     padding: 16px 10px;
-    background-color: coral;
+    background-color: #62ce98;
     border-bottom: 4px solid #40a4c8;
     color: white;
   }
@@ -37,8 +37,8 @@
         &:hover,
         &:active,
         &.active {
-          background-color: coral;
-          border-bottom: 4px solid #40a4c8;
+          background-color: #379164;
+          border-bottom: 4px solid #2b7088;
           color: white;
         }
       }
