@@ -79,6 +79,7 @@ const Profile: FunctionComponent<ProfileProps> = ({ profile, loading, save }: Pr
             className={classes.input}
             fullWidth
             required
+            autoFocus
           />
           <TextField
             label="Bio"

@@ -22,7 +22,8 @@ import {
   SendMessageSuccess,
   SignOut,
   SignOutFail,
-  SignOutSuccess
+  SignOutSuccess,
+  FetchLocationFail
 } from "../actions/auth.actions";
 import { State } from "../reducers";
 
@@ -69,7 +70,7 @@ const fetchLocation = (actions$: any) =>
               address: "Your current location"
             })
           )
-          .catch(() => {})
+          .catch(error => FetchLocationFail.create(error))
       )
     )
   );

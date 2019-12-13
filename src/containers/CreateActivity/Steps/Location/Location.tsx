@@ -36,7 +36,7 @@ const Location: FunctionComponent<LocationProps> = ({ isFirst, isLast, onBack, o
 
   return (
     <BaseStep isFirst={isFirst} isLast={isLast} onBack={onBack} onNext={handleNext}>
-      <Address error={!!errors.location} helperText={errors.location} onLocationChanged={setLocation} />
+      <Address autoFocus error={!!errors.location} helperText={errors.location} onLocationChanged={setLocation} />
     </BaseStep>
   );
 };

@@ -64,6 +64,7 @@ const Description: FunctionComponent<DescriptionProps> = ({ sports, isFirst, isL
         error={!!errors.description}
         helperText={errors.description}
         className={classes.description}
+        autoFocus
         multiline
         rows="3"
         rowsMax="5"

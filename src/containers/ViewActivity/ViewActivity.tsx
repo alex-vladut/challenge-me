@@ -206,11 +206,15 @@ const ViewActivity = ({
   return (
     <div className={classes.root}>
       <Grid container justify="flex-start" alignItems="center">
-        <NavLink to="/activities">
-          <IconButton aria-label="back">
-            <ArrowBackOutlined />
-          </IconButton>
-        </NavLink>
+        <IconButton
+          aria-label="back"
+          component={forwardRef((props: NavLinkProps, ref: any) => (
+            <NavLink {...props} innerRef={ref} />
+          ))}
+          to="/activities"
+        >
+          <ArrowBackOutlined />
+        </IconButton>
         <Typography component="p" variant="subtitle1">
           Go back to activities
         </Typography>

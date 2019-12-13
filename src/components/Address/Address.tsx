@@ -8,6 +8,7 @@ import PlacesAutocomplete, { geocodeByAddress, getLatLng } from "react-places-au
 interface AddressSelectionProps {
   value?: any;
   error?: boolean;
+  autoFocus?: boolean;
   helperText?: string;
   onLocationChanged(location: any): void;
 }
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const getLocationDescription = (description: string) =>
   description && description.length > 70 ? `${description.slice(0, 70)}...` : description;
 
-const Address: FunctionComponent<AddressSelectionProps> = ({ value, error, onLocationChanged }) => {
+const Address: FunctionComponent<AddressSelectionProps> = ({ value, error, autoFocus, onLocationChanged }) => {
   const classes = useStyles();
 
   const [address, setAddress] = useState((value && value.address) || "");
@@ -79,6 +80,7 @@ const Address: FunctionComponent<AddressSelectionProps> = ({ value, error, onLoc
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <>
             <InputBase
+              autoFocus={autoFocus}
               className={classes.input}
               {...getInputProps({
                 label: "Location",

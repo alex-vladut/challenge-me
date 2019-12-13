@@ -43,6 +43,7 @@ const Attendants: FunctionComponent<AttendantsProps> = ({ isFirst, isLast, onBac
       <TextField
         required
         fullWidth
+        autoFocus
         label="Number of attendants"
         type="number"
         value={numberOfAttendants}

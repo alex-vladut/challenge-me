@@ -7,6 +7,7 @@ export const FetchSuccess = action(`${FeatureKey} FETCH_PROFILE_SUCCESS`, payloa
 export const FetchFail = action(`${FeatureKey} FETCH_PROFILE_FAIL`, payload<any>());
 
 export const FetchLocationSuccess = action(`${FeatureKey} FETCH_LOCATION_SUCCESS`, payload<any>());
+export const FetchLocationFail = action(`${FeatureKey} FETCH_LOCATION_FAIL`, payload<any>());
 
 export const Save = action(`${FeatureKey} SAVE`, payload<any>());
 export const SaveSuccess = action(`${FeatureKey} SAVE_SUCCESS`, payload<any>());

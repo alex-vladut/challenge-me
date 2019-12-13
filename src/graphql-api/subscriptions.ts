@@ -10,8 +10,6 @@ export const onCreateUpdateParticipation = `subscription OnCreateUpdateParticipa
       id
     }
     status
-    createdAt
-    updatedAt
   }
 }
 `;

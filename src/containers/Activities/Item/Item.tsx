@@ -115,11 +115,15 @@ const Item: FunctionComponent<ItemProps> = ({ activity, profile }: ItemProps) =>
           </Typography>
         </div>
         <Grid container justify="flex-end">
-          <NavLink to={`/activities/${activity.id}`}>
-            <IconButton aria-label="open">
-              <ArrowForwardOutlined />
-            </IconButton>
-          </NavLink>
+          <IconButton
+            component={forwardRef((props: NavLinkProps, ref: any) => (
+              <NavLink {...props} innerRef={ref} />
+            ))}
+            to={`/activities/${activity.id}`}
+            aria-label="open"
+          >
+            <ArrowForwardOutlined />
+          </IconButton>
         </Grid>
       </CardActions>
     </Card>
