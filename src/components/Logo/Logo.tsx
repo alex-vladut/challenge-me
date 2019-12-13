@@ -8,7 +8,7 @@ import logo from "../../assets/logo.png";
 const Logo: FunctionComponent = () => (
   <div className="Logo">
     <NavLink to="/">
-      <img src={logo} alt="Challenge me!" />
+      <img src={logo} alt="SportPal Logo" />
     </NavLink>
   </div>
 );
