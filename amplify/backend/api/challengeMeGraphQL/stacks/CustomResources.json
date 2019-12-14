@@ -1,61 +1,170 @@
 {
-	"AWSTemplateFormatVersion": "2010-09-09",
-	"Description": "An auto-generated nested stack.",
-	"Metadata": {},
-	"Parameters": {
-		"AppSyncApiId": {
-			"Type": "String",
-			"Description": "The id of the AppSync API associated with this project."
-		},
-		"AppSyncApiName": {
-			"Type": "String",
-			"Description": "The name of the AppSync API",
-			"Default": "AppSyncSimpleTransform"
-		},
-		"env": {
-			"Type": "String",
-			"Description": "The environment name. e.g. Dev, Test, or Production",
-			"Default": "NONE"
-		},
-		"S3DeploymentBucket": {
-			"Type": "String",
-			"Description": "The S3 bucket containing all deployment assets for the project."
-		},
-		"S3DeploymentRootKey": {
-			"Type": "String",
-			"Description": "An S3 key relative to the S3DeploymentBucket that points to the root\nof the deployment directory."
-		}
-	},
-	"Resources": {
-		"EmptyResource": {
-			"Type": "Custom::EmptyResource",
-			"Condition": "AlwaysFalse"
-		}
-	},
-	"Conditions": {
-		"HasEnvironmentParameter": {
-			"Fn::Not": [
-				{
-					"Fn::Equals": [
-						{
-							"Ref": "env"
-						},
-						"NONE"
-					]
-				}
-			]
-		},
-		"AlwaysFalse": {
-			"Fn::Equals": [
-				"true",
-				"false"
-			]
-		}
-	},
-	"Outputs": {
-		"EmptyOutput": {
-			"Description": "An empty output. You may delete this if you have at least one resource above.",
-			"Value": ""
-		}
-	}
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "An auto-generated nested stack.",
+  "Metadata": {},
+  "Parameters": {
+    "AppSyncApiId": {
+      "Type": "String",
+      "Description": "The id of the AppSync API associated with this project."
+    },
+    "AppSyncApiName": {
+      "Type": "String",
+      "Description": "The name of the AppSync API",
+      "Default": "AppSyncSimpleTransform"
+    },
+    "env": {
+      "Type": "String",
+      "Description": "The environment name. e.g. Dev, Test, or Production",
+      "Default": "NONE"
+    },
+    "S3DeploymentBucket": {
+      "Type": "String",
+      "Description": "The S3 bucket containing all deployment assets for the project."
+    },
+    "S3DeploymentRootKey": {
+      "Type": "String",
+      "Description": "An S3 key relative to the S3DeploymentBucket that points to the root\nof the deployment directory."
+    }
+  },
+  "Conditions": {
+    "ShouldNotCreateEnvResources": {
+      "Fn::Equals": [
+        {
+          "Ref": "env"
+        },
+        "NONE"
+      ]
+    },
+    "HasEnvironmentParameter": {
+      "Fn::Not": [
+        {
+          "Fn::Equals": [
+            {
+              "Ref": "env"
+            },
+            "NONE"
+          ]
+        }
+      ]
+    },
+    "AlwaysFalse": {
+      "Fn::Equals": ["true", "false"]
+    }
+  },
+  "Resources": {
+    "AppSyncStepFunctionDataSourceRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "RoleName": {
+          "Fn::If": [
+            "ShouldNotCreateEnvResources",
+            "AppSyncStepFunctionDataSourceRole",
+            {
+              "Fn::Join": [
+                "",
+                [
+                  "AppSyncStepFunctionDataSourceRole",
+                  "-",
+                  {
+                    "Ref": "env"
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "appsync.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        }
+      }
+    },
+    "AppSyncStepFunctionDataSourceRolePolicy": {
+      "DependsOn": ["AppSyncStepFunctionDataSourceRole"],
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "appsync-step-functions-policy",
+        "Roles": [
+          {
+            "Ref": "AppSyncStepFunctionDataSourceRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": ["states:StartExecution"],
+              "Resource": {
+                "Fn::Sub": [
+                  "arn:aws:states:${region}:${account}:stateMachine:delete-activity-step-function-${env}",
+                  {
+                    "region": {
+                      "Ref": "AWS::Region"
+                    },
+                    "account": {
+                      "Ref": "AWS::AccountId"
+                    },
+                    "env": {
+                      "Ref": "env"
+                    }
+                  }
+                ]
+              },
+              "Effect": "Allow"
+            }
+          ]
+        }
+      }
+    },
+    "StepFunctionsHttpDataSource": {
+      "Type": "AWS::AppSync::DataSource",
+      "Properties": {
+        "ApiId": {
+          "Ref": "AppSyncApiId"
+        },
+        "Name": "StepFunctionsHttpDataSource",
+        "Description": "Step Functions HTTP",
+        "Type": "HTTP",
+        "ServiceRoleArn": {
+          "Fn::GetAtt": ["AppSyncStepFunctionDataSourceRole", "Arn"]
+        },
+        "HttpConfig": {
+          "Endpoint": {
+            "Fn::Sub": [
+              "https://states.${region}.amazonaws.com/",
+              {
+                "region": {
+                  "Ref": "AWS::Region"
+                }
+              }
+            ]
+          },
+          "AuthorizationConfig": {
+            "AuthorizationType": "AWS_IAM",
+            "AwsIamConfig": {
+              "SigningRegion": {
+                "Ref": "AWS::Region"
+              },
+              "SigningServiceName": "states"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "StepFunctionsHttpDataSource": {
+      "Value": {
+        "Ref": "StepFunctionsHttpDataSource"
+      }
+    }
+  }
 }

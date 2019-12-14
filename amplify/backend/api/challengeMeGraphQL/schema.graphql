@@ -111,9 +111,7 @@ input CreateActivityInput {
 
 type Mutation {
   createActivity(input: CreateActivityInput!): Activity! @function(name: "create-activity-${env}")
-  deleteActivity(input: DeleteActivityInput!): Activity!
-    @function(name: "delete-activity-${env}")
-    @function(name: "delete-participations-${env}")
+  # deleteActivity(input: DeleteActivityInput!): Activity!
   sendMessage(input: SendMessageInput!): String @function(name: "SubmitContactUsMessage-${env}")
 }
 

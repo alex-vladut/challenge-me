@@ -36,41 +36,6 @@ export const createActivity = `mutation CreateActivity($input: CreateActivityInp
   }
 }
 `;
-export const deleteActivity = `mutation DeleteActivity($input: DeleteActivityInput!) {
-  deleteActivity(input: $input) {
-    id
-    owner {
-      id
-      name
-      pictureUrl
-      bio
-      email
-      version
-    }
-    description
-    sport
-    dateTime
-    numberOfAttendants
-    location {
-      lat
-      lon
-    }
-    address
-    participations {
-      nextToken
-    }
-    comments {
-      nextToken
-    }
-    createdAt
-    updatedAt
-    hashKey
-    rangeKey
-    geohash
-    version
-  }
-}
-`;
 export const sendMessage = `mutation SendMessage($input: SendMessageInput!) {
   sendMessage(input: $input)
 }
