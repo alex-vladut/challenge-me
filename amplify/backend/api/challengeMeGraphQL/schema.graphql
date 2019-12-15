@@ -1,23 +1,16 @@
 type User
   @model(mutations: { update: "updateUser" }, queries: { get: "getUser" }, subscriptions: null)
-  @auth(rules: [{ allow: owner, ownerField: "id", operations: [update] }, { allow: private, operations: [read] }])
   @versioned {
   id: ID!
   name: String!
   pictureUrl: AWSURL
   bio: String
-  email: AWSEmail @auth(rules: [{ allow: owner, ownerField: "id", operations: [read, update] }])
+  email: AWSEmail
   participations: [Participation!] @connection(name: "UserActivities")
 }
 
 type Activity
   @model(mutations: null, queries: { get: "getActivity" }, subscriptions: null)
-  @auth(
-    rules: [
-      { allow: owner, ownerField: "activityOwnerId", operations: [create] }
-      { allow: private, operations: [read] }
-    ]
-  )
   @key(name: "geo-hash-range-index", fields: ["hashKey", "rangeKey"], queryField: "byGeolocation")
   @key(name: "geohash-index", fields: ["hashKey", "geohash"], queryField: "byHashByGeohash")
   @versioned {
@@ -50,12 +43,6 @@ type Participation
     queries: { get: "getParticipation" }
     subscriptions: { onCreate: ["onCreateUpdateParticipation"], onUpdate: ["onCreateUpdateParticipation"] }
   )
-  @auth(
-    rules: [
-      { allow: owner, ownerField: "participationParticipantId", operations: [create, update] }
-      { allow: private, operations: [read] }
-    ]
-  )
   @versioned {
   id: ID!
   activity: Activity! @connection(name: "ActivityParticipants")
@@ -68,9 +55,6 @@ type Participation
 
 type Comment
   @model(mutations: { create: "createComment" }, queries: null, subscriptions: null)
-  @auth(
-    rules: [{ allow: owner, ownerField: "commentUserId", operations: [create] }, { allow: private, operations: [read] }]
-  )
   @versioned {
   id: ID!
   activity: Activity! @connection(name: "ActivityComments", sortField: "createdAt")

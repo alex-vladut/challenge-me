@@ -15,15 +15,23 @@ import registerServiceWorker from "./registerServiceWorker";
 import { rootEpic } from "./store/epics";
 import reducer from "./store/reducers";
 
-const urlsIn = config.oauth.redirectSignIn.split(",");
-const urlsOut = config.oauth.redirectSignOut.split(",");
+// const urlsIn = config.oauth.redirectSignIn.split(",");
+// const urlsOut = config.oauth.redirectSignOut.split(",");
+// const oauth = {
+//   domain: config.oauth.domain,
+//   scope: config.oauth.scope,
+//   redirectSignIn: config.oauth.redirectSignIn,
+//   redirectSignOut: config.oauth.redirectSignOut,
+//   responseType: config.oauth.responseType
+// };
+
+const urlsIn: string[] = [];
+const urlsOut: string[] = [];
 const oauth = {
-  domain: config.oauth.domain,
-  scope: config.oauth.scope,
-  redirectSignIn: config.oauth.redirectSignIn,
-  redirectSignOut: config.oauth.redirectSignOut,
-  responseType: config.oauth.responseType
+  redirectSignIn: '',
+  redirectSignOut: ''
 };
+
 const hasLocalhost = (hostname: string) =>
   Boolean(hostname.match(/localhost/) || hostname.match(/127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}/));
 const hasHostname = (hostname: string) => Boolean(hostname.includes(window.location.hostname));

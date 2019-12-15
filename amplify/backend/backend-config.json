@@ -1,119 +1,84 @@
 {
-    "hosting": {
-        "S3AndCloudFront": {
-            "service": "S3AndCloudFront",
-            "providerPlugin": "awscloudformation"
-        }
-    },
-    "api": {
-        "challengeMeGraphQL": {
-            "service": "AppSync",
-            "providerPlugin": "awscloudformation",
-            "output": {
-                "authConfig": {
-                    "additionalAuthenticationProviders": [],
-                    "defaultAuthentication": {
-                        "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-                        "userPoolConfig": {
-                            "userPoolId": "authchallengemereact433ab172"
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "auth": {
-        "userPoolGroups": {
-            "service": "Cognito-UserPool-Groups",
-            "providerPlugin": "awscloudformation",
-            "dependsOn": [
-                {
-                    "category": "auth",
-                    "resourceName": "challengemereact433ab172",
-                    "attributes": [
-                        "UserPoolId",
-                        "AppClientIDWeb",
-                        "AppClientID",
-                        "IdentityPoolId"
-                    ]
-                }
-            ]
-        },
-        "challengemereact433ab172": {
-            "service": "Cognito",
-            "providerPlugin": "awscloudformation",
-            "dependsOn": [
-                {
-                    "category": "function",
-                    "resourceName": "challengemereact433ab172PostConfirmation",
-                    "triggerProvider": "Cognito",
-                    "attributes": [
-                        "Arn",
-                        "Name"
-                    ]
-                }
-            ]
-        }
-    },
-    "function": {
-        "DeleteActivity": {
-            "service": "Lambda",
-            "providerPlugin": "awscloudformation",
-            "build": true,
-            "dependsOn": [
-                {
-                    "category": "api",
-                    "resourceName": "challengeMeGraphQL",
-                    "attributes": [
-                        "GraphQLAPIIdOutput"
-                    ]
-                }
-            ]
-        },
-        "CreateESGeocodeIndex": {
-            "service": "Lambda",
-            "providerPlugin": "awscloudformation",
-            "build": true
-        },
-        "SubmitContactUsMessage": {
-            "service": "Lambda",
-            "providerPlugin": "awscloudformation",
-            "build": true
-        },
-        "CreateActivity": {
-            "service": "Lambda",
-            "providerPlugin": "awscloudformation",
-            "build": true,
-            "dependsOn": [
-                {
-                    "category": "api",
-                    "resourceName": "challengeMeGraphQL",
-                    "attributes": [
-                        "GraphQLAPIIdOutput",
-                        "GraphQLAPIEndpointOutput"
-                    ]
-                }
-            ]
-        },
-        "NearbyActivitiesDDB": {
-            "service": "Lambda",
-            "providerPlugin": "awscloudformation",
-            "build": true,
-            "dependsOn": [
-                {
-                    "category": "api",
-                    "resourceName": "challengeMeGraphQL",
-                    "attributes": [
-                        "GraphQLAPIIdOutput",
-                        "GraphQLAPIEndpointOutput"
-                    ]
-                }
-            ]
-        },
-        "challengemereact433ab172PostConfirmation": {
-            "service": "Lambda",
-            "providerPlugin": "awscloudformation",
-            "build": true
-        }
-    }
+	"hosting": {
+		"S3AndCloudFront": {
+			"service": "S3AndCloudFront",
+			"providerPlugin": "awscloudformation"
+		}
+	},
+	"api": {
+		"challengeMeGraphQL": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "AWS_IAM"
+					}
+				}
+			}
+		}
+	},
+	"auth": {},
+	"function": {
+		"DeleteActivity": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true,
+			"dependsOn": [
+				{
+					"category": "api",
+					"resourceName": "challengeMeGraphQL",
+					"attributes": [
+						"GraphQLAPIIdOutput"
+					]
+				}
+			]
+		},
+		"CreateESGeocodeIndex": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true
+		},
+		"SubmitContactUsMessage": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true
+		},
+		"CreateActivity": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true,
+			"dependsOn": [
+				{
+					"category": "api",
+					"resourceName": "challengeMeGraphQL",
+					"attributes": [
+						"GraphQLAPIIdOutput",
+						"GraphQLAPIEndpointOutput"
+					]
+				}
+			]
+		},
+		"NearbyActivitiesDDB": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true,
+			"dependsOn": [
+				{
+					"category": "api",
+					"resourceName": "challengeMeGraphQL",
+					"attributes": [
+						"GraphQLAPIIdOutput",
+						"GraphQLAPIEndpointOutput"
+					]
+				}
+			]
+		},
+		"challengemereact433ab172PostConfirmation": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true
+		}
+	}
 }
