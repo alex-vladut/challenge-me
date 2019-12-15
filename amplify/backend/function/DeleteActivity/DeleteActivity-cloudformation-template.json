@@ -59,6 +59,9 @@
 						},
 						"PARTICIPATIONS_TABLE": {
 							"Fn::Sub": "Participation-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}"
+						},
+						"COMMENTS_TABLE": {
+							"Fn::Sub": "Comment-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}"
 						}
 					}
 				},
@@ -72,7 +75,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-challenge-me-react-production-191808-deployment",
-					"S3Key": "amplify-builds/DeleteActivity-6d7359516a5370326974-build.zip"
+					"S3Key": "amplify-builds/DeleteActivity-6c2b714c42726f344739-build.zip"
 				}
 			}
 		},
@@ -176,6 +179,25 @@
 							"Resource": {
 								"Fn::Sub": "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Participation-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}"
 							}
+						},
+						{
+							"Effect": "Allow",
+							"Action": [
+								"dynamodb:Query"
+							],
+							"Resource": {
+								"Fn::Sub": "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Comment-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}/index/gsi-ActivityComments"
+							}
+						},
+						{
+							"Effect": "Allow",
+							"Action": [
+								"dynamodb:BatchWriteItem",
+								"dynamodb:DeleteItem"
+							],
+							"Resource": {
+								"Fn::Sub": "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Comment-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}"
+							}
 						}
 					]
 				}
@@ -235,7 +257,7 @@
 				},
 				"DefinitionString": {
 					"Fn::Sub": [
-						"{\n  \"Comment\": \"Delete an activity and all resources associated (e.g. participants and comments)\",\n  \"StartAt\": \"DeleteActivity\",\n  \"States\": {\n    \"DeleteActivity\": {\n      \"Type\": \"Task\",\n      \"Resource\": \"${lambdaArn}\",\n      \"Parameters\": {\n        \"action\": \"deleteActivity\",\n        \"activityId.$\": \"$.activityId\",\n        \"expectedVersion.$\": \"$.expectedVersion\",\n        \"identityId.$\": \"$.identityId\"\n      },\n      \"ResultPath\": null,\n      \"Next\": \"DeleteActivityParticipations\"\n    },\n    \"DeleteActivityParticipations\": {\n      \"Type\": \"Task\",\n      \"Resource\": \"${lambdaArn}\",\n      \"Parameters\": {\n        \"action\": \"deleteActivityParticipations\",\n        \"activityId.$\": \"$.activityId\"\n      },\n      \"End\": true\n    }\n  }\n}\n",
+						"{\n  \"Comment\": \"Delete an activity and all resources associated (e.g. participants and comments)\",\n  \"StartAt\": \"DeleteActivity\",\n  \"States\": {\n    \"DeleteActivity\": {\n      \"Type\": \"Task\",\n      \"Resource\": \"${lambdaArn}\",\n      \"Parameters\": {\n        \"action\": \"deleteActivity\",\n        \"activityId.$\": \"$.activityId\",\n        \"expectedVersion.$\": \"$.expectedVersion\",\n        \"identityId.$\": \"$.identityId\"\n      },\n      \"ResultPath\": null,\n      \"Next\": \"DeleteActivityParticipations\"\n    },\n    \"DeleteActivityParticipations\": {\n      \"Type\": \"Task\",\n      \"Resource\": \"${lambdaArn}\",\n      \"Parameters\": {\n        \"action\": \"deleteActivityParticipations\",\n        \"activityId.$\": \"$.activityId\"\n      },\n      \"ResultPath\": null,\n      \"Next\": \"DeleteActivityComments\"\n    },\n    \"DeleteActivityComments\": {\n      \"Type\": \"Task\",\n      \"Resource\": \"${lambdaArn}\",\n      \"Parameters\": {\n        \"action\": \"deleteActivityComments\",\n        \"activityId.$\": \"$.activityId\"\n      },\n      \"ResultPath\": null,\n      \"End\": true\n    }\n  }\n}\n",
 						{
 							"lambdaArn": {
 								"Fn::GetAtt": [

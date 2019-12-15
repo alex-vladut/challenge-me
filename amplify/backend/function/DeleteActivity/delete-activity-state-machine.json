@@ -21,6 +21,17 @@
         "action": "deleteActivityParticipations",
         "activityId.$": "$.activityId"
       },
+      "ResultPath": null,
+      "Next": "DeleteActivityComments"
+    },
+    "DeleteActivityComments": {
+      "Type": "Task",
+      "Resource": "${lambdaArn}",
+      "Parameters": {
+        "action": "deleteActivityComments",
+        "activityId.$": "$.activityId"
+      },
+      "ResultPath": null,
       "End": true
     }
   }
