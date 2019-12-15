@@ -1,21 +1,21 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
     "Parameters": {
-        "authchallengemereacta7d0cb31UserPoolId": {
+        "authchallengemereact433ab172UserPoolId": {
             "Type": "String",
-            "Default": "authchallengemereacta7d0cb31UserPoolId"
+            "Default": "authchallengemereact433ab172UserPoolId"
         },
-        "authchallengemereacta7d0cb31IdentityPoolId": {
+        "authchallengemereact433ab172IdentityPoolId": {
             "Type": "String",
-            "Default": "authchallengemereacta7d0cb31IdentityPoolId"
+            "Default": "authchallengemereact433ab172IdentityPoolId"
         },
-        "authchallengemereacta7d0cb31AppClientID": {
+        "authchallengemereact433ab172AppClientID": {
             "Type": "String",
-            "Default": "authchallengemereacta7d0cb31AppClientID"
+            "Default": "authchallengemereact433ab172AppClientID"
         },
-        "authchallengemereacta7d0cb31AppClientIDWeb": {
+        "authchallengemereact433ab172AppClientIDWeb": {
             "Type": "String",
-            "Default": "authchallengemereacta7d0cb31AppClientIDWeb"
+            "Default": "authchallengemereact433ab172AppClientIDWeb"
         },
         "AuthRoleArn": {
             "Type": "String"
@@ -51,7 +51,7 @@
                 ]
               },
               "UserPoolId" : {
-                "Ref": "authchallengemereacta7d0cb31UserPoolId"
+                "Ref": "authchallengemereact433ab172UserPoolId"
               } 
             }
         },
@@ -63,7 +63,7 @@
                         "",
                         [
                           {
-                            "Ref": "authchallengemereacta7d0cb31UserPoolId"
+                            "Ref": "authchallengemereact433ab172UserPoolId"
                           },
                           "-USERGroupRole"
                         ]
@@ -100,7 +100,7 @@
                                 "",
                                 [
                                   
-                                  "challengemereacta7d0cb31",
+                                  "challengemereact433ab172",
                                   "-ExecutionRole-",
                                   {
                                     "Ref": "env"
@@ -259,16 +259,16 @@
                     "Ref": "UnauthRoleArn"
                 },
                 "identityPoolId": {
-                    "Ref": "authchallengemereacta7d0cb31IdentityPoolId"
+                    "Ref": "authchallengemereact433ab172IdentityPoolId"
                 },
                 "userPoolId": {
-                    "Ref": "authchallengemereacta7d0cb31UserPoolId"
+                    "Ref": "authchallengemereact433ab172UserPoolId"
                 },
                 "appClientIDWeb": {
-                    "Ref": "authchallengemereacta7d0cb31AppClientIDWeb"
+                    "Ref": "authchallengemereact433ab172AppClientIDWeb"
                 },
                 "appClientID": {
-                    "Ref": "authchallengemereacta7d0cb31AppClientID"
+                    "Ref": "authchallengemereact433ab172AppClientID"
                 },
                 "region": {
                     "Ref": "AWS::Region"

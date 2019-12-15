@@ -3,7 +3,7 @@
     "DynamoDBBillingMode": "PAY_PER_REQUEST",
     "AuthCognitoUserPoolId": {
         "Fn::GetAtt": [
-            "authchallengemereacta7d0cb31",
+            "authchallengemereact433ab172",
             "Outputs.UserPoolId"
         ]
     }

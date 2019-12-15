@@ -4,14 +4,14 @@
         "add-to-group",
         "add-user"
     ],
-    "parentResource": "challengemereacta7d0cb31",
-    "functionName": "challengemereacta7d0cb31PostConfirmation",
+    "parentResource": "challengemereact433ab172",
+    "functionName": "challengemereact433ab172PostConfirmation",
     "parentStack": "auth",
     "triggerEnvs": "[]",
     "triggerDir": "/usr/local/lib/node_modules/@aws-amplify/cli/node_modules/amplify-category-auth/provider-utils/awscloudformation/utils/../triggers/PostConfirmation",
-    "roleName": "challengemereacta7d0cb31PostConfirmation",
+    "roleName": "challengemereact433ab172PostConfirmation",
     "triggerTemplate": "PostConfirmation.json.ejs",
     "triggerEventPath": "PostConfirmation.event.json",
     "skipEdit": true,
-    "resourceName": "challengemereacta7d0cb31PostConfirmation"
+    "resourceName": "challengemereact433ab172PostConfirmation"
 }

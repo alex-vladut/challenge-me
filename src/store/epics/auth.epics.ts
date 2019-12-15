@@ -81,7 +81,7 @@ const saveProfile = (actions$: any) =>
     switchMap(({ payload: { id, name, bio, pictureUrl, email, version: expectedVersion } }) =>
       from(
         API.graphql(
-          graphqlOperation(mutations.updateUser, { input: { id, name, bio, pictureUrl, email, expectedVersion } })
+          graphqlOperation(mutations.updateUser, { input: { id, name, bio: bio || null, pictureUrl, email, expectedVersion } })
         ) as Promise<any>
       ).pipe(
         map((response: any) => SaveSuccess.create(response.data.updateUser)),

@@ -4,7 +4,7 @@
   "MODULES" is a comma-delimited string.
 */
 
-exports.handler = async (event, context, callback) => {
+exports.lambdaHandler = async (event, context, callback) => {
   const modules = process.env.MODULES.split(',');
   for (const currentModule of modules) {
     const { handler } = require(`./${currentModule}`);
