@@ -36,6 +36,12 @@ export const createActivity = `mutation CreateActivity($input: CreateActivityInp
   }
 }
 `;
+export const deleteActivity = `mutation DeleteActivity($input: DeleteActivityInput!) {
+  deleteActivity(input: $input) {
+    id
+  }
+}
+`;
 export const sendMessage = `mutation SendMessage($input: SendMessageInput!) {
   sendMessage(input: $input)
 }

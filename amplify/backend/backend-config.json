@@ -59,20 +59,6 @@
 			"providerPlugin": "awscloudformation",
 			"build": true
 		},
-		"DeleteParticipations": {
-			"service": "Lambda",
-			"providerPlugin": "awscloudformation",
-			"build": true,
-			"dependsOn": [
-				{
-					"category": "api",
-					"resourceName": "challengeMeGraphQL",
-					"attributes": [
-						"GraphQLAPIIdOutput"
-					]
-				}
-			]
-		},
 		"CreateESGeocodeIndex": {
 			"service": "Lambda",
 			"providerPlugin": "awscloudformation",

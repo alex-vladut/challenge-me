@@ -3,14 +3,14 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: process.env.REGION })
 
 const PARTICIPATIONS_TABLE = process.env.PARTICIPATIONS_TABLE;
 
-exports.handler = async event => {
-  const participations = await findActivityParticipations(event.prev.result.id);
+exports.deleteActivityParticipations = async event => {
+  const participations = await findActivityParticipations(event.activityId);
   if (participations.length) {
     await dynamoDb
       .batchWrite({ RequestItems: { [PARTICIPATIONS_TABLE]: participations.map(createDeleteRequest) } })
       .promise();
   }
-  return event.prev.result;
+  return {};
 };
 
 const createDeleteRequest = participation => ({

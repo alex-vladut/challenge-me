@@ -16,6 +16,11 @@ export type LocationInput = {
   lon: number,
 };
 
+export type DeleteActivityInput = {
+  id: string,
+  expectedVersion: number,
+};
+
 export type SendMessageInput = {
   name: string,
   email: string,
@@ -184,6 +189,17 @@ export type CreateActivityMutation = {
     rangeKey: string,
     geohash: number,
     version: number,
+  },
+};
+
+export type DeleteActivityMutationVariables = {
+  input: DeleteActivityInput,
+};
+
+export type DeleteActivityMutation = {
+  deleteActivity:  {
+    __typename: "DeleteActivityResult",
+    id: string,
   },
 };
 

@@ -89,6 +89,10 @@ input DeleteActivityInput {
   id: ID!
 }
 
+type DeleteActivityResult {
+  id: ID!
+}
+
 input SendMessageInput {
   name: String!
   email: String!
@@ -111,7 +115,7 @@ input CreateActivityInput {
 
 type Mutation {
   createActivity(input: CreateActivityInput!): Activity! @function(name: "create-activity-${env}")
-  # deleteActivity(input: DeleteActivityInput!): Activity!
+  deleteActivity(input: DeleteActivityInput!): DeleteActivityResult!
   sendMessage(input: SendMessageInput!): String @function(name: "SubmitContactUsMessage-${env}")
 }
 

@@ -1,0 +1,27 @@
+{
+  "Comment": "Delete an activity and all resources associated (e.g. participants and comments)",
+  "StartAt": "DeleteActivity",
+  "States": {
+    "DeleteActivity": {
+      "Type": "Task",
+      "Resource": "${lambdaArn}",
+      "Parameters": {
+        "action": "deleteActivity",
+        "activityId.$": "$.activityId",
+        "expectedVersion.$": "$.expectedVersion",
+        "identityId.$": "$.identityId"
+      },
+      "ResultPath": null,
+      "Next": "DeleteActivityParticipations"
+    },
+    "DeleteActivityParticipations": {
+      "Type": "Task",
+      "Resource": "${lambdaArn}",
+      "Parameters": {
+        "action": "deleteActivityParticipations",
+        "activityId.$": "$.activityId"
+      },
+      "End": true
+    }
+  }
+}

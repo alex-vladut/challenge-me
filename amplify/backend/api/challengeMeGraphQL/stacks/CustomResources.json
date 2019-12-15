@@ -103,20 +103,7 @@
             {
               "Action": ["states:StartExecution"],
               "Resource": {
-                "Fn::Sub": [
-                  "arn:aws:states:${region}:${account}:stateMachine:delete-activity-step-function-${env}",
-                  {
-                    "region": {
-                      "Ref": "AWS::Region"
-                    },
-                    "account": {
-                      "Ref": "AWS::AccountId"
-                    },
-                    "env": {
-                      "Ref": "env"
-                    }
-                  }
-                ]
+                "Fn::Sub": "arn:aws:states:${AWS::Region}:${AWS::AccountId}:stateMachine:delete-activity-state-machine-${env}"
               },
               "Effect": "Allow"
             }
@@ -157,6 +144,50 @@
             }
           }
         }
+      }
+    },
+    "MutationDeleteActivity": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Ref": "AppSyncApiId"
+        },
+        "DataSourceName": "StepFunctionsHttpDataSource",
+        "TypeName": "Mutation",
+        "FieldName": "deleteActivity",
+        "RequestMappingTemplate": {
+          "Fn::Join": [
+            "\n",
+            [
+              "$util.qr($ctx.stash.put(\"executionId\", $util.autoId()))",
+              "{",
+              "  \"version\": \"2018-05-29\",",
+              "  \"method\": \"POST\",",
+              "  \"resourcePath\": \"/\",",
+              "  \"params\": {",
+              "    \"headers\": {",
+              "      \"content-type\": \"application/x-amz-json-1.0\",",
+              "      \"x-amz-target\":\"AWSStepFunctions.StartExecution\"",
+              "    },",
+              "    \"body\": {",
+              {
+                "Fn::Sub": [
+                  "      \"stateMachineArn\": \"${DeleteActivityStateMachine}\",",
+                  {
+                    "DeleteActivityStateMachine": {
+                      "Fn::Sub": "arn:aws:states:${AWS::Region}:${AWS::AccountId}:stateMachine:delete-activity-state-machine-${env}"
+                    }
+                  }
+                ]
+              },
+              "      \"input\": \"{ \\\"identityId\\\": \\\"$ctx.identity.username\\\", \\\"expectedVersion\\\": \\\"$ctx.args.input.expectedVersion\\\", \\\"activityId\\\": \\\"$ctx.args.input.id\\\" }\"",
+              "    }",
+              "  }",
+              "}"
+            ]
+          ]
+        },
+        "ResponseMappingTemplate": "{ \"id\": \"$ctx.args.input.id\" }"
       }
     }
   },
