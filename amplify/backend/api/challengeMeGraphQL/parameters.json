@@ -1,4 +1,10 @@
 {
     "AppSyncApiName": "challengeMeGraphQL",
-    "DynamoDBBillingMode": "PAY_PER_REQUEST"
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authchallengemereactd649f4c8",
+            "Outputs.UserPoolId"
+        ]
+    }
 }

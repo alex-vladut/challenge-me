@@ -98,8 +98,8 @@ CODEGEN="{\
 AUTHCONFIG="{\
 \"googleAppIdUserPool\":\"${GOOGLE_CLIENT_ID}\",\
 \"googleAppSecretUserPool\":\"${GOOGLE_CLIENT_SECRET}\",\
-\"amazonAppIdUserPool\":\"${AMAZON_CLIENT_ID}\",\
-\"amazonAppSecretUserPool\":\"${AMAZON_CLIENT_SECRET}\",\
+\"loginwithamazonAppIdUserPool\":\"${AMAZON_CLIENT_ID}\",\
+\"loginwithamazonAppSecretUserPool\":\"${AMAZON_CLIENT_SECRET}\",\
 \"facebookAppIdUserPool\":\"${FACEBOOK_CLIENT_ID}\",\
 \"facebookAppSecretUserPool\":\"${FACEBOOK_CLIENT_SECRET}\"\
 }"
