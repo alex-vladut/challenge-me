@@ -1,310 +1,324 @@
 {
-	"AWSTemplateFormatVersion": "2010-09-09",
-	"Description": "Lambda resource stack creation using Amplify CLI",
-	"Parameters": {
-		"env": {
-			"Type": "String"
-		},
-		"apichallengeMeGraphQLGraphQLAPIIdOutput": {
-			"Type": "String"
-		}
-	},
-	"Conditions": {
-		"ShouldNotCreateEnvResources": {
-			"Fn::Equals": [
-				{
-					"Ref": "env"
-				},
-				"NONE"
-			]
-		}
-	},
-	"Resources": {
-		"LambdaFunction": {
-			"Type": "AWS::Lambda::Function",
-			"Metadata": {
-				"aws:asset:path": "./src",
-				"aws:asset:property": "Code"
-			},
-			"Properties": {
-				"Handler": "index.handler",
-				"FunctionName": {
-					"Fn::If": [
-						"ShouldNotCreateEnvResources",
-						"delete-activity",
-						{
-							"Fn::Join": [
-								"",
-								[
-									"delete-activity",
-									"-",
-									{
-										"Ref": "env"
-									}
-								]
-							]
-						}
-					]
-				},
-				"Environment": {
-					"Variables": {
-						"ENV": {
-							"Ref": "env"
-						},
-						"REGION": {
-							"Ref": "AWS::Region"
-						},
-						"ACTIVITIES_TABLE": {
-							"Fn::Sub": "Activity-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}"
-						},
-						"PARTICIPATIONS_TABLE": {
-							"Fn::Sub": "Participation-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}"
-						},
-						"COMMENTS_TABLE": {
-							"Fn::Sub": "Comment-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}"
-						}
-					}
-				},
-				"Role": {
-					"Fn::GetAtt": [
-						"LambdaExecutionRole",
-						"Arn"
-					]
-				},
-				"Runtime": "nodejs10.x",
-				"Timeout": "25",
-				"Code": {
-					"S3Bucket": "amplify-challenge-me-react-production-191808-deployment",
-					"S3Key": "amplify-builds/DeleteActivity-6c2b714c42726f344739-build.zip"
-				}
-			}
-		},
-		"LambdaExecutionRole": {
-			"Type": "AWS::IAM::Role",
-			"Properties": {
-				"RoleName": {
-					"Fn::If": [
-						"ShouldNotCreateEnvResources",
-						"challengemereactLambdaRole9d2fbaa2",
-						{
-							"Fn::Join": [
-								"",
-								[
-									"challengemereactLambdaRole9d2fbaa2",
-									"-",
-									{
-										"Ref": "env"
-									}
-								]
-							]
-						}
-					]
-				},
-				"AssumeRolePolicyDocument": {
-					"Version": "2012-10-17",
-					"Statement": [
-						{
-							"Effect": "Allow",
-							"Principal": {
-								"Service": [
-									"lambda.amazonaws.com"
-								]
-							},
-							"Action": [
-								"sts:AssumeRole"
-							]
-						}
-					]
-				}
-			}
-		},
-		"lambdaexecutionpolicy": {
-			"DependsOn": [
-				"LambdaExecutionRole"
-			],
-			"Type": "AWS::IAM::Policy",
-			"Properties": {
-				"PolicyName": "lambda-execution-policy",
-				"Roles": [
-					{
-						"Ref": "LambdaExecutionRole"
-					}
-				],
-				"PolicyDocument": {
-					"Version": "2012-10-17",
-					"Statement": [
-						{
-							"Effect": "Allow",
-							"Action": [
-								"logs:CreateLogGroup",
-								"logs:CreateLogStream",
-								"logs:PutLogEvents"
-							],
-							"Resource": {
-								"Fn::Sub": [
-									"arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${lambda}:log-stream:*",
-									{
-										"lambda": {
-											"Ref": "LambdaFunction"
-										}
-									}
-								]
-							}
-						},
-						{
-							"Effect": "Allow",
-							"Action": [
-								"dynamodb:GetItem",
-								"dynamodb:DeleteItem"
-							],
-							"Resource": {
-								"Fn::Sub": "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Activity-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}"
-							}
-						},
-						{
-							"Effect": "Allow",
-							"Action": [
-								"dynamodb:Query"
-							],
-							"Resource": {
-								"Fn::Sub": "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Participation-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}/index/gsi-ActivityParticipants"
-							}
-						},
-						{
-							"Effect": "Allow",
-							"Action": [
-								"dynamodb:BatchWriteItem",
-								"dynamodb:DeleteItem"
-							],
-							"Resource": {
-								"Fn::Sub": "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Participation-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}"
-							}
-						},
-						{
-							"Effect": "Allow",
-							"Action": [
-								"dynamodb:Query"
-							],
-							"Resource": {
-								"Fn::Sub": "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Comment-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}/index/gsi-ActivityComments"
-							}
-						},
-						{
-							"Effect": "Allow",
-							"Action": [
-								"dynamodb:BatchWriteItem",
-								"dynamodb:DeleteItem"
-							],
-							"Resource": {
-								"Fn::Sub": "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Comment-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}"
-							}
-						}
-					]
-				}
-			}
-		},
-		"StatesExecutionRole": {
-			"Type": "AWS::IAM::Role",
-			"Properties": {
-				"AssumeRolePolicyDocument": {
-					"Version": "2012-10-17",
-					"Statement": [
-						{
-							"Effect": "Allow",
-							"Principal": {
-								"Service": [
-									{
-										"Fn::Sub": "states.${AWS::Region}.amazonaws.com"
-									}
-								]
-							},
-							"Action": "sts:AssumeRole"
-						}
-					]
-				},
-				"Path": "/",
-				"Policies": [
-					{
-						"PolicyName": "StatesExecutionPolicy",
-						"PolicyDocument": {
-							"Version": "2012-10-17",
-							"Statement": [
-								{
-									"Effect": "Allow",
-									"Action": [
-										"lambda:InvokeFunction"
-									],
-									"Resource": [
-										{
-											"Fn::GetAtt": [
-												"LambdaFunction",
-												"Arn"
-											]
-										}
-									]
-								}
-							]
-						}
-					}
-				]
-			}
-		},
-		"DeleteActivityStateMachine": {
-			"Type": "AWS::StepFunctions::StateMachine",
-			"Properties": {
-				"StateMachineName": {
-					"Fn::Sub": "delete-activity-state-machine-${env}"
-				},
-				"DefinitionString": {
-					"Fn::Sub": [
-						"{\n  \"Comment\": \"Delete an activity and all resources associated (e.g. participants and comments)\",\n  \"StartAt\": \"DeleteActivity\",\n  \"States\": {\n    \"DeleteActivity\": {\n      \"Type\": \"Task\",\n      \"Resource\": \"${lambdaArn}\",\n      \"Parameters\": {\n        \"action\": \"deleteActivity\",\n        \"activityId.$\": \"$.activityId\",\n        \"expectedVersion.$\": \"$.expectedVersion\",\n        \"identityId.$\": \"$.identityId\"\n      },\n      \"ResultPath\": null,\n      \"Next\": \"DeleteActivityParticipations\"\n    },\n    \"DeleteActivityParticipations\": {\n      \"Type\": \"Task\",\n      \"Resource\": \"${lambdaArn}\",\n      \"Parameters\": {\n        \"action\": \"deleteActivityParticipations\",\n        \"activityId.$\": \"$.activityId\"\n      },\n      \"ResultPath\": null,\n      \"Next\": \"DeleteActivityComments\"\n    },\n    \"DeleteActivityComments\": {\n      \"Type\": \"Task\",\n      \"Resource\": \"${lambdaArn}\",\n      \"Parameters\": {\n        \"action\": \"deleteActivityComments\",\n        \"activityId.$\": \"$.activityId\"\n      },\n      \"ResultPath\": null,\n      \"End\": true\n    }\n  }\n}\n",
-						{
-							"lambdaArn": {
-								"Fn::GetAtt": [
-									"LambdaFunction",
-									"Arn"
-								]
-							}
-						}
-					]
-				},
-				"RoleArn": {
-					"Fn::GetAtt": [
-						"StatesExecutionRole",
-						"Arn"
-					]
-				}
-			}
-		}
-	},
-	"Outputs": {
-		"Name": {
-			"Value": {
-				"Ref": "LambdaFunction"
-			}
-		},
-		"Arn": {
-			"Value": {
-				"Fn::GetAtt": [
-					"LambdaFunction",
-					"Arn"
-				]
-			}
-		},
-		"Region": {
-			"Value": {
-				"Ref": "AWS::Region"
-			}
-		},
-		"LambdaExecutionRole": {
-			"Value": {
-				"Ref": "LambdaExecutionRole"
-			}
-		},
-		"DeleteActivityStateMachine": {
-			"Value": {
-				"Ref": "DeleteActivityStateMachine"
-			}
-		}
-	}
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Lambda resource stack creation using Amplify CLI",
+  "Parameters": {
+    "env": {
+      "Type": "String"
+    },
+    "apichallengeMeGraphQLGraphQLAPIIdOutput": {
+      "Type": "String",
+      "Default": "apichallengeMeGraphQLGraphQLAPIIdOutput"
+    },
+    "apichallengeMeGraphQLGraphQLAPIEndpointOutput": {
+      "Type": "String",
+      "Default": "apichallengeMeGraphQLGraphQLAPIEndpointOutput"
+    }
+  },
+  "Conditions": {
+    "ShouldNotCreateEnvResources": {
+      "Fn::Equals": [
+        {
+          "Ref": "env"
+        },
+        "NONE"
+      ]
+    }
+  },
+  "Resources": {
+    "LambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Metadata": {
+        "aws:asset:path": "./src",
+        "aws:asset:property": "Code"
+      },
+      "Properties": {
+        "Handler": "index.handler",
+        "FunctionName": {
+          "Fn::If": [
+            "ShouldNotCreateEnvResources",
+            "delete-activity",
+            {
+              "Fn::Join": [
+                "",
+                [
+                  "delete-activity",
+                  "-",
+                  {
+                    "Ref": "env"
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        "Environment": {
+          "Variables": {
+            "ENV": {
+              "Ref": "env"
+            },
+            "REGION": {
+              "Ref": "AWS::Region"
+            },
+            "ACTIVITIES_TABLE": {
+              "Fn::Sub": "Activity-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}"
+            },
+            "PARTICIPATIONS_TABLE": {
+              "Fn::Sub": "Participation-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}"
+            },
+            "COMMENTS_TABLE": {
+              "Fn::Sub": "Comment-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}"
+            },
+            "API_CHALLENGEMEGRAPHQL_GRAPHQLAPIIDOUTPUT": {
+              "Ref": "apichallengeMeGraphQLGraphQLAPIIdOutput"
+            },
+            "API_CHALLENGEMEGRAPHQL_GRAPHQLAPIENDPOINTOUTPUT": {
+              "Ref": "apichallengeMeGraphQLGraphQLAPIEndpointOutput"
+            }
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": ["LambdaExecutionRole", "Arn"]
+        },
+        "Runtime": "nodejs10.x",
+        "Timeout": "25",
+        "Code": {
+          "S3Bucket": "amplify-challenge-me-react-production-191808-deployment",
+          "S3Key": "amplify-builds/DeleteActivity-6c2b714c42726f344739-build.zip"
+        }
+      }
+    },
+    "LambdaExecutionRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "RoleName": {
+          "Fn::If": [
+            "ShouldNotCreateEnvResources",
+            "challengemereactLambdaRole9d2fbaa2",
+            {
+              "Fn::Join": [
+                "",
+                [
+                  "challengemereactLambdaRole9d2fbaa2",
+                  "-",
+                  {
+                    "Ref": "env"
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": ["lambda.amazonaws.com"]
+              },
+              "Action": ["sts:AssumeRole"]
+            }
+          ]
+        }
+      }
+    },
+    "lambdaexecutionpolicy": {
+      "DependsOn": ["LambdaExecutionRole"],
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "lambda-execution-policy",
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"],
+              "Resource": {
+                "Fn::Sub": [
+                  "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${lambda}:log-stream:*",
+                  {
+                    "lambda": {
+                      "Ref": "LambdaFunction"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "Effect": "Allow",
+              "Action": ["dynamodb:GetItem", "dynamodb:DeleteItem"],
+              "Resource": {
+                "Fn::Sub": "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Activity-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}"
+              }
+            },
+            {
+              "Effect": "Allow",
+              "Action": ["dynamodb:Query"],
+              "Resource": {
+                "Fn::Sub": "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Participation-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}/index/gsi-ActivityParticipants"
+              }
+            },
+            {
+              "Effect": "Allow",
+              "Action": ["dynamodb:BatchWriteItem", "dynamodb:DeleteItem"],
+              "Resource": {
+                "Fn::Sub": "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Participation-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}"
+              }
+            },
+            {
+              "Effect": "Allow",
+              "Action": ["dynamodb:Query"],
+              "Resource": {
+                "Fn::Sub": "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Comment-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}/index/gsi-ActivityComments"
+              }
+            },
+            {
+              "Effect": "Allow",
+              "Action": ["dynamodb:BatchWriteItem", "dynamodb:DeleteItem"],
+              "Resource": {
+                "Fn::Sub": "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Comment-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "AmplifyResourcesPolicy": {
+      "DependsOn": ["LambdaExecutionRole"],
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "amplify-lambda-execution-policy",
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": ["appsync:GraphQL"],
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:appsync:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":apis/",
+                      {
+                        "Ref": "apichallengeMeGraphQLGraphQLAPIIdOutput"
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "StatesExecutionRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  {
+                    "Fn::Sub": "states.${AWS::Region}.amazonaws.com"
+                  }
+                ]
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "Path": "/",
+        "Policies": [
+          {
+            "PolicyName": "StatesExecutionPolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": ["lambda:InvokeFunction"],
+                  "Resource": [
+                    {
+                      "Fn::GetAtt": ["LambdaFunction", "Arn"]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "DeleteActivityStateMachine": {
+      "Type": "AWS::StepFunctions::StateMachine",
+      "Properties": {
+        "StateMachineName": {
+          "Fn::Sub": "delete-activity-state-machine-${env}"
+        },
+        "DefinitionString": {
+          "Fn::Sub": [
+            "{\n  \"Comment\": \"Delete an activity and all resources associated (e.g. participants and comments)\",\n  \"StartAt\": \"DeleteActivity\",\n  \"States\": {\n    \"DeleteActivity\": {\n      \"Type\": \"Task\",\n      \"Resource\": \"${lambdaArn}\",\n      \"Parameters\": {\n        \"action\": \"deleteActivity\",\n        \"activityId.$\": \"$.activityId\",\n        \"expectedVersion.$\": \"$.expectedVersion\",\n        \"identityId.$\": \"$.identityId\"\n      },\n      \"ResultPath\": null,\n      \"Next\": \"DeleteActivityParticipations\"\n    },\n    \"DeleteActivityParticipations\": {\n      \"Type\": \"Task\",\n      \"Resource\": \"${lambdaArn}\",\n      \"Parameters\": {\n        \"action\": \"deleteActivityParticipations\",\n        \"activityId.$\": \"$.activityId\"\n      },\n      \"ResultPath\": null,\n      \"Next\": \"DeleteActivityComments\"\n    },\n    \"DeleteActivityComments\": {\n      \"Type\": \"Task\",\n      \"Resource\": \"${lambdaArn}\",\n      \"Parameters\": {\n        \"action\": \"deleteActivityComments\",\n        \"activityId.$\": \"$.activityId\"\n      },\n      \"ResultPath\": null,\n      \"End\": true\n    }\n  }\n}\n",
+            {
+              "lambdaArn": {
+                "Fn::GetAtt": ["LambdaFunction", "Arn"]
+              }
+            }
+          ]
+        },
+        "RoleArn": {
+          "Fn::GetAtt": ["StatesExecutionRole", "Arn"]
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "Name": {
+      "Value": {
+        "Ref": "LambdaFunction"
+      }
+    },
+    "Arn": {
+      "Value": {
+        "Fn::GetAtt": ["LambdaFunction", "Arn"]
+      }
+    },
+    "Region": {
+      "Value": {
+        "Ref": "AWS::Region"
+      }
+    },
+    "LambdaExecutionRole": {
+      "Value": {
+        "Ref": "LambdaExecutionRole"
+      }
+    },
+    "DeleteActivityStateMachine": {
+      "Value": {
+        "Ref": "DeleteActivityStateMachine"
+      }
+    }
+  }
 }

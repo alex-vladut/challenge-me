@@ -15,6 +15,13 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
       }
       nextToken
     }
+    notifications {
+      items {
+        id
+        text
+      }
+      nextToken
+    }
     version
   }
 }
