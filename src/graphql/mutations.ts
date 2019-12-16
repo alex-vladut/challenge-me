@@ -56,6 +56,9 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
     participations {
       nextToken
     }
+    notifications {
+      nextToken
+    }
     version
   }
 }
@@ -143,6 +146,60 @@ export const createComment = `mutation CreateComment($input: CreateCommentInput!
       geohash
       version
     }
+    user {
+      id
+      name
+      pictureUrl
+      bio
+      email
+      version
+    }
+    text
+    createdAt
+    updatedAt
+    version
+  }
+}
+`;
+export const updateNotification = `mutation UpdateNotification($input: UpdateNotificationInput!) {
+  updateNotification(input: $input) {
+    id
+    user {
+      id
+      name
+      pictureUrl
+      bio
+      email
+      version
+    }
+    text
+    createdAt
+    updatedAt
+    version
+  }
+}
+`;
+export const deleteNotification = `mutation DeleteNotification($input: DeleteNotificationInput!) {
+  deleteNotification(input: $input) {
+    id
+    user {
+      id
+      name
+      pictureUrl
+      bio
+      email
+      version
+    }
+    text
+    createdAt
+    updatedAt
+    version
+  }
+}
+`;
+export const createNotification = `mutation CreateNotification($input: CreateNotificationInput!) {
+  createNotification(input: $input) {
+    id
     user {
       id
       name

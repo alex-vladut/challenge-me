@@ -8,6 +8,7 @@ type User
   bio: String
   email: AWSEmail @auth(rules: [{ allow: owner, ownerField: "id", operations: [read, update] }])
   participations: [Participation!] @connection(name: "UserActivities")
+  notifications: [Notification] @connection(name: "UserNotifications")
 }
 
 type Activity
@@ -84,6 +85,24 @@ enum ParticipationStatus {
   ACCEPTED
   REJECTED
 }
+
+type Notification
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "notificationUserId", operations: [update, delete, read] }
+      { allow: private, provider: iam, operations: [create] }
+    ]
+  )
+  @versioned {
+  id: ID!
+  user: User @connection(name: "UserNotifications")
+  text: String!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+### Queries/Mutations/Subscriptions
 
 input DeleteActivityInput {
   id: ID!

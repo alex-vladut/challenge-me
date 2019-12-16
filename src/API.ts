@@ -70,6 +70,64 @@ export type CreateCommentInput = {
   commentUserId?: string | null,
 };
 
+export type UpdateNotificationInput = {
+  id: string,
+  text?: string | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
+  expectedVersion: number,
+  notificationUserId?: string | null,
+};
+
+export type DeleteNotificationInput = {
+  id?: string | null,
+  expectedVersion: number,
+};
+
+export type CreateNotificationInput = {
+  id?: string | null,
+  text: string,
+  createdAt?: string | null,
+  updatedAt?: string | null,
+  notificationUserId?: string | null,
+};
+
+export type ModelNotificationFilterInput = {
+  id?: ModelIDFilterInput | null,
+  text?: ModelStringFilterInput | null,
+  createdAt?: ModelStringFilterInput | null,
+  updatedAt?: ModelStringFilterInput | null,
+  and?: Array< ModelNotificationFilterInput | null > | null,
+  or?: Array< ModelNotificationFilterInput | null > | null,
+  not?: ModelNotificationFilterInput | null,
+};
+
+export type ModelIDFilterInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+};
+
+export type ModelStringFilterInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+};
+
 export type ModelStringKeyConditionInput = {
   eq?: string | null,
   le?: string | null,
@@ -101,32 +159,6 @@ export type ModelActivityFilterInput = {
   and?: Array< ModelActivityFilterInput | null > | null,
   or?: Array< ModelActivityFilterInput | null > | null,
   not?: ModelActivityFilterInput | null,
-};
-
-export type ModelIDFilterInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-};
-
-export type ModelStringFilterInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
 };
 
 export type ModelIntFilterInput = {
@@ -225,6 +257,10 @@ export type UpdateUserMutation = {
     email: string | null,
     participations:  {
       __typename: "ModelParticipationConnection",
+      nextToken: string | null,
+    } | null,
+    notifications:  {
+      __typename: "ModelNotificationConnection",
       nextToken: string | null,
     } | null,
     version: number,
@@ -350,6 +386,78 @@ export type CreateCommentMutation = {
   } | null,
 };
 
+export type UpdateNotificationMutationVariables = {
+  input: UpdateNotificationInput,
+};
+
+export type UpdateNotificationMutation = {
+  updateNotification:  {
+    __typename: "Notification",
+    id: string,
+    user:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      pictureUrl: string | null,
+      bio: string | null,
+      email: string | null,
+      version: number,
+    } | null,
+    text: string,
+    createdAt: string | null,
+    updatedAt: string | null,
+    version: number,
+  } | null,
+};
+
+export type DeleteNotificationMutationVariables = {
+  input: DeleteNotificationInput,
+};
+
+export type DeleteNotificationMutation = {
+  deleteNotification:  {
+    __typename: "Notification",
+    id: string,
+    user:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      pictureUrl: string | null,
+      bio: string | null,
+      email: string | null,
+      version: number,
+    } | null,
+    text: string,
+    createdAt: string | null,
+    updatedAt: string | null,
+    version: number,
+  } | null,
+};
+
+export type CreateNotificationMutationVariables = {
+  input: CreateNotificationInput,
+};
+
+export type CreateNotificationMutation = {
+  createNotification:  {
+    __typename: "Notification",
+    id: string,
+    user:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      pictureUrl: string | null,
+      bio: string | null,
+      email: string | null,
+      version: number,
+    } | null,
+    text: string,
+    createdAt: string | null,
+    updatedAt: string | null,
+    version: number,
+  } | null,
+};
+
 export type NearbyActivitiesDdbQueryVariables = {
   location: LocationInput,
   km?: number | null,
@@ -392,6 +500,10 @@ export type GetUserQuery = {
     email: string | null,
     participations:  {
       __typename: "ModelParticipationConnection",
+      nextToken: string | null,
+    } | null,
+    notifications:  {
+      __typename: "ModelNotificationConnection",
       nextToken: string | null,
     } | null,
     version: number,
@@ -479,6 +591,51 @@ export type GetParticipationQuery = {
     createdAt: string | null,
     updatedAt: string | null,
     version: number,
+  } | null,
+};
+
+export type GetNotificationQueryVariables = {
+  id: string,
+};
+
+export type GetNotificationQuery = {
+  getNotification:  {
+    __typename: "Notification",
+    id: string,
+    user:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      pictureUrl: string | null,
+      bio: string | null,
+      email: string | null,
+      version: number,
+    } | null,
+    text: string,
+    createdAt: string | null,
+    updatedAt: string | null,
+    version: number,
+  } | null,
+};
+
+export type ListNotificationsQueryVariables = {
+  filter?: ModelNotificationFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListNotificationsQuery = {
+  listNotifications:  {
+    __typename: "ModelNotificationConnection",
+    items:  Array< {
+      __typename: "Notification",
+      id: string,
+      text: string,
+      createdAt: string | null,
+      updatedAt: string | null,
+      version: number,
+    } | null > | null,
+    nextToken: string | null,
   } | null,
 };
 
@@ -578,6 +735,74 @@ export type OnCreateUpdateParticipationSubscription = {
     } | null,
     participationParticipantId: string | null,
     status: ParticipationStatus,
+    createdAt: string | null,
+    updatedAt: string | null,
+    version: number,
+  } | null,
+};
+
+export type OnUpdateNotificationSubscriptionVariables = {
+  notificationUserId: string,
+};
+
+export type OnUpdateNotificationSubscription = {
+  onUpdateNotification:  {
+    __typename: "Notification",
+    id: string,
+    user:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      pictureUrl: string | null,
+      bio: string | null,
+      email: string | null,
+      version: number,
+    } | null,
+    text: string,
+    createdAt: string | null,
+    updatedAt: string | null,
+    version: number,
+  } | null,
+};
+
+export type OnDeleteNotificationSubscriptionVariables = {
+  notificationUserId: string,
+};
+
+export type OnDeleteNotificationSubscription = {
+  onDeleteNotification:  {
+    __typename: "Notification",
+    id: string,
+    user:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      pictureUrl: string | null,
+      bio: string | null,
+      email: string | null,
+      version: number,
+    } | null,
+    text: string,
+    createdAt: string | null,
+    updatedAt: string | null,
+    version: number,
+  } | null,
+};
+
+export type OnCreateNotificationSubscription = {
+  onCreateNotification:  {
+    __typename: "Notification",
+    id: string,
+    user:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      pictureUrl: string | null,
+      bio: string | null,
+      email: string | null,
+      version: number,
+    } | null,
+    text: string,
     createdAt: string | null,
     updatedAt: string | null,
     version: number,

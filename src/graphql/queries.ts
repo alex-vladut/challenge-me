@@ -32,6 +32,9 @@ export const getUser = `query GetUser($id: ID!) {
     participations {
       nextToken
     }
+    notifications {
+      nextToken
+    }
     version
   }
 }
@@ -101,6 +104,41 @@ export const getParticipation = `query GetParticipation($id: ID!) {
     createdAt
     updatedAt
     version
+  }
+}
+`;
+export const getNotification = `query GetNotification($id: ID!) {
+  getNotification(id: $id) {
+    id
+    user {
+      id
+      name
+      pictureUrl
+      bio
+      email
+      version
+    }
+    text
+    createdAt
+    updatedAt
+    version
+  }
+}
+`;
+export const listNotifications = `query ListNotifications(
+  $filter: ModelNotificationFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listNotifications(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      text
+      createdAt
+      updatedAt
+      version
+    }
+    nextToken
   }
 }
 `;
