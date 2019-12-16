@@ -10,11 +10,13 @@ Amplify Params - DO NOT EDIT */
 const { deleteActivity } = require('./delete-activity.handler');
 const { deleteActivityParticipations } = require('./delete-activity-participations.handler');
 const { deleteActivityComments } = require('./delete-activity-comments.handler');
+const { notifyDeleteActivitySuccessful } = require('./notify-delete-activity-successful.handler');
 
 const handlers = {
   deleteActivity,
   deleteActivityParticipations,
-  deleteActivityComments
+  deleteActivityComments,
+  notifyDeleteActivitySuccessful
 };
 
 exports.handler = async event => {

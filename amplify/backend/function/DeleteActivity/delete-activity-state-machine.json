@@ -32,6 +32,17 @@
         "activityId.$": "$.activityId"
       },
       "ResultPath": null,
+      "Next": "NotifyActivityDeletedSuccessfully"
+    },
+    "NotifyActivityDeletedSuccessfully": {
+      "Type": "Task",
+      "Resource": "${lambdaArn}",
+      "Parameters": {
+        "action": "notifyDeleteActivitySuccessful",
+        "activityId.$": "$.activityId",
+        "identityId.$": "$.identityId"
+      },
+      "ResultPath": null,
       "End": true
     }
   }
