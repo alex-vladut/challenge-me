@@ -1,4 +1,9 @@
 {
     "Version": 4,
-    "ResolverConfig": {}
+    "ResolverConfig": {
+        "project": {
+            "ConflictHandler": "AUTOMERGE",
+            "ConflictDetection": "VERSION"
+        }
+    }
 }
