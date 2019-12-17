@@ -99,6 +99,7 @@ type Notification
   user: User @connection(name: "UserNotifications", sortField: "createdAt")
   notificationUserId: String
   text: String!
+  read: Boolean
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
 }
