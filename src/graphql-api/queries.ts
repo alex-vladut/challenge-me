@@ -15,6 +15,13 @@ export const getUser = `query GetUser($id: ID!) {
       }
       nextToken
     }
+    notifications(sortDirection: DESC) {
+      items {
+        id
+        text
+      }
+      nextToken
+    }
     version
   }
 }

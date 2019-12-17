@@ -72,11 +72,11 @@ export type CreateCommentInput = {
 
 export type UpdateNotificationInput = {
   id: string,
+  notificationUserId?: string | null,
   text?: string | null,
   createdAt?: string | null,
   updatedAt?: string | null,
   expectedVersion: number,
-  notificationUserId?: string | null,
 };
 
 export type DeleteNotificationInput = {
@@ -86,14 +86,15 @@ export type DeleteNotificationInput = {
 
 export type CreateNotificationInput = {
   id?: string | null,
+  notificationUserId?: string | null,
   text: string,
   createdAt?: string | null,
   updatedAt?: string | null,
-  notificationUserId?: string | null,
 };
 
 export type ModelNotificationFilterInput = {
   id?: ModelIDFilterInput | null,
+  notificationUserId?: ModelStringFilterInput | null,
   text?: ModelStringFilterInput | null,
   createdAt?: ModelStringFilterInput | null,
   updatedAt?: ModelStringFilterInput | null,
@@ -403,6 +404,7 @@ export type UpdateNotificationMutation = {
       email: string | null,
       version: number,
     } | null,
+    notificationUserId: string | null,
     text: string,
     createdAt: string | null,
     updatedAt: string | null,
@@ -427,6 +429,7 @@ export type DeleteNotificationMutation = {
       email: string | null,
       version: number,
     } | null,
+    notificationUserId: string | null,
     text: string,
     createdAt: string | null,
     updatedAt: string | null,
@@ -451,6 +454,7 @@ export type CreateNotificationMutation = {
       email: string | null,
       version: number,
     } | null,
+    notificationUserId: string | null,
     text: string,
     createdAt: string | null,
     updatedAt: string | null,
@@ -611,6 +615,7 @@ export type GetNotificationQuery = {
       email: string | null,
       version: number,
     } | null,
+    notificationUserId: string | null,
     text: string,
     createdAt: string | null,
     updatedAt: string | null,
@@ -630,6 +635,7 @@ export type ListNotificationsQuery = {
     items:  Array< {
       __typename: "Notification",
       id: string,
+      notificationUserId: string | null,
       text: string,
       createdAt: string | null,
       updatedAt: string | null,
@@ -758,6 +764,7 @@ export type OnUpdateNotificationSubscription = {
       email: string | null,
       version: number,
     } | null,
+    notificationUserId: string | null,
     text: string,
     createdAt: string | null,
     updatedAt: string | null,
@@ -782,6 +789,7 @@ export type OnDeleteNotificationSubscription = {
       email: string | null,
       version: number,
     } | null,
+    notificationUserId: string | null,
     text: string,
     createdAt: string | null,
     updatedAt: string | null,
@@ -802,6 +810,7 @@ export type OnCreateNotificationSubscription = {
       email: string | null,
       version: number,
     } | null,
+    notificationUserId: string | null,
     text: string,
     createdAt: string | null,
     updatedAt: string | null,

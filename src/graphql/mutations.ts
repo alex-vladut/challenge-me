@@ -172,6 +172,7 @@ export const updateNotification = `mutation UpdateNotification($input: UpdateNot
       email
       version
     }
+    notificationUserId
     text
     createdAt
     updatedAt
@@ -190,6 +191,7 @@ export const deleteNotification = `mutation DeleteNotification($input: DeleteNot
       email
       version
     }
+    notificationUserId
     text
     createdAt
     updatedAt
@@ -208,6 +210,7 @@ export const createNotification = `mutation CreateNotification($input: CreateNot
       email
       version
     }
+    notificationUserId
     text
     createdAt
     updatedAt

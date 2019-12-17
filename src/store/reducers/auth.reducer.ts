@@ -46,7 +46,7 @@ const reducer = (state = initialState, action: any) => {
         profile: {
           ...action.payload,
           activities: action.payload.participations.items,
-          // notifications: action.payload.notifications.items,
+          notifications: action.payload.notifications.items,
         },
         authenticated: true,
         loading: false

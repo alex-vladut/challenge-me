@@ -118,6 +118,7 @@ export const getNotification = `query GetNotification($id: ID!) {
       email
       version
     }
+    notificationUserId
     text
     createdAt
     updatedAt
@@ -133,6 +134,7 @@ export const listNotifications = `query ListNotifications(
   listNotifications(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
+      notificationUserId
       text
       createdAt
       updatedAt

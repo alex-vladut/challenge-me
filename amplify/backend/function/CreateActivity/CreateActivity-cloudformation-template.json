@@ -58,17 +58,7 @@
 							"Ref": "AWS::Region"
 						},
 						"ACTIVITIES_TABLE": {
-							"Fn::Sub": [
-								"Activity-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}",
-								{
-									"apichallengeMeGraphQLGraphQLAPIIdOutput": {
-										"Ref": "apichallengeMeGraphQLGraphQLAPIIdOutput"
-									},
-									"env": {
-										"Ref": "env"
-									}
-								}
-							]
+							"Fn::Sub": "Activity-${apichallengeMeGraphQLGraphQLAPIIdOutput}-${env}"
 						},
 						"API_CHALLENGEMEGRAPHQL_GRAPHQLAPIIDOUTPUT": {
 							"Ref": "apichallengeMeGraphQLGraphQLAPIIdOutput"
