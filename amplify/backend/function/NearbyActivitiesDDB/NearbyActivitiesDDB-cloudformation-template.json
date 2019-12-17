@@ -6,12 +6,10 @@
 			"Type": "String"
 		},
 		"apichallengeMeGraphQLGraphQLAPIIdOutput": {
-			"Type": "String",
-			"Default": "apichallengeMeGraphQLGraphQLAPIIdOutput"
+			"Type": "String"
 		},
 		"apichallengeMeGraphQLGraphQLAPIEndpointOutput": {
-			"Type": "String",
-			"Default": "apichallengeMeGraphQLGraphQLAPIEndpointOutput"
+			"Type": "String"
 		}
 	},
 	"Conditions": {

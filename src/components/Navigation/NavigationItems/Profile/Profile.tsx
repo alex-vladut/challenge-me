@@ -1,4 +1,4 @@
-import React, { forwardRef, FunctionComponent, useRef, useState } from "react";
+import React, { forwardRef, FunctionComponent, useRef, useState, useEffect } from "react";
 import { NavLink, NavLinkProps } from "react-router-dom";
 
 import {
@@ -54,8 +54,8 @@ const Profile: FunctionComponent<ProfileProps> = ({ profile }) => {
     }
   }
 
-  const prevOpen = React.useRef(open);
-  React.useEffect(() => {
+  const prevOpen = useRef(open);
+  useEffect(() => {
     if (prevOpen.current === true && open === false) {
       anchorRef.current!.focus();
     }
