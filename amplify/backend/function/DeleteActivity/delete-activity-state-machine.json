@@ -11,6 +11,12 @@
         "expectedVersion.$": "$.expectedVersion",
         "identityId.$": "$.identityId"
       },
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "Next": "NotifyActivityDeletedFailed"
+        }
+      ],
       "ResultPath": null,
       "Next": "DeleteActivityParticipations"
     },
@@ -21,6 +27,12 @@
         "action": "deleteActivityParticipations",
         "activityId.$": "$.activityId"
       },
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "Next": "NotifyActivityDeletedFailed"
+        }
+      ],
       "ResultPath": null,
       "Next": "DeleteActivityComments"
     },
@@ -31,6 +43,12 @@
         "action": "deleteActivityComments",
         "activityId.$": "$.activityId"
       },
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "Next": "NotifyActivityDeletedFailed"
+        }
+      ],
       "ResultPath": null,
       "Next": "NotifyActivityDeletedSuccessfully"
     },
@@ -39,6 +57,17 @@
       "Resource": "${lambdaArn}",
       "Parameters": {
         "action": "notifyDeleteActivitySuccessful",
+        "activityId.$": "$.activityId",
+        "identityId.$": "$.identityId"
+      },
+      "ResultPath": null,
+      "End": true
+    },
+    "NotifyActivityDeletedFailed": {
+      "Type": "Task",
+      "Resource": "${lambdaArn}",
+      "Parameters": {
+        "action": "notifyDeleteActivityFailed",
         "activityId.$": "$.activityId",
         "identityId.$": "$.identityId"
       },

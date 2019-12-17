@@ -1,18 +1,20 @@
-import { API, Auth, graphqlOperation } from "aws-amplify";
-import { ofType } from "redux-observable";
-import { from, Observable, of } from "rxjs";
-import { catchError, map, switchMap, takeUntil, withLatestFrom } from "rxjs/operators";
+import { API, Auth, graphqlOperation } from 'aws-amplify';
+import { ofType } from 'redux-observable';
+import { from, Observable, of } from 'rxjs';
+import { catchError, map, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
 
-import * as mutations from "../../graphql-api/mutations";
-import * as queries from "../../graphql-api/queries";
-import * as subscriptions from "../../graphql-api/subscriptions";
-import { createNotification } from "../../shared/notifications";
-import { ActionWithPayload } from "../actions/actions";
+import * as mutations from '../../graphql-api/mutations';
+import * as queries from '../../graphql-api/queries';
+import * as subscriptions from '../../graphql-api/subscriptions';
+import { createNotification } from '../../shared/notifications';
+import { ActionWithPayload } from '../actions/actions';
 import {
   Fetch,
   FetchFail,
+  FetchLocationFail,
   FetchLocationSuccess,
   FetchSuccess,
+  NotificationCreated,
   ParticipationCreatedOrUpdated,
   Save,
   SaveFail,
@@ -23,9 +25,8 @@ import {
   SignOut,
   SignOutFail,
   SignOutSuccess,
-  FetchLocationFail
-} from "../actions/auth.actions";
-import { State } from "../reducers";
+} from '../actions/auth.actions';
+import { State } from '../reducers';
 
 const fetchProfile = (actions$: any) =>
   actions$.pipe(
@@ -37,22 +38,6 @@ const fetchProfile = (actions$: any) =>
         catchError(error => of(FetchFail.create(error)))
       )
     )
-  );
-
-const subscribeOnParticipationCreated = (actions$: any, store$: Observable<State>) =>
-  actions$.pipe(
-    ofType(FetchSuccess.type),
-    withLatestFrom(store$.pipe(map(({ auth }) => auth.profile))),
-    switchMap(
-      ([_, profile]: any[]) =>
-        API.graphql(
-          graphqlOperation(subscriptions.onCreateUpdateParticipation, {
-            participationParticipantId: profile.id
-          })
-        ) as Promise<any>
-    ),
-    map((response: any) => ParticipationCreatedOrUpdated.create(response.value.data.onCreateUpdateParticipation)),
-    takeUntil(actions$.pipe(ofType(SignOut.type)))
   );
 
 const fetchLocation = (actions$: any) =>
@@ -142,6 +127,38 @@ const sendMessageFail = (actions$: Observable<ActionWithPayload<string>>) =>
     )
   );
 
+const subscribeOnParticipationCreatedOrUpdated = (actions$: any, store$: Observable<State>) =>
+  actions$.pipe(
+    ofType(FetchSuccess.type),
+    withLatestFrom(store$.pipe(map(({ auth }) => auth.profile))),
+    switchMap(
+      ([_, profile]: any[]) =>
+        API.graphql(
+          graphqlOperation(subscriptions.onCreateUpdateParticipation, {
+            participationParticipantId: profile.id
+          })
+        ) as Promise<any>
+    ),
+    map((response: any) => ParticipationCreatedOrUpdated.create(response.value.data.onCreateUpdateParticipation)),
+    takeUntil(actions$.pipe(ofType(SignOut.type)))
+  );
+
+const subscribeOnNotificationCreated = (actions$: any, store$: Observable<State>) =>
+actions$.pipe(
+  ofType(FetchSuccess.type),
+  withLatestFrom(store$.pipe(map(({ auth }) => auth.profile))),
+  switchMap(
+    ([_, profile]: any[]) =>
+      API.graphql(
+        graphqlOperation(subscriptions.onCreateNotification, {
+          notificationUserId: profile.id
+        })
+      ) as Promise<any>
+  ),
+  map((response: any) => NotificationCreated.create(response.value.data.onCreateNotification)),
+  takeUntil(actions$.pipe(ofType(SignOut.type)))
+);
+
 export default [
   fetchProfile,
   fetchLocation,
@@ -152,5 +169,6 @@ export default [
   sendMessage,
   sendMessageSuccessful,
   sendMessageFail,
-  subscribeOnParticipationCreated
+  subscribeOnParticipationCreatedOrUpdated,
+  subscribeOnNotificationCreated
 ];

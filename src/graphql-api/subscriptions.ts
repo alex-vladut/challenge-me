@@ -19,9 +19,9 @@ export const onUpdateNotification = `subscription OnUpdateNotification($notifica
     id
     notificationUserId
     text
+    read
     createdAt
     updatedAt
-    version
   }
 }
 `;
@@ -31,21 +31,21 @@ export const onDeleteNotification = `subscription OnDeleteNotification($notifica
     id
     notificationUserId
     text
+    read
     createdAt
     updatedAt
-    version
   }
 }
 `;
 
-export const onCreateNotification = `subscription OnCreateNotification {
-  onCreateNotification {
+export const onCreateNotification = `subscription OnCreateNotification($notificationUserId: String!) {
+  onCreateNotification(notificationUserId: $notificationUserId) {
     id
     notificationUserId
     text
+    read
     createdAt
     updatedAt
-    version
   }
 }
 `;

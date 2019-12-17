@@ -3,7 +3,7 @@ const AWS = require('aws-sdk');
 const endpoint = new AWS.Endpoint(process.env.API_CHALLENGEMEGRAPHQL_GRAPHQLAPIENDPOINTOUTPUT);
 const credentials = new AWS.EnvironmentCredentials('AWS');
 
-exports.notifyDeleteActivitySuccessful = async (event) => {
+exports.notifyDeleteActivityFailed = async (event) => {
   const request = new AWS.HttpRequest(endpoint);
   request.method = 'POST';
   request.region = process.env.REGION;
@@ -14,7 +14,7 @@ exports.notifyDeleteActivitySuccessful = async (event) => {
     variables: {
       input: {
         notificationUserId: event.identityId,
-        text: 'Your activity was deleted successfully!',
+        text: 'We encountered a problem while attempting to delete your activity. Please try again later and feel free to contact us if the problem persists.',
         read: false
       }
     }

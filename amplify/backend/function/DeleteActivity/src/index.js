@@ -11,12 +11,14 @@ const { deleteActivity } = require('./delete-activity.handler');
 const { deleteActivityParticipations } = require('./delete-activity-participations.handler');
 const { deleteActivityComments } = require('./delete-activity-comments.handler');
 const { notifyDeleteActivitySuccessful } = require('./notify-delete-activity-successful.handler');
+const { notifyDeleteActivityFailed } = require('./notify-delete-activity-failed.handler');
 
 const handlers = {
   deleteActivity,
   deleteActivityParticipations,
   deleteActivityComments,
-  notifyDeleteActivitySuccessful
+  notifyDeleteActivitySuccessful,
+  notifyDeleteActivityFailed
 };
 
 exports.handler = async event => {

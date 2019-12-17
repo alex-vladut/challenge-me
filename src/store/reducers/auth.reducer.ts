@@ -3,6 +3,7 @@ import {
   FetchFail,
   FetchLocationSuccess,
   FetchSuccess,
+  NotificationCreated,
   ParticipationCreatedOrUpdated,
   Save,
   SaveFail,
@@ -12,8 +13,8 @@ import {
   SendMessageSuccess,
   SignOut,
   SignOutFail,
-  SignOutSuccess
-} from "../actions/auth.actions";
+  SignOutSuccess,
+} from '../actions/auth.actions';
 
 export interface State {
   loading: boolean;
@@ -57,6 +58,14 @@ const reducer = (state = initialState, action: any) => {
         profile: {
           ...state.profile,
           activities: [...state.profile.activities.filter((item: any) => item.id !== action.payload.id), action.payload]
+        }
+      };
+    case NotificationCreated.type:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          notifications: [action.payload, ...state.profile.notifications]
         }
       };
     case FetchLocationSuccess.type:
