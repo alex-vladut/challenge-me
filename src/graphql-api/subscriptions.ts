@@ -13,3 +13,39 @@ export const onCreateUpdateParticipation = `subscription OnCreateUpdateParticipa
   }
 }
 `;
+
+export const onUpdateNotification = `subscription OnUpdateNotification($notificationUserId: String!) {
+  onUpdateNotification(notificationUserId: $notificationUserId) {
+    id
+    notificationUserId
+    text
+    createdAt
+    updatedAt
+    version
+  }
+}
+`;
+
+export const onDeleteNotification = `subscription OnDeleteNotification($notificationUserId: String!) {
+  onDeleteNotification(notificationUserId: $notificationUserId) {
+    id
+    notificationUserId
+    text
+    createdAt
+    updatedAt
+    version
+  }
+}
+`;
+
+export const onCreateNotification = `subscription OnCreateNotification {
+  onCreateNotification {
+    id
+    notificationUserId
+    text
+    createdAt
+    updatedAt
+    version
+  }
+}
+`;

@@ -19,6 +19,7 @@ export const getUser = `query GetUser($id: ID!) {
       items {
         id
         text
+        read
       }
       nextToken
     }

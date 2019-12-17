@@ -90,7 +90,7 @@ type Notification
   @model
   @auth(
     rules: [
-      { allow: owner, ownerField: "notificationUserId", operations: [update, delete, read] }
+      { allow: owner, ownerField: "notificationUserId", operations: [create, update, delete, read] }
       { allow: private, provider: iam, operations: [create] }
     ]
   )

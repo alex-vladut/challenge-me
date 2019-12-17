@@ -49,6 +49,7 @@ export const onUpdateNotification = `subscription OnUpdateNotification($notifica
     }
     notificationUserId
     text
+    read
     createdAt
     updatedAt
     version
@@ -68,6 +69,7 @@ export const onDeleteNotification = `subscription OnDeleteNotification($notifica
     }
     notificationUserId
     text
+    read
     createdAt
     updatedAt
     version
@@ -87,6 +89,7 @@ export const onCreateNotification = `subscription OnCreateNotification {
     }
     notificationUserId
     text
+    read
     createdAt
     updatedAt
     version

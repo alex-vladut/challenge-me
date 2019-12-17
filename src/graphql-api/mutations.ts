@@ -19,6 +19,7 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
       items {
         id
         text
+        read
       }
       nextToken
     }
