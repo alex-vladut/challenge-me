@@ -20,6 +20,8 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
         id
         text
         read
+        createdAt
+        version
       }
       nextToken
     }
@@ -119,6 +121,32 @@ export const createComment = `mutation CreateComment($input: CreateCommentInput!
   createComment(input: $input) {
     id
     text
+    createdAt
+    updatedAt
+    version
+  }
+}
+`;
+
+export const updateNotification = `mutation UpdateNotification($input: UpdateNotificationInput!) {
+  updateNotification(input: $input) {
+    id
+    notificationUserId
+    text
+    read
+    createdAt
+    updatedAt
+    version
+  }
+}
+`;
+
+export const deleteNotification = `mutation DeleteNotification($input: DeleteNotificationInput!) {
+  deleteNotification(input: $input) {
+    id
+    notificationUserId
+    text
+    read
     createdAt
     updatedAt
     version

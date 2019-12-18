@@ -19,7 +19,7 @@ import { Email, ExitToApp, Person } from "@material-ui/icons";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     avatar: {
-      marginLeft: theme.spacing(3)
+      marginLeft: theme.spacing(1)
     },
     paper: {}
   })

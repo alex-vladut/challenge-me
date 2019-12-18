@@ -14,7 +14,9 @@ import {
   SignOut,
   SignOutFail,
   SignOutSuccess,
-} from '../actions/auth.actions';
+  NotificationUpdated,
+  NotificationDeleted
+} from "../actions/auth.actions";
 
 export interface State {
   loading: boolean;
@@ -47,7 +49,7 @@ const reducer = (state = initialState, action: any) => {
         profile: {
           ...action.payload,
           activities: action.payload.participations.items,
-          notifications: action.payload.notifications.items,
+          notifications: action.payload.notifications.items
         },
         authenticated: true,
         loading: false
@@ -66,6 +68,22 @@ const reducer = (state = initialState, action: any) => {
         profile: {
           ...state.profile,
           notifications: [action.payload, ...state.profile.notifications]
+        }
+      };
+    case NotificationUpdated.type:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          notifications: state.profile.notifications.map((n: any) => (n.id === action.payload.id ? action.payload : n))
+        }
+      };
+    case NotificationDeleted.type:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          notifications: state.profile.notifications.filter((n: any) => n.id !== action.payload.id)
         }
       };
     case FetchLocationSuccess.type:

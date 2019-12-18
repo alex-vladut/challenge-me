@@ -22,6 +22,7 @@ export const onUpdateNotification = `subscription OnUpdateNotification($notifica
     read
     createdAt
     updatedAt
+    version
   }
 }
 `;
@@ -34,6 +35,7 @@ export const onDeleteNotification = `subscription OnDeleteNotification($notifica
     read
     createdAt
     updatedAt
+    version
   }
 }
 `;
@@ -46,6 +48,7 @@ export const onCreateNotification = `subscription OnCreateNotification($notifica
     read
     createdAt
     updatedAt
+    version
   }
 }
 `;

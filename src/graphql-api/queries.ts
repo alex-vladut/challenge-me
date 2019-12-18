@@ -20,6 +20,8 @@ export const getUser = `query GetUser($id: ID!) {
         id
         text
         read
+        createdAt
+        version
       }
       nextToken
     }

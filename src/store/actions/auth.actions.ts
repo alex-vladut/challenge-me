@@ -24,3 +24,20 @@ export const SendMessageFail = action(`${FeatureKey} SEND_MESSAGE_FAIL`, payload
 export const ParticipationCreatedOrUpdated = action(`${FeatureKey} PARTICIPATION_CREATED_OR_UPDATED`, payload<any>());
 
 export const NotificationCreated = action(`${FeatureKey} NOTIFICATION_CREATED`, payload<any>());
+export const NotificationUpdated = action(`${FeatureKey} NOTIFICATION_UPDATED`, payload<any>());
+export const NotificationDeleted = action(`${FeatureKey} NOTIFICATION_DELETED`, payload<any>());
+
+export const MarkNotificationAsRead = action(`${FeatureKey} MARK_NOTIFICATION_AS_READ`, payload<any>());
+export const MarkNotificationAsReadSuccess = action(`${FeatureKey} MARK_NOTIFICATION_AS_READ_SUCCESS`, payload<any>());
+export const MarkNotificationAsReadFail = action(`${FeatureKey} MARK_NOTIFICATION_AS_READ_FAIL`, payload<any>());
+
+export const MarkNotificationAsUnread = action(`${FeatureKey} MARK_NOTIFICATION_AS_UNREAD`, payload<any>());
+export const MarkNotificationAsUnreadSuccess = action(
+  `${FeatureKey} MARK_NOTIFICATION_AS_UNREAD_SUCCESS`,
+  payload<any>()
+);
+export const MarkNotificationAsUnreadFail = action(`${FeatureKey} MARK_NOTIFICATION_AS_UNREAD_FAIL`, payload<any>());
+
+export const DeleteNotification = action(`${FeatureKey} DELETE_NOTIFICATION`, payload<any>());
+export const DeleteNotificationSuccess = action(`${FeatureKey} DELETE_NOTIFICATION_SUCCESS`, payload<any>());
+export const DeleteNotificationFail = action(`${FeatureKey} DELETE_NOTIFICATION_FAIL`, payload<any>());

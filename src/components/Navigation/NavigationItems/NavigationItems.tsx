@@ -5,6 +5,7 @@ import React, { FunctionComponent } from "react";
 import NavigationItem from "./NavigationItem/NavigationItem";
 import CallToAction from "./CallToAction/CallToAction";
 import Profile from "./Profile/Profile";
+import Notifications from "./Notifications/Notifications";
 
 interface NavigationItemsProps {
   isAuthenticated: boolean;
@@ -23,6 +24,7 @@ const NavigationItems: FunctionComponent<NavigationItemsProps> = props => {
         <NavigationItem link="/" onClick={props.onClick}>
           Activities
         </NavigationItem>
+        <Notifications notifications={props.profile.notifications} />
         <Profile profile={props.profile} />
       </ul>
     );

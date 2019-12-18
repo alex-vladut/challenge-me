@@ -1,20 +1,31 @@
-import { API, Auth, graphqlOperation } from 'aws-amplify';
-import { ofType } from 'redux-observable';
-import { from, Observable, of } from 'rxjs';
-import { catchError, map, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { API, Auth, graphqlOperation } from "aws-amplify";
+import { ofType } from "redux-observable";
+import { from, Observable, of } from "rxjs";
+import { catchError, map, switchMap, takeUntil, withLatestFrom } from "rxjs/operators";
 
-import * as mutations from '../../graphql-api/mutations';
-import * as queries from '../../graphql-api/queries';
-import * as subscriptions from '../../graphql-api/subscriptions';
-import { createNotification } from '../../shared/notifications';
-import { ActionWithPayload } from '../actions/actions';
+import * as mutations from "../../graphql-api/mutations";
+import * as queries from "../../graphql-api/queries";
+import * as subscriptions from "../../graphql-api/subscriptions";
+import { createNotification } from "../../shared/notifications";
+import { ActionWithPayload } from "../actions/actions";
 import {
+  DeleteNotification,
+  DeleteNotificationFail,
+  DeleteNotificationSuccess,
   Fetch,
   FetchFail,
   FetchLocationFail,
   FetchLocationSuccess,
   FetchSuccess,
+  MarkNotificationAsRead,
+  MarkNotificationAsReadFail,
+  MarkNotificationAsReadSuccess,
+  MarkNotificationAsUnread,
+  MarkNotificationAsUnreadFail,
+  MarkNotificationAsUnreadSuccess,
   NotificationCreated,
+  NotificationDeleted,
+  NotificationUpdated,
   ParticipationCreatedOrUpdated,
   Save,
   SaveFail,
@@ -24,9 +35,9 @@ import {
   SendMessageSuccess,
   SignOut,
   SignOutFail,
-  SignOutSuccess,
-} from '../actions/auth.actions';
-import { State } from '../reducers';
+  SignOutSuccess
+} from "../actions/auth.actions";
+import { State } from "../reducers";
 
 const fetchProfile = (actions$: any) =>
   actions$.pipe(
@@ -66,7 +77,9 @@ const saveProfile = (actions$: any) =>
     switchMap(({ payload: { id, name, bio, pictureUrl, email, version: expectedVersion } }) =>
       from(
         API.graphql(
-          graphqlOperation(mutations.updateUser, { input: { id, name, bio: bio || null, pictureUrl, email, expectedVersion } })
+          graphqlOperation(mutations.updateUser, {
+            input: { id, name, bio: bio || null, pictureUrl, email, expectedVersion }
+          })
         ) as Promise<any>
       ).pipe(
         map((response: any) => SaveSuccess.create(response.data.updateUser)),
@@ -127,6 +140,57 @@ const sendMessageFail = (actions$: Observable<ActionWithPayload<string>>) =>
     )
   );
 
+const markNotificationAsRead = (actions$: Observable<ActionWithPayload<string>>) =>
+  actions$.pipe(
+    ofType(MarkNotificationAsRead.type),
+    switchMap(({ payload }: any) =>
+      from(
+        API.graphql(
+          graphqlOperation(mutations.updateNotification, {
+            input: { id: payload.id, read: true, expectedVersion: payload.version }
+          })
+        ) as Promise<any>
+      ).pipe(
+        map(() => MarkNotificationAsReadSuccess.create({})),
+        catchError(error => of(MarkNotificationAsReadFail.create(error)))
+      )
+    )
+  );
+
+const markNotificationAsUnread = (actions$: Observable<ActionWithPayload<string>>) =>
+  actions$.pipe(
+    ofType(MarkNotificationAsUnread.type),
+    switchMap(({ payload }: any) =>
+      from(
+        API.graphql(
+          graphqlOperation(mutations.updateNotification, {
+            input: { id: payload.id, read: false, expectedVersion: payload.version }
+          })
+        ) as Promise<any>
+      ).pipe(
+        map(() => MarkNotificationAsUnreadSuccess.create({})),
+        catchError(error => of(MarkNotificationAsUnreadFail.create(error)))
+      )
+    )
+  );
+
+const deleteNotification = (actions$: Observable<ActionWithPayload<string>>) =>
+  actions$.pipe(
+    ofType(DeleteNotification.type),
+    switchMap(({ payload }: any) =>
+      from(
+        API.graphql(
+          graphqlOperation(mutations.deleteNotification, {
+            input: { id: payload.id, expectedVersion: payload.version }
+          })
+        ) as Promise<any>
+      ).pipe(
+        map(() => DeleteNotificationSuccess.create({})),
+        catchError(error => of(DeleteNotificationFail.create(error)))
+      )
+    )
+  );
+
 const subscribeOnParticipationCreatedOrUpdated = (actions$: any, store$: Observable<State>) =>
   actions$.pipe(
     ofType(FetchSuccess.type),
@@ -144,20 +208,52 @@ const subscribeOnParticipationCreatedOrUpdated = (actions$: any, store$: Observa
   );
 
 const subscribeOnNotificationCreated = (actions$: any, store$: Observable<State>) =>
-actions$.pipe(
-  ofType(FetchSuccess.type),
-  withLatestFrom(store$.pipe(map(({ auth }) => auth.profile))),
-  switchMap(
-    ([_, profile]: any[]) =>
-      API.graphql(
-        graphqlOperation(subscriptions.onCreateNotification, {
-          notificationUserId: profile.id
-        })
-      ) as Promise<any>
-  ),
-  map((response: any) => NotificationCreated.create(response.value.data.onCreateNotification)),
-  takeUntil(actions$.pipe(ofType(SignOut.type)))
-);
+  actions$.pipe(
+    ofType(FetchSuccess.type),
+    withLatestFrom(store$.pipe(map(({ auth }) => auth.profile))),
+    switchMap(
+      ([_, profile]: any[]) =>
+        API.graphql(
+          graphqlOperation(subscriptions.onCreateNotification, {
+            notificationUserId: profile.id
+          })
+        ) as Promise<any>
+    ),
+    map((response: any) => NotificationCreated.create(response.value.data.onCreateNotification)),
+    takeUntil(actions$.pipe(ofType(SignOut.type)))
+  );
+
+const subscribeOnNotificationUpdated = (actions$: any, store$: Observable<State>) =>
+  actions$.pipe(
+    ofType(FetchSuccess.type),
+    withLatestFrom(store$.pipe(map(({ auth }) => auth.profile))),
+    switchMap(
+      ([_, profile]: any[]) =>
+        API.graphql(
+          graphqlOperation(subscriptions.onUpdateNotification, {
+            notificationUserId: profile.id
+          })
+        ) as Promise<any>
+    ),
+    map((response: any) => NotificationUpdated.create(response.value.data.onUpdateNotification)),
+    takeUntil(actions$.pipe(ofType(SignOut.type)))
+  );
+
+const subscribeOnNotificationDeleted = (actions$: any, store$: Observable<State>) =>
+  actions$.pipe(
+    ofType(FetchSuccess.type),
+    withLatestFrom(store$.pipe(map(({ auth }) => auth.profile))),
+    switchMap(
+      ([_, profile]: any[]) =>
+        API.graphql(
+          graphqlOperation(subscriptions.onDeleteNotification, {
+            notificationUserId: profile.id
+          })
+        ) as Promise<any>
+    ),
+    map((response: any) => NotificationDeleted.create(response.value.data.onDeleteNotification)),
+    takeUntil(actions$.pipe(ofType(SignOut.type)))
+  );
 
 export default [
   fetchProfile,
@@ -169,6 +265,11 @@ export default [
   sendMessage,
   sendMessageSuccessful,
   sendMessageFail,
+  markNotificationAsRead,
+  markNotificationAsUnread,
+  deleteNotification,
   subscribeOnParticipationCreatedOrUpdated,
-  subscribeOnNotificationCreated
+  subscribeOnNotificationCreated,
+  subscribeOnNotificationUpdated,
+  subscribeOnNotificationDeleted
 ];

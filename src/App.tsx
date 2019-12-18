@@ -18,6 +18,7 @@ import ViewActivity from "./containers/ViewActivity/ViewActivity";
 import Profile from "./containers/Profile/Profile";
 import ViewProfile from "./containers/ViewProfile/ViewProfile";
 import ContactUs from "./containers/ContactUs/ContactUs";
+import Notifications from "./containers/Notifications/Notifications";
 
 interface AppProps {
   isAuthenticated: boolean;
@@ -59,6 +60,7 @@ const App: FunctionComponent<AppProps> = ({ isAuthenticated, fetchProfile }) => 
           <PrivateRoute path="/profile" exact component={Profile} isAuthenticated={isAuthenticated} />
           <PrivateRoute path="/contact-us" exact component={ContactUs} isAuthenticated={isAuthenticated} />
           <PrivateRoute path="/logout" exact component={LogOut} isAuthenticated={isAuthenticated} />
+          <PrivateRoute path="/notifications" exact component={Notifications} isAuthenticated={isAuthenticated} />
           <Route render={() => <Redirect to="/" />} />
         </Switch>
       </Layout>

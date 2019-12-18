@@ -10,7 +10,7 @@ exports.notifyDeleteActivitySuccessful = async (event) => {
   request.headers['Host'] = endpoint.host;
   request.headers['Content-Type'] = 'multipart/form-data';
   request.body = JSON.stringify({
-    query: 'mutation CreateNotification($input: CreateNotificationInput!) { createNotification(input: $input) {  id text read notificationUserId createdAt updatedAt } }',
+    query: 'mutation CreateNotification($input: CreateNotificationInput!) { createNotification(input: $input) {  id text read notificationUserId createdAt updatedAt version } }',
     variables: {
       input: {
         notificationUserId: event.identityId,
