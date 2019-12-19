@@ -29,13 +29,13 @@ const App: FunctionComponent<AppProps> = ({ isAuthenticated, fetchProfile }) => 
   if (!isAuthenticated) {
     Auth.currentAuthenticatedUser()
       .then(() => fetchProfile())
-      .catch(() => {});
+      .catch(() => { });
   }
 
   useEffect(
     () =>
-      Hub.listen("auth", ({ payload }) => {
-        if (payload.event === "signIn") {
+      Hub.listen("auth", ({ payload: { event } }) => {
+        if (event === "signIn") {
           fetchProfile();
         }
       }),

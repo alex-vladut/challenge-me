@@ -76,8 +76,8 @@ export const onDeleteNotification = `subscription OnDeleteNotification($notifica
   }
 }
 `;
-export const onCreateNotification = `subscription OnCreateNotification {
-  onCreateNotification {
+export const onCreateNotification = `subscription OnCreateNotification($notificationUserId: String!) {
+  onCreateNotification(notificationUserId: $notificationUserId) {
     id
     user {
       id

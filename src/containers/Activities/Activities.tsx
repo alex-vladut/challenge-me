@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 
 import formatDate from "date-fns/format";
 
@@ -67,6 +67,12 @@ const Activities: FunctionComponent<ActivitiesProps> = ({
       setFilters({ ...filters, ...location, nearBy: false });
     }
   };
+
+  const originalUrl = localStorage.getItem('original_url');
+  if (originalUrl) {
+    localStorage.removeItem('original_url');
+    return <Redirect to={originalUrl} />
+  }
 
   if (loading) {
     return <LinearProgress variant="determinate" value={completed} />;

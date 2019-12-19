@@ -6,21 +6,34 @@ import { Redirect } from "react-router";
 import { FacebookLoginButton, GoogleLoginButton, AmazonLoginButton } from "react-social-login-buttons";
 
 import { State } from "../../store/reducers";
+import { Typography } from "@material-ui/core";
 
 interface AuthProps {
   isAuthenticated: boolean;
+  location: any;
 }
 
-const Authentication: FunctionComponent<AuthProps> = ({ isAuthenticated }) => {
+const Authentication: FunctionComponent<AuthProps> = ({ isAuthenticated, location }) => {
+  const originalUrl = location.state && location.state.from;
   if (isAuthenticated) {
-    return <Redirect to="/" />;
+    return <Redirect to={originalUrl || '/activities'} />;
   }
-  const signInWithFacebook = () => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Facebook });
-  const signInWithGoogle = () => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google });
-  const signInWithAmazon = () => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Amazon });
+
+  const signInWith = (provider: CognitoHostedUIIdentityProvider) => {
+    localStorage.setItem('original_url', originalUrl);
+    Auth.federatedSignIn({ provider });
+  }
+
+  const signInWithFacebook = () => signInWith(CognitoHostedUIIdentityProvider.Facebook);
+  const signInWithGoogle = () => signInWith(CognitoHostedUIIdentityProvider.Google);
+  const signInWithAmazon = () => signInWith(CognitoHostedUIIdentityProvider.Amazon);
 
   return (
     <div>
+      {!!originalUrl ?
+        <Typography variant="h6">
+          Please log in first in order to be able to access the page you are looking for.
+        </Typography> : null}
       <FacebookLoginButton onClick={signInWithFacebook}>
         <span>Sign in with Facebook</span>
       </FacebookLoginButton>
