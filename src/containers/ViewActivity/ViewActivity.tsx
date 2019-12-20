@@ -23,7 +23,14 @@ import {
   Link as LinkButton,
   Link
 } from "@material-ui/core";
-import { Delete as DeleteIcon, Room, AccessTime, CalendarToday, ArrowBackOutlined } from "@material-ui/icons";
+import {
+  Delete as DeleteIcon,
+  Share as ShareIcon,
+  Room,
+  AccessTime,
+  CalendarToday,
+  ArrowBackOutlined
+} from "@material-ui/icons";
 import { grey } from "@material-ui/core/colors";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 
@@ -178,6 +185,9 @@ const ViewActivity = ({
   if (isOwner()) {
     actions = (
       <Grid container justify="flex-end" key="delete">
+        <IconButton aria-label="share" onClick={() => setDeleteConfirmation(true)}>
+          <ShareIcon />
+        </IconButton>
         <IconButton aria-label="delete" onClick={() => setDeleteConfirmation(true)}>
           <DeleteIcon />
         </IconButton>

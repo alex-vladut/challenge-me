@@ -16,13 +16,13 @@ interface AuthProps {
 const Authentication: FunctionComponent<AuthProps> = ({ isAuthenticated, location }) => {
   const originalUrl = location.state && location.state.from;
   if (isAuthenticated) {
-    return <Redirect to={originalUrl || '/activities'} />;
+    return <Redirect to={originalUrl || "/activities"} />;
   }
 
   const signInWith = (provider: CognitoHostedUIIdentityProvider) => {
-    localStorage.setItem('original_url', originalUrl);
+    localStorage.setItem("original_url", originalUrl);
     Auth.federatedSignIn({ provider });
-  }
+  };
 
   const signInWithFacebook = () => signInWith(CognitoHostedUIIdentityProvider.Facebook);
   const signInWithGoogle = () => signInWith(CognitoHostedUIIdentityProvider.Google);
@@ -30,10 +30,11 @@ const Authentication: FunctionComponent<AuthProps> = ({ isAuthenticated, locatio
 
   return (
     <div>
-      {!!originalUrl ?
+      {!!originalUrl ? (
         <Typography variant="h6">
           Please log in first in order to be able to access the page you are looking for.
-        </Typography> : null}
+        </Typography>
+      ) : null}
       <FacebookLoginButton onClick={signInWithFacebook}>
         <span>Sign in with Facebook</span>
       </FacebookLoginButton>

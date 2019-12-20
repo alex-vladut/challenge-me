@@ -68,10 +68,10 @@ const Activities: FunctionComponent<ActivitiesProps> = ({
     }
   };
 
-  const originalUrl = localStorage.getItem('original_url');
+  const originalUrl = localStorage.getItem("original_url");
   if (originalUrl) {
-    localStorage.removeItem('original_url');
-    return <Redirect to={originalUrl} />
+    localStorage.removeItem("original_url");
+    return <Redirect to={originalUrl} />;
   }
 
   if (loading) {
