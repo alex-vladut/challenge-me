@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef } from "react";
+import React, { useState, useEffect, forwardRef, useRef } from "react";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
 import { NavLink, NavLinkProps } from "react-router-dom";
@@ -21,7 +21,8 @@ import {
   Grid,
   Divider,
   Link as LinkButton,
-  Link
+  Link,
+  Tooltip
 } from "@material-ui/core";
 import {
   Delete as DeleteIcon,
@@ -114,6 +115,7 @@ const ViewActivity = ({
   const classes = useStyles();
 
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const inputRef = useRef(null);
 
   const activityId = match.params.activityId;
   useEffect(() => {
@@ -156,6 +158,13 @@ const ViewActivity = ({
 
     fetchMoreComments();
   };
+  const handleShareActivity = (e: any) => {
+    e.preventDefault();
+    if (inputRef && inputRef.current) {
+      (inputRef.current as any).select();
+    }
+    document.execCommand("copy");
+  };
 
   const getAttendanceStatus = (activity: any, profile: any) => {
     const participation = profile.activities.find((p: any) => p.activity.id === activity.id);
@@ -173,6 +182,15 @@ const ViewActivity = ({
     );
   };
 
+  const shareButton = document.queryCommandSupported("copy") && (
+    <Tooltip title="Share activity">
+      <IconButton aria-label="share" onClick={handleShareActivity}>
+        <ShareIcon />
+        <input ref={inputRef} type="hidden" value={window.location.href} />
+      </IconButton>
+    </Tooltip>
+  );
+
   if (loading || !activity || activity.id !== activityId) {
     return <CircularProgress />;
   }
@@ -185,9 +203,7 @@ const ViewActivity = ({
   if (isOwner()) {
     actions = (
       <Grid container justify="flex-end" key="delete">
-        <IconButton aria-label="share" onClick={() => setDeleteConfirmation(true)}>
-          <ShareIcon />
-        </IconButton>
+        {shareButton}
         <IconButton aria-label="delete" onClick={() => setDeleteConfirmation(true)}>
           <DeleteIcon />
         </IconButton>
@@ -195,21 +211,30 @@ const ViewActivity = ({
     );
   } else if (acceptedActivity()) {
     actions = (
-      <Button aria-label="reject" variant="outlined" color="secondary" onClick={handleRejectActivity}>
-        Won't join
-      </Button>
+      <Grid container justify="space-between" key="share">
+        <Button aria-label="reject" variant="outlined" color="secondary" onClick={handleRejectActivity}>
+          Won't join
+        </Button>
+        {shareButton}
+      </Grid>
     );
   } else if (rejectedActivity() || !isMaxNumberOfParticipants()) {
     actions = (
-      <Button aria-label="accept" variant="outlined" color="primary" onClick={handleJoinActivity}>
-        Attend
-      </Button>
+      <Grid container justify="space-between" key="share">
+        <Button aria-label="accept" variant="outlined" color="primary" onClick={handleJoinActivity}>
+          Attend
+        </Button>
+        {shareButton}
+      </Grid>
     );
   } else if (isMaxNumberOfParticipants()) {
     actions = (
-      <Typography variant="subtitle1" color="error">
-        Too late, there is no spot left on this activity.
-      </Typography>
+      <Grid container justify="space-between" key="share">
+        <Typography variant="subtitle1" color="error">
+          Too late, there is no spot left on this activity.
+        </Typography>
+        {shareButton}
+      </Grid>
     );
   }
 

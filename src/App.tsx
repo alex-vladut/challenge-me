@@ -19,6 +19,8 @@ const Profile = lazy(() => import("./containers/Profile/Profile"));
 const ViewProfile = lazy(() => import("./containers/ViewProfile/ViewProfile"));
 const ContactUs = lazy(() => import("./containers/ContactUs/ContactUs"));
 const Notifications = lazy(() => import("./containers/Notifications/Notifications"));
+const Conversations = lazy(() => import("./containers/chat/Conversations/Conversations"));
+const Conversation = lazy(() => import("./containers/chat/Conversation/Conversation"));
 
 interface AppProps {
   isAuthenticated: boolean;
@@ -62,6 +64,8 @@ const App: FunctionComponent<AppProps> = ({ isAuthenticated, fetchProfile }) => 
             <PrivateRoute path="/contact-us" exact component={ContactUs} isAuthenticated={isAuthenticated} />
             <PrivateRoute path="/logout" exact component={LogOut} isAuthenticated={isAuthenticated} />
             <PrivateRoute path="/notifications" exact component={Notifications} isAuthenticated={isAuthenticated} />
+            <Route path="/conversations/:id" exact component={Conversation} />
+            <Route path="/conversations" exact component={Conversations} />
             <Route render={() => <Redirect to="/" />} />
           </Switch>
         </Layout>
