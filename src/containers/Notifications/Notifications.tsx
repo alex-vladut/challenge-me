@@ -9,9 +9,10 @@ import {
   IconButton,
   ListItemText,
   Divider,
-  Typography
+  Typography,
+  Tooltip
 } from "@material-ui/core";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 
 import { MarkNotificationAsRead, MarkNotificationAsUnread, DeleteNotification } from "../../store/actions/auth.actions";
 import { State } from "../../store/reducers";
@@ -21,7 +22,7 @@ import {
   CheckCircleOutline as CheckCircleOutlineIcon
 } from "@material-ui/icons";
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     item: {}
   })
@@ -66,20 +67,25 @@ const Notifications: FunctionComponent<NotificationsProps> = ({
                 <ListItem>
                   <ListItemText primary={notification.text} />
                   <ListItemSecondaryAction>
-                    <IconButton
-                      onClick={() => handleMarkAsReadOrUnread(notification)}
-                      size="small"
-                      aria-label="mark-as-read-unread"
-                    >
-                      {notification.read ? <CheckCircleIcon /> : <CheckCircleOutlineIcon />}
-                    </IconButton>
-                    <IconButton
-                      onClick={() => handleDeleteNotification(notification)}
-                      size="small"
-                      aria-label="delete-notification"
-                    >
-                      <CloseIcon />
-                    </IconButton>
+                    <Tooltip title="Mark as read">
+                      <IconButton
+                        onClick={() => handleMarkAsReadOrUnread(notification)}
+                        size="small"
+                        aria-label="mark-as-read-unread"
+                      >
+                        {notification.read ? <CheckCircleIcon /> : <CheckCircleOutlineIcon />}
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title="Delete">
+                      <IconButton
+                        onClick={() => handleDeleteNotification(notification)}
+                        size="small"
+                        aria-label="delete-notification"
+                      >
+                        <CloseIcon />
+                      </IconButton>
+                    </Tooltip>
                   </ListItemSecondaryAction>
                 </ListItem>
                 <Divider />
