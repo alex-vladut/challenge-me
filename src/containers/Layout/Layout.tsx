@@ -8,6 +8,7 @@ import Toolbar from "../../components/Navigation/Toolbar/Toolbar";
 interface LayoutProps {
   profile: any;
   isAuthenticated: boolean;
+  children: any;
 }
 
 interface LayoutState {
