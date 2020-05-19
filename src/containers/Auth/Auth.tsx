@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 import Auth, { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
-import { FacebookLoginButton, GoogleLoginButton, AmazonLoginButton } from "react-social-login-buttons";
+import { GoogleLoginButton, AmazonLoginButton } from "react-social-login-buttons";
 
 import { State } from "../../store/reducers";
 import { Typography } from "@material-ui/core";
@@ -35,9 +35,9 @@ const Authentication: FunctionComponent<AuthProps> = ({ isAuthenticated, locatio
           Please log in first in order to be able to access the page you are looking for.
         </Typography>
       ) : null}
-      <FacebookLoginButton onClick={signInWithFacebook}>
+      {/* <FacebookLoginButton onClick={signInWithFacebook}>
         <span>Sign in with Facebook</span>
-      </FacebookLoginButton>
+      </FacebookLoginButton> */}
       <GoogleLoginButton onClick={signInWithGoogle}>
         <span>Sign in with Google</span>
       </GoogleLoginButton>
