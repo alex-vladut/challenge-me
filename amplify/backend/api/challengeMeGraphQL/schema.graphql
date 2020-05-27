@@ -12,15 +12,15 @@ type User
 }
 
 type Activity
-  @model(mutations: null, queries: { get: "getActivity" }, subscriptions: null)
+  @model(mutations: null, queries: { get: "getActivity", list: "listActivities" }, subscriptions: null)
   @auth(
     rules: [
       { allow: owner, ownerField: "activityOwnerId", operations: [create] }
       { allow: private, operations: [read] }
     ]
   )
-  @key(name: "geo-hash-range-index", fields: ["hashKey", "rangeKey"], queryField: "byGeolocation")
-  @key(name: "geohash-index", fields: ["hashKey", "geohash"], queryField: "byHashByGeohash")
+  # @key(name: "geo-hash-range-index", fields: ["hashKey", "rangeKey"], queryField: "byGeolocation")
+  # @key(name: "geohash-index", fields: ["hashKey", "geohash"], queryField: "byHashByGeohash")
   @versioned {
   id: ID!
   owner: User @connection
