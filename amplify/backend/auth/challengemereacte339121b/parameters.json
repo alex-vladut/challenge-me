@@ -1,8 +1,6 @@
 {
-    "identityPoolName": "challengemereactd649f4c8_identitypool_d649f4c8",
-    "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "challed649f4c8",
-    "userPoolName": "challengemereactd649f4c8_userpool_d649f4c8",
+    "resourceNameTruncated": "challee339121b",
+    "userPoolName": "challengemereacte339121b_userpool_e339121b",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -24,15 +22,18 @@
     "userpoolClientGenerateSecret": true,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [
-        "email"
+        "email",
+        "name"
     ],
     "userpoolClientReadAttributes": [
-        "email"
+        "email",
+        "name"
     ],
-    "userpoolClientLambdaRole": "challed649f4c8_userpoolclient_lambda_role",
-    "userpoolClientSetAttributes": false,
-    "resourceName": "challengemereactd649f4c8",
-    "authSelections": "identityPoolAndUserPool",
+    "userpoolClientLambdaRole": "challee339121b_userpoolclient_lambda_role",
+    "userpoolClientSetAttributes": true,
+    "sharedId": "e339121b",
+    "resourceName": "challengemereacte339121b",
+    "authSelections": "userPoolOnly",
     "authRoleArn": {
         "Fn::GetAtt": [
             "AuthRole",
@@ -45,12 +46,12 @@
             "Arn"
         ]
     },
-    "useDefault": "defaultSocial",
+    "useDefault": "manual",
     "hostedUI": true,
     "usernameAttributes": [
-        "email, phone_number"
+        "email"
     ],
-    "triggers": "{\"PostConfirmation\":[\"add-to-group\"]}",
+    "triggers": "{\"PostConfirmation\":[\"add-to-group\",\"add-user\"]}",
     "hostedUIDomainName": "sportpal",
     "authProvidersUserPool": [
         "Facebook",
@@ -58,9 +59,7 @@
         "LoginWithAmazon"
     ],
     "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"email,public_profile\",\"AttributeMapping\":{\"email\":\"email\",\"name\":\"name\",\"username\":\"id\"}},{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"name\":\"name\",\"username\":\"sub\"}},{\"ProviderName\":\"LoginWithAmazon\",\"authorize_scopes\":\"profile profile:user_id\",\"AttributeMapping\":{\"email\":\"email\",\"name\":\"name\",\"username\":\"user_id\"}}]",
-    "userPoolGroupList": [
-        "USER"
-    ],
+    "userPoolGroupList": [],
     "parentStack": {
         "Ref": "AWS::StackId"
     },
@@ -70,7 +69,7 @@
     "dependsOn": [
         {
             "category": "function",
-            "resourceName": "challengemereactd649f4c8PostConfirmation",
+            "resourceName": "challengemereacte339121bPostConfirmation",
             "triggerProvider": "Cognito",
             "attributes": [
                 "Arn",
@@ -78,5 +77,7 @@
             ]
         }
     ],
+    "userPoolGroups": false,
+    "adminQueries": false,
     "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\",\"https://sportpal.net/\"],\"LogoutURLs\":[\"http://localhost:3000/\",\"https://sportpal.net/\"]}"
 }

@@ -147,6 +147,7 @@
       }
     },
     "MutationDeleteActivity": {
+      "DependsOn": ["StepFunctionsHttpDataSource"],
       "Type": "AWS::AppSync::Resolver",
       "Properties": {
         "ApiId": {

@@ -19,7 +19,7 @@
                     "defaultAuthentication": {
                         "authenticationType": "AMAZON_COGNITO_USER_POOLS",
                         "userPoolConfig": {
-                            "userPoolId": "authchallengemereactd649f4c8"
+                            "userPoolId": "authchallengemereacte339121b"
                         }
                     }
                 }
@@ -27,33 +27,17 @@
         }
     },
     "auth": {
-        "challengemereactd649f4c8": {
+        "challengemereacte339121b": {
             "service": "Cognito",
             "providerPlugin": "awscloudformation",
             "dependsOn": [
                 {
                     "category": "function",
-                    "resourceName": "challengemereactd649f4c8PostConfirmation",
+                    "resourceName": "challengemereacte339121bPostConfirmation",
                     "triggerProvider": "Cognito",
                     "attributes": [
                         "Arn",
                         "Name"
-                    ]
-                }
-            ]
-        },
-        "userPoolGroups": {
-            "service": "Cognito-UserPool-Groups",
-            "providerPlugin": "awscloudformation",
-            "dependsOn": [
-                {
-                    "category": "auth",
-                    "resourceName": "challengemereactd649f4c8",
-                    "attributes": [
-                        "UserPoolId",
-                        "AppClientIDWeb",
-                        "AppClientID",
-                        "IdentityPoolId"
                     ]
                 }
             ]
@@ -115,10 +99,10 @@
                 }
             ]
         },
-        "challengemereactd649f4c8PostConfirmation": {
-            "service": "Lambda",
+        "challengemereacte339121bPostConfirmation": {
+            "build": true,
             "providerPlugin": "awscloudformation",
-            "build": true
+            "service": "Lambda"
         }
     }
 }
