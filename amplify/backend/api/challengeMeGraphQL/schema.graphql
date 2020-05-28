@@ -19,7 +19,7 @@ type Activity
       { allow: private, operations: [read] }
     ]
   )
-  # @key(name: "geo-hash-range-index", fields: ["hashKey", "rangeKey"], queryField: "byGeolocation")
+  @key(name: "geo-hash-range-index", fields: ["hashKey", "rangeKey"], queryField: "byGeolocation")
   # @key(name: "geohash-index", fields: ["hashKey", "geohash"], queryField: "byHashByGeohash")
   @versioned {
   id: ID!
